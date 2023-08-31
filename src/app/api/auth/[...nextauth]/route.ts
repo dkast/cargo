@@ -1,7 +1,8 @@
-import NextAuth from "next-auth/next";
+import NextAuth from "next-auth/next"
+import type { NextRequest } from "next/server"
 
-import { authOptions } from "~/server/auth";
+import { authOptions } from "@/server/auth"
 
-const handler: unknown = NextAuth(authOptions);
+const handler = (_req: NextRequest) => NextAuth(authOptions)
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }

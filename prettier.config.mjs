@@ -3,22 +3,22 @@ const config = {
   trailingComma: "none",
   arrowParens: "avoid",
   tabWidth: 2,
-  semi: true,
+  semi: false,
   printWidth: 80,
   plugins: [
     "prettier-plugin-tailwindcss",
-    "@ianvs/prettier-plugin-sort-imports",
+    "@ianvs/prettier-plugin-sort-imports"
   ],
   importOrder: [
     "^react",
     "<THIRD_PARTY_MODULES>",
     "",
     "^@/components/(.*)$",
-    "^@/hooks/(.*)$",
+    "^@/server/(.*)$",
     "^@/lib/(.*)$",
     "^@/styles/(.*)$",
     "^@/env.mjs",
-    "^[./]",
+    "^[./]"
   ],
   importOrderBuiltinModulesToTop: true,
   importOrderCaseInsensitive: true,
@@ -26,7 +26,7 @@ const config = {
   importOrderMergeDuplicateImports: true,
   importOrderCombineTypeAndValueImports: true,
   importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
-};
+  importOrderSortSpecifiers: true
+}
 
-export default config;
+export default config
