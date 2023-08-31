@@ -1,13 +1,15 @@
-import { prisma } from "@/server/db"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { hash } from "bcrypt"
 import { type GetServerSidePropsContext } from "next"
 import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions
 } from "next-auth"
+import Credentials from "next-auth/providers/credentials"
 import DiscordProvider from "next-auth/providers/discord"
 
+import { prisma } from "@/server/db"
 import { env } from "@/env.mjs"
 
 /**
@@ -51,7 +53,7 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET
-    })
+    }),
     /**
      * ...add more providers here.
      *
@@ -61,7 +63,43 @@ export const authOptions: NextAuthOptions = {
      *
      * @see https://next-auth.js.org/providers/github
      */
-  ]
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        username: {
+          label: "Usuario",
+          type: "text",
+          placeholder: "Usuario"
+        },
+        password: {
+          label: "Contraseña",
+          type: "password"
+        }
+      },
+      async authorize(credentials) {
+        const { username, password } = credentials as {
+          username: string
+          password: string
+        }
+        // const user = await prisma.user.findFirst({
+        //   where: {
+        //     username: username,
+        //     password: await hash(password, 12)
+        //   }
+        // })
+
+        // Test
+        const user = { id: "1", username: "admin" }
+
+        if (user) {
+          return user
+        } else {
+          return null
+        }
+      }
+    })
+  ],
+  secret: env.NEXTAUTH_SECRET
 }
 
 /**

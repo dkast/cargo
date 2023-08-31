@@ -48,6 +48,10 @@ model User {
   email         String?      @unique
   emailVerified DateTime?
   image         String?
+  //local accounts
+  username      String?      @unique
+  password      String?
+  //
   accounts      Account[]
   sessions      Session[]
   Membership    Membership[]
