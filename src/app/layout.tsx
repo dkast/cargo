@@ -1,9 +1,9 @@
-// import Providers from "@/app/providers"
+import { type Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import "../styles/globals.css"
 
-import { type Metadata } from "next"
+import Providers from "@/app/providers"
 
 export const metadata: Metadata = {
   title: {
@@ -39,9 +39,9 @@ export default function RootLayout({
   return (
     <html className={`${inter.variable}`}>
       <body className="bg-white text-zinc-950">
-        {/* <Providers> */}
-        <main className="flex min-h-screen flex-col">{children}</main>
-        {/* </Providers> */}
+        <Providers>
+          <main className="flex min-h-screen flex-col">{children}</main>
+        </Providers>
       </body>
     </html>
   )
