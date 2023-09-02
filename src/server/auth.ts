@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { hash } from "bcrypt"
+import { compare, hash } from "bcrypt"
 import { type GetServerSidePropsContext } from "next"
 import {
   getServerSession,
@@ -39,15 +39,6 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id
-      }
-    })
-  },
   adapter: PrismaAdapter(prisma),
   providers: [
     // DiscordProvider({
@@ -81,25 +72,40 @@ export const authOptions: NextAuthOptions = {
           username: string
           password: string
         }
-        // const user = await prisma.user.findFirst({
-        //   where: {
-        //     username: username,
-        //     password: await hash(password, 12)
-        //   }
-        // })
-
-        // Test
-        const user = { id: "1", username: "admin" }
+        const user = await prisma.user.findFirst({
+          where: {
+            username: username
+          }
+        })
 
         if (user) {
-          return user
+          const passwordMatch = await compare(password, user.password!)
+
+          if (passwordMatch) {
+            return user
+          } else {
+            return null
+          }
         } else {
           return null
         }
       }
     })
   ],
-  secret: env.NEXTAUTH_SECRET
+  session: { strategy: "jwt" },
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.user = user
+      }
+      return token
+    },
+    session: ({ session, token }) => {
+      //@ts-expect-error user assigned in jwt callback
+      session.user = token.user
+      return session
+    }
+  }
 }
 
 /**

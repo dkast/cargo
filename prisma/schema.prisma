@@ -54,7 +54,7 @@ model User {
   //
   accounts      Account[]
   sessions      Session[]
-  Membership    Membership[]
+  memberships   Membership[]
 }
 
 model VerificationToken {
@@ -69,6 +69,7 @@ model VerificationToken {
 model Organization {
   id          String       @id @default(cuid())
   name        String       @unique
+  description String?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   subdomain   String       @unique
