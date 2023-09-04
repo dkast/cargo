@@ -30,7 +30,7 @@ const navigation: NavigationItem[] = [
   { name: "Inicio", href: "/dashboard", icon: Home },
   { name: "Inspecciones", href: "/inspect", icon: Truck },
   { name: "Reportes", href: "/reports", icon: FileBarChart },
-  { name: "Configuración", href: "/settings", icon: Settings }
+  { name: "Configuración", href: "/dashboard/settings", icon: Settings }
 ]
 
 export default function Sidebar() {
