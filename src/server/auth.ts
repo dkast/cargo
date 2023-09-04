@@ -1,5 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { compare, hash } from "bcrypt"
+import { th } from "date-fns/locale"
 import { type GetServerSidePropsContext } from "next"
 import {
   getServerSession,
@@ -105,6 +106,9 @@ export const authOptions: NextAuthOptions = {
       session.user = token.user
       return session
     }
+  },
+  pages: {
+    signIn: "/login"
   }
 }
 

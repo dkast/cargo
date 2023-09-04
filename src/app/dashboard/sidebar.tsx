@@ -9,6 +9,7 @@ import {
   Truck,
   type LucideIcon
 } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 import {
   Sheet,
@@ -23,14 +24,13 @@ type NavigationItem = {
   name: string
   href: string
   icon: LucideIcon
-  current: boolean
 }
 
 const navigation: NavigationItem[] = [
-  { name: "Inicio", href: "#", icon: Home, current: true },
-  { name: "Inspecciones", href: "#", icon: Truck, current: false },
-  { name: "Reportes", href: "#", icon: FileBarChart, current: false },
-  { name: "Configuración", href: "#", icon: Settings, current: false }
+  { name: "Inicio", href: "/dashboard", icon: Home },
+  { name: "Inspecciones", href: "/inspect", icon: Truck },
+  { name: "Reportes", href: "/reports", icon: FileBarChart },
+  { name: "Configuración", href: "/settings", icon: Settings }
 ]
 
 export default function Sidebar() {
@@ -47,11 +47,11 @@ export default function Sidebar() {
       {/* Sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-60 lg:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-zinc-50 px-6">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-zinc-50 px-6">
           <div className="flex h-16 shrink-0 items-center">
             <img
               className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              src="https://tailwindui.com/img/logos/mark.svg?color=zinc&shade=600"
               alt="Your Company"
             />
           </div>
@@ -73,7 +73,7 @@ export default function Sidebar() {
       </div>
 
       {/* Sidebar for mobile */}
-      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-zinc-50 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
         <Sheet>
           <SheetTrigger asChild>
             <button
@@ -86,7 +86,13 @@ export default function Sidebar() {
           </SheetTrigger>
           <SheetContent side={"left"}>
             <SheetHeader>
-              <SheetTitle>Menú</SheetTitle>
+              <SheetTitle>
+                <img
+                  className="h-8 w-auto"
+                  src="https://tailwindui.com/img/logos/mark.svg?color=zinc&shade=600"
+                  alt="Your Company"
+                />
+              </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-1 flex-col mt-4">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -111,22 +117,25 @@ export default function Sidebar() {
 }
 
 function NavigationLink({ item }: { item: NavigationItem }) {
+  const pathname = usePathname()
+  console.log(pathname)
+  const isActive = pathname === item.href
   return (
     <li key={item.name}>
       <a
         href={item.href}
         className={cn(
-          item.current
-            ? "bg-gray-50 text-indigo-600"
-            : "text-gray-700 hover:text-indigo-600 hover:bg-zinc-100",
+          isActive
+            ? "bg-zinc-200/70  text-zinc-600"
+            : "text-zinc-700 hover:text-zinc-600 hover:bg-zinc-100",
           "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
         )}
       >
         <item.icon
           className={cn(
-            item.current
-              ? "text-indigo-600"
-              : "text-zinc-400 group-hover:text-indigo-600",
+            isActive
+              ? "text-zinc-600"
+              : "text-zinc-400 group-hover:text-zinc-600",
             "h-6 w-6 shrink-0"
           )}
           aria-hidden="true"
