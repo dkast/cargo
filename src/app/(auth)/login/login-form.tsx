@@ -37,6 +37,7 @@ const loginSchema = z.object({
 export default function LoginForm() {
   const searchParams = useSearchParams()
   const error = searchParams.get("error")
+  const callbackUrl = searchParams.get("callbackUrl")
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -46,11 +47,12 @@ export default function LoginForm() {
     }
   })
 
+  // TODO: Add env variable for login url callback
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const res = await signIn("credentials", {
       username: data.username,
       password: data.password,
-      callbackUrl: "/dashboard"
+      callbackUrl: callbackUrl ? callbackUrl : "/dashboard"
     })
 
     console.log(res)
