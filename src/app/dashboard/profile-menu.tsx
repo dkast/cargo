@@ -1,6 +1,6 @@
 "use client"
 
-import { LogOut, User } from "lucide-react"
+import { LogOut, MoreVertical, User } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -36,7 +36,12 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
             <AvatarFallback>{getInitials(user.name!)}</AvatarFallback>
           </Avatar>
           <span className="sr-only">Tu Perfil</span>
-          {!isMobile && <span aria-hidden="true">{session?.user.name}</span>}
+          {!isMobile && (
+            <>
+              <span aria-hidden="true">{session?.user.name}</span>
+              <MoreVertical className="text-zinc-500 h-5 w-5" />
+            </>
+          )}
         </a>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-52">

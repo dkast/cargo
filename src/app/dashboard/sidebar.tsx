@@ -36,14 +36,6 @@ const navigation: NavigationItem[] = [
 export default function Sidebar() {
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
       {/* Sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-60 lg:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
@@ -94,7 +86,7 @@ export default function Sidebar() {
                 />
               </SheetTitle>
             </SheetHeader>
-            <nav className="flex flex-1 flex-col mt-4">
+            <nav className="mt-4 flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul role="list" className="-mx-2 space-y-2">
@@ -118,8 +110,9 @@ export default function Sidebar() {
 
 function NavigationLink({ item }: { item: NavigationItem }) {
   const pathname = usePathname()
-  console.log(pathname)
+
   const isActive = pathname === item.href
+
   return (
     <li key={item.name}>
       <a
@@ -127,8 +120,8 @@ function NavigationLink({ item }: { item: NavigationItem }) {
         className={cn(
           isActive
             ? "bg-zinc-200/70  text-zinc-600"
-            : "text-zinc-700 hover:text-zinc-600 hover:bg-zinc-100",
-          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+            : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-600",
+          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
         )}
       >
         <item.icon

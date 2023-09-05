@@ -1,3 +1,9 @@
+import PageHeader from "@/components/dashboard/page-header"
+
 export default function DashboardPage() {
-  return <div>Dashboard Page</div>
+  return (
+    <>
+      <PageHeader title="Bienvenido"></PageHeader>
+    </>
+  )
 }
