@@ -7,6 +7,7 @@ export default withAuth(
     const token = await getToken({ req })
     const isAuth = !!token
 
+    console.log(token)
     if (req.nextUrl.pathname === "/login") {
       if (isAuth) {
         return NextResponse.redirect(new URL(`/dashboard`, req.url))
