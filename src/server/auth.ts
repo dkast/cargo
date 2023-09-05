@@ -1,6 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { compare, hash } from "bcrypt"
-import { th } from "date-fns/locale"
+import { compare } from "bcrypt"
 import { type GetServerSidePropsContext } from "next"
 import {
   getServerSession,
@@ -8,7 +7,6 @@ import {
   type NextAuthOptions
 } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import DiscordProvider from "next-auth/providers/discord"
 
 import { prisma } from "@/server/db"
 import { env } from "@/env.mjs"
@@ -114,7 +112,8 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login"
-  }
+  },
+  secret: env.NEXTAUTH_SECRET
 }
 
 /**
