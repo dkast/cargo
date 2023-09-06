@@ -104,9 +104,19 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-    session: ({ session, token }) => {
+    session: async ({ session, token }) => {
+      const membershipData = await prisma.membership.findFirst({
+        where: {
+          userId: session.user.id
+        }
+      })
+
       //@ts-expect-error user assigned in jwt callback
       session.user = token.user
+      //@ts-expect-error assign role
+      session.user.role = membershipData?.role
+      //@ts-expect-error assign organizationId
+      session.user.organizationId = membershipData?.organizationId
       return session
     }
   },
