@@ -19,7 +19,7 @@ export default async function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-2xl px-3 sm:px-0">
       <PageSubtitle
         title="Empresa"
         description="Información general de la empresa."

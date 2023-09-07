@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { type Organization } from "@prisma/client"
+import { Loader2 } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import { type z } from "zod"
 
@@ -30,20 +31,25 @@ export default function OrganizationForm({ data }: { data: Organization }) {
       subdomain: data.subdomain
     }
   })
-
   // Get state from form
-  const { isDirty, isSubmitting } = form.formState
+  const { isDirty } = form.formState
 
-  const { execute } = useAction(updateOrganization, {
+  const { execute, isExecuting, reset } = useAction(updateOrganization, {
     onSuccess: data => {
       if (data?.success) {
         toast.success("Datos actualizados")
       } else if (data?.failure) {
         toast.error(data.failure.reason!)
       }
+
+      // Reset response object
+      reset()
     },
     onError: () => {
       toast.error("Algo salio mal")
+
+      // Reset response object
+      reset()
     }
   })
 
@@ -97,8 +103,15 @@ export default function OrganizationForm({ data }: { data: Organization }) {
           )}
         />
         <div className="flex justify-start pt-6">
-          <Button disabled={isSubmitting} type="submit">
-            {isSubmitting ? "Guardando..." : "Guardar"}
+          <Button disabled={isExecuting} type="submit">
+            {isExecuting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+                {"Guardando..."}
+              </>
+            ) : (
+              "Guardar"
+            )}
           </Button>
         </div>
       </form>

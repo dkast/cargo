@@ -17,7 +17,7 @@ export default function PageHeader({
             {title}
           </h1>
           {description && (
-            <div className="hidden mt-1 items-center text-sm text-zinc-600 sm:flex">
+            <div className="mt-1 hidden items-center text-sm text-zinc-600 sm:flex">
               {description}
             </div>
           )}
@@ -27,7 +27,7 @@ export default function PageHeader({
           <div className="mt-4 flex md:ml-4 md:mt-0">{children}</div>
         )}
       </div>
-      <Separator className="my-4" />
+      <Separator className="mt-4" />
     </>
   )
 }

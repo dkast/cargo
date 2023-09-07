@@ -119,15 +119,15 @@ function NavigationLink({ item }: { item: NavigationItem }) {
         href={item.href}
         className={cn(
           isActive
-            ? "bg-zinc-200/70  text-zinc-600"
-            : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-600",
+            ? "bg-zinc-200/70  text-zinc-700"
+            : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-600",
           "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
         )}
       >
         <item.icon
           className={cn(
             isActive
-              ? "text-zinc-600"
+              ? "text-zinc-800"
               : "text-zinc-400 group-hover:text-zinc-600",
             "h-6 w-6 shrink-0"
           )}
