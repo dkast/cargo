@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@hookform/resolvers':
     specifier: ^3.3.1
@@ -109,6 +113,9 @@ dependencies:
   next-auth:
     specifier: ^4.23.1
     version: 4.23.1(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
+  next-safe-action:
+    specifier: ^3.1.0
+    version: 3.1.0(next@13.4.19)(react@18.2.0)(zod@3.22.2)
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -4467,6 +4474,19 @@ packages:
       uuid: 8.3.2
     dev: false
 
+  /next-safe-action@3.1.0(next@13.4.19)(react@18.2.0)(zod@3.22.2):
+    resolution: {integrity: sha512-//996p+8EQnm/rmaknP8r/oJcrMqMP3dLQTl2bDtYGn406jY3A6+hUtKAWWQBONoYcnx0mT8MKYxz5bwXkXgGg==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      next: '>= 13.4.2'
+      react: '>= 18.2.0'
+      zod: '>= 3.0.0'
+    dependencies:
+      next: 13.4.19(@babel/core@7.22.11)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      zod: 3.22.2
+    dev: false
+
   /next@13.4.19(@babel/core@7.22.11)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-HuPSzzAbJ1T4BD8e0bs6B9C1kWQ6gv8ykZoRWs5AQoiIuqbGHHdQO7Ljuvg05Q0Z24E2ABozHe6FxDvI6HfyAw==}
     engines: {node: '>=16.8.0'}
@@ -5955,7 +5975,3 @@ packages:
   /zod@3.22.2:
     resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

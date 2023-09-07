@@ -1,4 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { type MembershipRole } from "@prisma/client"
 import { compare } from "bcrypt"
 import { type GetServerSidePropsContext } from "next"
 import {
@@ -22,7 +23,9 @@ declare module "next-auth" {
     user: DefaultSession["user"] & {
       id: string
       // ...other properties
-      // role: UserRole;
+      username: string
+      role: MembershipRole
+      organizationId: string
     }
   }
 

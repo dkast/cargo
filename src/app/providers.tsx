@@ -7,7 +7,15 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       {children}
-      <Toaster position="top-center" />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: "#333",
+            color: "#fff"
+          }
+        }}
+      />
     </SessionProvider>
   )
 }

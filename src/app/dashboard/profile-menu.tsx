@@ -1,6 +1,6 @@
 "use client"
 
-import { LogOut, MoreVertical, User } from "lucide-react"
+import { ChevronsUpDown, LogOut, User } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -28,7 +28,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
           className={cn(
             isMobile
               ? "focus:outline-none"
-              : "flex items-center focus:outline-none gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white"
+              : "flex items-center border-t focus:outline-none gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white"
           )}
         >
           <Avatar>
@@ -39,7 +39,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
           {!isMobile && (
             <>
               <span aria-hidden="true">{session?.user.name}</span>
-              <MoreVertical className="text-zinc-500 h-5 w-5" />
+              <ChevronsUpDown className="text-zinc-500 h-4 w-4" />
             </>
           )}
         </a>
