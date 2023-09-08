@@ -22,7 +22,7 @@ export default async function SettingsPage() {
     <div className="mx-auto max-w-2xl px-3 sm:px-0">
       <PageSubtitle
         title="Empresa"
-        description="Información general de la empresa."
+        description="Información general de la empresa"
       />
       <OrganizationForm data={data} />
     </div>
