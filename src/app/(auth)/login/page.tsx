@@ -7,11 +7,7 @@ export default function SigninPage() {
         <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              <img
-                className="h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=zinc&shade=600"
-                alt="Your Company"
-              />
+              <img className="h-10 w-auto" src="/logo.svg" alt="Cargo" />
               <h2 className="mt-8 text-2xl font-semibold leading-9 tracking-tight text-gray-900">
                 Entrar a su cuenta
               </h2>
