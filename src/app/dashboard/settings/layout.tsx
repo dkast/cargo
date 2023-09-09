@@ -28,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         description="Maneja los ajustes de la organización, miembros del equipo y otros datos"
       />
       <SecondaryNav items={SecondaryNavItems} />
-      <div className="grow">{children}</div>
+      <div className="flex grow">{children}</div>
     </>
   )
 }

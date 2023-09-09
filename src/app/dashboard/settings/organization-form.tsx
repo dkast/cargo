@@ -18,7 +18,7 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { updateOrganization } from "@/server/actions/organization"
+import { updateOrg } from "@/server/actions/organization"
 import { orgSchema } from "@/lib/types"
 
 export default function OrganizationForm({ data }: { data: Organization }) {
@@ -34,7 +34,7 @@ export default function OrganizationForm({ data }: { data: Organization }) {
   // Get state from form
   const { isDirty } = form.formState
 
-  const { execute, isExecuting, reset } = useAction(updateOrganization, {
+  const { execute, isExecuting, reset } = useAction(updateOrg, {
     onSuccess: data => {
       if (data?.success) {
         toast.success("Datos actualizados")
@@ -62,7 +62,7 @@ export default function OrganizationForm({ data }: { data: Organization }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-4">
+      <form className="mt-10 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -70,7 +70,11 @@ export default function OrganizationForm({ data }: { data: Organization }) {
             <FormItem>
               <FormLabel htmlFor="name">Nombre de la empresa</FormLabel>
               <FormControl>
-                <Input placeholder="Nombre de la empresa" {...field} />
+                <Input
+                  type="text"
+                  placeholder="Nombre de la empresa"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,7 +87,7 @@ export default function OrganizationForm({ data }: { data: Organization }) {
             <FormItem>
               <FormLabel htmlFor="description">Descripción</FormLabel>
               <FormControl>
-                <Input placeholder="Descripción" {...field} />
+                <Input type="text" placeholder="Descripción" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -96,7 +100,12 @@ export default function OrganizationForm({ data }: { data: Organization }) {
             <FormItem>
               <FormLabel htmlFor="subdomain">Subdominio</FormLabel>
               <FormControl>
-                <Input disabled placeholder="Subdominio" {...field} />
+                <Input
+                  type="text"
+                  disabled
+                  placeholder="Subdominio"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -1,5 +1,6 @@
 import { columns } from "@/app/dashboard/settings/members/columns"
 import { DataTable } from "@/app/dashboard/settings/members/data-table"
+import Link from "next/link"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Button } from "@/components/ui/button"
@@ -24,7 +25,9 @@ export default async function MembersPage() {
         title="Miembros"
         description="Administre a los miembros de la empresa"
       >
-        <Button variant="secondary">Agregar miembro</Button>
+        <Button asChild>
+          <Link href="/dashboard/settings/members/new">Nuevo miembro</Link>
+        </Button>
       </PageSubtitle>
       <div className="mt-6">
         <DataTable columns={columns} data={data} />

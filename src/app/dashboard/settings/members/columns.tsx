@@ -42,13 +42,13 @@ export const columns: ColumnDef<Membership>[] = [
           <DropdownMenuContent align="end" className="w-32">
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Pencil className="mr-2 h-4 w-4" />
+              {/* <Pencil className="mr-2 h-4 w-4" /> */}
               <span>Editar</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-500">
-              <Trash className="mr-2 h-4 w-4" />
-              <span>Eliminar</span>
+              {/* <Trash className="mr-2 h-4 w-4" /> */}
+              <span>Desactivar</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

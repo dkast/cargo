@@ -28,7 +28,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
           className={cn(
             isMobile
               ? "focus:outline-none"
-              : "flex items-center gap-x-4 border-t px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white focus:outline-none"
+              : "flex items-center gap-x-4 border-t px-3 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white focus:outline-none"
           )}
         >
           <Avatar>
