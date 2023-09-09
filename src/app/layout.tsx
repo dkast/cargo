@@ -1,5 +1,5 @@
 import { type Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Syne } from "next/font/google"
 
 import "../styles/globals.css"
 
@@ -31,14 +31,20 @@ const inter = Inter({
   variable: "--font-inter"
 })
 
+const syne = Syne({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-syne"
+})
+
 export default function RootLayout({
   children
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html className={`${inter.variable}`}>
-      <body className="bg-white text-zinc-950">
+    <html className={`${inter.variable} ${syne.variable}`}>
+      <body className="bg-white text-gray-950">
         <Providers>
           <main className="flex min-h-screen flex-col">{children}</main>
         </Providers>

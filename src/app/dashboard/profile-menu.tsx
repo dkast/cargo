@@ -28,7 +28,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
           className={cn(
             isMobile
               ? "focus:outline-none"
-              : "flex items-center border-t focus:outline-none gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white"
+              : "flex items-center gap-x-4 border-t px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white focus:outline-none"
           )}
         >
           <Avatar>
@@ -39,7 +39,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
           {!isMobile && (
             <>
               <span aria-hidden="true">{session?.user.name}</span>
-              <ChevronsUpDown className="text-zinc-500 h-4 w-4" />
+              <ChevronsUpDown className="h-4 w-4 text-gray-500" />
             </>
           )}
         </a>
@@ -47,12 +47,12 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
       <DropdownMenuContent className="w-52">
         <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
         <DropdownMenuItem>
-          <User className="w-4 h-4 mr-2" />
+          <User className="mr-2 h-4 w-4" />
           <span>Perfil</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => signOut()}>
-          <LogOut className="w-4 h-4 mr-2" />
+          <LogOut className="mr-2 h-4 w-4" />
           <span>Salir</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

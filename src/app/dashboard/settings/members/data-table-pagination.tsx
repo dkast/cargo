@@ -30,7 +30,7 @@ export function DataTablePagination<TData>({
         {table.getFilteredSelectedRowModel().rows.length} de{" "}
         {table.getFilteredRowModel().rows.length} registro(s) seleccionados.
       </div> */}
-      <div className="flex-1 text-sm text-zinc-500">
+      <div className="flex-1 text-sm text-gray-500">
         {table.getFilteredRowModel().rows.length} registro(s) encontrado(s).
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">

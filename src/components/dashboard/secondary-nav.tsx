@@ -29,7 +29,7 @@ export default function SecondaryNav({
               <Link
                 href={item.href}
                 className={cn(
-                  "block rounded-lg px-4 py-2 text-sm font-semibold text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900",
+                  "block rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-900",
                   pathname === item.href && "text-violet-600"
                 )}
               >

@@ -39,7 +39,7 @@ export default function Sidebar() {
       {/* Sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-60 lg:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-zinc-50 px-6">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-gray-50 px-6">
           <div className="flex h-16 shrink-0 items-center">
             <img className="h-8 w-auto" src="/logo.svg" alt="Cargo" />
           </div>
@@ -61,7 +61,7 @@ export default function Sidebar() {
       </div>
 
       {/* Sidebar for mobile */}
-      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-zinc-50 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-50 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
         <Sheet>
           <SheetTrigger asChild>
             <button
@@ -77,7 +77,7 @@ export default function Sidebar() {
               <SheetTitle>
                 <img
                   className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=zinc&shade=600"
+                  src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=600"
                   alt="Your Company"
                 />
               </SheetTitle>
@@ -115,16 +115,16 @@ function NavigationLink({ item }: { item: NavigationItem }) {
         href={item.href}
         className={cn(
           isActive
-            ? "bg-zinc-200/70  text-zinc-700"
-            : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-600",
+            ? "bg-gray-200/70  text-gray-700"
+            : "text-gray-500 hover:bg-gray-100 hover:text-gray-600",
           "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
         )}
       >
         <item.icon
           className={cn(
             isActive
-              ? "text-zinc-800"
-              : "text-zinc-400 group-hover:text-zinc-600",
+              ? "text-gray-800"
+              : "text-gray-400 group-hover:text-gray-600",
             "h-6 w-6 shrink-0"
           )}
           aria-hidden="true"

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import colors from "tailwindcss/colors"
 import { fontFamily } from "tailwindcss/defaultTheme"
 
 export const darkMode = ["class"]
@@ -16,7 +17,13 @@ export const theme = {
       "2xl": "1400px"
     }
   },
+  fontFamily: {
+    display: ["var(--font-syne)"]
+  },
   extend: {
+    colors: {
+      gray: colors.stone
+    },
     fontFamily: {
       sans: ["var(--font-inter)", ...fontFamily.sans]
     },

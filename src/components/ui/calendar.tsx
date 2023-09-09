@@ -34,21 +34,21 @@ function Calendar({
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
         head_cell:
-          "text-zinc-500 rounded-md w-9 font-normal text-[0.8rem] dark:text-zinc-400",
+          "text-gray-500 rounded-md w-9 font-normal text-[0.8rem] dark:text-gray-400",
         row: "flex w-full mt-2",
-        cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-zinc-100 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 dark:[&:has([aria-selected])]:bg-zinc-800",
+        cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-gray-100 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 dark:[&:has([aria-selected])]:bg-gray-800",
         day: cn(
           buttonVariants({ variant: "ghost" }),
           "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
         ),
         day_selected:
-          "bg-zinc-900 text-zinc-50 hover:bg-zinc-900 hover:text-zinc-50 focus:bg-zinc-900 focus:text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50 dark:hover:text-zinc-900 dark:focus:bg-zinc-50 dark:focus:text-zinc-900",
+          "bg-gray-900 text-gray-50 hover:bg-gray-900 hover:text-gray-50 focus:bg-gray-900 focus:text-gray-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50 dark:hover:text-gray-900 dark:focus:bg-gray-50 dark:focus:text-gray-900",
         day_today:
-          "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50",
-        day_outside: "text-zinc-500 opacity-50 dark:text-zinc-400",
-        day_disabled: "text-zinc-500 opacity-50 dark:text-zinc-400",
+          "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50",
+        day_outside: "text-gray-500 opacity-50 dark:text-gray-400",
+        day_disabled: "text-gray-500 opacity-50 dark:text-gray-400",
         day_range_middle:
-          "aria-selected:bg-zinc-100 aria-selected:text-zinc-900 dark:aria-selected:bg-zinc-800 dark:aria-selected:text-zinc-50",
+          "aria-selected:bg-gray-100 aria-selected:text-gray-900 dark:aria-selected:bg-gray-800 dark:aria-selected:text-gray-50",
         day_hidden: "invisible",
         ...classNames
       }}
