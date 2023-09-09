@@ -2,6 +2,7 @@ import { columns } from "@/app/dashboard/settings/members/columns"
 import { DataTable } from "@/app/dashboard/settings/members/data-table"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
+import { Button } from "@/components/ui/button"
 import { prisma } from "@/server/db"
 import { getCurrentUser } from "@/lib/session"
 
@@ -22,7 +23,9 @@ export default async function MembersPage() {
       <PageSubtitle
         title="Miembros"
         description="Administre a los miembros de la empresa"
-      />
+      >
+        <Button variant="secondary">Agregar miembro</Button>
+      </PageSubtitle>
       <div className="mt-6">
         <DataTable columns={columns} data={data} />
       </div>
