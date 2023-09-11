@@ -1,5 +1,6 @@
 import MemberForm from "@/app/dashboard/settings/members/[id]/member-form"
 import { AlertCircle, ShieldAlert } from "lucide-react"
+import { type Metadata } from "next"
 import { type z } from "zod"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
@@ -7,6 +8,10 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { prisma } from "@/server/db"
 import { getCurrentUser } from "@/lib/session"
 import { actionType, type userMemberSchema } from "@/lib/types"
+
+export const metadata: Metadata = {
+  title: "Editar miembro"
+}
 
 export default async function MemberPage({
   params

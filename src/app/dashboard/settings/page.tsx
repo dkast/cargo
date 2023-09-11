@@ -1,8 +1,13 @@
 import OrganizationForm from "@/app/dashboard/settings/organization-form"
+import { type Metadata } from "next"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { prisma } from "@/server/db"
 import { getCurrentUser } from "@/lib/session"
+
+export const metadata: Metadata = {
+  title: "Configuración"
+}
 
 export default async function SettingsPage() {
   const user = await getCurrentUser()
