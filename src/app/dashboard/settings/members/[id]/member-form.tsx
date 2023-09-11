@@ -28,39 +28,31 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { createOrgMember } from "@/server/actions/organization"
+import { createOrgMember, updateOrgMember } from "@/server/actions/organization"
 import { actionType, userMemberSchema } from "@/lib/types"
 
 type UserMemberFormValues = z.infer<typeof userMemberSchema>
 
-const defaultValues: Partial<UserMemberFormValues> = {
-  organizationId: "",
-  name: "",
-  username: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-  role: "MEMBER"
-}
-
 export default function MemberForm({
   organizationId,
-  action
+  action,
+  member
 }: {
   organizationId: string
   action: actionType
+  member: Partial<UserMemberFormValues>
 }) {
   const router = useRouter()
 
   const form = useForm<z.infer<typeof userMemberSchema>>({
     resolver: zodResolver(userMemberSchema),
-    defaultValues,
+    defaultValues: member,
     mode: "onChange"
   })
 
   const {
     execute: createMember,
-    isExecuting,
+    isExecuting: isInserting,
     reset
   } = useAction(createOrgMember, {
     onSuccess: data => {
@@ -83,13 +75,40 @@ export default function MemberForm({
     }
   })
 
+  const {
+    execute: updateMember,
+    isExecuting: isUpdating,
+    reset: resetUpdate
+  } = useAction(updateOrgMember, {
+    onSuccess: data => {
+      if (data?.success) {
+        toast.success("Usuario actualizado")
+      } else if (data?.failure) {
+        toast.error(data.failure.reason!)
+      }
+
+      // Reset response object
+      resetUpdate()
+
+      router.push("/dashboard/settings/members")
+    },
+    onError: () => {
+      toast.error("Algo salio mal")
+
+      // Reset response object
+      resetUpdate()
+    }
+  })
+
   const onSubmit = async (data: z.infer<typeof userMemberSchema>) => {
     console.log(data)
 
-    // Connect user to organization
-    data.organizationId = organizationId
     if (action === actionType.CREATE) {
+      // Connect user to organization
+      data.organizationId = organizationId
       createMember(data)
+    } else {
+      updateMember(data)
     }
   }
 
@@ -213,8 +232,8 @@ export default function MemberForm({
           )}
         />
         <div className="flex justify-start gap-x-2 pt-6">
-          <Button type="submit" disabled={isExecuting}>
-            {isExecuting ? (
+          <Button type="submit" disabled={isInserting || isUpdating}>
+            {isInserting || isUpdating ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
                 {"Guardando..."}

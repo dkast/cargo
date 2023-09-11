@@ -2,7 +2,8 @@
 
 import { type Membership } from "@prisma/client"
 import { type ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal, Pencil, Trash } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
+import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -41,13 +42,11 @@ export const columns: ColumnDef<Membership>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-32">
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem>
-              {/* <Pencil className="mr-2 h-4 w-4" /> */}
-              <span>Editar</span>
+            <DropdownMenuItem asChild>
+              <Link href={`members/${membership.id}`}>Editar</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-500">
-              {/* <Trash className="mr-2 h-4 w-4" /> */}
               <span>Desactivar</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -86,3 +86,56 @@ export const createOrgMember = action(
     }
   }
 )
+
+export const updateOrgMember = action(
+  userMemberSchema,
+  async ({ id, name, email, username, password, role }) => {
+    // Update member
+    try {
+      const membership = await prisma.membership.update({
+        where: {
+          id: id
+        },
+        data: {
+          role: role,
+          user: {
+            update: {
+              name: name,
+              email: email,
+              username: username
+            }
+          }
+        }
+      })
+
+      if (password !== "password") {
+        await prisma.user.update({
+          where: {
+            id: membership.userId
+          },
+          data: {
+            password: await hash(password, 12)
+          }
+        })
+      }
+
+      revalidatePath("/dashboard/settings/members")
+
+      return {
+        success: true
+      }
+    } catch (error) {
+      let message
+      if (typeof error === "string") {
+        message = error
+      } else if (error instanceof Error) {
+        message = error.message
+      }
+      return {
+        failure: {
+          reason: message
+        }
+      }
+    }
+  }
+)

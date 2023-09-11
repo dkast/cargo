@@ -26,12 +26,9 @@ const loginSchema = z.object({
       message: "El nombre de usuario debe tener al menos 3 caracteres"
     })
     .max(50),
-  password: z
-    .string()
-    .min(4, {
-      message: "La contraseña debe tener al menos 8 caracteres"
-    })
-    .max(20)
+  password: z.string().min(1, {
+    message: "La contraseña no puede estar vacía"
+  })
 })
 
 export default function LoginForm() {

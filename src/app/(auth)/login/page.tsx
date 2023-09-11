@@ -1,6 +1,12 @@
 import LoginForm from "@/app/(auth)/login/login-form"
+import { type Metadata } from "next"
 
-export default function SigninPage() {
+export const metadata: Metadata = {
+  title: "Iniciar sesión",
+  description: "Iniciar sesión en Cargo"
+}
+
+export default function LoginPage() {
   return (
     <>
       <div className="flex min-h-full flex-1">
@@ -11,8 +17,8 @@ export default function SigninPage() {
                 <img className="h-10 w-auto" src="/logo.svg" alt="Cargo" />
                 <span className="font-display text-4xl font-medium">Cargo</span>
               </div>
-              <h2 className="mt-8 text-2xl font-semibold leading-9 tracking-tight text-gray-900">
-                Entrar a su cuenta
+              <h2 className="mt-8 text-2xl font-medium leading-9 tracking-tight text-gray-900">
+                Bienvenido
               </h2>
               {/* <p className="mt-2 text-sm leading-6 text-gray-500">
                 Not a member?{" "}

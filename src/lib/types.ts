@@ -22,7 +22,7 @@ export const userMemberSchema = z
       .min(3, {
         message: "El nombre debe tener al menos 3 caracteres"
       }),
-    email: z.string().email({ message: "El email debe ser válido" }),
+    email: z.string().email({ message: "El email debe ser válido" }).optional(),
     username: z
       .string({
         required_error: "Requerido"
