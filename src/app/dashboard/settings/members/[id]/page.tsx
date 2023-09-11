@@ -99,8 +99,6 @@ export default async function MemberPage({
     }
   }
 
-  console.dir(member)
-
   return (
     <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
       <PageSubtitle

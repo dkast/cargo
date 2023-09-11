@@ -56,7 +56,6 @@ export default function OrganizationForm({ data }: { data: Organization }) {
   const onSubmit = async (data: z.infer<typeof orgSchema>) => {
     if (!isDirty) return
 
-    console.log(data)
     execute(data)
   }
 

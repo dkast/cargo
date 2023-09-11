@@ -101,8 +101,6 @@ export default function MemberForm({
   })
 
   const onSubmit = async (data: z.infer<typeof userMemberSchema>) => {
-    console.log(data)
-
     if (action === actionType.CREATE) {
       // Connect user to organization
       data.organizationId = organizationId
