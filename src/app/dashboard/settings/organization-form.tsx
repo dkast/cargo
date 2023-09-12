@@ -57,6 +57,7 @@ export default function OrganizationForm({ data }: { data: Organization }) {
     if (!isDirty) return
 
     execute(data)
+    form.reset(data)
   }
 
   return (
