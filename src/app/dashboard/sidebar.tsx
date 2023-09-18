@@ -28,8 +28,8 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { name: "Inicio", href: "/dashboard", icon: Home },
-  { name: "Inspecciones", href: "/inspect", icon: Truck },
-  { name: "Reportes", href: "/reports", icon: FileBarChart },
+  { name: "Inspecciones", href: "/dashboard/inspect", icon: Truck },
+  { name: "Reportes", href: "/dashboard/reports", icon: FileBarChart },
   { name: "Configuración", href: "/dashboard/settings", icon: Settings }
 ]
 
