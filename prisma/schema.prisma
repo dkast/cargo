@@ -78,9 +78,9 @@ model Organization {
   subdomain          String               @unique
   memberships        Membership[]
   companies          Company[]
-  Inspections        Inspection[]
-  InspectionItem     InspectionItem[]
-  InspectionItemFile InspectionItemFile[]
+  inspections        Inspection[]
+  inspectionItem     InspectionItem[]
+  inspectionItemFile InspectionItemFile[]
 }
 
 model Membership {
@@ -93,8 +93,8 @@ model Membership {
   isActive       Boolean        @default(true)
   organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
-  Inspections    Inspection[]   @relation(name: "inspectedBy")
-  Approvals      Inspection[]   @relation(name: "approvedBy")
+  inspections    Inspection[]   @relation(name: "inspectedBy")
+  approvals      Inspection[]   @relation(name: "approvedBy")
 
   @@unique([organizationId, userId])
   @@index([userId])
@@ -116,7 +116,7 @@ model Company {
   operators      Operator[]
   vehicles       Vehicle[]
   containers     Container[]
-  Inspections    Inspection[]
+  inspections    Inspection[]
 
   @@index([organizationId])
 }
@@ -129,7 +129,7 @@ model Operator {
   updatedAt     DateTime     @updatedAt
   company       Company      @relation(fields: [companyId], references: [id])
   companyId     String
-  Inspections   Inspection[]
+  inspections   Inspection[]
 
   @@index([companyId])
 }
@@ -142,7 +142,7 @@ model Vehicle {
   updatedAt    DateTime     @updatedAt
   company      Company      @relation(fields: [companyId], references: [id])
   companyId    String
-  Inspections  Inspection[]
+  inspections  Inspection[]
 
   @@index([companyId])
 }
@@ -154,7 +154,7 @@ model Container {
   updatedAt    DateTime     @updatedAt
   company      Company      @relation(fields: [companyId], references: [id])
   companyId    String
-  Inspections  Inspection[]
+  inspections  Inspection[]
 
   @@index([companyId])
 }

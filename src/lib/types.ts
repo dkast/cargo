@@ -13,7 +13,7 @@ export const orgSchema = z.object({
 
 export const userMemberSchema = z
   .object({
-    id: z.string().cuid().optional(),
+    id: z.string().optional(),
     organizationId: z.string().cuid(),
     name: z
       .string({

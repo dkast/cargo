@@ -89,7 +89,7 @@ export default async function MemberPage({
     //default values
     member = {
       id: "",
-      organizationId: "",
+      organizationId: user?.organizationId,
       name: "",
       username: "",
       email: "",
