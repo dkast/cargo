@@ -1,11 +1,12 @@
 import OrganizationForm from "@/app/dashboard/settings/organization-form"
+import { MembershipRole } from "@prisma/client"
+import { AlertTriangle } from "lucide-react"
 import { type Metadata } from "next"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { prisma } from "@/server/db"
 import { getCurrentUser } from "@/lib/session"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertTriangle } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Configuración"
@@ -41,7 +42,13 @@ export default async function SettingsPage() {
         title="Empresa"
         description="Información general de la empresa"
       />
-      <OrganizationForm data={data} />
+      <OrganizationForm
+        data={data}
+        enabled={
+          user?.role === MembershipRole.ADMIN ||
+          user?.role === MembershipRole.OWNER
+        }
+      />
     </div>
   )
 }

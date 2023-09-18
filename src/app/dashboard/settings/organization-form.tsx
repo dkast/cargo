@@ -21,7 +21,13 @@ import { Input } from "@/components/ui/input"
 import { updateOrg } from "@/server/actions/organization"
 import { orgSchema } from "@/lib/types"
 
-export default function OrganizationForm({ data }: { data: Organization }) {
+export default function OrganizationForm({
+  data,
+  enabled
+}: {
+  data: Organization
+  enabled: boolean
+}) {
   const form = useForm<z.infer<typeof orgSchema>>({
     resolver: zodResolver(orgSchema),
     defaultValues: {
@@ -63,66 +69,68 @@ export default function OrganizationForm({ data }: { data: Organization }) {
   return (
     <Form {...form}>
       <form className="mt-10 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="name">Nombre de la empresa</FormLabel>
-              <FormControl>
-                <Input
-                  type="text"
-                  placeholder="Nombre de la empresa"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="description">Descripción</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="Descripción" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="subdomain"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="subdomain">Subdominio</FormLabel>
-              <FormControl>
-                <Input
-                  type="text"
-                  disabled
-                  placeholder="Subdominio"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex justify-start pt-6">
-          <Button disabled={isExecuting} type="submit">
-            {isExecuting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
-                {"Guardando..."}
-              </>
-            ) : (
-              "Guardar"
+        <fieldset disabled={!enabled}>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="name">Nombre de la empresa</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Nombre de la empresa"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-          </Button>
-        </div>
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="description">Descripción</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Descripción" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="subdomain"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="subdomain">Subdominio</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    disabled
+                    placeholder="Subdominio"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex justify-start pt-6">
+            <Button disabled={isExecuting} type="submit">
+              {isExecuting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+                  {"Guardando..."}
+                </>
+              ) : (
+                "Guardar"
+              )}
+            </Button>
+          </div>
+        </fieldset>
       </form>
     </Form>
   )
