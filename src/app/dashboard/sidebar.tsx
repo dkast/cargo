@@ -75,11 +75,7 @@ export default function Sidebar() {
           <SheetContent side={"left"}>
             <SheetHeader>
               <SheetTitle>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=600"
-                  alt="Your Company"
-                />
+                <img className="h-8 w-auto" src="/logo.svg" alt="Cargo" />
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-4 flex flex-1 flex-col">

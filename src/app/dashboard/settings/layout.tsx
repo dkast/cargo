@@ -15,8 +15,16 @@ const SecondaryNavItems = [
     href: "/dashboard/settings/transports"
   },
   {
-    title: "Choferes",
+    title: "Operadores",
     href: "/dashboard/settings/drivers"
+  },
+  {
+    title: "Unidades",
+    href: "/dashboard/settings/vehicles"
+  },
+  {
+    title: "Contenedores",
+    href: "/dashboard/settings/containers"
   }
 ]
 
