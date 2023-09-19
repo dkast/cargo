@@ -8,7 +8,7 @@ export default function CTPATPage() {
     <div className="mx-auto grow px-3 sm:px-6">
       <PageSubtitle title="CTPAT" description="Inspecciones CTPAT">
         <Button asChild>
-          <Link href="/dashboard/settings/members/new">Nueva Inspección</Link>
+          <Link href="/dashboard/inspect/new">Nueva Inspección</Link>
         </Button>
       </PageSubtitle>
       <div className="mt-6"></div>
