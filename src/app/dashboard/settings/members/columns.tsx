@@ -2,7 +2,12 @@
 
 import { type Membership } from "@prisma/client"
 import { type ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import {
+  ChevronDown,
+  ChevronsUpDown,
+  ChevronUp,
+  MoreHorizontal
+} from "lucide-react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -20,9 +25,17 @@ export const columns: ColumnDef<Membership>[] = [
     accessorKey: "user.name",
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Nombre
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {{
+            asc: <ChevronUp className="ml-2 h-4 w-4" />,
+            desc: <ChevronDown className="ml-2 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     }
