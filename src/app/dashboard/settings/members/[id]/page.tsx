@@ -105,11 +105,7 @@ export default async function MemberPage({
         title={`${actionMessage} miembro`}
         description="Capture la información general"
       />
-      <MemberForm
-        organizationId={user?.organizationId}
-        action={action}
-        member={member}
-      />
+      <MemberForm action={action} member={member} />
     </div>
   )
 }

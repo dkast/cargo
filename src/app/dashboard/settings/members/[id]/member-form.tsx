@@ -34,11 +34,9 @@ import { actionType, userMemberSchema } from "@/lib/types"
 type UserMemberFormValues = z.infer<typeof userMemberSchema>
 
 export default function MemberForm({
-  organizationId,
   action,
   member
 }: {
-  organizationId: string
   action: actionType
   member: Partial<UserMemberFormValues>
 }) {
