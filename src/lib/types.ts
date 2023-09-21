@@ -56,6 +56,14 @@ export const userMemberSchema = z
     path: ["confirmPassword"]
   })
 
+export const companySchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(3, {
+    message: "El nombre debe tener al menos 3 caracteres"
+  }),
+  organizationId: z.string().cuid()
+})
+
 export enum actionType {
   CREATE = "CREATE",
   UPDATE = "UPDATE",

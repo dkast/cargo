@@ -66,7 +66,7 @@ export default function MemberForm({
       router.push("/dashboard/settings/members")
     },
     onError: () => {
-      toast.error("Algo salio mal")
+      toast.error("Algo salió mal")
 
       // Reset response object
       reset()
