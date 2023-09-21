@@ -40,8 +40,7 @@ const onSubmit = (data: z.infer<typeof ctpatMainSchema>) => {
   console.log(data)
 }
 
-export default function CTPATMainForm() {
-  const companies: Company[] = []
+export default function CTPATMainForm({ companies }: { companies: Company[] }) {
   const form = useForm<z.infer<typeof ctpatMainSchema>>({
     resolver: zodResolver(ctpatMainSchema),
     defaultValues: {
