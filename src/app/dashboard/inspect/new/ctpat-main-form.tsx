@@ -1,12 +1,10 @@
 "use client"
 
-import { on } from "events"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type Company } from "@prisma/client"
-import { ChevronsUpDown, PlusIcon, Search } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2, PlusIcon } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import { z } from "zod"
 
@@ -43,9 +41,11 @@ const ctpatMainSchema = z.object({
 })
 
 export default function CTPATMainForm({
-  companies
+  companies,
+  organizationId
 }: {
   companies: z.infer<typeof companySchema>[]
+  organizationId: string
 }) {
   const [searchCompany, setSearchCompany] = useState<string>("")
   const form = useForm<z.infer<typeof ctpatMainSchema>>({
@@ -55,6 +55,7 @@ export default function CTPATMainForm({
     },
     mode: "onChange"
   })
+
   const {
     execute: insertCompany,
     isExecuting: isInserting,
@@ -80,7 +81,7 @@ export default function CTPATMainForm({
     console.log("add company " + searchCompany)
     const payload: z.infer<typeof companySchema> = {
       name: searchCompany,
-      organizationId: "1"
+      organizationId
     }
     insertCompany(payload)
   }
@@ -101,7 +102,7 @@ export default function CTPATMainForm({
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "w-[400px] justify-between",
+                        "w-full justify-between sm:w-[400px]",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -113,7 +114,7 @@ export default function CTPATMainForm({
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-[400px] p-0">
+                <PopoverContent className="w-full p-0 sm:w-[400px]">
                   <Command>
                     <CommandInput
                       value={searchCompany}
@@ -128,7 +129,11 @@ export default function CTPATMainForm({
                           className="w-full"
                           onClick={handleAddCompany}
                         >
-                          <PlusIcon className="mr-2 h-5 w-5" />
+                          {isInserting ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          ) : (
+                            <PlusIcon className="mr-2 h-4 w-4" />
+                          )}
                           {searchCompany
                             ? `Agregar "${searchCompany}"`
                             : "Agregar"}
@@ -137,12 +142,21 @@ export default function CTPATMainForm({
                       <CommandGroup>
                         {companies.map(company => (
                           <CommandItem
-                            value={company.id}
+                            value={company.name}
                             key={company.id}
-                            onClick={() => {
+                            onSelect={() => {
+                              // console.log(company)
                               form.setValue("company", company.id!)
                             }}
                           >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                company.id === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
                             {company.name}
                           </CommandItem>
                         ))}

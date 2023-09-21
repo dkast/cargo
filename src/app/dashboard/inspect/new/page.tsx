@@ -3,7 +3,6 @@ import { AlertCircle } from "lucide-react"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { prisma } from "@/server/db"
 import { getCompanies } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 
@@ -32,7 +31,10 @@ export default async function NewCTPATPage() {
         title="Inspección CTPAT"
         description="Realice una nueva inspección CTPAT"
       />
-      <CTPATMainForm companies={companies} />
+      <CTPATMainForm
+        companies={companies}
+        organizationId={user.organizationId}
+      />
     </div>
   )
 }
