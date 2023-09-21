@@ -114,7 +114,7 @@ export default function CTPATMainForm({
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-full p-0 sm:w-[400px]">
+                <PopoverContent className="w-full min-w-[350px] p-0 sm:w-[400px]">
                   <Command>
                     <CommandInput
                       value={searchCompany}
