@@ -37,21 +37,27 @@ import { cn } from "@/lib/utils"
 const ctpatMainSchema = z.object({
   company: z.string({
     required_error: "Este campo es requerido"
+  }),
+  operator: z.string({
+    required_error: "Este campo es requerido"
   })
 })
 
 export default function CTPATMainForm({
   companies,
+  operators,
   organizationId
 }: {
   companies: z.infer<typeof companySchema>[]
+  operators: z.infer<typeof companySchema>[]
   organizationId: string
 }) {
   const [searchCompany, setSearchCompany] = useState<string>("")
   const form = useForm<z.infer<typeof ctpatMainSchema>>({
     resolver: zodResolver(ctpatMainSchema),
     defaultValues: {
-      company: ""
+      company: "",
+      operator: ""
     },
     mode: "onChange"
   })
@@ -86,15 +92,20 @@ export default function CTPATMainForm({
     insertCompany(payload)
   }
 
+  const handleAddOperator = () => {
+    console.log("add operator")
+  }
+
   return (
     <Form {...form}>
       <form className="mt-10 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+        {/* Company */}
         <FormField
           control={form.control}
           name="company"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel htmlFor="company">Compañía</FormLabel>
+              <FormLabel htmlFor="company">Compañía de Transporte</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -109,7 +120,7 @@ export default function CTPATMainForm({
                       {field.value
                         ? companies.find(company => company.id === field.value)
                             ?.name
-                        : "Seleccionar compañía"}
+                        : "Seleccionar Compañía"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
@@ -119,7 +130,7 @@ export default function CTPATMainForm({
                     <CommandInput
                       value={searchCompany}
                       onValueChange={setSearchCompany}
-                      placeholder="Buscar compañía..."
+                      placeholder="Buscar Compañía..."
                     />
                     <CommandList>
                       <CommandEmpty className="px-2">
@@ -158,6 +169,78 @@ export default function CTPATMainForm({
                               )}
                             />
                             {company.name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Operator */}
+        <FormField
+          control={form.control}
+          name="operator"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel htmlFor="operator">Operador</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-full justify-between sm:w-[400px]",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? operators.find(
+                            operator => operator.id === field.value
+                          )?.name
+                        : "Seleccionar Operador"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-full min-w-[350px] p-0 sm:w-[400px]">
+                  <Command>
+                    <CommandInput placeholder="Buscar operador..."></CommandInput>
+                    <CommandList>
+                      <CommandEmpty className="px-2">
+                        <Button
+                          disabled={isInserting}
+                          variant="secondary"
+                          className="w-full"
+                          onClick={handleAddOperator}
+                        >
+                          <PlusIcon className="mr-2 h-4 w-4" />
+                          Agregar
+                        </Button>
+                      </CommandEmpty>
+                      <CommandGroup>
+                        {operators.map(operator => (
+                          <CommandItem
+                            value={operator.name}
+                            key={operator.id}
+                            onSelect={() => {
+                              // console.log(operator)
+                              form.setValue("operator", operator.id!)
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                operator.id === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {operator.name}
                           </CommandItem>
                         ))}
                       </CommandGroup>

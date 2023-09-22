@@ -78,6 +78,7 @@ model Organization {
   subdomain          String               @unique
   memberships        Membership[]
   companies          Company[]
+  operators          Operator[]
   inspections        Inspection[]
   inspectionItem     InspectionItem[]
   inspectionItemFile InspectionItemFile[]
@@ -122,16 +123,19 @@ model Company {
 }
 
 model Operator {
-  id            String       @id @default(cuid())
-  name          String       @unique
-  licenseNumber String       @unique
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  company       Company      @relation(fields: [companyId], references: [id])
-  companyId     String
-  inspections   Inspection[]
+  id             String       @id @default(cuid())
+  name           String       @unique
+  licenseNumber  String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  company        Company      @relation(fields: [companyId], references: [id])
+  companyId      String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  inspections    Inspection[]
 
   @@index([companyId])
+  @@index([organizationId])
 }
 
 model Vehicle {
