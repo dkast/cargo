@@ -30,7 +30,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover"
-import { createCompany } from "@/server/actions/inspection"
+import { createCompany } from "@/server/actions/company"
 import { type companySchema } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
