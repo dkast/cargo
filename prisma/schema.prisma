@@ -79,6 +79,8 @@ model Organization {
   memberships        Membership[]
   companies          Company[]
   operators          Operator[]
+  vehicles           Vehicle[]
+  containers         Container[]
   inspections        Inspection[]
   inspectionItem     InspectionItem[]
   inspectionItemFile InspectionItemFile[]
@@ -114,9 +116,6 @@ model Company {
   updatedAt      DateTime     @updatedAt
   organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
-  operators      Operator[]
-  vehicles       Vehicle[]
-  containers     Container[]
   inspections    Inspection[]
 
   @@index([organizationId])
@@ -128,39 +127,36 @@ model Operator {
   licenseNumber  String       @unique
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  company        Company      @relation(fields: [companyId], references: [id])
-  companyId      String
   organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
   inspections    Inspection[]
 
-  @@index([companyId])
   @@index([organizationId])
 }
 
 model Vehicle {
-  id           String       @id @default(cuid())
-  vehicleNbr   String       @unique
-  licensePlate String       @unique
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  company      Company      @relation(fields: [companyId], references: [id])
-  companyId    String
-  inspections  Inspection[]
+  id             String       @id @default(cuid())
+  vehicleNbr     String       @unique
+  licensePlate   String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  inspections    Inspection[]
 
-  @@index([companyId])
+  @@index([organizationId])
 }
 
 model Container {
-  id           String       @id @default(cuid())
-  containerNbr String       @unique
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  company      Company      @relation(fields: [companyId], references: [id])
-  companyId    String
-  inspections  Inspection[]
+  id             String       @id @default(cuid())
+  containerNbr   String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  inspections    Inspection[]
 
-  @@index([companyId])
+  @@index([organizationId])
 }
 
 model Inspection {

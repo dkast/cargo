@@ -52,3 +52,29 @@ export async function getOperators(organizationId: string) {
     }
   )()
 }
+
+export async function getVehicles(organizationId: string) {
+  return await cache(
+    async () => {
+      return prisma.vehicle.findMany({
+        where: {
+          organizationId: organizationId
+        },
+        select: {
+          id: true,
+          vehicleNbr: true,
+          licensePlate: true,
+          organizationId: true
+        },
+        orderBy: {
+          vehicleNbr: "asc"
+        }
+      })
+    },
+    [`vehicles-${organizationId}`],
+    {
+      revalidate: 900,
+      tags: [`vehicles-${organizationId}`]
+    }
+  )()
+}

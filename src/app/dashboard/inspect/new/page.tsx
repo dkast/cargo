@@ -3,7 +3,7 @@ import { AlertCircle } from "lucide-react"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { getCompanies, getOperators } from "@/server/fetchers"
+import { getCompanies, getOperators, getVehicles } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 
 export default async function NewCTPATPage() {
@@ -25,16 +25,15 @@ export default async function NewCTPATPage() {
 
   const companies = await getCompanies(user?.organizationId)
   const operators = await getOperators(user?.organizationId)
+  const vehicles = await getVehicles(user?.organizationId)
 
   return (
     <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
-      <PageSubtitle
-        title="Inspección CTPAT"
-        description="Realice una nueva inspección CTPAT"
-      />
+      <PageSubtitle title="Inspección CTPAT" />
       <CTPATMainForm
         companies={companies}
         operators={operators}
+        vehicles={vehicles}
         organizationId={user.organizationId}
       />
     </div>

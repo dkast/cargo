@@ -25,15 +25,17 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover"
+import { Separator } from "@/components/ui/separator"
 import { createCompany } from "@/server/actions/company"
-import { type companySchema } from "@/lib/types"
+import { operatorSchema, vehicleSchema, type companySchema } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { AddOperator } from "./add-operator"
+import { AddOperatorForm } from "./add-operator-form"
 
 const ctpatMainSchema = z.object({
   company: z.string({
@@ -41,16 +43,27 @@ const ctpatMainSchema = z.object({
   }),
   operator: z.string({
     required_error: "Este campo es requerido"
+  }),
+  licenseNumber: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  vehicle: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  licensePlate: z.string({
+    required_error: "Este campo es requerido"
   })
 })
 
 export default function CTPATMainForm({
   companies,
   operators,
+  vehicles,
   organizationId
 }: {
   companies: z.infer<typeof companySchema>[]
-  operators: z.infer<typeof companySchema>[]
+  operators: z.infer<typeof operatorSchema>[]
+  vehicles: z.infer<typeof vehicleSchema>[]
   organizationId: string
 }) {
   const [searchCompany, setSearchCompany] = useState<string>("")
@@ -58,7 +71,10 @@ export default function CTPATMainForm({
     resolver: zodResolver(ctpatMainSchema),
     defaultValues: {
       company: "",
-      operator: ""
+      operator: "",
+      licenseNumber: "",
+      vehicle: "",
+      licensePlate: ""
     },
     mode: "onChange"
   })
@@ -157,7 +173,6 @@ export default function CTPATMainForm({
                             value={company.name}
                             key={company.id}
                             onSelect={() => {
-                              // console.log(company)
                               form.setValue("company", company.id!)
                             }}
                           >
@@ -213,7 +228,7 @@ export default function CTPATMainForm({
                     <CommandInput placeholder="Buscar operador..."></CommandInput>
                     <CommandList>
                       <CommandEmpty className="px-2">
-                        <AddOperator />
+                        <AddOperatorForm organizationId={organizationId} />
                       </CommandEmpty>
                       <CommandGroup>
                         {operators.map(operator => (
@@ -221,8 +236,11 @@ export default function CTPATMainForm({
                             value={operator.name}
                             key={operator.id}
                             onSelect={() => {
-                              // console.log(operator)
                               form.setValue("operator", operator.id!)
+                              form.setValue(
+                                "licenseNumber",
+                                operator.licenseNumber!
+                              )
                             }}
                           >
                             <Check
@@ -234,6 +252,98 @@ export default function CTPATMainForm({
                               )}
                             />
                             {operator.name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="licenseNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="licenseNumber">Número de Licencia</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Número de Licencia"
+                  className="sm:w-1/2"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Vehicle */}
+        <Separator />
+        <FormField
+          control={form.control}
+          name="vehicle"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel htmlFor="vehicle">Unidad</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-full justify-between sm:w-[400px]",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? vehicles.find(vehicle => vehicle.id === field.value)
+                            ?.vehicleNbr
+                        : "Seleccionar Unidad"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-full min-w-[350px] p-0 sm:w-[400px]">
+                  <Command>
+                    <CommandInput placeholder="Buscar unidad..."></CommandInput>
+                    <CommandList>
+                      <CommandEmpty className="px-2">
+                        <Button
+                          variant="secondary"
+                          className="w-full"
+                          onClick={handleAddOperator}
+                        >
+                          <PlusIcon className="mr-2 h-4 w-4" />
+                          Agregar
+                        </Button>
+                      </CommandEmpty>
+                      <CommandGroup>
+                        {vehicles.map(vehicle => (
+                          <CommandItem
+                            value={vehicle.vehicleNbr}
+                            key={vehicle.id}
+                            onSelect={() => {
+                              form.setValue("vehicle", vehicle.id!)
+                              form.setValue(
+                                "licensePlate",
+                                vehicle.licensePlate!
+                              )
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                vehicle.id === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {vehicle.vehicleNbr}
                           </CommandItem>
                         ))}
                       </CommandGroup>
