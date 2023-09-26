@@ -18,12 +18,6 @@ import {
   CommandList
 } from "@/components/ui/command"
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog"
-import {
   Form,
   FormControl,
   FormField,
@@ -36,16 +30,10 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger
-} from "@/components/ui/sheet"
 import { createCompany } from "@/server/actions/company"
 import { type companySchema } from "@/lib/types"
-import { useMobile } from "@/lib/use-mobile"
 import { cn } from "@/lib/utils"
+import { AddOperator } from "./add-operator"
 
 const ctpatMainSchema = z.object({
   company: z.string({
@@ -65,7 +53,6 @@ export default function CTPATMainForm({
   operators: z.infer<typeof companySchema>[]
   organizationId: string
 }) {
-  const isMobile = useMobile()
   const [searchCompany, setSearchCompany] = useState<string>("")
   const form = useForm<z.infer<typeof ctpatMainSchema>>({
     resolver: zodResolver(ctpatMainSchema),
@@ -226,11 +213,7 @@ export default function CTPATMainForm({
                     <CommandInput placeholder="Buscar operador..."></CommandInput>
                     <CommandList>
                       <CommandEmpty className="px-2">
-                        {isMobile ? (
-                          <AddOperatorMobile />
-                        ) : (
-                          <AddOperatorDesktop />
-                        )}
+                        <AddOperator />
                       </CommandEmpty>
                       <CommandGroup>
                         {operators.map(operator => (
@@ -264,37 +247,5 @@ export default function CTPATMainForm({
         />
       </form>
     </Form>
-  )
-}
-
-export function AddOperatorDesktop() {
-  return (
-    <Dialog>
-      <DialogTrigger className="w-full" asChild>
-        <Button variant="secondary" className="w-full">
-          <PlusIcon className="mr-2 h-4 w-4" />
-          Agregar
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>Agregar Operador</DialogTitle>
-      </DialogContent>
-    </Dialog>
-  )
-}
-
-export function AddOperatorMobile() {
-  return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="secondary" className="w-full">
-          <PlusIcon className="mr-2 h-4 w-4" />
-          Agregar
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="bottom">
-        <SheetHeader>Agregar Operador</SheetHeader>
-      </SheetContent>
-    </Sheet>
   )
 }
