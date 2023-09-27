@@ -1,29 +1,20 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import {
   ComboBox,
-  ComboBoxContent,
   ComboBoxEmpty,
   ComboBoxGroup,
   ComboBoxInput,
   ComboBoxItem,
-  ComboBoxList,
-  ComboBoxTrigger
+  ComboBoxList
 } from "@/app/dashboard/settings/transports/combobox"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList
-} from "@/components/ui/command"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { type companySchema } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -41,6 +32,7 @@ export default function TestForm({
     resolver: zodResolver(testSchema),
     defaultValues: { company: "" }
   })
+  const [open, setOpen] = useState(false)
 
   return (
     <Form {...form}>
@@ -50,8 +42,10 @@ export default function TestForm({
           name="company"
           render={({ field }) => (
             <FormItem>
-              <ComboBox>
-                <ComboBoxTrigger asChild>
+              <ComboBox
+                open={open}
+                setOpen={setOpen}
+                trigger={
                   <FormControl>
                     <Button
                       variant="outline"
@@ -68,36 +62,36 @@ export default function TestForm({
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
-                </ComboBoxTrigger>
-                <ComboBoxContent>
-                  <ComboBoxInput placeholder="Buscar..." />
-                  <ComboBoxList>
-                    <ComboBoxEmpty className="px-2">
-                      No se encontraron resultados
-                    </ComboBoxEmpty>
-                    <ComboBoxGroup>
-                      {companies.map(company => (
-                        <ComboBoxItem
-                          value={company.name}
-                          key={company.id}
-                          onSelect={() => {
-                            form.setValue("company", company.id!)
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              company.id === field.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
-                          {company.name}
-                        </ComboBoxItem>
-                      ))}
-                    </ComboBoxGroup>
-                  </ComboBoxList>
-                </ComboBoxContent>
+                }
+              >
+                <ComboBoxInput placeholder="Buscar..." />
+                <ComboBoxList>
+                  <ComboBoxEmpty className="px-2">
+                    No se encontraron resultados
+                  </ComboBoxEmpty>
+                  <ComboBoxGroup>
+                    {companies.map(company => (
+                      <ComboBoxItem
+                        value={company.name}
+                        key={company.id}
+                        onSelect={() => {
+                          form.setValue("company", company.id!)
+                          setOpen(false)
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            company.id === field.value
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {company.name}
+                      </ComboBoxItem>
+                    ))}
+                  </ComboBoxGroup>
+                </ComboBoxList>
               </ComboBox>
             </FormItem>
           )}
