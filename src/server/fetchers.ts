@@ -78,3 +78,28 @@ export async function getVehicles(organizationId: string) {
     }
   )()
 }
+
+export async function getContainers(organizationId: string) {
+  return await cache(
+    async () => {
+      return prisma.container.findMany({
+        where: {
+          organizationId: organizationId
+        },
+        select: {
+          id: true,
+          containerNbr: true,
+          organizationId: true
+        },
+        orderBy: {
+          containerNbr: "asc"
+        }
+      })
+    },
+    [`containers-${organizationId}`],
+    {
+      revalidate: 900,
+      tags: [`containers-${organizationId}`]
+    }
+  )()
+}

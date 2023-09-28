@@ -53,6 +53,25 @@ function ComboBox({
   }
 }
 
+function ComboBoxFooter({
+  children,
+  className
+}: {
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <div
+      className={cn(
+        "flex items-center justify-between border-t border-gray-200 p-2 dark:border-gray-800",
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
+}
+
 const ComboBoxInput = CommandInput
 const ComboBoxList = CommandList
 const ComboBoxEmpty = CommandEmpty
@@ -65,5 +84,6 @@ export {
   ComboBoxList,
   ComboBoxEmpty,
   ComboBoxItem,
-  ComboBoxGroup
+  ComboBoxGroup,
+  ComboBoxFooter
 }

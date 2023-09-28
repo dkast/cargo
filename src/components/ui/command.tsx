@@ -70,23 +70,15 @@ const CommandList = React.forwardRef<
 CommandList.displayName = CommandPrimitive.List.displayName
 
 const CommandEmpty = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<typeof CommandPrimitive.Empty>
->(({ className, ...props }, forwardedRef) => {
-  const render = useCommandState(state => state.filtered.count === 0)
-
-  if (!render) return null
-
-  return (
-    <div
-      ref={forwardedRef}
-      className={cn("py-2 text-center text-sm", className)}
-      cmdk-empty=""
-      role="presentation"
-      {...props}
-    />
-  )
-})
+  React.ElementRef<typeof CommandPrimitive.Empty>,
+  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
+>((props, ref) => (
+  <CommandPrimitive.Empty
+    ref={ref}
+    className="py-3 text-center text-sm"
+    {...props}
+  />
+))
 
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName
 

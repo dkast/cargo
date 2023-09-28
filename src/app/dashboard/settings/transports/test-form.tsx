@@ -2,19 +2,20 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import {
-  ComboBox,
-  ComboBoxEmpty,
-  ComboBoxGroup,
-  ComboBoxInput,
-  ComboBoxItem,
-  ComboBoxList
-} from "@/app/dashboard/settings/transports/combobox"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import {
+  ComboBox,
+  ComboBoxEmpty,
+  ComboBoxFooter,
+  ComboBoxGroup,
+  ComboBoxInput,
+  ComboBoxItem,
+  ComboBoxList
+} from "@/components/ui/combobox"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { type companySchema } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -66,10 +67,8 @@ export default function TestForm({
               >
                 <ComboBoxInput placeholder="Buscar..." />
                 <ComboBoxList>
-                  <ComboBoxEmpty className="px-2">
-                    No se encontraron resultados
-                  </ComboBoxEmpty>
-                  <ComboBoxGroup>
+                  <ComboBoxEmpty>No se encontraron resultados</ComboBoxEmpty>
+                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[200px]">
                     {companies.map(company => (
                       <ComboBoxItem
                         value={company.name}
@@ -78,6 +77,7 @@ export default function TestForm({
                           form.setValue("company", company.id!)
                           setOpen(false)
                         }}
+                        className="py-2 text-base sm:py-1.5 sm:text-sm"
                       >
                         <Check
                           className={cn(
@@ -91,6 +91,11 @@ export default function TestForm({
                       </ComboBoxItem>
                     ))}
                   </ComboBoxGroup>
+                  <ComboBoxFooter>
+                    <Button variant="ghost" className="w-full">
+                      Agregar
+                    </Button>
+                  </ComboBoxFooter>
                 </ComboBoxList>
               </ComboBox>
             </FormItem>

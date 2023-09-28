@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
+import { AddVehicleForm } from "@/app/dashboard/inspect/new/add-vehicle-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown, Loader2, PlusIcon } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
@@ -10,13 +11,14 @@ import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList
-} from "@/components/ui/command"
+  ComboBox,
+  ComboBoxEmpty,
+  ComboBoxFooter,
+  ComboBoxGroup,
+  ComboBoxInput,
+  ComboBoxItem,
+  ComboBoxList
+} from "@/components/ui/combobox"
 import {
   Form,
   FormControl,
@@ -26,14 +28,15 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
 import { createCompany } from "@/server/actions/company"
-import { operatorSchema, vehicleSchema, type companySchema } from "@/lib/types"
+import { createContainer } from "@/server/actions/container"
+import {
+  type companySchema,
+  type containerSchema,
+  type operatorSchema,
+  type vehicleSchema
+} from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { AddOperatorForm } from "./add-operator-form"
 
@@ -52,6 +55,9 @@ const ctpatMainSchema = z.object({
   }),
   licensePlate: z.string({
     required_error: "Este campo es requerido"
+  }),
+  container: z.string({
+    required_error: "Este campo es requerido"
   })
 })
 
@@ -59,14 +65,17 @@ export default function CTPATMainForm({
   companies,
   operators,
   vehicles,
+  containers,
   organizationId
 }: {
   companies: z.infer<typeof companySchema>[]
   operators: z.infer<typeof operatorSchema>[]
   vehicles: z.infer<typeof vehicleSchema>[]
+  containers: z.infer<typeof containerSchema>[]
   organizationId: string
 }) {
   const [searchCompany, setSearchCompany] = useState<string>("")
+  const [searchContainer, setsearchContainer] = useState("")
   const form = useForm<z.infer<typeof ctpatMainSchema>>({
     resolver: zodResolver(ctpatMainSchema),
     defaultValues: {
@@ -96,12 +105,7 @@ export default function CTPATMainForm({
     }
   })
 
-  const onSubmit = (data: z.infer<typeof ctpatMainSchema>) => {
-    console.log(data)
-  }
-
   const handleAddCompany = () => {
-    console.log("add company " + searchCompany)
     const payload: z.infer<typeof companySchema> = {
       name: searchCompany,
       organizationId
@@ -109,28 +113,56 @@ export default function CTPATMainForm({
     insertCompany(payload)
   }
 
-  const handleAddOperator = () => {
-    console.log("add operator")
+  const {
+    execute: insertContainer,
+    isExecuting: isInsertingContainer,
+    reset: resetContainer
+  } = useAction(createContainer, {
+    onSuccess: data => {
+      if (data?.failure) {
+        toast.error(data.failure.reason!)
+      }
+      resetContainer()
+    },
+    onError: () => {
+      toast.error("Algo salió mal")
+      resetContainer()
+    }
+  })
+
+  const handleAddContainer = () => {
+    const payload: z.infer<typeof containerSchema> = {
+      containerNbr: searchContainer,
+      organizationId
+    }
+    insertContainer(payload)
+  }
+
+  const onSubmit = (data: z.infer<typeof ctpatMainSchema>) => {
+    console.log(data)
   }
 
   return (
     <Form {...form}>
-      <form className="mt-10 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         {/* Company */}
         <FormField
           control={form.control}
           name="company"
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className="flex flex-col sm:col-span-4">
               <FormLabel htmlFor="company">Compañía de Transporte</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
+              <ComboBox
+                trigger={
                   <FormControl>
                     <Button
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "w-full justify-between sm:w-[400px]",
+                        "w-full justify-between sm:w-[300px]",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -141,57 +173,54 @@ export default function CTPATMainForm({
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-full min-w-[350px] p-0 sm:w-[400px]">
-                  <Command>
-                    <CommandInput
-                      value={searchCompany}
-                      onValueChange={setSearchCompany}
-                      placeholder="Buscar Compañía..."
-                    />
-                    <CommandList>
-                      <CommandEmpty className="px-2">
-                        <Button
-                          disabled={isInserting}
-                          variant="secondary"
-                          className="w-full"
-                          onClick={handleAddCompany}
-                        >
-                          {isInserting ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          ) : (
-                            <PlusIcon className="mr-2 h-4 w-4" />
+                }
+              >
+                <ComboBoxInput
+                  value={searchCompany}
+                  onValueChange={setSearchCompany}
+                  placeholder="Buscar Compañía..."
+                />
+                <ComboBoxList className="max-h-full sm:max-h-[300px]">
+                  <ComboBoxEmpty className="p-2">
+                    <Button
+                      disabled={isInserting}
+                      variant="ghost"
+                      className="w-full"
+                      size="xs"
+                      onClick={handleAddCompany}
+                    >
+                      {isInserting ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <PlusIcon className="mr-2 h-4 w-4" />
+                      )}
+                      {searchCompany ? `Agregar "${searchCompany}"` : "Agregar"}
+                    </Button>
+                  </ComboBoxEmpty>
+                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[200px]">
+                    {companies.map(company => (
+                      <ComboBoxItem
+                        value={company.name}
+                        key={company.id}
+                        onSelect={() => {
+                          form.setValue("company", company.id!)
+                        }}
+                        className="py-2 text-base sm:py-1.5 sm:text-sm"
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            company.id === field.value
+                              ? "opacity-100"
+                              : "opacity-0"
                           )}
-                          {searchCompany
-                            ? `Agregar "${searchCompany}"`
-                            : "Agregar"}
-                        </Button>
-                      </CommandEmpty>
-                      <CommandGroup>
-                        {companies.map(company => (
-                          <CommandItem
-                            value={company.name}
-                            key={company.id}
-                            onSelect={() => {
-                              form.setValue("company", company.id!)
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                company.id === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {company.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                        />
+                        {company.name}
+                      </ComboBoxItem>
+                    ))}
+                  </ComboBoxGroup>
+                </ComboBoxList>
+              </ComboBox>
               <FormMessage />
             </FormItem>
           )}
@@ -201,16 +230,16 @@ export default function CTPATMainForm({
           control={form.control}
           name="operator"
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="operator">Operador</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
+              <ComboBox
+                trigger={
                   <FormControl>
                     <Button
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "w-full justify-between sm:w-[400px]",
+                        "w-full justify-between sm:w-[300px]",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -222,43 +251,42 @@ export default function CTPATMainForm({
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-full min-w-[350px] p-0 sm:w-[400px]">
-                  <Command>
-                    <CommandInput placeholder="Buscar operador..."></CommandInput>
-                    <CommandList>
-                      <CommandEmpty className="px-2">
-                        <AddOperatorForm organizationId={organizationId} />
-                      </CommandEmpty>
-                      <CommandGroup>
-                        {operators.map(operator => (
-                          <CommandItem
-                            value={operator.name}
-                            key={operator.id}
-                            onSelect={() => {
-                              form.setValue("operator", operator.id!)
-                              form.setValue(
-                                "licenseNumber",
-                                operator.licenseNumber!
-                              )
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                operator.id === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {operator.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                }
+              >
+                <ComboBoxInput placeholder="Buscar operador..." />
+                <ComboBoxList className="max-h-full sm:max-h-[300px]">
+                  <ComboBoxEmpty>No se encontró operador</ComboBoxEmpty>
+                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[200px]">
+                    {operators.map(operator => (
+                      <ComboBoxItem
+                        value={operator.name}
+                        key={operator.id}
+                        onSelect={() => {
+                          form.setValue("operator", operator.id!)
+                          form.setValue(
+                            "licenseNumber",
+                            operator.licenseNumber!
+                          )
+                        }}
+                        className="py-2 text-base sm:py-1.5 sm:text-sm"
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            operator.id === field.value
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {operator.name}
+                      </ComboBoxItem>
+                    ))}
+                  </ComboBoxGroup>
+                  <ComboBoxFooter>
+                    <AddOperatorForm organizationId={organizationId} />
+                  </ComboBoxFooter>
+                </ComboBoxList>
+              </ComboBox>
               <FormMessage />
             </FormItem>
           )}
@@ -267,13 +295,12 @@ export default function CTPATMainForm({
           control={form.control}
           name="licenseNumber"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="licenseNumber">Número de Licencia</FormLabel>
               <FormControl>
                 <Input
                   type="text"
                   placeholder="Número de Licencia"
-                  className="sm:w-1/2"
                   {...field}
                 />
               </FormControl>
@@ -282,79 +309,162 @@ export default function CTPATMainForm({
           )}
         />
         {/* Vehicle */}
-        <Separator />
+        <Separator className="sm:col-span-full" />
         <FormField
           control={form.control}
           name="vehicle"
           render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel htmlFor="vehicle">Unidad</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
+            <FormItem className="flex flex-col sm:col-span-3">
+              <FormLabel htmlFor="vehicle">Tractor</FormLabel>
+              <ComboBox
+                trigger={
                   <FormControl>
                     <Button
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "w-full justify-between sm:w-[400px]",
+                        "w-full justify-between sm:w-[300px]",
                         !field.value && "text-muted-foreground"
                       )}
                     >
                       {field.value
                         ? vehicles.find(vehicle => vehicle.id === field.value)
                             ?.vehicleNbr
-                        : "Seleccionar Unidad"}
+                        : "Seleccionar Tractor"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-full min-w-[350px] p-0 sm:w-[400px]">
-                  <Command>
-                    <CommandInput placeholder="Buscar unidad..."></CommandInput>
-                    <CommandList>
-                      <CommandEmpty className="px-2">
-                        <Button
-                          variant="secondary"
-                          className="w-full"
-                          onClick={handleAddOperator}
-                        >
-                          <PlusIcon className="mr-2 h-4 w-4" />
-                          Agregar
-                        </Button>
-                      </CommandEmpty>
-                      <CommandGroup>
-                        {vehicles.map(vehicle => (
-                          <CommandItem
-                            value={vehicle.vehicleNbr}
-                            key={vehicle.id}
-                            onSelect={() => {
-                              form.setValue("vehicle", vehicle.id!)
-                              form.setValue(
-                                "licensePlate",
-                                vehicle.licensePlate!
-                              )
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                vehicle.id === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {vehicle.vehicleNbr}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                }
+              >
+                <ComboBoxInput placeholder="Buscar tractor..." />
+                <ComboBoxList className="max-h-full sm:max-h-[300px]">
+                  <ComboBoxEmpty>No se encontró tractor</ComboBoxEmpty>
+                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[200px]">
+                    {vehicles.map(vehicle => (
+                      <ComboBoxItem
+                        value={vehicle.vehicleNbr}
+                        key={vehicle.id}
+                        onSelect={() => {
+                          form.setValue("vehicle", vehicle.id!)
+                          form.setValue("licensePlate", vehicle.licensePlate!)
+                        }}
+                        className="py-2 text-base sm:py-1.5 sm:text-sm"
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            vehicle.id === field.value
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {vehicle.vehicleNbr}
+                      </ComboBoxItem>
+                    ))}
+                  </ComboBoxGroup>
+                  <ComboBoxFooter>
+                    <AddVehicleForm organizationId={organizationId} />
+                  </ComboBoxFooter>
+                </ComboBoxList>
+              </ComboBox>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="licensePlate"
+          render={({ field }) => (
+            <FormItem className="flex flex-col sm:col-span-3">
+              <FormLabel htmlFor="licensePlate">Placas</FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="Placas" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Container */}
+        <FormField
+          control={form.control}
+          name="container"
+          render={({ field }) => (
+            <FormItem className="flex flex-col sm:col-span-4">
+              <FormLabel htmlFor="container">Remolque</FormLabel>
+              <ComboBox
+                trigger={
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-full justify-between sm:w-[300px]",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? containers.find(
+                            container => container.id === field.value
+                          )?.containerNbr
+                        : "Seleccionar Remolque"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                }
+              >
+                <ComboBoxInput
+                  value={searchContainer}
+                  onValueChange={setsearchContainer}
+                  placeholder="Buscar Remolque..."
+                />
+                <ComboBoxList className="max-h-full sm:max-h-[300px]">
+                  <ComboBoxEmpty className="p-2">
+                    <Button
+                      disabled={isInsertingContainer}
+                      variant="ghost"
+                      className="w-full"
+                      size="xs"
+                      onClick={handleAddContainer}
+                    >
+                      {isInsertingContainer ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <PlusIcon className="mr-2 h-4 w-4" />
+                      )}
+                      {searchContainer
+                        ? `Agregar "${searchContainer}"`
+                        : "Agregar"}
+                    </Button>
+                  </ComboBoxEmpty>
+                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[200px]">
+                    {containers.map(container => (
+                      <ComboBoxItem
+                        value={container.containerNbr}
+                        key={container.id}
+                        onSelect={() => {
+                          form.setValue("container", container.id!)
+                        }}
+                        className="py-2 text-base sm:py-1.5 sm:text-sm"
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            container.id === field.value
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {container.containerNbr}
+                      </ComboBoxItem>
+                    ))}
+                  </ComboBoxGroup>
+                </ComboBoxList>
+              </ComboBox>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator className="sm:col-span-full" />
       </form>
     </Form>
   )
