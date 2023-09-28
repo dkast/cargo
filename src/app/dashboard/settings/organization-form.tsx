@@ -68,8 +68,8 @@ export default function OrganizationForm({
 
   return (
     <Form {...form}>
-      <form className="mt-10 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <fieldset disabled={!enabled}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <fieldset disabled={!enabled} className="mt-10 space-y-6">
           <FormField
             control={form.control}
             name="name"

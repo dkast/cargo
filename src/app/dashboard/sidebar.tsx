@@ -2,14 +2,14 @@
 
 import ProfileMenu from "@/app/dashboard/profile-menu"
 import {
+  ClipboardCheck,
   FileBarChart,
   Home,
   Menu,
   Settings,
-  Truck,
   type LucideIcon
 } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
 import {
   Sheet,
@@ -28,8 +28,8 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { name: "Inicio", href: "/dashboard", icon: Home },
-  { name: "Inspecciones", href: "/dashboard/inspect", icon: Truck },
-  { name: "Reportes", href: "/dashboard/reports", icon: FileBarChart },
+  { name: "Inspecciones", href: "/dashboard/inspect", icon: ClipboardCheck },
+  { name: "Informes", href: "/dashboard/reports", icon: FileBarChart },
   { name: "Configuración", href: "/dashboard/settings", icon: Settings }
 ]
 
@@ -102,8 +102,14 @@ export default function Sidebar() {
 
 function NavigationLink({ item }: { item: NavigationItem }) {
   const pathname = usePathname()
+  const segment = useSelectedLayoutSegment()
 
-  const isActive = pathname === item.href
+  let isActive = false
+  if (!segment) {
+    isActive = pathname === item.href
+  } else {
+    isActive = item.href.includes(segment)
+  }
 
   return (
     <li key={item.name}>
