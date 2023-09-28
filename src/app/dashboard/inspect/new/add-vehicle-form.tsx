@@ -24,20 +24,16 @@ import {
   SheetHeader,
   SheetTrigger
 } from "@/components/ui/sheet"
-import { createOperator } from "@/server/actions/operator"
-import { operatorSchema } from "@/lib/types"
+import { createVehicle } from "@/server/actions/vehicle"
+import { vehicleSchema } from "@/lib/types"
 import { useMobile } from "@/lib/use-mobile"
 
-export function AddOperatorForm({
-  organizationId
-}: {
-  organizationId: string
-}) {
-  const form = useForm<z.infer<typeof operatorSchema>>({
-    resolver: zodResolver(operatorSchema),
+export function AddVehicleForm({ organizationId }: { organizationId: string }) {
+  const form = useForm<z.infer<typeof vehicleSchema>>({
+    resolver: zodResolver(vehicleSchema),
     defaultValues: {
-      name: "",
-      licenseNumber: "",
+      vehicleNbr: "",
+      licensePlate: "",
       organizationId
     }
   })
@@ -46,13 +42,13 @@ export function AddOperatorForm({
 
   // Focus on first field of the form
   useEffect(() => {
-    form.setFocus("name")
+    form.setFocus("vehicleNbr")
   }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { execute, isExecuting, reset } = useAction(createOperator, {
+  const { execute, isExecuting, reset } = useAction(createVehicle, {
     onSuccess: data => {
       if (data?.success) {
-        toast.success("Operador agregado correctamente")
+        toast.success("Unidad agregada correctamente")
         setOpen(false)
       } else if (data?.failure) {
         toast.error(data.failure.reason!)
@@ -61,7 +57,7 @@ export function AddOperatorForm({
     }
   })
 
-  const onSubmit = async (data: z.infer<typeof operatorSchema>) => {
+  const onSubmit = async (data: z.infer<typeof vehicleSchema>) => {
     await execute(data)
   }
   return (
@@ -76,17 +72,17 @@ export function AddOperatorForm({
         side={isMobile ? "bottom" : "right"}
         className="h-[86%] sm:h-full"
       >
-        <SheetHeader>Agregar Operador</SheetHeader>
+        <SheetHeader>Agregar Unidad</SheetHeader>
         <Form {...form}>
           <form className="mt-10 space-y-6">
             <FormField
               control={form.control}
-              name="name"
+              name="vehicleNbr"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="name">Nombre</FormLabel>
+                  <FormLabel htmlFor="vehicleNbr">Tractor</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="Nombre" {...field} />
+                    <Input type="text" placeholder="Tractor" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,18 +90,12 @@ export function AddOperatorForm({
             />
             <FormField
               control={form.control}
-              name="licenseNumber"
+              name="licensePlate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="licenseNumber">
-                    Número de Licencia
-                  </FormLabel>
+                  <FormLabel htmlFor="licensePlate">Placas</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Número de Licencia"
-                      {...field}
-                    />
+                    <Input type="text" placeholder="Placas" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -77,11 +77,19 @@ export const operatorSchema = z.object({
 
 export const vehicleSchema = z.object({
   id: z.string().optional(),
-  vehicleNbr: z.string().min(3, {
-    message: "El nombre debe tener al menos 3 caracteres"
+  vehicleNbr: z.string().min(2, {
+    message: "El identificador debe tener al menos 2 caracteres"
   }),
   licensePlate: z.string().min(3, {
     message: "La placa debe tener al menos 3 caracteres"
+  }),
+  organizationId: z.string().cuid()
+})
+
+export const containerSchema = z.object({
+  id: z.string().optional(),
+  containerNbr: z.string().min(2, {
+    message: "El identificador debe tener al menos 2 caracteres"
   }),
   organizationId: z.string().cuid()
 })
