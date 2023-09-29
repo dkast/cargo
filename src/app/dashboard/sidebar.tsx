@@ -9,6 +9,7 @@ import {
   Settings,
   type LucideIcon
 } from "lucide-react"
+import Link from "next/link"
 import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
 import {
@@ -112,14 +113,21 @@ function NavigationLink({ item }: { item: NavigationItem }) {
   }
 
   return (
-    <li key={item.name}>
-      <a
+    <li key={item.name} className="flex flex-row items-center gap-1">
+      <div
+        className={cn(
+          isActive ? "bg-violet-600" : "bg-transparent",
+          "h-6 w-1 rounded-full"
+        )}
+        aria-hidden="true"
+      />
+      <Link
         href={item.href}
         className={cn(
           isActive
             ? "bg-gray-200/70  text-gray-700"
             : "text-gray-500 hover:bg-gray-100 hover:text-gray-600",
-          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
+          "group flex grow gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
         )}
       >
         <item.icon
@@ -132,7 +140,7 @@ function NavigationLink({ item }: { item: NavigationItem }) {
           aria-hidden="true"
         />
         {item.name}
-      </a>
+      </Link>
     </li>
   )
 }

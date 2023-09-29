@@ -5,11 +5,13 @@ import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { AddVehicleForm } from "@/app/dashboard/inspect/new/add-vehicle-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { fromDate } from "@internationalized/date"
 import { Check, ChevronsUpDown, Loader2, PlusIcon } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   ComboBox,
   ComboBoxEmpty,
@@ -19,9 +21,11 @@ import {
   ComboBoxItem,
   ComboBoxList
 } from "@/components/ui/combobox"
+import { DateTimePicker } from "@/components/ui/date-time-picker/date-time-picker"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -57,6 +61,9 @@ const ctpatMainSchema = z.object({
     required_error: "Este campo es requerido"
   }),
   container: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  isLoaded: z.boolean({
     required_error: "Este campo es requerido"
   })
 })
@@ -389,7 +396,7 @@ export default function CTPATMainForm({
           control={form.control}
           name="container"
           render={({ field }) => (
-            <FormItem className="flex flex-col sm:col-span-4">
+            <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="container">Remolque</FormLabel>
               <ComboBox
                 trigger={
@@ -464,7 +471,33 @@ export default function CTPATMainForm({
             </FormItem>
           )}
         />
+        {/* Is loaded */}
+        <FormField
+          control={form.control}
+          name="isLoaded"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded border p-4 sm:col-span-3">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel htmlFor="isLoaded">Remolque cargado</FormLabel>
+                <FormDescription>
+                  Especifica si el ingreso del remolque es cargado o vacío
+                </FormDescription>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Separator className="sm:col-span-full" />
+        <DateTimePicker
+          granularity={"minute"}
+          defaultValue={fromDate(new Date(), "CST")}
+        />
       </form>
     </Form>
   )

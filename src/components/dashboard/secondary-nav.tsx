@@ -1,11 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import {
-  usePathname,
-  useSelectedLayoutSegment,
-  useSelectedLayoutSegments
-} from "next/navigation"
+import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
@@ -24,10 +20,6 @@ export default function SecondaryNav({
 }: SidebarNavProps) {
   const pathname = usePathname()
   const segment = useSelectedLayoutSegment()
-  const segments = useSelectedLayoutSegments()
-  console.log("segment", segment)
-  console.log("path", pathname)
-  console.dir(segments)
 
   return (
     <>
