@@ -4,9 +4,19 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { AddVehicleForm } from "@/app/dashboard/inspect/new/add-vehicle-form"
+// import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fromDate } from "@internationalized/date"
-import { Check, ChevronsUpDown, Loader2, PlusIcon } from "lucide-react"
+import { InspectionType } from "@prisma/client"
+import { addMinutes } from "date-fns"
+import {
+  ArrowLeftFromLine,
+  ArrowRightFromLine,
+  Check,
+  ChevronsUpDown,
+  Loader2,
+  PlusIcon
+} from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import { z } from "zod"
 
@@ -32,6 +42,7 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
 import { createCompany } from "@/server/actions/company"
 import { createContainer } from "@/server/actions/container"
@@ -65,6 +76,16 @@ const ctpatMainSchema = z.object({
   }),
   isLoaded: z.boolean({
     required_error: "Este campo es requerido"
+  }),
+  inspectionStart: z
+    .date({
+      required_error: "Este campo es requerido"
+    })
+    .max(addMinutes(new Date(), 5), {
+      message: "La fecha y hora no puede ser mayor a la actual"
+    }),
+  eventType: z.enum(["IN", "OUT"], {
+    required_error: "Este campo es requerido"
   })
 })
 
@@ -86,11 +107,9 @@ export default function CTPATMainForm({
   const form = useForm<z.infer<typeof ctpatMainSchema>>({
     resolver: zodResolver(ctpatMainSchema),
     defaultValues: {
-      company: "",
-      operator: "",
-      licenseNumber: "",
-      vehicle: "",
-      licensePlate: ""
+      isLoaded: false,
+      inspectionStart: new Date(),
+      eventType: "IN"
     },
     mode: "onChange"
   })
@@ -145,7 +164,7 @@ export default function CTPATMainForm({
     insertContainer(payload)
   }
 
-  const onSubmit = (data: z.infer<typeof ctpatMainSchema>) => {
+  const onSubmit = async (data: z.infer<typeof ctpatMainSchema>) => {
     console.log(data)
   }
 
@@ -155,6 +174,76 @@ export default function CTPATMainForm({
         className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
         onSubmit={form.handleSubmit(onSubmit)}
       >
+        {/* Inspection Start */}
+        <FormField
+          control={form.control}
+          name="inspectionStart"
+          render={({ field }) => (
+            <FormItem className="flex flex-col sm:col-span-3">
+              <FormLabel htmlFor="inspectionStart">Fecha y Hora</FormLabel>
+              <FormControl>
+                <DateTimePicker
+                  granularity={"minute"}
+                  value={fromDate(field.value, "CST")}
+                  onChange={date => {
+                    field.onChange(date.toDate("CST"))
+                  }}
+                  //defaultValue={fromDate(new Date(), "CST")}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Event Type */}
+        <FormField
+          control={form.control}
+          name="eventType"
+          render={({ field }) => (
+            <FormItem className="flex flex-col sm:col-span-3">
+              <FormLabel htmlFor="eventType">Tipo de Inspección</FormLabel>
+              <RadioGroup
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                className="grid grid-cols-2 gap-4"
+              >
+                <FormItem>
+                  <FormLabel className="[&:has([data-state=checked])>div]:border-violet-500 [&:has([data-state=checked])>div]:ring-violet-200">
+                    <FormControl>
+                      <RadioGroupItem
+                        value={InspectionType.IN}
+                        className="sr-only"
+                      />
+                    </FormControl>
+                    <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-4 ring-2 ring-white">
+                      <ArrowLeftFromLine className="h-4 w-4" />
+                      Entrada
+                    </div>
+                  </FormLabel>
+                </FormItem>
+                <FormItem>
+                  <FormLabel className="[&:has([data-state=checked])>div]:border-violet-500 [&:has([data-state=checked])>div]:ring-violet-200">
+                    <FormControl>
+                      <RadioGroupItem
+                        value={InspectionType.OUT}
+                        className="sr-only"
+                      />
+                    </FormControl>
+                    <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-4 ring-2 ring-white">
+                      <ArrowRightFromLine className="h-4 w-4" />
+                      Salida
+                    </div>
+                  </FormLabel>
+                </FormItem>
+              </RadioGroup>
+              <FormDescription>
+                Especifica si la inspección es de entrada o salida
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator className="sm:col-span-full" />
         {/* Company */}
         <FormField
           control={form.control}
@@ -204,7 +293,7 @@ export default function CTPATMainForm({
                       {searchCompany ? `Agregar "${searchCompany}"` : "Agregar"}
                     </Button>
                   </ComboBoxEmpty>
-                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[200px]">
+                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[300px]">
                     {companies.map(company => (
                       <ComboBoxItem
                         value={company.name}
@@ -263,7 +352,7 @@ export default function CTPATMainForm({
                 <ComboBoxInput placeholder="Buscar operador..." />
                 <ComboBoxList className="max-h-full sm:max-h-[300px]">
                   <ComboBoxEmpty>No se encontró operador</ComboBoxEmpty>
-                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[200px]">
+                  <ComboBoxGroup className="overflow-y-auto sm:max-h-[300px]">
                     {operators.map(operator => (
                       <ComboBoxItem
                         value={operator.name}
@@ -493,12 +582,11 @@ export default function CTPATMainForm({
             </FormItem>
           )}
         />
-        <Separator className="sm:col-span-full" />
-        <DateTimePicker
-          granularity={"minute"}
-          defaultValue={fromDate(new Date(), "CST")}
-        />
+        <Button type="submit" className="w-full sm:col-span-6">
+          Iniciar Inspección
+        </Button>
       </form>
+      {/* <DevTool control={form.control} /> */}
     </Form>
   )
 }

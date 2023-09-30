@@ -67,6 +67,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
+    "@hookform/devtools": "^4.3.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
     "@types/bcrypt": "^5.0.0",
     "@types/eslint": "^8.44.2",

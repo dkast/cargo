@@ -35,7 +35,10 @@ export default async function NewCTPATPage() {
 
   return (
     <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
-      <PageSubtitle title="Inspección CTPAT" />
+      <PageSubtitle
+        title="Inspección CTPAT"
+        description="Inspección 17 puntos criticos"
+      />
       <CTPATMainForm
         companies={companies}
         operators={operators}
