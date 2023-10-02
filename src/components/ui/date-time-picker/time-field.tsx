@@ -2,10 +2,10 @@
 
 import { useRef } from "react"
 import {
-  type AriaTimeFieldProps,
-  type TimeValue,
   useLocale,
-  useTimeField
+  useTimeField,
+  type AriaTimeFieldProps,
+  type TimeValue
 } from "react-aria"
 import { useTimeFieldState } from "react-stately"
 
