@@ -8,7 +8,7 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,css,json}\"",
+    "format": "prettier \"src/**/*.{ts,tsx,js,jsx,css,json}\" --write --config prettier.config.mjs",
     "lint:fix": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
     "typecheck": "tsc --project ./tsconfig.json"
   },
