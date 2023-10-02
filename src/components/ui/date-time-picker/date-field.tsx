@@ -2,8 +2,8 @@
 
 import { useRef } from "react"
 import {
-  AriaDatePickerProps,
-  DateValue,
+  type AriaDatePickerProps,
+  type DateValue,
   useDateField,
   useLocale
 } from "react-aria"

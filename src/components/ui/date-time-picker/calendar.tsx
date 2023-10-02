@@ -2,18 +2,18 @@
 
 import React, { useMemo } from "react"
 import {
-  CalendarProps,
-  DateValue,
+  type CalendarProps,
+  type DateValue,
   useButton,
   useCalendar,
   useCalendarCell,
   useCalendarGrid,
   useLocale
 } from "react-aria"
-import { CalendarState, useCalendarState } from "react-stately"
+import { type CalendarState, useCalendarState } from "react-stately"
 import {
   isToday as _isToday,
-  CalendarDate,
+  type CalendarDate,
   createCalendar,
   getLocalTimeZone,
   getWeeksInMonth

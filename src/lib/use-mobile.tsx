@@ -11,6 +11,6 @@ export function useMobile(breakpoint = 640) {
     return () => {
       window.removeEventListener("resize", handleResize)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return isMobile
 }

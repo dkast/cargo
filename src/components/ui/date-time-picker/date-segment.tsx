@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import { useDateSegment } from "react-aria"
-import { DateFieldState, DateSegment as IDateSegment } from "react-stately"
+import { type DateFieldState, type DateSegment as IDateSegment } from "react-stately"
 
 import { cn } from "@/lib/utils"
 

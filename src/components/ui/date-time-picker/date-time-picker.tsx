@@ -2,12 +2,12 @@
 
 import React, { useRef, useState } from "react"
 import {
-  DateValue,
   useButton,
   useDatePicker,
-  useInteractOutside
+  useInteractOutside,
+  type DateValue
 } from "react-aria"
-import { DatePickerStateOptions, useDatePickerState } from "react-stately"
+import { useDatePickerState, type DatePickerStateOptions } from "react-stately"
 import { CalendarIcon } from "lucide-react"
 
 import { useForwardedRef } from "@/lib/use-forwarded-ref"
@@ -39,7 +39,7 @@ const DateTimePicker = React.forwardRef<
   const { buttonProps } = useButton(_buttonProps, buttonRef)
   useInteractOutside({
     ref: contentRef,
-    onInteractOutside: e => {
+    onInteractOutside: _e => {
       setOpen(false)
     }
   })

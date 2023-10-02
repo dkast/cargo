@@ -9,7 +9,7 @@
     "lint": "next lint",
     "start": "next start",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,css,json}'",
-    "lint:fix": "eslint --fix 'src/**/*.{ts,tsx,js,jsx}'",
+    "lint:fix": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
     "typecheck": "tsc --project ./tsconfig.json"
   },
   "prisma": {
