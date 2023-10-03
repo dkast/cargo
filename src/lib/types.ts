@@ -1,3 +1,4 @@
+import { addMinutes } from "date-fns"
 import { z } from "zod"
 
 export const orgSchema = z.object({
@@ -92,6 +93,42 @@ export const containerSchema = z.object({
     message: "El identificador debe tener al menos 2 caracteres"
   }),
   organizationId: z.string().cuid()
+})
+
+export const ctpatMainSchema = z.object({
+  companyId: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  operatorId: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  licenseNumber: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  vehicleId: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  licensePlate: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  containerId: z.string({
+    required_error: "Este campo es requerido"
+  }),
+  isLoaded: z.boolean({
+    required_error: "Este campo es requerido"
+  }),
+  inspectionStart: z
+    .date({
+      required_error: "Este campo es requerido"
+    })
+    .max(addMinutes(new Date(), 5), {
+      message: "La fecha y hora no puede ser mayor a la actual"
+    }),
+  inspectionTripType: z.enum(["IN", "OUT"], {
+    required_error: "Este campo es requerido"
+  }),
+  organizationId: z.string(),
+  inspectedById: z.string()
 })
 
 export enum actionType {

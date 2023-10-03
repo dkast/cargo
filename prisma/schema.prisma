@@ -160,34 +160,37 @@ model Container {
 }
 
 model Inspection {
-  id               String           @id @default(cuid())
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  operator         Operator         @relation(fields: [operatorId], references: [id])
-  operatorId       String
-  vehicle          Vehicle          @relation(fields: [vehicleId], references: [id])
-  vehicleId        String
-  container        Container        @relation(fields: [containerId], references: [id])
-  containerId      String
-  company          Company          @relation(fields: [companyId], references: [id])
-  companyId        String
-  isLoaded         Boolean
-  sealNbr          String?
-  tiresVehicle     String?
-  tiresContainer   String?
-  inspectedBy      Membership       @relation(name: "inspectedBy", fields: [inspectedById], references: [id])
-  inspectedById    String
-  approvedBy       Membership       @relation(name: "approvedBy", fields: [approvedById], references: [id])
-  approvedById     String
-  inspectionStart  DateTime
-  inspectionEnd    DateTime
-  inspectionType   InspectionType
-  inspectionStatus InspectionStatus
-  inspectionResult InspectionResult
-  inspectionNotes  String?
-  organization     Organization     @relation(fields: [organizationId], references: [id])
-  organizationId   String
-  inspectionItems  InspectionItem[]
+  id                 String             @id @default(cuid())
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  operator           Operator           @relation(fields: [operatorId], references: [id])
+  operatorId         String
+  licenseNumber      String?
+  vehicle            Vehicle            @relation(fields: [vehicleId], references: [id])
+  vehicleId          String
+  licensePlate       String?
+  container          Container          @relation(fields: [containerId], references: [id])
+  containerId        String
+  company            Company            @relation(fields: [companyId], references: [id])
+  companyId          String
+  isLoaded           Boolean
+  sealNbr            String?
+  tiresVehicle       String?
+  tiresContainer     String?
+  inspectedBy        Membership         @relation(name: "inspectedBy", fields: [inspectedById], references: [id])
+  inspectedById      String
+  approvedBy         Membership?        @relation(name: "approvedBy", fields: [approvedById], references: [id])
+  approvedById       String?
+  inspectionTripType InspectionTripType
+  inspectionStart    DateTime
+  inspectionEnd      DateTime?
+  inspectionType     InspectionType
+  inspectionStatus   InspectionStatus
+  inspectionResult   InspectionResult?
+  inspectionNotes    String?
+  organization       Organization       @relation(fields: [organizationId], references: [id])
+  organizationId     String
+  inspectionItems    InspectionItem[]
 
   @@index([operatorId])
   @@index([vehicleId])
@@ -229,9 +232,14 @@ model InspectionItemFile {
   @@index([organizationId])
 }
 
-enum InspectionType {
+enum InspectionTripType {
   IN
   OUT
+}
+
+enum InspectionType {
+  CTPAT
+  TRANSFER
 }
 
 enum InspectionStatus {

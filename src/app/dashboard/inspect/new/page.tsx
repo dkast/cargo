@@ -45,6 +45,7 @@ export default async function NewCTPATPage() {
         vehicles={vehicles}
         containers={containers}
         organizationId={user.organizationId}
+        userId={user.id}
       />
     </div>
   )

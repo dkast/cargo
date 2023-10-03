@@ -7,8 +7,7 @@ import { AddVehicleForm } from "@/app/dashboard/inspect/new/add-vehicle-form"
 // import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fromDate } from "@internationalized/date"
-import { InspectionType } from "@prisma/client"
-import { addMinutes } from "date-fns"
+import { InspectionTripType } from "@prisma/client"
 import {
   ArrowLeftFromLine,
   ArrowRightFromLine,
@@ -18,6 +17,7 @@ import {
   PlusIcon
 } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
+import { redirect } from "next/navigation"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -46,7 +46,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
 import { createCompany } from "@/server/actions/company"
 import { createContainer } from "@/server/actions/container"
+import { createCTPATInspection } from "@/server/actions/ctpat"
 import {
+  ctpatMainSchema,
   type companySchema,
   type containerSchema,
   type operatorSchema,
@@ -55,52 +57,20 @@ import {
 import { cn } from "@/lib/utils"
 import { AddOperatorForm } from "./add-operator-form"
 
-const ctpatMainSchema = z.object({
-  company: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  operator: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  licenseNumber: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  vehicle: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  licensePlate: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  container: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  isLoaded: z.boolean({
-    required_error: "Este campo es requerido"
-  }),
-  inspectionStart: z
-    .date({
-      required_error: "Este campo es requerido"
-    })
-    .max(addMinutes(new Date(), 5), {
-      message: "La fecha y hora no puede ser mayor a la actual"
-    }),
-  eventType: z.enum(["IN", "OUT"], {
-    required_error: "Este campo es requerido"
-  })
-})
-
 export default function CTPATMainForm({
   companies,
   operators,
   vehicles,
   containers,
-  organizationId
+  organizationId,
+  userId
 }: {
   companies: z.infer<typeof companySchema>[]
   operators: z.infer<typeof operatorSchema>[]
   vehicles: z.infer<typeof vehicleSchema>[]
   containers: z.infer<typeof containerSchema>[]
   organizationId: string
+  userId: string
 }) {
   const [searchCompany, setSearchCompany] = useState<string>("")
   const [searchContainer, setsearchContainer] = useState("")
@@ -109,7 +79,9 @@ export default function CTPATMainForm({
     defaultValues: {
       isLoaded: false,
       inspectionStart: new Date(),
-      eventType: "IN"
+      inspectionTripType: "IN",
+      organizationId,
+      inspectedById: userId
     },
     mode: "onChange"
   })
@@ -164,8 +136,29 @@ export default function CTPATMainForm({
     insertContainer(payload)
   }
 
+  const {
+    execute: insertInspection,
+    isExecuting: isInsertingInspection,
+    reset: resetInspection
+  } = useAction(createCTPATInspection, {
+    onSuccess: data => {
+      if (data?.failure) {
+        toast.error(data.failure.reason!)
+      } else if (data?.success) {
+        toast.success("Iniciando inspección...")
+        redirect(`/dashboard/ctpat/${data.success.inspectionId}`)
+      }
+      resetInspection()
+    },
+    onError: () => {
+      toast.error("Algo salió mal")
+      resetInspection()
+    }
+  })
+
   const onSubmit = async (data: z.infer<typeof ctpatMainSchema>) => {
     console.log(data)
+    insertInspection(data)
   }
 
   return (
@@ -198,7 +191,7 @@ export default function CTPATMainForm({
         {/* Event Type */}
         <FormField
           control={form.control}
-          name="eventType"
+          name="inspectionTripType"
           render={({ field }) => (
             <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="eventType">Tipo de Inspección</FormLabel>
@@ -211,7 +204,7 @@ export default function CTPATMainForm({
                   <FormLabel className="[&:has([data-state=checked])>div]:border-violet-500 [&:has([data-state=checked])>div]:ring-violet-200">
                     <FormControl>
                       <RadioGroupItem
-                        value={InspectionType.IN}
+                        value={InspectionTripType.IN}
                         className="sr-only"
                       />
                     </FormControl>
@@ -225,7 +218,7 @@ export default function CTPATMainForm({
                   <FormLabel className="[&:has([data-state=checked])>div]:border-violet-500 [&:has([data-state=checked])>div]:ring-violet-200">
                     <FormControl>
                       <RadioGroupItem
-                        value={InspectionType.OUT}
+                        value={InspectionTripType.OUT}
                         className="sr-only"
                       />
                     </FormControl>
@@ -247,7 +240,7 @@ export default function CTPATMainForm({
         {/* Company */}
         <FormField
           control={form.control}
-          name="company"
+          name="companyId"
           render={({ field }) => (
             <FormItem className="flex flex-col sm:col-span-4">
               <FormLabel htmlFor="company">Compañía de Transporte</FormLabel>
@@ -299,7 +292,7 @@ export default function CTPATMainForm({
                         value={company.name}
                         key={company.id}
                         onSelect={() => {
-                          form.setValue("company", company.id!)
+                          form.setValue("companyId", company.id!)
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
                       >
@@ -324,7 +317,7 @@ export default function CTPATMainForm({
         {/* Operator */}
         <FormField
           control={form.control}
-          name="operator"
+          name="operatorId"
           render={({ field }) => (
             <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="operator">Operador</FormLabel>
@@ -358,7 +351,7 @@ export default function CTPATMainForm({
                         value={operator.name}
                         key={operator.id}
                         onSelect={() => {
-                          form.setValue("operator", operator.id!)
+                          form.setValue("operatorId", operator.id!)
                           form.setValue(
                             "licenseNumber",
                             operator.licenseNumber!
@@ -408,7 +401,7 @@ export default function CTPATMainForm({
         <Separator className="sm:col-span-full" />
         <FormField
           control={form.control}
-          name="vehicle"
+          name="vehicleId"
           render={({ field }) => (
             <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="vehicle">Tractor</FormLabel>
@@ -441,7 +434,7 @@ export default function CTPATMainForm({
                         value={vehicle.vehicleNbr}
                         key={vehicle.id}
                         onSelect={() => {
-                          form.setValue("vehicle", vehicle.id!)
+                          form.setValue("vehicleId", vehicle.id!)
                           form.setValue("licensePlate", vehicle.licensePlate!)
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
@@ -483,7 +476,7 @@ export default function CTPATMainForm({
         {/* Container */}
         <FormField
           control={form.control}
-          name="container"
+          name="containerId"
           render={({ field }) => (
             <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="container">Remolque</FormLabel>
@@ -538,7 +531,7 @@ export default function CTPATMainForm({
                         value={container.containerNbr}
                         key={container.id}
                         onSelect={() => {
-                          form.setValue("container", container.id!)
+                          form.setValue("containerId", container.id!)
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
                       >
@@ -582,8 +575,18 @@ export default function CTPATMainForm({
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full sm:col-span-6">
-          Iniciar Inspección
+        <Button
+          type="submit"
+          className="w-full sm:col-span-6"
+          disabled={isInsertingInspection}
+        >
+          {isInsertingInspection ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {"Cargando..."}
+            </>
+          ) : (
+            "Iniciar Inspección"
+          )}
         </Button>
       </form>
       {/* <DevTool control={form.control} /> */}
