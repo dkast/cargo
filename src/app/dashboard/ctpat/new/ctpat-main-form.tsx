@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { AddVehicleForm } from "@/app/dashboard/inspect/new/add-vehicle-form"
+import { AddVehicleForm } from "@/app/dashboard/ctpat/new/add-vehicle-form"
 // import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fromDate } from "@internationalized/date"
@@ -18,7 +18,7 @@ import {
 } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import { redirect } from "next/navigation"
-import { z } from "zod"
+import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"

@@ -1,5 +1,7 @@
-import CTPATMainForm from "@/app/dashboard/inspect/new/ctpat-main-form"
-import { AlertCircle } from "lucide-react"
+import CTPATMainForm from "@/app/dashboard/ctpat/new/ctpat-main-form"
+import { Arrow } from "@radix-ui/react-dropdown-menu"
+import { AlertCircle, ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -34,19 +36,28 @@ export default async function NewCTPATPage() {
   const containers = await getContainers(user?.organizationId)
 
   return (
-    <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
-      <PageSubtitle
-        title="Inspección CTPAT"
-        description="Inspección 17 puntos criticos"
-      />
-      <CTPATMainForm
-        companies={companies}
-        operators={operators}
-        vehicles={vehicles}
-        containers={containers}
-        organizationId={user.organizationId}
-        membershipId={user.membershipId}
-      />
+    <div className="relative">
+      <Link
+        href="/dashboard/inspect"
+        className="absolute left-4 top-0 rounded-full border border-gray-200 p-1 hover:bg-gray-50"
+      >
+        <span className="sr-only">Volver</span>
+        <ArrowLeft className="h-6 w-6" />
+      </Link>
+      <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
+        <PageSubtitle
+          title="Inspección CTPAT"
+          description="Inspección 17 puntos criticos"
+        />
+        <CTPATMainForm
+          companies={companies}
+          operators={operators}
+          vehicles={vehicles}
+          containers={containers}
+          organizationId={user.organizationId}
+          membershipId={user.membershipId}
+        />
+      </div>
     </div>
   )
 }
