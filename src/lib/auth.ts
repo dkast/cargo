@@ -25,6 +25,7 @@ declare module "next-auth" {
       // ...other properties
       username: string
       role: MembershipRole
+      membershipId: string
       organizationId: string
     }
   }
@@ -119,6 +120,8 @@ export const authOptions: NextAuthOptions = {
       })
       //@ts-expect-error user assigned in jwt callback
       session.user = token.user
+      //@ts-expect-error assign membershipId
+      session.user.membershipId = membershipData?.id
       //@ts-expect-error assign role
       session.user.role = membershipData?.role
       //@ts-expect-error assign organizationId

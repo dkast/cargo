@@ -161,6 +161,7 @@ model Container {
 
 model Inspection {
   id                 String             @id @default(cuid())
+  inspectionNbr      Int                @unique @default(autoincrement())
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
   operator           Operator           @relation(fields: [operatorId], references: [id])
@@ -192,6 +193,7 @@ model Inspection {
   organizationId     String
   inspectionItems    InspectionItem[]
 
+  @@index([inspectionNbr])
   @@index([operatorId])
   @@index([vehicleId])
   @@index([containerId])

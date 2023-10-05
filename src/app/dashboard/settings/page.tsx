@@ -2,10 +2,11 @@ import OrganizationForm from "@/app/dashboard/settings/organization-form"
 import { MembershipRole } from "@prisma/client"
 import { AlertTriangle } from "lucide-react"
 import { type Metadata } from "next"
+import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { prisma } from "@/server/db"
+import { getOrganization } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 
 export const metadata: Metadata = {
@@ -15,11 +16,11 @@ export const metadata: Metadata = {
 export default async function SettingsPage() {
   const user = await getCurrentUser()
 
-  const data = await prisma.organization.findFirst({
-    where: {
-      id: user?.organizationId
-    }
-  })
+  if (!user) {
+    return notFound()
+  }
+
+  const data = await getOrganization(user?.organizationId)
 
   if (!data) {
     //TODO: Add empty state

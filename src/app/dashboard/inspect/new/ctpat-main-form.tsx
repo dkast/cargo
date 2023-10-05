@@ -63,14 +63,14 @@ export default function CTPATMainForm({
   vehicles,
   containers,
   organizationId,
-  userId
+  membershipId
 }: {
   companies: z.infer<typeof companySchema>[]
   operators: z.infer<typeof operatorSchema>[]
   vehicles: z.infer<typeof vehicleSchema>[]
   containers: z.infer<typeof containerSchema>[]
   organizationId: string
-  userId: string
+  membershipId: string
 }) {
   const [searchCompany, setSearchCompany] = useState<string>("")
   const [searchContainer, setsearchContainer] = useState("")
@@ -81,7 +81,7 @@ export default function CTPATMainForm({
       inspectionStart: new Date(),
       inspectionTripType: "IN",
       organizationId,
-      inspectedById: userId
+      inspectedById: membershipId
     },
     mode: "onChange"
   })

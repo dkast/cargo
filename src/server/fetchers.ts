@@ -2,6 +2,43 @@ import { unstable_cache as cache } from "next/cache"
 
 import { prisma } from "@/server/db"
 
+export async function getOrganization(organizationId: string) {
+  return await cache(
+    async () => {
+      return prisma.organization.findFirst({
+        where: {
+          id: organizationId
+        }
+      })
+    },
+    [`organization-${organizationId}`],
+    {
+      revalidate: 900,
+      tags: [`organization-${organizationId}`]
+    }
+  )()
+}
+
+export async function getMembers(organizationId: string) {
+  return await cache(
+    async () => {
+      return prisma.membership.findMany({
+        where: {
+          organizationId: organizationId
+        },
+        include: {
+          user: true
+        }
+      })
+    },
+    [`members-${organizationId}`],
+    {
+      revalidate: 900,
+      tags: [`members-${organizationId}`]
+    }
+  )()
+}
+
 export async function getCompanies(organizationId: string) {
   return await cache(
     async () => {
@@ -113,6 +150,17 @@ export async function getInspections(organizationId: string) {
         },
         select: {
           id: true,
+          inspectedBy: {
+            select: {
+              id: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true
+                }
+              }
+            }
+          },
           inspectionStart: true,
           inspectionStatus: true,
           organizationId: true,
