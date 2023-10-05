@@ -1,7 +1,7 @@
 "use client"
 
-import { Prisma } from "@prisma/client"
-import { ColumnDef } from "@tanstack/react-table"
+import { type Prisma } from "@prisma/client"
+import { type ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 import Link from "next/link"
 
@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { getInspections } from "@/server/fetchers"
+import { type getInspections } from "@/server/fetchers"
 
 // We use the type of the data returned by getInspections to define the type of the columns
 type InspectionMaster = Prisma.PromiseReturnType<typeof getInspections>
