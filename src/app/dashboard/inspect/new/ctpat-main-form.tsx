@@ -145,7 +145,7 @@ export default function CTPATMainForm({
       if (data?.failure) {
         toast.error(data.failure.reason!)
       } else if (data?.success) {
-        toast.success("Iniciando inspección...")
+        // toast.success("Iniciando inspección...")
         redirect(`/dashboard/ctpat/${data.success.inspectionId}`)
       }
       resetInspection()

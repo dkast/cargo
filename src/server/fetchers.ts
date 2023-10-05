@@ -150,6 +150,7 @@ export async function getInspections(organizationId: string) {
         },
         select: {
           id: true,
+          inspectionNbr: true,
           inspectedBy: {
             select: {
               id: true,
