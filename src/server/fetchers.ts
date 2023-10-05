@@ -103,3 +103,55 @@ export async function getContainers(organizationId: string) {
     }
   )()
 }
+
+export async function getInspections(organizationId: string) {
+  return await cache(
+    async () => {
+      return prisma.inspection.findMany({
+        where: {
+          organizationId: organizationId
+        },
+        select: {
+          id: true,
+          inspectionStart: true,
+          inspectionStatus: true,
+          organizationId: true,
+          vehicle: {
+            select: {
+              id: true,
+              vehicleNbr: true,
+              licensePlate: true
+            }
+          },
+          operator: {
+            select: {
+              id: true,
+              name: true,
+              licenseNumber: true
+            }
+          },
+          company: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
+          container: {
+            select: {
+              id: true,
+              containerNbr: true
+            }
+          }
+        },
+        orderBy: {
+          inspectionStart: "asc"
+        }
+      })
+    },
+    [`inspections-${organizationId}`],
+    {
+      revalidate: 900,
+      tags: [`inspections-${organizationId}`]
+    }
+  )()
+}

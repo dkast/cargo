@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { DataTablePagination } from "@/app/dashboard/settings/members/data-table-pagination"
 import {
   flexRender,
   getCoreRowModel,
@@ -20,6 +19,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { DataTablePagination } from "./data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
