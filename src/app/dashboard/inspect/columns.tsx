@@ -49,7 +49,12 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     cell: ({ row }) => {
       const inspection = row.original
 
-      return <span>{format(inspection.inspectionStart, "Pp")}</span>
+      // Validate if inspectionStart is a date
+      if (inspection.inspectionStart instanceof Date) {
+        return <span>{format(inspection.inspectionStart, "Pp")}</span>
+      } else {
+        return <span>{format(new Date(inspection.inspectionStart), "Pp")}</span>
+      }
     }
   },
   {

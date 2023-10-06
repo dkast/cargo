@@ -204,3 +204,55 @@ export async function getInspections(organizationId: string) {
     }
   )()
 }
+
+export async function getInspectionById(inspectionId: string) {
+  return prisma.inspection.findFirst({
+    where: {
+      id: inspectionId
+    },
+    select: {
+      id: true,
+      inspectionNbr: true,
+      inspectedBy: {
+        select: {
+          id: true,
+          user: {
+            select: {
+              id: true,
+              name: true
+            }
+          }
+        }
+      },
+      inspectionStart: true,
+      inspectionStatus: true,
+      organizationId: true,
+      vehicle: {
+        select: {
+          id: true,
+          vehicleNbr: true,
+          licensePlate: true
+        }
+      },
+      operator: {
+        select: {
+          id: true,
+          name: true,
+          licenseNumber: true
+        }
+      },
+      company: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      container: {
+        select: {
+          id: true,
+          containerNbr: true
+        }
+      }
+    }
+  })
+}
