@@ -45,7 +45,7 @@ export function AddVehicleForm({ organizationId }: { organizationId: string }) {
     form.setFocus("vehicleNbr")
   }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { execute, isExecuting, reset } = useAction(createVehicle, {
+  const { execute, status, reset } = useAction(createVehicle, {
     onSuccess: data => {
       if (data?.success) {
         toast.success("Unidad agregada correctamente")
@@ -102,11 +102,11 @@ export function AddVehicleForm({ organizationId }: { organizationId: string }) {
               )}
             />
             <Button
-              disabled={isExecuting}
+              disabled={status === "executing"}
               onClick={form.handleSubmit(onSubmit)}
               className="w-full"
             >
-              {isExecuting ? (
+              {status === "executing" ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
                   {"Agregando..."}

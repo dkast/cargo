@@ -49,7 +49,7 @@ export function AddOperatorForm({
     form.setFocus("name")
   }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { execute, isExecuting, reset } = useAction(createOperator, {
+  const { execute, status, reset } = useAction(createOperator, {
     onSuccess: data => {
       if (data?.success) {
         toast.success("Operador agregado correctamente")
@@ -112,11 +112,11 @@ export function AddOperatorForm({
               )}
             />
             <Button
-              disabled={isExecuting}
+              disabled={status === "executing"}
               onClick={form.handleSubmit(onSubmit)}
               className="w-full"
             >
-              {isExecuting ? (
+              {status === "executing" ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
                   {"Agregando..."}

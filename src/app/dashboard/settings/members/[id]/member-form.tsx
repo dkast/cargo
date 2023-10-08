@@ -50,7 +50,7 @@ export default function MemberForm({
 
   const {
     execute: createMember,
-    isExecuting: isInserting,
+    status: createStatus,
     reset
   } = useAction(createOrgMember, {
     onSuccess: data => {
@@ -75,7 +75,7 @@ export default function MemberForm({
 
   const {
     execute: updateMember,
-    isExecuting: isUpdating,
+    status: updateStatus,
     reset: resetUpdate
   } = useAction(updateOrgMember, {
     onSuccess: data => {
@@ -226,8 +226,13 @@ export default function MemberForm({
           )}
         />
         <div className="flex justify-start gap-x-2 pt-6">
-          <Button type="submit" disabled={isInserting || isUpdating}>
-            {isInserting || isUpdating ? (
+          <Button
+            type="submit"
+            disabled={
+              createStatus === "executing" || updateStatus === "executing"
+            }
+          >
+            {createStatus === "executing" || updateStatus === "executing" ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
                 {"Guardando..."}

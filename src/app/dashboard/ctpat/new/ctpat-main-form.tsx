@@ -88,7 +88,7 @@ export default function CTPATMainForm({
 
   const {
     execute: insertCompany,
-    isExecuting: isInserting,
+    status: insertCompanyStatus,
     reset
   } = useAction(createCompany, {
     onSuccess: data => {
@@ -113,7 +113,7 @@ export default function CTPATMainForm({
 
   const {
     execute: insertContainer,
-    isExecuting: isInsertingContainer,
+    status: insertContainerStatus,
     reset: resetContainer
   } = useAction(createContainer, {
     onSuccess: data => {
@@ -138,7 +138,7 @@ export default function CTPATMainForm({
 
   const {
     execute: insertInspection,
-    isExecuting: isInsertingInspection,
+    status: insertInspectionStatus,
     reset: resetInspection
   } = useAction(createCTPATInspection, {
     onSuccess: data => {
@@ -272,13 +272,13 @@ export default function CTPATMainForm({
                 <ComboBoxList className="max-h-full sm:max-h-[300px]">
                   <ComboBoxEmpty className="p-2">
                     <Button
-                      disabled={isInserting}
+                      disabled={insertCompanyStatus === "executing"}
                       variant="ghost"
                       className="w-full"
                       size="xs"
                       onClick={handleAddCompany}
                     >
-                      {isInserting ? (
+                      {insertCompanyStatus === "executing" ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       ) : (
                         <PlusIcon className="mr-2 h-4 w-4" />
@@ -509,13 +509,13 @@ export default function CTPATMainForm({
                 <ComboBoxList className="max-h-full sm:max-h-[300px]">
                   <ComboBoxEmpty className="p-2">
                     <Button
-                      disabled={isInsertingContainer}
+                      disabled={insertContainerStatus === "executing"}
                       variant="ghost"
                       className="w-full"
                       size="xs"
                       onClick={handleAddContainer}
                     >
-                      {isInsertingContainer ? (
+                      {insertContainerStatus === "executing" ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       ) : (
                         <PlusIcon className="mr-2 h-4 w-4" />
@@ -578,9 +578,9 @@ export default function CTPATMainForm({
         <Button
           type="submit"
           className="w-full sm:col-span-6"
-          disabled={isInsertingInspection}
+          disabled={insertInspectionStatus === "executing"}
         >
-          {isInsertingInspection ? (
+          {insertInspectionStatus === "executing" ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {"Cargando..."}
             </>

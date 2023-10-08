@@ -40,7 +40,7 @@ export default function OrganizationForm({
   // Get state from form
   const { isDirty } = form.formState
 
-  const { execute, isExecuting, reset } = useAction(updateOrg, {
+  const { execute, status, reset } = useAction(updateOrg, {
     onSuccess: data => {
       if (data?.success) {
         toast.success("Datos actualizados")
@@ -119,8 +119,8 @@ export default function OrganizationForm({
             )}
           />
           <div className="flex justify-start pt-6">
-            <Button disabled={isExecuting} type="submit">
-              {isExecuting ? (
+            <Button disabled={status === "executing"} type="submit">
+              {status === "executing" ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
                   {"Guardando..."}
