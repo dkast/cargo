@@ -162,8 +162,8 @@ export async function getInspections(organizationId: string) {
               }
             }
           },
-          inspectionStart: true,
-          inspectionStatus: true,
+          start: true,
+          status: true,
           organizationId: true,
           vehicle: {
             select: {
@@ -193,7 +193,7 @@ export async function getInspections(organizationId: string) {
           }
         },
         orderBy: {
-          inspectionStart: "asc"
+          start: "asc"
         }
       })
     },
@@ -224,8 +224,8 @@ export async function getInspectionById(inspectionId: string) {
           }
         }
       },
-      inspectionStart: true,
-      inspectionStatus: true,
+      start: true,
+      status: true,
       organizationId: true,
       vehicle: {
         select: {

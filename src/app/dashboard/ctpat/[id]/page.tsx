@@ -41,9 +41,9 @@ export default async function CTPATPage({
             <dl>
               <dt className="text-sm text-gray-500">Fecha de inicio</dt>
               <dd>
-                {inspection.inspectionStart instanceof Date
-                  ? format(inspection.inspectionStart, "Pp")
-                  : format(new Date(inspection.inspectionStart), "Pp")}
+                {inspection.start instanceof Date
+                  ? format(inspection.start, "Pp")
+                  : format(new Date(inspection.start), "Pp")}
               </dd>
             </dl>
             <dl>

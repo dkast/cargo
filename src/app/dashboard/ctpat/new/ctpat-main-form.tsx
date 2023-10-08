@@ -78,8 +78,8 @@ export default function CTPATMainForm({
     resolver: zodResolver(ctpatMainSchema),
     defaultValues: {
       isLoaded: false,
-      inspectionStart: new Date(),
-      inspectionTripType: "IN",
+      start: new Date(),
+      tripType: "IN",
       organizationId,
       inspectedById: membershipId
     },
@@ -170,10 +170,10 @@ export default function CTPATMainForm({
         {/* Inspection Start */}
         <FormField
           control={form.control}
-          name="inspectionStart"
+          name="start"
           render={({ field }) => (
             <FormItem className="flex flex-col sm:col-span-3">
-              <FormLabel htmlFor="inspectionStart">Fecha y Hora</FormLabel>
+              <FormLabel htmlFor="start">Fecha y Hora</FormLabel>
               <FormControl>
                 <DateTimePicker
                   granularity={"minute"}
@@ -191,7 +191,7 @@ export default function CTPATMainForm({
         {/* Event Type */}
         <FormField
           control={form.control}
-          name="inspectionTripType"
+          name="tripType"
           render={({ field }) => (
             <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="eventType">Tipo de Inspección</FormLabel>

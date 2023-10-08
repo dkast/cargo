@@ -17,8 +17,8 @@ export const createCTPATInspection = action(
     licensePlate,
     containerId,
     isLoaded,
-    inspectionStart,
-    inspectionTripType,
+    start,
+    tripType,
     inspectedById,
     organizationId
   }) => {
@@ -33,12 +33,12 @@ export const createCTPATInspection = action(
           licensePlate: licensePlate,
           containerId: containerId,
           isLoaded: isLoaded,
-          inspectionStart: inspectionStart,
+          start: start,
           inspectionType: InspectionType.CTPAT,
-          inspectionTripType: inspectionTripType,
+          tripType: tripType,
           inspectedById: inspectedById,
           organizationId: organizationId,
-          inspectionStatus: InspectionStatus.OPEN
+          status: InspectionStatus.OPEN
         }
       })
 

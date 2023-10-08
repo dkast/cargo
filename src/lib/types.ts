@@ -117,14 +117,14 @@ export const ctpatMainSchema = z.object({
   isLoaded: z.boolean({
     required_error: "Este campo es requerido"
   }),
-  inspectionStart: z
+  start: z
     .date({
       required_error: "Este campo es requerido"
     })
     .max(addMinutes(new Date(), 5), {
       message: "La fecha y hora no puede ser mayor a la actual"
     }),
-  inspectionTripType: z.enum(["IN", "OUT"], {
+  tripType: z.enum(["IN", "OUT"], {
     required_error: "Este campo es requerido"
   }),
   organizationId: z.string(),

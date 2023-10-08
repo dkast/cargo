@@ -50,10 +50,10 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
       const inspection = row.original
 
       // Validate if inspectionStart is a date
-      if (inspection.inspectionStart instanceof Date) {
-        return <span>{format(inspection.inspectionStart, "Pp")}</span>
+      if (inspection.start instanceof Date) {
+        return <span>{format(inspection.start, "Pp")}</span>
       } else {
-        return <span>{format(new Date(inspection.inspectionStart), "Pp")}</span>
+        return <span>{format(new Date(inspection.start), "Pp")}</span>
       }
     }
   },
@@ -78,15 +78,13 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <div className="flex flex-row items-center gap-2">
           <div
             className={cn(
-              color[inspection.inspectionStatus],
+              color[inspection.status],
               "flex-none rounded-full p-1"
             )}
           >
             <div className="h-1.5 w-1.5 rounded-full bg-current" />
           </div>
-          <div className="hidden sm:block">
-            {legend[inspection.inspectionStatus]}
-          </div>
+          <div className="hidden sm:block">{legend[inspection.status]}</div>
         </div>
       )
     }
