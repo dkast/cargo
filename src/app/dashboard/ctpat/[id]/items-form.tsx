@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { DevTool } from "@hookform/devtools"
+// import { ErrorMessage } from "@hookform/error-message"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { InspectionResult } from "@prisma/client"
 import { Camera, Check, X } from "lucide-react"
@@ -36,10 +37,10 @@ const inspectionItem = z
       }
       return true
     },
-    data => ({
-      message: "Los campos son requeridos",
-      path: [`items.${data.index}.notes`]
-    })
+    {
+      message: "El campo de comentarios es requerido si el resultado es NOK",
+      path: ["notes"]
+    }
   )
 
 const inspectionDetailSchema = z.object({
@@ -104,6 +105,8 @@ export default function ItemsForm({
     console.log(data)
     console.log(inspectionDetailSchema.parse(data))
   }
+
+  console.dir(form.formState.errors)
 
   return (
     <div className="mx-auto my-4 max-w-2xl grow">
