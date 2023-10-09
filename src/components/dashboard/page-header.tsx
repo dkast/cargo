@@ -11,7 +11,7 @@ export default function PageHeader({
 }) {
   return (
     <>
-      <div className="px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+      <div className="px-4 py-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
         <div className="min-w-0 flex-1">
           <h1 className="text-xl font-semibold leading-7 text-gray-900 sm:truncate sm:text-2xl sm:tracking-tight">
             {title}
@@ -27,7 +27,7 @@ export default function PageHeader({
           <div className="mt-4 flex md:ml-4 md:mt-0">{children}</div>
         )}
       </div>
-      <Separator className="mt-4" />
+      <Separator />
     </>
   )
 }

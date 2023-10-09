@@ -17,7 +17,7 @@ import {
   PlusIcon
 } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -72,6 +72,7 @@ export default function CTPATMainForm({
   organizationId: string
   membershipId: string
 }) {
+  const router = useRouter()
   const [searchCompany, setSearchCompany] = useState<string>("")
   const [searchContainer, setsearchContainer] = useState("")
   const form = useForm<z.infer<typeof ctpatMainSchema>>({
@@ -145,8 +146,8 @@ export default function CTPATMainForm({
       if (data?.failure) {
         toast.error(data.failure.reason!)
       } else if (data?.success) {
-        // toast.success("Iniciando inspección...")
-        redirect(`/dashboard/ctpat/${data.success.inspectionId}`)
+        toast.success("Iniciando inspección...")
+        router.push(`/dashboard/ctpat/${data.success.inspectionId}`)
       }
       resetInspection()
     },
