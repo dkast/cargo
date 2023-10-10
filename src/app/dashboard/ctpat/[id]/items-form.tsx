@@ -1,10 +1,9 @@
 "use client"
 
-import { useEffect } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
-// import { DevTool } from "@hookform/devtools"
+import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { InspectionResult } from "@prisma/client"
+import { InspectionResult, type Prisma } from "@prisma/client"
 import { Camera, Check, X } from "lucide-react"
 import { z } from "zod"
 
@@ -19,48 +18,31 @@ import {
 } from "@/components/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
-import { inspectionItemSchema, ctpatInspections as items } from "@/lib/types"
+import { type getInspectionById } from "@/server/fetchers"
+import { inspectionItemSchema } from "@/lib/types"
 
 const inspectionDetailSchema = z.object({
   items: z.array(inspectionItemSchema)
 })
 
-export default function ItemsForm({
-  inspectionId,
-  organizationId
-}: {
-  inspectionId: string
-  organizationId: string
-}) {
+type Inspection = Prisma.PromiseReturnType<typeof getInspectionById>
+
+export default function ItemsForm({ inspection }: { inspection: Inspection }) {
   const form = useForm<z.infer<typeof inspectionDetailSchema>>({
     resolver: zodResolver(inspectionDetailSchema),
-    mode: "onChange"
+    mode: "onChange",
+    defaultValues: {
+      items: inspection?.inspectionItems.map(item => ({
+        ...item,
+        notes: item.notes ?? ""
+      }))
+    }
   })
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields } = useFieldArray({
     control: form.control,
     name: "items"
   })
-
-  useEffect(() => {
-    append(
-      items.map((item, index) => ({
-        inspectionId,
-        question: item,
-        result: "NA",
-        notes: "",
-        organizationId,
-        order: index
-      })),
-      {
-        focusName: `items.0.notes`
-      }
-    )
-
-    return () => {
-      remove()
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: z.infer<typeof inspectionDetailSchema>) => {
     console.log(data)
@@ -93,7 +75,7 @@ export default function ItemsForm({
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="grid grid-cols-2 gap-4"
+                        className="grid grid-cols-2 gap-2"
                       >
                         <FormItem>
                           <FormLabel className="[&:has([data-state=checked])>div]:border-green-500 [&:has([data-state=checked])>div]:text-green-700 [&:has([data-state=checked])>div]:ring-green-200">
@@ -158,7 +140,7 @@ export default function ItemsForm({
             Finalizar inspección
           </Button>
         </form>
-        {/* <DevTool control={form.control} /> */}
+        <DevTool control={form.control} />
       </Form>
     </div>
   )

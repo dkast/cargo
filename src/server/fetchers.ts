@@ -252,6 +252,15 @@ export async function getInspectionById(inspectionId: string) {
           id: true,
           containerNbr: true
         }
+      },
+      inspectionItems: {
+        select: {
+          id: true,
+          question: true,
+          result: true,
+          notes: true,
+          order: true
+        }
       }
     }
   })

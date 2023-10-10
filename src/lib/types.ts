@@ -133,11 +133,10 @@ export const ctpatMainSchema = z.object({
 
 export const inspectionItemSchema = z
   .object({
-    inspectionId: z.string().optional(),
+    id: z.string(),
     question: z.string(),
     result: z.enum(["PASS", "FAIL", "NA"]),
     notes: z.string().optional(),
-    organizationId: z.string().cuid(),
     order: z.number()
   })
   .refine(

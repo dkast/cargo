@@ -65,7 +65,7 @@ export default async function CTPATPage({
         </div>
       </div>
       {/* Inspection detail */}
-      <ItemsForm inspectionId={id} organizationId={inspection.organizationId} />
+      <ItemsForm inspection={inspection} />
     </div>
   )
 }
