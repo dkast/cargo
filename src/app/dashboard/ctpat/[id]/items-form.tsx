@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
-import { DevTool } from "@hookform/devtools"
+// import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { InspectionResult } from "@prisma/client"
 import { Camera, Check, X } from "lucide-react"
@@ -19,52 +19,11 @@ import {
 } from "@/components/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
-
-const inspectionItem = z
-  .object({
-    inspectionId: z.string(),
-    question: z.string(),
-    result: z.enum(["PASS", "FAIL", "NA"]),
-    notes: z.string().optional(),
-    organizationId: z.string(),
-    index: z.number()
-  })
-  .refine(
-    data => {
-      if (data.result === "FAIL" && data.notes === "") {
-        return false
-      }
-      return true
-    },
-    {
-      message: "El campo de comentarios es requerido si el resultado es NOK",
-      path: ["notes"]
-    }
-  )
+import { inspectionItemSchema, ctpatInspections as items } from "@/lib/types"
 
 const inspectionDetailSchema = z.object({
-  items: z.array(inspectionItem)
+  items: z.array(inspectionItemSchema)
 })
-
-const items = [
-  "Defensa",
-  "Motor",
-  "Llantas",
-  "Piso del camión (dentro)",
-  "Tanques de combustible",
-  "Cabina (comp. de almacenamiento)",
-  "Tanque de Aire",
-  "Ejes de acción",
-  "Llanta de repuesto",
-  "Exteriores / tren de rodaje",
-  "Puertas por dentro / fuera",
-  "Piso de remolque",
-  "Paredes laterales",
-  "Pared Frontal",
-  "Techo",
-  "Unidad de refrigeración",
-  "Escape"
-]
 
 export default function ItemsForm({
   inspectionId,
@@ -91,7 +50,7 @@ export default function ItemsForm({
         result: "NA",
         notes: "",
         organizationId,
-        index
+        order: index
       })),
       {
         focusName: `items.0.notes`
@@ -113,14 +72,14 @@ export default function ItemsForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-y-4"
+          className="flex flex-col gap-y-4 px-2 sm:px-0"
         >
           {fields.map((fieldItem, index) => (
             <div
               key={fieldItem.id}
               className="border-200 space-y-4 rounded-md border bg-white px-3 py-4 shadow-sm"
             >
-              <div className="flex flex-row items-center gap-x-4">
+              <div className="flex flex-row flex-wrap items-center gap-4">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-sm text-white">
                   {index + 1}
                 </span>
@@ -199,7 +158,7 @@ export default function ItemsForm({
             Finalizar inspección
           </Button>
         </form>
-        <DevTool control={form.control} />
+        {/* <DevTool control={form.control} /> */}
       </Form>
     </div>
   )

@@ -142,11 +142,14 @@ export default function CTPATMainForm({
     status: insertInspectionStatus,
     reset: resetInspection
   } = useAction(createCTPATInspection, {
+    onExecute: () => {
+      toast.loading("Guardando...")
+    },
     onSuccess: data => {
       if (data?.failure) {
         toast.error(data.failure.reason!)
       } else if (data?.success) {
-        toast.success("Iniciando inspección...")
+        toast.dismiss()
         router.push(`/dashboard/ctpat/${data.success.inspectionId}`)
       }
       resetInspection()
@@ -583,7 +586,8 @@ export default function CTPATMainForm({
         >
           {insertInspectionStatus === "executing" ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {"Cargando..."}
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+              {"Iniciando inspección..."}
             </>
           ) : (
             "Iniciar Inspección"

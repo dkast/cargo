@@ -210,8 +210,9 @@ model InspectionItem {
   inspection          Inspection           @relation(fields: [inspectionId], references: [id])
   inspectionId        String
   question            String
-  result              InspectionResult
+  result              InspectionItemResult
   notes               String?
+  order               Int
   organization        Organization         @relation(fields: [organizationId], references: [id])
   organizationId      String
   inspectionItemFiles InspectionItemFile[]

@@ -1,11 +1,15 @@
 "use server"
 
-import { InspectionStatus, InspectionType } from "@prisma/client"
+import {
+  InspectionItemResult,
+  InspectionStatus,
+  InspectionType
+} from "@prisma/client"
 import { revalidateTag } from "next/cache"
 
 import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
-import { ctpatMainSchema } from "@/lib/types"
+import { ctpatInspections, ctpatMainSchema } from "@/lib/types"
 
 export const createCTPATInspection = action(
   ctpatMainSchema,
@@ -38,7 +42,15 @@ export const createCTPATInspection = action(
           tripType: tripType,
           inspectedById: inspectedById,
           organizationId: organizationId,
-          status: InspectionStatus.OPEN
+          status: InspectionStatus.OPEN,
+          inspectionItems: {
+            create: ctpatInspections.map((item, index) => ({
+              question: item,
+              result: InspectionItemResult.NA,
+              order: index,
+              organization: { connect: { id: organizationId } }
+            }))
+          }
         }
       })
 

@@ -131,8 +131,49 @@ export const ctpatMainSchema = z.object({
   inspectedById: z.string()
 })
 
+export const inspectionItemSchema = z
+  .object({
+    inspectionId: z.string().optional(),
+    question: z.string(),
+    result: z.enum(["PASS", "FAIL", "NA"]),
+    notes: z.string().optional(),
+    organizationId: z.string().cuid(),
+    order: z.number()
+  })
+  .refine(
+    data => {
+      if (data.result === "FAIL" && data.notes === "") {
+        return false
+      }
+      return true
+    },
+    {
+      message: "Comentarios son requeridos si el resultado es NOK",
+      path: ["notes"]
+    }
+  )
+
 export enum actionType {
   CREATE = "CREATE",
   UPDATE = "UPDATE",
   DELETE = "DELETE"
 }
+export const ctpatInspections = [
+  "Defensa",
+  "Motor",
+  "Llantas",
+  "Piso del camión (dentro)",
+  "Tanques de combustible",
+  "Cabina (comp. de almacenamiento)",
+  "Tanque de Aire",
+  "Ejes de acción",
+  "Llanta de repuesto",
+  "Exteriores / tren de rodaje",
+  "Puertas por dentro / fuera",
+  "Piso de remolque",
+  "Paredes laterales",
+  "Pared Frontal",
+  "Techo",
+  "Unidad de refrigeración",
+  "Escape"
+]
