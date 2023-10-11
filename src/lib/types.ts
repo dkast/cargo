@@ -151,6 +151,18 @@ export const inspectionItemSchema = z
       path: ["notes"]
     }
   )
+  .refine(
+    data => {
+      if (data.result === "NA") {
+        return false
+      }
+      return true
+    },
+    {
+      message: "Elija un resultado",
+      path: ["notes"]
+    }
+  )
 
 export enum actionType {
   CREATE = "CREATE",
@@ -174,5 +186,7 @@ export const ctpatInspections = [
   "Pared Frontal",
   "Techo",
   "Unidad de refrigeración",
-  "Escape"
+  "Escape",
+  "Libre de plagas visibles",
+  "Inspección de sellos de seguridad VVTT"
 ]

@@ -226,6 +226,7 @@ export async function getInspectionById(inspectionId: string) {
       },
       start: true,
       status: true,
+      isLoaded: true,
       organizationId: true,
       vehicle: {
         select: {

@@ -11,19 +11,40 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { type getInspectionById } from "@/server/fetchers"
 import { inspectionItemSchema } from "@/lib/types"
 
-const inspectionDetailSchema = z.object({
-  items: z.array(inspectionItemSchema)
-})
+const inspectionDetailSchema = z
+  .object({
+    items: z.array(inspectionItemSchema),
+    sealNbr: z.string().optional(),
+    tiresVehicle: z.string().optional(),
+    tiresContainer: z.string().optional(),
+    isLoaded: z.boolean()
+  })
+  .refine(
+    data => {
+      if (data.isLoaded && data.sealNbr === "") {
+        return false
+      } else {
+        return true
+      }
+    },
+    {
+      message:
+        "El sello de seguridad es requerido si el contenedor está cargado",
+      path: ["sealNbr"]
+    }
+  )
 
 type Inspection = Prisma.PromiseReturnType<typeof getInspectionById>
 
@@ -35,7 +56,8 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
       items: inspection?.inspectionItems.map(item => ({
         ...item,
         notes: item.notes ?? ""
-      }))
+      })),
+      isLoaded: inspection?.isLoaded ?? false
     }
   })
 
@@ -59,12 +81,14 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
           {fields.map((fieldItem, index) => (
             <div
               key={fieldItem.id}
-              className="border-200 space-y-4 rounded-md border bg-white px-3 py-4 shadow-sm"
+              className="border-200 space-y-4 rounded-lg border bg-white px-4 py-3 shadow-sm"
             >
-              <div className="flex flex-row flex-wrap items-center gap-4">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-sm text-white">
-                  {index + 1}
-                </span>
+              <div className="flex flex-row flex-wrap items-center gap-3">
+                {index < 17 && (
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-50  text-sm text-violet-700 ring-1 ring-inset ring-violet-700/10">
+                    {index + 1}
+                  </span>
+                )}
                 <span className="grow">{fieldItem.question}</span>
                 <FormField
                   key={fieldItem.id}
@@ -121,7 +145,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
                     <FormItem className="grow">
                       <FormControl>
                         <Textarea
-                          className="min-h-[60px]"
+                          className="h-[40px] min-h-[40px]"
                           placeholder="Comentarios"
                           {...field}
                         />
@@ -136,6 +160,66 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
               </div>
             </div>
           ))}
+          <div className="border-200 space-y-6 rounded-lg border bg-white px-4 py-6 shadow-sm">
+            <FormField
+              control={form.control}
+              name="sealNbr"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="sealNbr">Sello de Seguridad</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Sello de Seguridad"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Número de sello de seguridad si está cargado
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="tiresVehicle"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="tiresVehicle">
+                    Marcado de Llantas Tractor
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Marcado de Llantas Tractor"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="tiresContainer"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="tiresContainer">
+                    Marcado de Llantas de Caja
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Marcado de Llantas de Caja"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <Button type="submit" className="w-full">
             Finalizar inspección
           </Button>
