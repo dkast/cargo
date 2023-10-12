@@ -57,7 +57,8 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
         ...item,
         notes: item.notes ?? ""
       })),
-      isLoaded: inspection?.isLoaded ?? false
+      isLoaded: inspection?.isLoaded ?? false,
+      sealNbr: inspection?.sealNbr ?? ""
     }
   })
 

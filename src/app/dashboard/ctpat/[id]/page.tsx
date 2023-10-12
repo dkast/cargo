@@ -1,9 +1,11 @@
 import ItemsForm from "@/app/dashboard/ctpat/[id]/items-form"
+import { InspectionTripType } from "@prisma/client"
 import { format } from "date-fns"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { Badge } from "@/components/ui/badge"
 import { getInspectionById } from "@/server/fetchers"
 
 export default async function CTPATPage({
@@ -40,7 +42,17 @@ export default async function CTPATPage({
               </h1>
             </div>
             <div className="grid grid-cols-2 gap-y-4 text-sm sm:grid-cols-4">
-              <dl>
+              <dl className="space-y-1">
+                <dt className="text-sm text-gray-500">Tipo Viaje</dt>
+                <dd>
+                  {inspection.tripType === InspectionTripType.IN ? (
+                    <span>Ingreso</span>
+                  ) : (
+                    <span>Salida</span>
+                  )}
+                </dd>
+              </dl>
+              <dl className="space-y-1">
                 <dt className="text-sm text-gray-500">Fecha de inicio</dt>
                 <dd>
                   {inspection.start instanceof Date
@@ -48,17 +60,27 @@ export default async function CTPATPage({
                     : format(new Date(inspection.start), "Pp")}
                 </dd>
               </dl>
-              <dl>
+              <dl className="space-y-1">
                 <dt className="text-sm text-gray-500">Transportista</dt>
                 <dd>{inspection.company.name}</dd>
               </dl>
-              <dl>
+              <dl className="space-y-1">
                 <dt className="text-sm text-gray-500">Operador</dt>
                 <dd>{inspection.operator.name}</dd>
               </dl>
-              <dl>
+              <dl className="space-y-1">
                 <dt className="text-sm text-gray-500">Remolque</dt>
                 <dd>{inspection.vehicle.vehicleNbr}</dd>
+              </dl>
+              <dl className="space-y-1">
+                <dt className="text-sm text-gray-500">Estado</dt>
+                <dd>
+                  {inspection.isLoaded ? (
+                    <Badge variant="yellow">Cargado</Badge>
+                  ) : (
+                    <Badge variant="secondary">Vacío</Badge>
+                  )}
+                </dd>
               </dl>
             </div>
           </div>
