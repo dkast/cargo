@@ -43,17 +43,17 @@ export default async function CTPATPage({
             </div>
             <div className="grid grid-cols-2 gap-y-4 text-sm sm:grid-cols-4">
               <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Tipo Viaje</dt>
+                <dt className="text-sm text-gray-500">Tipo Inspección</dt>
                 <dd>
                   {inspection.tripType === InspectionTripType.IN ? (
-                    <span>Ingreso</span>
+                    <span>Entrada</span>
                   ) : (
                     <span>Salida</span>
                   )}
                 </dd>
               </dl>
               <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Fecha de inicio</dt>
+                <dt className="text-sm text-gray-500">Fecha</dt>
                 <dd>
                   {inspection.start instanceof Date
                     ? format(inspection.start, "Pp")
