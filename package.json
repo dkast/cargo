@@ -10,7 +10,8 @@
     "start": "next start",
     "format": "prettier \"src/**/*.{ts,tsx,js,jsx,css,json}\" --write --config prettier.config.mjs",
     "lint:fix": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
-    "typecheck": "tsc --project ./tsconfig.json"
+    "typecheck": "tsc --project ./tsconfig.json",
+    "prepare": "husky install"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -82,7 +83,7 @@
     "autoprefixer": "^10.4.16",
     "eslint": "^8.51.0",
     "eslint-config-next": "^13.5.4",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
