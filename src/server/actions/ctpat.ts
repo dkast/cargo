@@ -9,7 +9,11 @@ import { revalidateTag } from "next/cache"
 
 import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
-import { ctpatInspections, ctpatMainSchema } from "@/lib/types"
+import {
+  ctpatInspections,
+  ctpatMainSchema,
+  inspectionDetailSchema
+} from "@/lib/types"
 
 export const createCTPATInspection = action(
   ctpatMainSchema,
@@ -51,6 +55,64 @@ export const createCTPATInspection = action(
               organization: { connect: { id: organizationId } }
             }))
           }
+        }
+      })
+
+      revalidateTag(`ctpatInspections-${organizationId}`)
+
+      return {
+        success: {
+          inspectionId: inspection.id
+        }
+      }
+    } catch (error) {
+      let message
+      if (typeof error === "string") {
+        message = error
+      } else if (error instanceof Error) {
+        message = error.message
+      }
+      return {
+        failure: {
+          reason: message
+        }
+      }
+    }
+  }
+)
+
+export const closeCTPATInspection = action(
+  inspectionDetailSchema,
+  async ({
+    id,
+    items,
+    sealNbr,
+    tiresVehicle,
+    tiresContainer,
+    organizationId
+  }) => {
+    try {
+      const inspection = await prisma.inspection.update({
+        where: {
+          id: id
+        },
+        data: {
+          sealNbr: sealNbr,
+          tiresVehicle: tiresVehicle,
+          tiresContainer: tiresContainer,
+          inspectionItems: {
+            updateMany: items.map(item => ({
+              where: {
+                id: item.id
+              },
+              data: {
+                result: item.result,
+                notes: item.notes
+              }
+            }))
+          },
+          status: InspectionStatus.CLOSED,
+          end: new Date()
         }
       })
 

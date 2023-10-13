@@ -1,10 +1,13 @@
 "use client"
 
 import { useFieldArray, useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { InspectionResult, type Prisma } from "@prisma/client"
-import { Camera, Check, X } from "lucide-react"
+import { Camera, Check, Loader2, X } from "lucide-react"
+import { useAction } from "next-safe-action/hook"
+import { useRouter } from "next/navigation"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -20,31 +23,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
+import { closeCTPATInspection } from "@/server/actions/ctpat"
 import { type getInspectionById } from "@/server/fetchers"
-import { inspectionItemSchema } from "@/lib/types"
-
-const inspectionDetailSchema = z
-  .object({
-    items: z.array(inspectionItemSchema),
-    sealNbr: z.string().optional(),
-    tiresVehicle: z.string().optional(),
-    tiresContainer: z.string().optional(),
-    isLoaded: z.boolean()
-  })
-  .refine(
-    data => {
-      if (data.isLoaded && data.sealNbr === "") {
-        return false
-      } else {
-        return true
-      }
-    },
-    {
-      message:
-        "El sello de seguridad es requerido si el contenedor está cargado",
-      path: ["sealNbr"]
-    }
-  )
+import { inspectionDetailSchema } from "@/lib/types"
 
 type Inspection = Prisma.PromiseReturnType<typeof getInspectionById>
 
@@ -53,23 +34,51 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
     resolver: zodResolver(inspectionDetailSchema),
     mode: "onChange",
     defaultValues: {
+      id: inspection?.id,
       items: inspection?.inspectionItems.map(item => ({
         ...item,
         notes: item.notes ?? ""
       })),
       isLoaded: inspection?.isLoaded ?? false,
-      sealNbr: inspection?.sealNbr ?? ""
+      sealNbr: inspection?.sealNbr ?? "",
+      tiresVehicle: inspection?.tiresVehicle ?? "",
+      tiresContainer: inspection?.tiresContainer ?? "",
+      organizationId: inspection?.organizationId
     }
   })
+
+  const router = useRouter()
 
   const { fields } = useFieldArray({
     control: form.control,
     name: "items"
   })
 
+  const {
+    execute: updateInspection,
+    status: updateStatus,
+    reset
+  } = useAction(closeCTPATInspection, {
+    onSuccess: data => {
+      if (data?.success) {
+        toast.success("Inspección actualizada")
+      } else if (data?.failure) {
+        toast.error(data.failure.reason!)
+      }
+
+      reset()
+
+      router.push("/dashboard/inspect")
+    },
+    onError: () => {
+      toast.error("Algo salío mal")
+
+      reset()
+    }
+  })
+
   const onSubmit = async (data: z.infer<typeof inspectionDetailSchema>) => {
-    console.log(data)
-    console.log(inspectionDetailSchema.parse(data))
+    updateInspection(data)
   }
 
   return (
@@ -221,8 +230,19 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
               )}
             />
           </div>
-          <Button type="submit" className="w-full">
-            Finalizar inspección
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={updateStatus === "executing"}
+          >
+            {updateStatus === "executing" ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {"Guardando..."}
+              </>
+            ) : (
+              "Finalizar inspección"
+            )}
           </Button>
         </form>
         <DevTool control={form.control} />

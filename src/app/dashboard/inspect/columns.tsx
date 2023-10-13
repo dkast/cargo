@@ -64,7 +64,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
       const inspection = row.original
       const color = {
         OPEN: "bg-amber-100 text-amber-500",
-        CLOSED: "bg-gray-100 text-gray-500",
+        CLOSED: "bg-blue-100 text-blue-500",
         APPROVED: "bg-green-100 text-green-500"
       }
 

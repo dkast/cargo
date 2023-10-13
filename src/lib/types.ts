@@ -164,6 +164,31 @@ export const inspectionItemSchema = z
     }
   )
 
+export const inspectionDetailSchema = z
+  .object({
+    id: z.string().cuid(),
+    items: z.array(inspectionItemSchema),
+    sealNbr: z.string().optional(),
+    tiresVehicle: z.string().optional(),
+    tiresContainer: z.string().optional(),
+    isLoaded: z.boolean(),
+    organizationId: z.string().cuid()
+  })
+  .refine(
+    data => {
+      if (data.isLoaded && data.sealNbr === "") {
+        return false
+      } else {
+        return true
+      }
+    },
+    {
+      message:
+        "El sello de seguridad es requerido si el contenedor está cargado",
+      path: ["sealNbr"]
+    }
+  )
+
 export enum actionType {
   CREATE = "CREATE",
   UPDATE = "UPDATE",

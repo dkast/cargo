@@ -1,5 +1,5 @@
 import ItemsForm from "@/app/dashboard/ctpat/[id]/items-form"
-import { InspectionTripType } from "@prisma/client"
+import { InspectionStatus, InspectionTripType } from "@prisma/client"
 import { format } from "date-fns"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
@@ -34,11 +34,25 @@ export default async function CTPATPage({
           </Link>
           <div className="flex flex-col gap-4">
             <div>
-              <h1 className="space-x-2 text-2xl">
-                <span className="text-gray-400">#</span>
-                <span>
-                  {inspection.inspectionNbr.toString().padStart(5, "0")}
-                </span>
+              <h1 className="flex flex-row items-center gap-4 text-2xl">
+                <div>
+                  <span className="mr-2 text-gray-400">#</span>
+                  <span>
+                    {inspection.inspectionNbr.toString().padStart(5, "0")}
+                  </span>
+                </div>
+                {(() => {
+                  switch (inspection.status) {
+                    case InspectionStatus.OPEN:
+                      return <Badge variant="yellow">Pendiente</Badge>
+                    case InspectionStatus.CLOSED:
+                      return <Badge variant="blue">Cerrado</Badge>
+                    case InspectionStatus.APPROVED:
+                      return <Badge variant="green">Aprobado</Badge>
+                    default:
+                      return null
+                  }
+                })()}
               </h1>
             </div>
             <div className="grid grid-cols-2 gap-y-4 text-sm sm:grid-cols-4">
@@ -73,7 +87,7 @@ export default async function CTPATPage({
                 <dd>{inspection.vehicle.vehicleNbr}</dd>
               </dl>
               <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Estado</dt>
+                <dt className="text-sm text-gray-500">Carga</dt>
                 <dd>
                   {inspection.isLoaded ? (
                     <Badge variant="yellow">Cargado</Badge>

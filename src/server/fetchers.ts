@@ -197,10 +197,10 @@ export async function getInspections(organizationId: string) {
         }
       })
     },
-    [`inspections-${organizationId}`],
+    [`ctpatInspections-${organizationId}`],
     {
       revalidate: 900,
-      tags: [`inspections-${organizationId}`]
+      tags: [`ctpatInspections-${organizationId}`]
     }
   )()
 }
