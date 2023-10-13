@@ -1,6 +1,6 @@
 "use client"
 
-import { type Prisma } from "@prisma/client"
+import { InspectionStatus, type Prisma } from "@prisma/client"
 import { type ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { MoreHorizontal } from "lucide-react"
@@ -12,6 +12,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { type getInspections } from "@/server/fetchers"
@@ -106,11 +107,17 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
             <DropdownMenuItem asChild>
               <Link href={`/dashboard/ctpat/${inspection.id}`}>Ver</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={`/dashboard/ctpat/${inspection.id}/edit`}>
-                Editar
-              </Link>
-            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            {inspection.status === InspectionStatus.OPEN && (
+              <DropdownMenuItem asChild>
+                <span className="text-red-500">Eliminar</span>
+              </DropdownMenuItem>
+            )}
+            {inspection.status === InspectionStatus.CLOSED && (
+              <DropdownMenuItem asChild>
+                <span>Aprobar</span>
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       )
