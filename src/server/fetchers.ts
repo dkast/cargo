@@ -164,6 +164,7 @@ export async function getInspections(organizationId: string) {
           },
           start: true,
           status: true,
+          result: true,
           organizationId: true,
           vehicle: {
             select: {

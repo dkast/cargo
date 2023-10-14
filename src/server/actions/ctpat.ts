@@ -2,10 +2,12 @@
 
 import {
   InspectionItemResult,
+  InspectionResult,
   InspectionStatus,
   InspectionType
 } from "@prisma/client"
 import { revalidateTag } from "next/cache"
+import { z } from "zod"
 
 import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
@@ -91,12 +93,16 @@ export const closeCTPATInspection = action(
     tiresContainer,
     organizationId
   }) => {
+    // If one of the items is FAIL, then the inspection is FAIL
+    const failure = items.some(item => item.result === "FAIL")
+
     try {
       const inspection = await prisma.inspection.update({
         where: {
           id: id
         },
         data: {
+          result: failure ? InspectionResult.FAIL : InspectionResult.PASS,
           sealNbr: sealNbr,
           tiresVehicle: tiresVehicle,
           tiresContainer: tiresContainer,
@@ -121,6 +127,42 @@ export const closeCTPATInspection = action(
       return {
         success: {
           inspectionId: inspection.id
+        }
+      }
+    } catch (error) {
+      let message
+      if (typeof error === "string") {
+        message = error
+      } else if (error instanceof Error) {
+        message = error.message
+      }
+      return {
+        failure: {
+          reason: message
+        }
+      }
+    }
+  }
+)
+
+export const deleteCTPATInspection = action(
+  z.object({
+    id: z.string().cuid(),
+    organizationId: z.string().cuid()
+  }),
+  async ({ id, organizationId }) => {
+    try {
+      await prisma.inspection.delete({
+        where: {
+          id: id
+        }
+      })
+
+      revalidateTag(`ctpatInspections-${organizationId}`)
+
+      return {
+        success: {
+          inspectionId: id
         }
       }
     } catch (error) {

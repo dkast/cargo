@@ -114,7 +114,7 @@ model Company {
   name           String       @unique
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   inspections    Inspection[]
 
@@ -127,7 +127,7 @@ model Operator {
   licenseNumber  String       @unique
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   inspections    Inspection[]
 
@@ -140,7 +140,7 @@ model Vehicle {
   licensePlate   String       @unique
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   inspections    Inspection[]
 
@@ -152,7 +152,7 @@ model Container {
   containerNbr   String       @unique
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   inspections    Inspection[]
 
@@ -189,7 +189,7 @@ model Inspection {
   status          InspectionStatus
   result          InspectionResult?
   notes           String?
-  organization    Organization       @relation(fields: [organizationId], references: [id])
+  organization    Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId  String
   inspectionItems InspectionItem[]
 
@@ -207,7 +207,7 @@ model InspectionItem {
   id                  String               @id @default(cuid())
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
-  inspection          Inspection           @relation(fields: [inspectionId], references: [id])
+  inspection          Inspection           @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
   inspectionId        String
   question            String
   result              InspectionItemResult
@@ -225,7 +225,7 @@ model InspectionItemFile {
   id               String         @id @default(cuid())
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
-  inspectionItem   InspectionItem @relation(fields: [inspectionItemId], references: [id])
+  inspectionItem   InspectionItem @relation(fields: [inspectionItemId], references: [id], onDelete: Cascade)
   inspectionItemId String
   fileUrl          String
   organization     Organization   @relation(fields: [organizationId], references: [id])

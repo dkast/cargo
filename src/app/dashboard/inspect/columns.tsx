@@ -1,11 +1,25 @@
 "use client"
 
-import { InspectionStatus, type Prisma } from "@prisma/client"
-import { type ColumnDef } from "@tanstack/react-table"
+import toast from "react-hot-toast"
+import { InspectionResult, InspectionStatus, type Prisma } from "@prisma/client"
+import { type ColumnDef, type Row } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { MoreHorizontal } from "lucide-react"
+import { useAction } from "next-safe-action/hook"
 import Link from "next/link"
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -15,6 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { deleteCTPATInspection } from "@/server/actions/ctpat"
 import { type getInspections } from "@/server/fetchers"
 import { cn } from "@/lib/utils"
 
@@ -45,7 +60,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     header: "Operador"
   },
   {
-    accessorKey: "inspectionStart",
+    accessorKey: "start",
     header: "Fecha Inspección",
     cell: ({ row }) => {
       const inspection = row.original
@@ -59,7 +74,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     }
   },
   {
-    accessorKey: "inspectionStatus",
+    accessorKey: "status",
     header: "Estado",
     cell: ({ row }) => {
       const inspection = row.original
@@ -70,7 +85,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
       }
 
       const legend = {
-        OPEN: "Pendiente",
+        OPEN: "En proceso",
         CLOSED: "Cerrado",
         APPROVED: "Aprobado"
       }
@@ -91,36 +106,112 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     }
   },
   {
-    id: "actions",
+    accessorKey: "result",
+    header: "Resultado",
     cell: ({ row }) => {
       const inspection = row.original
-
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-32">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem asChild>
-              <Link href={`/dashboard/ctpat/${inspection.id}`}>Ver</Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            {inspection.status === InspectionStatus.OPEN && (
-              <DropdownMenuItem asChild>
-                <span className="text-red-500">Eliminar</span>
-              </DropdownMenuItem>
-            )}
-            {inspection.status === InspectionStatus.CLOSED && (
-              <DropdownMenuItem asChild>
-                <span>Aprobar</span>
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div>
+          {(() => {
+            switch (inspection.result) {
+              case InspectionResult.PASS:
+                return (
+                  <Badge variant="green" className="rounded">
+                    OK
+                  </Badge>
+                )
+              case InspectionResult.FAIL:
+                return (
+                  <Badge variant="red" className="rounded">
+                    Falla
+                  </Badge>
+                )
+              default:
+                return null
+            }
+          })()}
+        </div>
       )
     }
+  },
+  {
+    id: "actions",
+    cell: InspectionActions
   }
 ]
+
+function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
+  const inspection = row.original
+
+  const { execute, reset } = useAction(deleteCTPATInspection, {
+    onExecute() {
+      toast.loading("Eliminando inspección...")
+    },
+    onSuccess() {
+      toast.dismiss()
+      reset()
+    },
+    onError() {
+      toast.error("Algo salió mal")
+      reset()
+    }
+  })
+
+  const deleteInspection = () => {
+    execute({
+      id: inspection.id,
+      organizationId: inspection.organizationId
+    })
+  }
+
+  return (
+    <AlertDialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-32">
+          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+          <DropdownMenuItem asChild>
+            <Link href={`/dashboard/ctpat/${inspection.id}`}>Ver</Link>
+          </DropdownMenuItem>
+          {inspection.status === InspectionStatus.OPEN && (
+            <>
+              <DropdownMenuSeparator />
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem asChild>
+                  <span className="text-red-500">Eliminar</span>
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+            </>
+          )}
+          {inspection.status === InspectionStatus.CLOSED && (
+            <DropdownMenuItem asChild>
+              <span>Aprobar</span>
+            </DropdownMenuItem>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Eliminar inspección</AlertDialogTitle>
+          <AlertDialogDescription>
+            ¿Estás seguro de eliminar la inspección? Esta acción no se puede
+            deshacer
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogAction
+            variant="destructive"
+            onClick={() => deleteInspection()}
+          >
+            Eliminar
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
