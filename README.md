@@ -1,28 +1,44 @@
-# Create T3 App
+# 📌 Overview
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Cargo is a logistic application for C-TPAT inspections. It utilizes various libraries and tools such as Prisma, Next.js, React, Tailwind CSS, and more.
 
-## What's next? How do I make an app with this?
+## ⚙️ Setting Up
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+#### DATABASE_URL
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- The value for this variable depends on the type of database you are using.
+- If you are using SQLite, you can use the provided value: "file:./db.sqlite".
+- If you are using a different database, replace the value with the appropriate connection URL.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+#### NEXTAUTH_SECRET
 
-## Learn More
+- Generate a new secret key using the command: openssl rand -base64 32.
+- Copy the generated key and assign it as the value for this variable.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## 🚀 Run Locally
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+1.Clone the cargo repository:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```sh
+git clone https://github.com/dkast/cargo
+```
 
-## How do I deploy this?
+2.Install the dependencies with one of the package managers listed below:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```bash
+pnpm install
+```
+
+3.Start the development mode:
+
+```bash
+pnpm dev
+```
+
+## ☁️ Deploy
+
+[Cargo](https://cargohq.vercel.app/)
+
+## 📄 License
+
+Distributed under the AGPLv3 License. See [LICENSE](https://github.com/dkast/cargo/blob/main/LICENSE) for more information.
