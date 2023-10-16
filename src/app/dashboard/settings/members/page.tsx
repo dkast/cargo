@@ -23,7 +23,7 @@ export default async function MembersPage() {
   const data = await getMembers(user?.organizationId)
 
   return (
-    <div className="mx-auto grow px-3 sm:px-6">
+    <div className="mx-auto grow px-4 sm:px-6">
       <PageSubtitle
         title="Miembros"
         description="Administre a los miembros de la empresa"

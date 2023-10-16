@@ -25,7 +25,7 @@ export default async function SettingsPage() {
   if (!data) {
     //TODO: Add empty state
     return (
-      <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
+      <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
         <Alert>
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Empresa no tiene datos</AlertTitle>
@@ -38,7 +38,7 @@ export default async function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
+    <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
       <PageSubtitle
         title="Empresa"
         description="Información general de la empresa"

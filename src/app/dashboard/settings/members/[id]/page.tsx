@@ -26,7 +26,7 @@ export default async function MemberPage({
 
   if (!user?.organizationId) {
     return (
-      <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
+      <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Ocurrió un error</AlertTitle>
@@ -40,7 +40,7 @@ export default async function MemberPage({
 
   if (user?.role === "MEMBER") {
     return (
-      <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
+      <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
         <Alert variant="destructive">
           <ShieldAlert className="h-4 w-4" />
           <AlertTitle>Permiso denegado</AlertTitle>
@@ -63,7 +63,7 @@ export default async function MemberPage({
 
     if (membership?.role === "ADMIN" && user?.role === "OWNER") {
       return (
-        <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
+        <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
           <Alert variant="destructive">
             <ShieldAlert className="h-4 w-4" />
             <AlertTitle>Permiso denegado</AlertTitle>
@@ -100,7 +100,7 @@ export default async function MemberPage({
   }
 
   return (
-    <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
+    <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
       <PageSubtitle
         title={`${actionMessage} miembro`}
         description="Capture la información general"

@@ -37,7 +37,7 @@ export default async function NewCTPATPage() {
 
   return (
     <div className="relative">
-      <div className="mx-auto max-w-2xl grow px-3 py-4 sm:px-0 sm:py-8">
+      <div className="mx-auto max-w-2xl grow px-4 py-4 sm:px-0 sm:py-8">
         <Link
           href="/dashboard/inspect"
           className="mb-2 inline-block rounded-full border border-gray-200 p-1 hover:bg-gray-50 sm:absolute sm:left-4 sm:top-8"

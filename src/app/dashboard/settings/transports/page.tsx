@@ -14,7 +14,7 @@ export default async function Page() {
   const companies = await getCompanies(user?.organizationId)
 
   return (
-    <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
+    <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
       <TestForm companies={companies} />
     </div>
   )

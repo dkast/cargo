@@ -18,7 +18,7 @@ export default async function CTPATPage() {
   const data = await getInspections(user?.organizationId)
 
   return (
-    <div className="mx-auto grow px-3 sm:px-6">
+    <div className="mx-auto grow px-4 sm:px-6">
       <PageSubtitle title="CTPAT" description="Inspecciones CTPAT">
         <Button asChild>
           <Link href="/dashboard/ctpat/new">Nueva Inspección</Link>

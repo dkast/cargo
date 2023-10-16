@@ -8,7 +8,7 @@ import { InspectionResult, type Prisma } from "@prisma/client"
 import { Camera, Check, Loader2, X } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import { useRouter } from "next/navigation"
-import { z } from "zod"
+import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
