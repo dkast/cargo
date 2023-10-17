@@ -177,7 +177,6 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
           <DropdownMenuItem asChild>
             <Link href={`/dashboard/ctpat/view/${inspection.id}`}>Ver</Link>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
           {inspection.status === InspectionStatus.OPEN && (
             <>
               <DropdownMenuItem asChild>
@@ -193,7 +192,7 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
           )}
           {inspection.status === InspectionStatus.CLOSED && (
             <DropdownMenuItem asChild>
-              <span>Aprobar</span>
+              <span>Exportar PDF</span>
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
