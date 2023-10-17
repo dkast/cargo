@@ -55,10 +55,10 @@ export default async function CTPATPage({
                 })()}
               </h1>
             </div>
-            <div className="grid grid-cols-2 gap-y-4 text-sm sm:grid-cols-4">
-              <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Tipo Inspección</dt>
-                <dd>
+            <div className="grid grid-cols-2 gap-y-4 text-sm sm:grid-cols-3">
+              <dl className="space-y-1 sm:space-y-2">
+                <dt className="text-sm">Tipo Inspección</dt>
+                <dd className="text-sm leading-6 text-gray-700">
                   {inspection.tripType === InspectionTripType.IN ? (
                     <span>Entrada</span>
                   ) : (
@@ -66,33 +66,43 @@ export default async function CTPATPage({
                   )}
                 </dd>
               </dl>
-              <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Fecha</dt>
-                <dd>
+              <dl className="space-y-1 sm:space-y-2">
+                <dt className="text-sm">Fecha</dt>
+                <dd className="text-sm leading-6 text-gray-700">
                   {inspection.start instanceof Date
                     ? format(inspection.start, "Pp")
                     : format(new Date(inspection.start), "Pp")}
                 </dd>
               </dl>
-              <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Transportista</dt>
-                <dd>{inspection.company.name}</dd>
+              <dl className="space-y-1 sm:space-y-2">
+                <dt className="text-sm">Transportista</dt>
+                <dd className="text-sm leading-6 text-gray-700">
+                  {inspection.company.name}
+                </dd>
               </dl>
-              <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Operador</dt>
-                <dd>{inspection.operator.name}</dd>
+              <dl className="space-y-1 sm:space-y-2">
+                <dt className="text-sm">Operador</dt>
+                <dd className="text-sm leading-6 text-gray-700">
+                  {inspection.operator.name}
+                </dd>
               </dl>
-              <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Remolque</dt>
-                <dd>{inspection.vehicle.vehicleNbr}</dd>
+              <dl className="space-y-1 sm:space-y-2">
+                <dt className="text-sm">Remolque</dt>
+                <dd className="text-sm leading-6 text-gray-700">
+                  {inspection.vehicle.vehicleNbr}
+                </dd>
               </dl>
-              <dl className="space-y-1">
-                <dt className="text-sm text-gray-500">Carga</dt>
+              <dl className="space-y-1 sm:space-y-2">
+                <dt className="text-sm">Carga</dt>
                 <dd>
                   {inspection.isLoaded ? (
-                    <Badge variant="yellow">Cargado</Badge>
+                    <Badge variant="yellow" className="rounded">
+                      Cargado
+                    </Badge>
                   ) : (
-                    <Badge variant="secondary">Vacío</Badge>
+                    <Badge variant="secondary" className="rounded">
+                      Vacío
+                    </Badge>
                   )}
                 </dd>
               </dl>

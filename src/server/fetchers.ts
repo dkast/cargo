@@ -227,6 +227,7 @@ export async function getInspectionById(inspectionId: string) {
       },
       start: true,
       status: true,
+      result: true,
       isLoaded: true,
       tripType: true,
       sealNbr: true,

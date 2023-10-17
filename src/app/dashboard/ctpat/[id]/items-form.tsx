@@ -2,7 +2,7 @@
 
 import { useFieldArray, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { DevTool } from "@hookform/devtools"
+// import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { InspectionResult, type Prisma } from "@prisma/client"
 import { Camera, Check, Loader2, X } from "lucide-react"
@@ -245,7 +245,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
             )}
           </Button>
         </form>
-        <DevTool control={form.control} />
+        {/* <DevTool control={form.control} /> */}
       </Form>
     </div>
   )

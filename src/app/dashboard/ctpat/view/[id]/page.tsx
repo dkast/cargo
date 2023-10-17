@@ -1,11 +1,19 @@
-import { InspectionStatus, InspectionTripType } from "@prisma/client"
+import {
+  type InspectionItem,
+  InspectionResult,
+  InspectionStatus,
+  InspectionTripType
+} from "@prisma/client"
 import { format } from "date-fns"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Check, MessageSquare, X } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getInspectionById } from "@/server/fetchers"
+import { cn } from "@/lib/utils"
 
 export default async function CTPATViewPage({
   params
@@ -112,13 +120,140 @@ export default async function CTPATViewPage({
               </div>
             </dl>
             <h2 className="text-base font-semibold leading-7">
-              Resultados de la inspección
+              Resultado de la inspección
             </h2>
+            <div className="flex flex-col gap-4">
+              <div>
+                <div className="grid grid-cols-1 items-center sm:grid-cols-3">
+                  <Label>Resultado</Label>
+                  <div className="sm:col-span-2">
+                    {(() => {
+                      switch (inspection.result) {
+                        case InspectionResult.PASS:
+                          return (
+                            <Badge
+                              variant="green"
+                              className="gap-1 rounded text-base"
+                            >
+                              <Check className="h-4 w-4" />
+                              OK
+                            </Badge>
+                          )
+                        case InspectionResult.FAIL:
+                          return (
+                            <Badge
+                              variant="red"
+                              className="gap-1 rounded text-base"
+                            >
+                              <X className="h-4 w-4" />
+                              Falla
+                            </Badge>
+                          )
+                        default:
+                          return null
+                      }
+                    })()}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <Label>Puntos de Inspección</Label>
+                <Tabs defaultValue="fail" className="mt-2">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="fail">Con Error</TabsTrigger>
+                    <TabsTrigger value="all">Todos</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="fail">
+                    <InspectionItems
+                      inspectionItems={inspection.inspectionItems}
+                      showOnlyFailures
+                    />
+                  </TabsContent>
+                  <TabsContent value="all">
+                    {" "}
+                    <InspectionItems
+                      inspectionItems={inspection.inspectionItems}
+                    />
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       {/* Inspection detail */}
       {/* <ItemsForm inspection={inspection} /> */}
+    </div>
+  )
+}
+
+export function InspectionItems({
+  inspectionItems,
+  showOnlyFailures
+}: {
+  inspectionItems: Partial<InspectionItem>[]
+  showOnlyFailures?: boolean
+}) {
+  return (
+    <div className="flex flex-col gap-3">
+      {showOnlyFailures
+        ? inspectionItems
+            .filter(item => item.result === InspectionResult.FAIL)
+            .map(item => <ListItem key={item.id} item={item} />)
+        : inspectionItems.map(item => <ListItem key={item.id} item={item} />)}
+    </div>
+  )
+}
+
+export function ListItem({ item }: { item: Partial<InspectionItem> }) {
+  return (
+    <div
+      key={item.id}
+      className="flex w-full flex-col rounded-lg border px-4 py-3 shadow-sm"
+    >
+      <div className="flex flex-row items-center justify-between py-3">
+        <div className="flex flex-row items-center gap-3">
+          {item.order! < 17 && (
+            <span
+              className={cn(
+                item.result === InspectionResult.PASS
+                  ? "bg-green-50 text-green-700 ring-green-700/10"
+                  : "bg-red-50 text-red-700 ring-red-700/10",
+                "flex h-7 w-7 items-center justify-center rounded-full text-sm ring-1 ring-inset"
+              )}
+            >
+              {item.order! + 1}
+            </span>
+          )}
+          <span>{item.question}</span>
+        </div>
+        {(() => {
+          switch (item.result) {
+            case InspectionResult.PASS:
+              return (
+                <Badge variant="green" className="gap-1 rounded">
+                  <Check className="h-4 w-4" />
+                  OK
+                </Badge>
+              )
+            case InspectionResult.FAIL:
+              return (
+                <Badge variant="red" className="gap-1 rounded">
+                  <X className="h-4 w-4" />
+                  Falla
+                </Badge>
+              )
+            default:
+              return null
+          }
+        })()}
+      </div>
+      {item.result === InspectionResult.FAIL && (
+        <div className="flex flex-row gap-4 border-t pt-4 text-gray-500">
+          <MessageSquare className="h-4 w-4" />
+          <span className="text-sm">{item.notes}</span>
+        </div>
+      )}
     </div>
   )
 }
