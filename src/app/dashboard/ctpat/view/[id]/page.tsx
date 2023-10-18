@@ -123,27 +123,21 @@ export default async function CTPATViewPage({
             </h2>
             <div className="flex flex-col gap-4">
               <div>
-                <div className="grid grid-cols-1 items-center sm:grid-cols-3">
+                <div className="grid grid-cols-2 items-center sm:grid-cols-3">
                   <Label>Resultado</Label>
                   <div className="sm:col-span-2">
                     {(() => {
                       switch (inspection.result) {
                         case InspectionResult.PASS:
                           return (
-                            <Badge
-                              variant="green"
-                              className="gap-1 rounded text-base"
-                            >
+                            <Badge variant="green" className="gap-1 rounded">
                               <Check className="h-4 w-4" />
                               OK
                             </Badge>
                           )
                         case InspectionResult.FAIL:
                           return (
-                            <Badge
-                              variant="red"
-                              className="gap-1 rounded text-base"
-                            >
+                            <Badge variant="red" className="gap-1 rounded">
                               <X className="h-4 w-4" />
                               Falla
                             </Badge>
@@ -159,18 +153,19 @@ export default async function CTPATViewPage({
                 <Label>Puntos de Inspección</Label>
                 <Tabs defaultValue="fail" className="mt-2">
                   <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="fail">Con Error</TabsTrigger>
+                    <TabsTrigger value="fail">Fallas</TabsTrigger>
                     <TabsTrigger value="all">Todos</TabsTrigger>
                   </TabsList>
                   <TabsContent value="fail">
                     <InspectionList
+                      inspectedBy={inspection.inspectedBy.user}
                       inspectionItems={inspection.inspectionItems}
                       showOnlyFailures
                     />
                   </TabsContent>
                   <TabsContent value="all">
-                    {" "}
                     <InspectionList
+                      inspectedBy={inspection.inspectedBy.user}
                       inspectionItems={inspection.inspectionItems}
                     />
                   </TabsContent>
