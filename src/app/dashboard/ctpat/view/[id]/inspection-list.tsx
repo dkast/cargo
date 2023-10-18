@@ -1,5 +1,5 @@
 import { InspectionResult, type InspectionItem } from "@prisma/client"
-import { Check, CheckCircle, MessageSquare, X } from "lucide-react"
+import { Check, CheckCircle, X } from "lucide-react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -15,6 +15,7 @@ export function InspectionList({
   inspectedBy: {
     id: string
     name: string
+    username: string
   }
   showOnlyFailures?: boolean
 }) {
@@ -64,6 +65,7 @@ export function InspectionListItem({
   inspectedBy: {
     id: string
     name: string
+    username: string
   }
 }) {
   return (

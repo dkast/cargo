@@ -220,6 +220,19 @@ export async function getInspectionById(inspectionId: string) {
           user: {
             select: {
               id: true,
+              username: true,
+              name: true
+            }
+          }
+        }
+      },
+      approvedBy: {
+        select: {
+          id: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
               name: true
             }
           }

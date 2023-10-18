@@ -117,6 +117,20 @@ export default async function CTPATViewPage({
                   )}
                 </dd>
               </div>
+              <div className="border-t border-gray-100 py-3 sm:col-span-1">
+                <dt className="text-sm font-medium leading-6">
+                  Inspeccionado por
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+                  {inspection.inspectedBy.user.name}
+                </dd>
+              </div>
+              <div className="border-t border-gray-100 py-3 sm:col-span-1">
+                <dt className="text-sm font-medium leading-6">Revisado por</dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+                  {inspection.approvedBy?.user.name}
+                </dd>
+              </div>
             </dl>
             <h2 className="text-base font-semibold leading-7">
               Resultado de la inspección
@@ -172,11 +186,32 @@ export default async function CTPATViewPage({
                 </Tabs>
               </div>
             </div>
+            <h2 className="text-base font-semibold leading-7">
+              Información adicional
+            </h2>
+            <dl>
+              <dt className="text-sm font-medium leading-6">
+                Sello de Seguridad
+              </dt>
+              <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+                {inspection.sealNbr}
+              </dd>
+              <dt className="text-sm font-medium leading-6">
+                Marcado de Llantas Tractor
+              </dt>
+              <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+                {inspection.tiresVehicle}
+              </dd>
+              <dt className="text-sm font-medium leading-6">
+                Marcado de Llantas de Caja
+              </dt>
+              <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+                {inspection.tiresContainer}
+              </dd>
+            </dl>
           </div>
         </div>
       </div>
-      {/* Inspection detail */}
-      {/* <ItemsForm inspection={inspection} /> */}
     </div>
   )
 }
