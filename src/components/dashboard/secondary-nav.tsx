@@ -39,7 +39,7 @@ export default function SecondaryNav({
                   href={item.href}
                   className={cn(
                     "my-1 block rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-900",
-                    isActive && "text-violet-600"
+                    isActive && "text-orange-600"
                   )}
                 >
                   {item.title}
@@ -47,7 +47,7 @@ export default function SecondaryNav({
                 <div
                   className={cn(
                     "h-0.5 rounded-full",
-                    isActive && "bg-violet-600"
+                    isActive && "bg-orange-500"
                   )}
                 />
               </li>

@@ -12,6 +12,7 @@ import {
 import Link from "next/link"
 import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
+import Logo from "@/components/logo"
 import {
   Sheet,
   SheetContent,
@@ -42,7 +43,7 @@ export default function Sidebar() {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-gray-50 px-6">
           <div className="flex h-16 shrink-0 items-center">
-            <img className="h-8 w-auto" src="/logo.svg" alt="Cargo" />
+            <Logo className="fill-[#201923]" />
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -76,7 +77,7 @@ export default function Sidebar() {
           <SheetContent side={"left"}>
             <SheetHeader>
               <SheetTitle>
-                <img className="h-8 w-auto" src="/logo.svg" alt="Cargo" />
+                <Logo className="h-8 w-auto fill-[#201923]" />
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-4 flex flex-1 flex-col">
@@ -116,7 +117,7 @@ function NavigationLink({ item }: { item: NavigationItem }) {
     <li key={item.name} className="flex flex-row items-center gap-1">
       <div
         className={cn(
-          isActive ? "bg-violet-600" : "bg-transparent",
+          isActive ? "bg-orange-500" : "bg-transparent",
           "h-6 w-1 rounded-full"
         )}
         aria-hidden="true"
