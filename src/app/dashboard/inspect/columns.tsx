@@ -175,12 +175,14 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
         <DropdownMenuContent align="end" className="w-32">
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuItem asChild>
-            <Link href={`/dashboard/ctpat/view/${inspection.id}`}>Ver</Link>
+            <Link href={`/dashboard/ctpat/${inspection.id}`}>Ver</Link>
           </DropdownMenuItem>
           {inspection.status === InspectionStatus.OPEN && (
             <>
               <DropdownMenuItem asChild>
-                <Link href={`/dashboard/ctpat/${inspection.id}`}>Editar</Link>
+                <Link href={`/dashboard/ctpat/edit/${inspection.id}`}>
+                  Editar
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <AlertDialogTrigger asChild>
