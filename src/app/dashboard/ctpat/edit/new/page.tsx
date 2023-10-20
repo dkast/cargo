@@ -1,4 +1,4 @@
-import CTPATMainForm from "@/app/dashboard/ctpat/new/ctpat-main-form"
+import CTPATMainForm from "@/app/dashboard/ctpat/edit/new/ctpat-main-form"
 import { Arrow } from "@radix-ui/react-dropdown-menu"
 import { AlertCircle, ArrowLeft } from "lucide-react"
 import Link from "next/link"

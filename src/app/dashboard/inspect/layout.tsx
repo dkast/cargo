@@ -12,7 +12,13 @@ const SecondaryNavItems = [
   }
 ]
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+  modal
+}: {
+  children: React.ReactNode
+  modal: React.ReactNode
+}) {
   return (
     <>
       <PageHeader
@@ -21,6 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       />
       <SecondaryNav items={SecondaryNavItems} />
       <div className="flex grow">{children}</div>
+      {modal}
     </>
   )
 }

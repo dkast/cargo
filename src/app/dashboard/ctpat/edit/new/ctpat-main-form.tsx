@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import { AddVehicleForm } from "@/app/dashboard/ctpat/new/add-vehicle-form"
+import { AddVehicleForm } from "@/app/dashboard/ctpat/edit/new/add-vehicle-form"
 // import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fromDate } from "@internationalized/date"
@@ -149,8 +149,8 @@ export default function CTPATMainForm({
       if (data?.failure) {
         toast.error(data.failure.reason!)
       } else if (data?.success) {
+        router.push(`/dashboard/ctpat/edit/${data.success.inspectionId}`)
         toast.dismiss()
-        router.push(`/dashboard/ctpat/${data.success.inspectionId}`)
       }
       resetInspection()
     },

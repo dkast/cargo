@@ -21,7 +21,7 @@ export default async function CTPATPage() {
     <div className="mx-auto grow px-4 sm:px-6">
       <PageSubtitle title="CTPAT" description="Inspecciones CTPAT">
         <Button asChild>
-          <Link href="/dashboard/ctpat/new">Nueva Inspección</Link>
+          <Link href="/dashboard/ctpat/edit/new">Nueva Inspección</Link>
         </Button>
       </PageSubtitle>
       <div className="mt-6">

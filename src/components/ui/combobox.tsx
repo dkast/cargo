@@ -31,7 +31,7 @@ function ComboBox({
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-        <DrawerContent className="px-2 py-4">
+        <DrawerContent className="px-4 py-4">
           <div className="mx-auto mb-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
           <Command>{children}</Command>
         </DrawerContent>
