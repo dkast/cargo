@@ -1,8 +1,7 @@
 import {
   InspectionResult,
   InspectionStatus,
-  InspectionTripType,
-  type Prisma
+  InspectionTripType
 } from "@prisma/client"
 import { format } from "date-fns"
 import { Check, X } from "lucide-react"
@@ -12,15 +11,15 @@ import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
 import { Badge } from "@/components/ui/badge"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { type getInspectionById } from "@/server/fetchers"
+import { getInspectionById } from "@/server/fetchers"
 
-type Inspection = Prisma.PromiseReturnType<typeof getInspectionById>
-
-export default function InspectionView({
-  inspection
+export default async function InspectionView({
+  inspectionId
 }: {
-  inspection: Inspection
+  inspectionId: string
 }) {
+  const inspection = await getInspectionById(inspectionId)
+
   if (!inspection) {
     return notFound()
   }
