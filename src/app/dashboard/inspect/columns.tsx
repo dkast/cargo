@@ -181,7 +181,7 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
             <>
               <DropdownMenuItem asChild>
                 <Link href={`/dashboard/ctpat/edit/${inspection.id}`}>
-                  Editar
+                  Continuar
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />

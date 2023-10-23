@@ -119,7 +119,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
                                 className="sr-only"
                               />
                             </FormControl>
-                            <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-3 ring-2 ring-white">
+                            <div className="flex h-10 flex-row items-center gap-2 rounded-lg border px-2 text-gray-500 ring-2 ring-white">
                               <Check className="h-4 w-4" />
                               OK
                             </div>
@@ -133,7 +133,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
                                 className="sr-only"
                               />
                             </FormControl>
-                            <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-3 ring-2 ring-white">
+                            <div className="flex h-10 flex-row items-center gap-2 rounded-lg border px-2 text-gray-500 ring-2 ring-white">
                               <X className="h-4 w-4" />
                               NOK
                             </div>

@@ -1,6 +1,6 @@
 import CTPATMainForm from "@/app/dashboard/ctpat/edit/new/ctpat-main-form"
-import { Arrow } from "@radix-ui/react-dropdown-menu"
 import { AlertCircle, ArrowLeft } from "lucide-react"
+import { type Metadata } from "next"
 import Link from "next/link"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
@@ -12,6 +12,10 @@ import {
   getVehicles
 } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
+
+export const metadata: Metadata = {
+  title: "Nueva Inspección CTPAT"
+}
 
 export default async function NewCTPATPage() {
   const user = await getCurrentUser()

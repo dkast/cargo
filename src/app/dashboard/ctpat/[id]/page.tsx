@@ -1,9 +1,14 @@
 import { ArrowLeft } from "lucide-react"
+import { type Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import InspectionView from "@/components/dashboard/ctpat/inspection-view"
 import { getInspectionById } from "@/server/fetchers"
+
+export const metadata: Metadata = {
+  title: "Ver Inspección CTPAT"
+}
 
 export default async function CTPATViewPage({
   params: { id }

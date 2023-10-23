@@ -2,11 +2,16 @@ import ItemsForm from "@/app/dashboard/ctpat/edit/[id]/items-form"
 import { InspectionStatus, InspectionTripType } from "@prisma/client"
 import { format } from "date-fns"
 import { ArrowLeft } from "lucide-react"
+import { type Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
 import { getInspectionById } from "@/server/fetchers"
+
+export const metadata: Metadata = {
+  title: "Inspección CTPAT"
+}
 
 export default async function CTPATEditPage({
   params

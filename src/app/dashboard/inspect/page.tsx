@@ -1,4 +1,5 @@
 import { columns } from "@/app/dashboard/inspect/columns"
+import { type Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
@@ -7,6 +8,10 @@ import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table/data-table"
 import { getInspections } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
+
+export const metadata: Metadata = {
+  title: "Inspecciones CTPAT"
+}
 
 export default async function CTPATPage() {
   const user = await getCurrentUser()

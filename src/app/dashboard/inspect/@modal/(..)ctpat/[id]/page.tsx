@@ -18,7 +18,7 @@ export default async function CTPATModalPage({
 
   return (
     <Panel className="sm:w-2/3 sm:max-w-xl">
-      <ScrollArea className="h-[100%] px-4 sm:px-0">
+      <ScrollArea className="h-[100%] px-4 sm:px-2">
         <InspectionView inspection={inspection} />
       </ScrollArea>
     </Panel>
