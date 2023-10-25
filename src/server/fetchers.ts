@@ -163,6 +163,7 @@ export async function getInspections(organizationId: string) {
             }
           },
           start: true,
+          end: true,
           status: true,
           result: true,
           organizationId: true,
@@ -239,6 +240,7 @@ export async function getInspectionById(inspectionId: string) {
         }
       },
       start: true,
+      end: true,
       status: true,
       result: true,
       isLoaded: true,

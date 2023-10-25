@@ -9,7 +9,6 @@ import { notFound } from "next/navigation"
 
 import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
 import { Badge } from "@/components/ui/badge"
-import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getInspectionById } from "@/server/fetchers"
 
@@ -61,12 +60,47 @@ export default async function InspectionView({
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Fecha</dt>
+          <dt className="text-sm font-medium leading-6">Resultado</dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+            {(() => {
+              switch (inspection.result) {
+                case InspectionResult.PASS:
+                  return (
+                    <Badge variant="green" className="gap-1 rounded">
+                      <Check className="h-4 w-4" />
+                      OK
+                    </Badge>
+                  )
+                case InspectionResult.FAIL:
+                  return (
+                    <Badge variant="red" className="gap-1 rounded">
+                      <X className="h-4 w-4" />
+                      Falla
+                    </Badge>
+                  )
+                default:
+                  return null
+              }
+            })()}
+          </dd>
+        </div>
+        <div className="border-t border-gray-100 py-3 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">Fecha Inicio</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
             {inspection.start instanceof Date
               ? format(inspection.start, "Pp")
               : format(new Date(inspection.start), "Pp")}
           </dd>
+        </div>
+        <div className="border-t border-gray-100 py-3 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">Fecha Fin</dt>
+          {inspection.end && (
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+              {inspection.end instanceof Date
+                ? format(inspection.end, "Pp")
+                : format(new Date(inspection.end), "Pp")}
+            </dd>
+          )}
         </div>
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">Transportista</dt>
@@ -114,38 +148,10 @@ export default async function InspectionView({
         </div>
       </dl>
       <h2 className="text-base font-semibold leading-7">
-        Resultado de la inspección
+        Puntos de Inspección
       </h2>
       <div className="flex flex-col gap-4">
         <div>
-          <div className="grid grid-cols-2 items-center sm:grid-cols-3">
-            <Label>Resultado</Label>
-            <div className="sm:col-span-2">
-              {(() => {
-                switch (inspection.result) {
-                  case InspectionResult.PASS:
-                    return (
-                      <Badge variant="green" className="gap-1 rounded">
-                        <Check className="h-4 w-4" />
-                        OK
-                      </Badge>
-                    )
-                  case InspectionResult.FAIL:
-                    return (
-                      <Badge variant="red" className="gap-1 rounded">
-                        <X className="h-4 w-4" />
-                        Falla
-                      </Badge>
-                    )
-                  default:
-                    return null
-                }
-              })()}
-            </div>
-          </div>
-        </div>
-        <div>
-          <Label>Puntos de Inspección</Label>
           <Tabs defaultValue="fail" className="mt-2">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="fail">Fallas</TabsTrigger>

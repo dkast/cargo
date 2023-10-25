@@ -11,7 +11,7 @@ export default async function CTPATModalPage({
   params: { id: string }
 }) {
   return (
-    <Panel className="sm:w-2/3 sm:max-w-xl">
+    <Panel className="sm:w-1/2 sm:max-w-2xl">
       <ScrollArea className="h-[100%] px-4 sm:px-2">
         <Suspense fallback={<LoadingSkeleton />}>
           <InspectionView inspectionId={id} />
