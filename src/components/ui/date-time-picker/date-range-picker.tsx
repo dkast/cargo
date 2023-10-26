@@ -1,48 +1,42 @@
 "use client"
 
 import React, { useRef, useState } from "react"
+import { type DateValue, useDateRangePicker } from "react-aria"
 import {
-  useButton,
-  useDatePicker,
-  useInteractOutside,
-  type DateValue
-} from "react-aria"
-import { useDatePickerState, type DatePickerStateOptions } from "react-stately"
+  type DateRangePickerStateOptions,
+  useDateRangePickerState
+} from "react-stately"
 import { CalendarIcon } from "lucide-react"
 
+import { RangeCalendar } from "@/components/ui/date-time-picker/range-calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover"
 import { useForwardedRef } from "@/lib/use-forwarded-ref"
 import { cn } from "@/lib/utils"
 import { Button } from "../button"
-import { Popover, PopoverContent, PopoverTrigger } from "../popover"
-import { Calendar } from "./calendar"
 import { DateField } from "./date-field"
-import { TimeField } from "./time-field"
 
-const DateTimePicker = React.forwardRef<
+const DateRangePicker = React.forwardRef<
   HTMLDivElement,
-  DatePickerStateOptions<DateValue>
+  DateRangePickerStateOptions<DateValue>
 >((props, forwardedRef) => {
+  const state = useDateRangePickerState(props)
   const ref = useForwardedRef(forwardedRef)
-  const buttonRef = useRef<HTMLButtonElement | null>(null)
   const contentRef = useRef<HTMLDivElement | null>(null)
 
   const [open, setOpen] = useState(false)
 
-  const state = useDatePickerState(props)
   const {
     groupProps,
-    fieldProps,
-    buttonProps: _buttonProps,
+    startFieldProps,
+    endFieldProps,
+    buttonProps,
     dialogProps,
     calendarProps
-  } = useDatePicker(props, state, ref)
-  const { buttonProps } = useButton(_buttonProps, buttonRef)
-  useInteractOutside({
-    ref: contentRef,
-    onInteractOutside: _e => {
-      setOpen(false)
-    }
-  })
+  } = useDateRangePicker(props, state, ref)
 
   return (
     <div
@@ -53,8 +47,12 @@ const DateTimePicker = React.forwardRef<
         "flex items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
       )}
     >
-      <div className="flex h-10 grow flex-row items-center rounded-l-md border border-r-0">
-        <DateField {...fieldProps} />
+      <div className="flex h-10 grow flex-row items-center justify-between rounded-l-md border border-r-0">
+        <DateField {...startFieldProps} />
+        <span aria-hidden="true" className="px-2 text-gray-700">
+          -
+        </span>
+        <DateField {...endFieldProps} />
       </div>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -70,13 +68,7 @@ const DateTimePicker = React.forwardRef<
         </PopoverTrigger>
         <PopoverContent ref={contentRef} className="w-full">
           <div {...dialogProps} className="space-y-3">
-            <Calendar {...calendarProps} />
-            {!!state.hasTime && (
-              <TimeField
-                value={state.timeValue}
-                onChange={state.setTimeValue}
-              />
-            )}
+            <RangeCalendar {...calendarProps} />
           </div>
         </PopoverContent>
       </Popover>
@@ -84,6 +76,6 @@ const DateTimePicker = React.forwardRef<
   )
 })
 
-DateTimePicker.displayName = "DateTimePicker"
+DateRangePicker.displayName = "DateRangePicker"
 
-export { DateTimePicker }
+export { DateRangePicker }

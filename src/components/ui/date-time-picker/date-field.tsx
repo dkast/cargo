@@ -29,7 +29,7 @@ function DateField(props: AriaDatePickerProps<DateValue>) {
       {...fieldProps}
       ref={ref}
       className={cn(
-        "border-input inline-flex h-10 flex-1 items-center rounded-l-md border border-r-0 bg-transparent py-2 pl-3 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2",
+        "inline-flex h-10 flex-1 items-center rounded-l-md bg-transparent px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2",
         props.isDisabled ? "cursor-not-allowed opacity-50" : ""
       )}
     >
