@@ -8,6 +8,7 @@ import {
   type NextAuthOptions
 } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { unstable_cache } from "next/cache"
 
 import { prisma } from "@/server/db"
 import { env } from "@/env.mjs"
@@ -112,12 +113,24 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     session: async ({ session, token }) => {
-      const membershipData = await prisma.membership.findFirst({
-        where: {
+      console.log("session callback")
+      const membershipData = await unstable_cache(
+        async () => {
+          return prisma.membership.findFirst({
+            where: {
+              //@ts-expect-error user assigned in jwt callback
+              userId: token.user.id
+            }
+          })
+        },
+        //@ts-expect-error user assigned in jwt callback
+        [`membership-${token.user.id}`],
+        {
+          revalidate: 900,
           //@ts-expect-error user assigned in jwt callback
-          userId: token.user.id
+          tags: [`membership-${token.user.id}`]
         }
-      })
+      )()
       //@ts-expect-error user assigned in jwt callback
       session.user = token.user
       //@ts-expect-error assign membershipId

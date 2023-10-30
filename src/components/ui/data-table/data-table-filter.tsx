@@ -29,11 +29,17 @@ interface DataTableFilterProps {
     value: string
     icon?: React.ComponentType<{ className?: string }>
   }[]
+  value: string[]
+  onChange: (value: string[]) => void
 }
 
-export function DataTableFilter({ title, options }: DataTableFilterProps) {
-  // const selectedValues = new Set(column?.getFilterValue() as string[])
-  const [selectedValues, setselectedValues] = React.useState<string[]>([])
+export function DataTableFilter({
+  title,
+  options,
+  value,
+  onChange
+}: DataTableFilterProps) {
+  // const value = new Set(column?.getFilterValue() as string[])
 
   return (
     <Popover>
@@ -41,26 +47,26 @@ export function DataTableFilter({ title, options }: DataTableFilterProps) {
         <Button variant="outline" size="sm" className="h-8 border-dashed">
           <PlusCircleIcon className="mr-2 h-4 w-4" />
           {title}
-          {selectedValues?.length > 0 && (
+          {value?.length > 0 && (
             <>
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
                 variant="violet"
                 className="rounded-sm px-1 font-normal lg:hidden"
               >
-                {selectedValues.length}
+                {value.length}
               </Badge>
               <div className="hidden space-x-1 lg:flex">
-                {selectedValues.length > 2 ? (
+                {value.length > 2 ? (
                   <Badge
                     variant="violet"
                     className="whitespace-nowrap rounded-sm px-1 font-normal"
                   >
-                    {selectedValues.length} selecc.
+                    {value.length} selecc.
                   </Badge>
                 ) : (
                   options
-                    .filter(option => selectedValues.includes(option.value))
+                    .filter(option => value.includes(option.value))
                     .map(option => (
                       <Badge
                         variant="violet"
@@ -85,17 +91,15 @@ export function DataTableFilter({ title, options }: DataTableFilterProps) {
             </CommandEmpty>
             <CommandGroup>
               {options.map(option => {
-                const isSelected = selectedValues.includes(option.value)
+                const isSelected = value.includes(option.value)
                 return (
                   <CommandItem
                     key={option.value}
                     onSelect={() => {
                       if (isSelected) {
-                        setselectedValues(
-                          selectedValues.filter(item => item !== option.value)
-                        )
+                        onChange(value.filter(item => item !== option.value))
                       } else {
-                        setselectedValues([...selectedValues, option.value])
+                        onChange([...value, option.value])
                       }
                     }}
                   >
@@ -117,12 +121,12 @@ export function DataTableFilter({ title, options }: DataTableFilterProps) {
                 )
               })}
             </CommandGroup>
-            {selectedValues.length > 0 && (
+            {value.length > 0 && (
               <>
                 <CommandSeparator />
                 <CommandGroup>
                   <CommandItem
-                    onSelect={() => setselectedValues([])}
+                    onSelect={() => onChange([])}
                     className="justify-center text-center"
                   >
                     Limpiar filtro

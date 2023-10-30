@@ -189,6 +189,14 @@ export const inspectionDetailSchema = z
     }
   )
 
+export interface InspectionQueryFilter {
+  organizationId: string
+  status?: string
+  result?: string
+  start?: string
+  end?: string
+}
+
 export enum actionType {
   CREATE = "CREATE",
   UPDATE = "UPDATE",

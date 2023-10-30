@@ -1,6 +1,9 @@
+import { type InspectionResult, type InspectionStatus } from "@prisma/client"
+import { parseISO, subMonths } from "date-fns"
 import { unstable_cache as cache } from "next/cache"
 
 import { prisma } from "@/server/db"
+import { type InspectionQueryFilter } from "@/lib/types"
 
 export async function getOrganization(organizationId: string) {
   return await cache(
@@ -141,74 +144,75 @@ export async function getContainers(organizationId: string) {
   )()
 }
 
-export async function getInspections(organizationId: string) {
-  return await cache(
-    async () => {
-      return prisma.inspection.findMany({
-        where: {
-          organizationId: organizationId
-        },
+export async function getInspections(filter: InspectionQueryFilter) {
+  return await prisma.inspection.findMany({
+    where: {
+      organizationId: filter.organizationId,
+      start: {
+        gte: filter.start ? parseISO(filter.start) : subMonths(new Date(), 1),
+        lte: filter.end ? parseISO(filter.end) : new Date()
+      },
+      status: filter.status
+        ? { in: filter.status.split(",") as InspectionStatus[] }
+        : undefined,
+      result: filter.result
+        ? { in: filter.result.split(",") as InspectionResult[] }
+        : undefined
+    },
+    select: {
+      id: true,
+      inspectionNbr: true,
+      inspectedBy: {
         select: {
           id: true,
-          inspectionNbr: true,
-          inspectedBy: {
-            select: {
-              id: true,
-              user: {
-                select: {
-                  id: true,
-                  name: true
-                }
-              }
-            }
-          },
-          start: true,
-          end: true,
-          status: true,
-          result: true,
-          organizationId: true,
-          vehicle: {
-            select: {
-              id: true,
-              vehicleNbr: true,
-              licensePlate: true
-            }
-          },
-          operator: {
-            select: {
-              id: true,
-              name: true,
-              licenseNumber: true
-            }
-          },
-          company: {
+          user: {
             select: {
               id: true,
               name: true
             }
-          },
-          container: {
-            select: {
-              id: true,
-              containerNbr: true
-            }
           }
-        },
-        orderBy: {
-          start: "asc"
         }
-      })
+      },
+      start: true,
+      end: true,
+      status: true,
+      result: true,
+      organizationId: true,
+      vehicle: {
+        select: {
+          id: true,
+          vehicleNbr: true,
+          licensePlate: true
+        }
+      },
+      operator: {
+        select: {
+          id: true,
+          name: true,
+          licenseNumber: true
+        }
+      },
+      company: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      container: {
+        select: {
+          id: true,
+          containerNbr: true
+        }
+      }
     },
-    [`ctpatInspections-${organizationId}`],
-    {
-      revalidate: 900,
-      tags: [`ctpatInspections-${organizationId}`]
+    orderBy: {
+      start: "asc"
     }
-  )()
+  })
 }
 
 export async function getInspectionById(inspectionId: string) {
-  return prisma.inspection.findFirst({
+  return await prisma.inspection.findFirst({
     where: {
       id: inspectionId
     },

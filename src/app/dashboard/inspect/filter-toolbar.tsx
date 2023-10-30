@@ -1,9 +1,14 @@
 "use client"
 
-import { Dispatch, SetStateAction, useState } from "react"
-import { RangeCalendarState } from "react-stately"
-import { CalendarDate, DateValue, parseDate } from "@internationalized/date"
+import { type DateValue, parseDate, today } from "@internationalized/date"
 import { InspectionItemResult, InspectionStatus } from "@prisma/client"
+import {
+  createParser,
+  parseAsArrayOf,
+  parseAsString,
+  useQueryState,
+  useQueryStates
+} from "next-usequerystate"
 
 import { DataTableFilter } from "@/components/ui/data-table/data-table-filter"
 import { DateRangePicker } from "@/components/ui/date-time-picker/date-range-picker"
@@ -35,26 +40,66 @@ const result = [
   }
 ]
 
+const calendarDateParser = createParser({
+  parse: (value: string) => {
+    if (value === null) {
+      return null
+    }
+    return parseDate(value)
+  },
+  serialize: (value: DateValue) => {
+    return value.toString()
+  }
+})
+
 export default function FilterToolbar() {
-  const [dateValue, setDateValue] = useState({
-    start: parseDate("2020-02-03"),
-    end: parseDate("2020-02-08")
-  })
-  // const handleDateRangeChange: Dispatch<SetStateAction<RangeCalendarState>> = (value) => {
-  //   setDateValue((prevValue) => ({
-  //     ...prevValue,
-  //     start: value.start as CalendarDate,
-  //     end: value.end as CalendarDate,
-  //   }));
-  // }
+  const [dateValue, setDateValue] = useQueryStates(
+    {
+      start: calendarDateParser.withDefault(
+        today("CST").subtract({ months: 1 })
+      ),
+      end: calendarDateParser.withDefault(today("CST"))
+    },
+    {
+      shallow: false
+    }
+  )
+  const [statusValue, setStatusValue] = useQueryState(
+    "status",
+    parseAsArrayOf(parseAsString)
+      .withOptions({
+        shallow: false
+      })
+      .withDefault([])
+  )
+  const [resultValue, setResultValue] = useQueryState(
+    "result",
+    parseAsArrayOf(parseAsString)
+      .withOptions({
+        shallow: false
+      })
+      .withDefault([])
+  )
+
   return (
     <div className="flex flex-row items-center justify-between py-2">
       <div className="flex flex-row items-center gap-x-2">
-        <Input placeholder="Filtrar resultados..." className="h-8" />
-        <DataTableFilter title="Estado" options={status} />
-        <DataTableFilter title="Resultado" options={result} />
+        <Input placeholder="Filtrar resultados..." />
+        <DataTableFilter
+          title="Estado"
+          options={status}
+          value={statusValue}
+          onChange={setStatusValue}
+        />
+        <DataTableFilter
+          title="Resultado"
+          options={result}
+          value={resultValue}
+          onChange={setResultValue}
+        />
       </div>
-      <DateRangePicker value={dateValue} />
+      {/*@ts-expect-error TODO: Review types for this*/}
+      <DateRangePicker value={dateValue} onChange={setDateValue} />
     </div>
   )
 }

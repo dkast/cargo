@@ -1,27 +1,23 @@
 "use client"
 
-import React, { useMemo, useRef } from "react"
+import React, { useMemo } from "react"
 import {
-  type DateValue,
-  type RangeCalendarProps,
   useButton,
   useCalendarCell,
   useCalendarGrid,
   useLocale,
-  useRangeCalendar
+  useRangeCalendar,
+  type DateValue,
+  type RangeCalendarProps
 } from "react-aria"
-import {
-  CalendarState,
-  type RangeCalendarState,
-  useRangeCalendarState
-} from "react-stately"
+import { useRangeCalendarState, type RangeCalendarState } from "react-stately"
 import {
   isToday as _isToday,
-  type CalendarDate,
   createCalendar,
   getLocalTimeZone,
   getWeeksInMonth,
-  isSameDay
+  isSameDay,
+  type CalendarDate
 } from "@internationalized/date"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
