@@ -46,7 +46,8 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
+  toolbar
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState<string>("")
@@ -71,14 +72,16 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
+      <div className="flex flex-row items-center justify-between gap-x-3 py-2">
+        <Input
+          placeholder="Buscar en columnas..."
+          value={globalFilter}
+          onChange={e => setGlobalFilter(e.target.value)}
+          className="h-8 w-[200px]"
+        />
+        {toolbar}
+      </div>
       <div className="mb-4 rounded-md border">
-        <div>
-          <Input
-            placeholder="Filtrar resultados..."
-            value={globalFilter}
-            onChange={e => setGlobalFilter(e.target.value)}
-          />
-        </div>
         <Table>
           <TableHeader className="bg-gray-50">
             {table.getHeaderGroups().map(headerGroup => (

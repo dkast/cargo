@@ -69,8 +69,7 @@ export default async function CTPATPage({
         </Button>
       </PageSubtitle>
       <div className="mt-6">
-        <FilterToolbar />
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={data} toolbar={<FilterToolbar />} />
       </div>
     </div>
   )

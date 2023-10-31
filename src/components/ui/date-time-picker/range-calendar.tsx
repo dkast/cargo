@@ -184,7 +184,9 @@ function CalendarCell({ state, date }: CalendarCellProps) {
           isOutsideVisibleRange
             ? "text-gray-500 opacity-50 dark:text-gray-400"
             : "",
-          isDisabled ? "text-gray-500 opacity-50 dark:text-gray-400" : ""
+          isDisabled ? "text-gray-500 opacity-50 dark:text-gray-400" : "",
+          isSelectionStart ? "button:rounded-l-md" : "",
+          isSelectionEnd ? "rounded-r-md" : ""
         )}
       >
         {formattedDate}

@@ -81,8 +81,8 @@ export default function FilterToolbar() {
   )
 
   return (
-    <div className="flex flex-row items-center justify-between py-2">
-      <div className="flex flex-row items-center gap-x-2">
+    <>
+      <div className="flex grow flex-row items-center gap-x-2">
         <DataTableFilter
           title="Estado"
           options={status}
@@ -98,6 +98,6 @@ export default function FilterToolbar() {
       </div>
       {/*@ts-expect-error TODO: Review types for this*/}
       <DateRangePicker value={dateValue} onChange={setDateValue} />
-    </div>
+    </>
   )
 }

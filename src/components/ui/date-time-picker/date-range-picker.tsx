@@ -1,10 +1,10 @@
 "use client"
 
 import React, { useRef, useState } from "react"
-import { type DateValue, useDateRangePicker } from "react-aria"
+import { useDateRangePicker, type DateValue } from "react-aria"
 import {
-  type DateRangePickerStateOptions,
-  useDateRangePickerState
+  useDateRangePickerState,
+  type DateRangePickerStateOptions
 } from "react-stately"
 import { CalendarIcon } from "lucide-react"
 
@@ -47,9 +47,9 @@ const DateRangePicker = React.forwardRef<
         "flex items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
       )}
     >
-      <div className="flex h-10 grow flex-row items-center justify-between rounded-l-md border border-r-0">
+      <div className="flex h-8 flex-row items-center justify-between rounded-l-md border border-r-0">
         <DateField {...startFieldProps} />
-        <span aria-hidden="true" className="px-2 text-gray-700">
+        <span aria-hidden="true" className="text-gray-700">
           -
         </span>
         <DateField {...endFieldProps} />
@@ -59,6 +59,7 @@ const DateRangePicker = React.forwardRef<
           <Button
             {...buttonProps}
             variant="outline"
+            size="xs"
             className="rounded-l-none"
             disabled={props.isDisabled}
             onClick={() => setOpen(true)}
