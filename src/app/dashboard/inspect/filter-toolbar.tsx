@@ -1,6 +1,6 @@
 "use client"
 
-import { type DateValue, parseDate, today } from "@internationalized/date"
+import { parseDate, today, type DateValue } from "@internationalized/date"
 import { InspectionItemResult, InspectionStatus } from "@prisma/client"
 import {
   createParser,
@@ -12,7 +12,6 @@ import {
 
 import { DataTableFilter } from "@/components/ui/data-table/data-table-filter"
 import { DateRangePicker } from "@/components/ui/date-time-picker/date-range-picker"
-import { Input } from "@/components/ui/input"
 
 const status = [
   {
@@ -84,7 +83,6 @@ export default function FilterToolbar() {
   return (
     <div className="flex flex-row items-center justify-between py-2">
       <div className="flex flex-row items-center gap-x-2">
-        <Input placeholder="Filtrar resultados..." />
         <DataTableFilter
           title="Estado"
           options={status}
