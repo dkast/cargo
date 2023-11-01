@@ -32,6 +32,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -40,6 +41,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -67,13 +70,20 @@ model VerificationToken {
 
 // Multi-Tenant
 model Organization {
-  id          String       @id @default(cuid())
-  name        String       @unique
-  description String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  subdomain   String       @unique
-  memberships Membership[]
+  id                 String               @id @default(cuid())
+  name               String               @unique
+  description        String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  subdomain          String               @unique
+  memberships        Membership[]
+  companies          Company[]
+  operators          Operator[]
+  vehicles           Vehicle[]
+  containers         Container[]
+  inspections        Inspection[]
+  inspectionItem     InspectionItem[]
+  inspectionItemFile InspectionItemFile[]
 }
 
 model Membership {
@@ -83,14 +93,171 @@ model Membership {
   role           MembershipRole
   user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
+  isActive       Boolean        @default(true)
   organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
+  inspections    Inspection[]   @relation(name: "inspectedBy")
+  approvals      Inspection[]   @relation(name: "approvedBy")
 
   @@unique([organizationId, userId])
+  @@index([userId])
 }
 
 enum MembershipRole {
   OWNER
   ADMIN
   MEMBER
+}
+
+model Company {
+  id             String       @id @default(cuid())
+  name           String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  inspections    Inspection[]
+
+  @@index([organizationId])
+}
+
+model Operator {
+  id             String       @id @default(cuid())
+  name           String       @unique
+  licenseNumber  String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  inspections    Inspection[]
+
+  @@index([organizationId])
+}
+
+model Vehicle {
+  id             String       @id @default(cuid())
+  vehicleNbr     String       @unique
+  licensePlate   String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  inspections    Inspection[]
+
+  @@index([organizationId])
+}
+
+model Container {
+  id             String       @id @default(cuid())
+  containerNbr   String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  inspections    Inspection[]
+
+  @@index([organizationId])
+}
+
+model Inspection {
+  id              String             @id @default(cuid())
+  inspectionNbr   Int                @unique @default(autoincrement())
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  operator        Operator           @relation(fields: [operatorId], references: [id])
+  operatorId      String
+  licenseNumber   String?
+  vehicle         Vehicle            @relation(fields: [vehicleId], references: [id])
+  vehicleId       String
+  licensePlate    String?
+  container       Container          @relation(fields: [containerId], references: [id])
+  containerId     String
+  company         Company            @relation(fields: [companyId], references: [id])
+  companyId       String
+  isLoaded        Boolean
+  sealNbr         String?
+  tiresVehicle    String?
+  tiresContainer  String?
+  inspectedBy     Membership         @relation(name: "inspectedBy", fields: [inspectedById], references: [id])
+  inspectedById   String
+  approvedBy      Membership?        @relation(name: "approvedBy", fields: [approvedById], references: [id])
+  approvedById    String?
+  tripType        InspectionTripType
+  start           DateTime
+  end             DateTime?
+  inspectionType  InspectionType
+  status          InspectionStatus
+  result          InspectionResult?
+  notes           String?
+  organization    Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId  String
+  inspectionItems InspectionItem[]
+
+  @@index([inspectionNbr])
+  @@index([operatorId])
+  @@index([vehicleId])
+  @@index([containerId])
+  @@index([companyId])
+  @@index([organizationId])
+  @@index([inspectedById])
+  @@index([approvedById])
+}
+
+model InspectionItem {
+  id                  String               @id @default(cuid())
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  inspection          Inspection           @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
+  inspectionId        String
+  question            String
+  result              InspectionItemResult
+  notes               String?
+  order               Int
+  organization        Organization         @relation(fields: [organizationId], references: [id])
+  organizationId      String
+  inspectionItemFiles InspectionItemFile[]
+
+  @@index([inspectionId])
+  @@index([organizationId])
+}
+
+model InspectionItemFile {
+  id               String         @id @default(cuid())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  inspectionItem   InspectionItem @relation(fields: [inspectionItemId], references: [id], onDelete: Cascade)
+  inspectionItemId String
+  fileUrl          String
+  organization     Organization   @relation(fields: [organizationId], references: [id])
+  organizationId   String
+
+  @@index([inspectionItemId])
+  @@index([organizationId])
+}
+
+enum InspectionTripType {
+  IN
+  OUT
+}
+
+enum InspectionType {
+  CTPAT
+  TRANSFER
+}
+
+enum InspectionStatus {
+  OPEN
+  CLOSED
+  APPROVED
+}
+
+enum InspectionResult {
+  PASS
+  FAIL
+}
+
+enum InspectionItemResult {
+  PASS
+  FAIL
+  NA
 }

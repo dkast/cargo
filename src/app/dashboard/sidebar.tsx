@@ -2,15 +2,17 @@
 
 import ProfileMenu from "@/app/dashboard/profile-menu"
 import {
+  ClipboardCheck,
   FileBarChart,
   Home,
   Menu,
   Settings,
-  Truck,
   type LucideIcon
 } from "lucide-react"
-import { usePathname } from "next/navigation"
+import Link from "next/link"
+import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
+import Logo from "@/components/logo"
 import {
   Sheet,
   SheetContent,
@@ -28,8 +30,8 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { name: "Inicio", href: "/dashboard", icon: Home },
-  { name: "Inspecciones", href: "/inspect", icon: Truck },
-  { name: "Reportes", href: "/reports", icon: FileBarChart },
+  { name: "Inspecciones", href: "/dashboard/inspect", icon: ClipboardCheck },
+  { name: "Informes", href: "/dashboard/reports", icon: FileBarChart },
   { name: "Configuración", href: "/dashboard/settings", icon: Settings }
 ]
 
@@ -41,7 +43,7 @@ export default function Sidebar() {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-gray-50 px-6">
           <div className="flex h-16 shrink-0 items-center">
-            <img className="h-8 w-auto" src="/logo.svg" alt="Cargo" />
+            <Logo className="fill-[#201923]" />
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -75,11 +77,7 @@ export default function Sidebar() {
           <SheetContent side={"left"}>
             <SheetHeader>
               <SheetTitle>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=600"
-                  alt="Your Company"
-                />
+                <Logo className="h-8 w-auto fill-[#201923]" />
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-4 flex flex-1 flex-col">
@@ -106,18 +104,31 @@ export default function Sidebar() {
 
 function NavigationLink({ item }: { item: NavigationItem }) {
   const pathname = usePathname()
+  const segment = useSelectedLayoutSegment()
 
-  const isActive = pathname === item.href
+  let isActive = false
+  if (!segment) {
+    isActive = pathname === item.href
+  } else {
+    isActive = item.href.includes(segment)
+  }
 
   return (
-    <li key={item.name}>
-      <a
+    <li key={item.name} className="flex flex-row items-center gap-1">
+      <div
+        className={cn(
+          isActive ? "bg-orange-500" : "bg-transparent",
+          "h-6 w-1 rounded-full"
+        )}
+        aria-hidden="true"
+      />
+      <Link
         href={item.href}
         className={cn(
           isActive
             ? "bg-gray-200/70  text-gray-700"
             : "text-gray-500 hover:bg-gray-100 hover:text-gray-600",
-          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
+          "group flex grow gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
         )}
       >
         <item.icon
@@ -130,7 +141,7 @@ function NavigationLink({ item }: { item: NavigationItem }) {
           aria-hidden="true"
         />
         {item.name}
-      </a>
+      </Link>
     </li>
   )
 }

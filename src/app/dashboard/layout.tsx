@@ -4,7 +4,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Sidebar />
-      <div className="flex min-h-screen flex-col py-8 lg:pl-60">{children}</div>
+      <div className="flex min-h-screen flex-col lg:pl-60">{children}</div>
     </>
   )
 }

@@ -5,6 +5,7 @@ const config = {
   tabWidth: 2,
   semi: false,
   printWidth: 80,
+  endOfLine: "lf",
   plugins: [
     "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"

@@ -15,8 +15,16 @@ const SecondaryNavItems = [
     href: "/dashboard/settings/transports"
   },
   {
-    title: "Choferes",
+    title: "Operadores",
     href: "/dashboard/settings/drivers"
+  },
+  {
+    title: "Unidades",
+    href: "/dashboard/settings/vehicles"
+  },
+  {
+    title: "Contenedores",
+    href: "/dashboard/settings/containers"
   }
 ]
 
@@ -28,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         description="Maneja los ajustes de la organización, miembros del equipo y otros datos"
       />
       <SecondaryNav items={SecondaryNavItems} />
-      <div className="flex grow">{children}</div>
+      <div className="flex grow pb-4">{children}</div>
     </>
   )
 }

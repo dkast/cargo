@@ -1,9 +1,7 @@
 import { type Table } from "@tanstack/react-table"
 import {
   ChevronLeft,
-  ChevronLeftIcon,
   ChevronRight,
-  ChevronRightIcon,
   ChevronsLeft,
   ChevronsRight
 } from "lucide-react"

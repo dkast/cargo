@@ -1,15 +1,20 @@
 "use client"
 
-import { DataTablePagination } from "@/app/dashboard/settings/members/data-table-pagination"
+import { useState } from "react"
+import { rankItem } from "@tanstack/match-sorter-utils"
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
-  type ColumnDef
+  type ColumnDef,
+  type FilterFn,
+  type SortingState
 } from "@tanstack/react-table"
 
-import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -18,25 +23,64 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { DataTablePagination } from "./data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  toolbar?: React.ReactNode
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value)
+
+  // Store the itemRank info
+  addMeta({
+    itemRank
+  })
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
+  toolbar
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState<string>("")
   const table = useReactTable({
     data,
     columns,
+    filterFns: {
+      fuzzy: fuzzyFilter
+    },
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: fuzzyFilter,
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      globalFilter
+    }
   })
 
   return (
     <div>
+      <div className="flex flex-row items-center justify-between gap-x-3 py-2">
+        <Input
+          placeholder="Buscar en columnas..."
+          value={globalFilter}
+          onChange={e => setGlobalFilter(e.target.value)}
+          className="h-8 w-[200px]"
+        />
+        {toolbar}
+      </div>
       <div className="mb-4 rounded-md border">
         <Table>
           <TableHeader className="bg-gray-50">

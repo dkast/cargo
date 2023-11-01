@@ -8,6 +8,7 @@ import {
   type NextAuthOptions
 } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { unstable_cache } from "next/cache"
 
 import { prisma } from "@/server/db"
 import { env } from "@/env.mjs"
@@ -25,6 +26,7 @@ declare module "next-auth" {
       // ...other properties
       username: string
       role: MembershipRole
+      membershipId: string
       organizationId: string
     }
   }
@@ -100,8 +102,6 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   callbacks: {
     jwt: async ({ token, user }) => {
-      console.log("jwt")
-      console.dir(user)
       if (user) {
         token.user = {
           id: user.id,
@@ -113,18 +113,28 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     session: async ({ session, token }) => {
-      console.log("token")
-      console.dir(token)
-      const membershipData = await prisma.membership.findFirst({
-        where: {
+      console.log("session callback")
+      const membershipData = await unstable_cache(
+        async () => {
+          return prisma.membership.findFirst({
+            where: {
+              //@ts-expect-error user assigned in jwt callback
+              userId: token.user.id
+            }
+          })
+        },
+        //@ts-expect-error user assigned in jwt callback
+        [`membership-${token.user.id}`],
+        {
+          revalidate: 900,
           //@ts-expect-error user assigned in jwt callback
-          userId: token.user.id
+          tags: [`membership-${token.user.id}`]
         }
-      })
-      console.log("membershipData")
-      console.dir(membershipData)
+      )()
       //@ts-expect-error user assigned in jwt callback
       session.user = token.user
+      //@ts-expect-error assign membershipId
+      session.user.membershipId = membershipData?.id
       //@ts-expect-error assign role
       session.user.role = membershipData?.role
       //@ts-expect-error assign organizationId

@@ -1,9 +1,21 @@
-import Spinner from "@/components/ui/spinner"
+import TestForm from "@/app/dashboard/settings/transports/test-form"
+import { notFound } from "next/navigation"
 
-export default function Loading() {
+import { getCompanies } from "@/server/fetchers"
+import { getCurrentUser } from "@/lib/session"
+
+export default async function Page() {
+  const user = await getCurrentUser()
+
+  if (!user?.organizationId) {
+    notFound()
+  }
+
+  const companies = await getCompanies(user?.organizationId)
+
   return (
-    <div className="flex grow items-center justify-center">
-      <Spinner />
+    <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
+      <TestForm companies={companies} />
     </div>
   )
 }
