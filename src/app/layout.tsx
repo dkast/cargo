@@ -1,4 +1,4 @@
-import { type Metadata } from "next"
+import { type Viewport, type Metadata } from "next"
 import { Inter, Syne } from "next/font/google"
 
 import "../styles/globals.css"
@@ -13,16 +13,17 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico"
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    viewportFit: "cover",
-    userScalable: false
-  },
   appleWebApp: {
     title: "Cargo"
   }
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+  userScalable: false
 }
 
 const inter = Inter({
