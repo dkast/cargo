@@ -113,7 +113,6 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     session: async ({ session, token }) => {
-      console.log("session callback")
       const membershipData = await unstable_cache(
         async () => {
           return prisma.membership.findFirst({

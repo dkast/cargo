@@ -7,9 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function DashboardPage() {
-  return (
-    <>
-      <PageHeader title="Bienvenido"></PageHeader>
-    </>
-  )
+  return <PageHeader title="Bienvenido"></PageHeader>
 }
