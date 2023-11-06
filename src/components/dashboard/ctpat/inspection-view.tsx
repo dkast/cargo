@@ -7,10 +7,13 @@ import { format } from "date-fns"
 import { Check, X } from "lucide-react"
 import { notFound } from "next/navigation"
 
+import { InspectionApprove } from "@/components/dashboard/ctpat/inspection-approve"
 import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getInspectionById } from "@/server/fetchers"
+import { getCurrentUser } from "@/lib/session"
+import { canApprove } from "@/lib/utils"
 
 export default async function InspectionView({
   inspectionId
@@ -18,8 +21,9 @@ export default async function InspectionView({
   inspectionId: string
 }) {
   const inspection = await getInspectionById(inspectionId)
+  const user = await getCurrentUser()
 
-  if (!inspection) {
+  if (!inspection || !user) {
     return notFound()
   }
 
@@ -194,6 +198,13 @@ export default async function InspectionView({
           {inspection.tiresContainer}
         </dd>
       </dl>
+      {inspection.status === InspectionStatus.CLOSED &&
+        canApprove(user.role) && (
+          <InspectionApprove
+            inspectionId={inspection.id}
+            organizationId={inspection.organizationId}
+          />
+        )}
     </div>
   )
 }

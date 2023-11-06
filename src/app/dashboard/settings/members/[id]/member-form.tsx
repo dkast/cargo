@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { MembershipRole } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import Link from "next/link"
@@ -214,8 +215,13 @@ export default function MemberForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="OWNER">Propietario</SelectItem>
-                  <SelectItem value="MEMBER">Miembro</SelectItem>
+                  <SelectItem value={MembershipRole.OWNER}>
+                    Propietario
+                  </SelectItem>
+                  <SelectItem value={MembershipRole.SUPERVISOR}>
+                    Supervisor
+                  </SelectItem>
+                  <SelectItem value={MembershipRole.MEMBER}>Miembro</SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>

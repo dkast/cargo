@@ -180,3 +180,44 @@ export const deleteCTPATInspection = action(
     }
   }
 )
+
+export const approveCTPATInspection = action(
+  z.object({
+    id: z.string().cuid(),
+    organizationId: z.string().cuid(),
+    approvedById: z.string().cuid()
+  }),
+  async ({ id, organizationId, approvedById }) => {
+    try {
+      await prisma.inspection.update({
+        where: {
+          id: id
+        },
+        data: {
+          status: InspectionStatus.APPROVED,
+          approvedById: approvedById
+        }
+      })
+
+      revalidateTag(`ctpatInspections-${organizationId}`)
+
+      return {
+        success: {
+          inspectionId: id
+        }
+      }
+    } catch (error) {
+      let message
+      if (typeof error === "string") {
+        message = error
+      } else if (error instanceof Error) {
+        message = error.message
+      }
+      return {
+        failure: {
+          reason: message
+        }
+      }
+    }
+  }
+)

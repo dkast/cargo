@@ -50,7 +50,7 @@ export const userMemberSchema = z
     confirmPassword: z.string({
       required_error: "Requerido"
     }),
-    role: z.enum(["ADMIN", "OWNER", "MEMBER"])
+    role: z.enum(["ADMIN", "OWNER", "SUPERVISOR", "MEMBER"])
   })
   .refine(data => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",

@@ -103,12 +103,6 @@ model Membership {
   @@index([userId])
 }
 
-enum MembershipRole {
-  OWNER
-  ADMIN
-  MEMBER
-}
-
 model Company {
   id             String       @id @default(cuid())
   name           String       @unique
@@ -233,6 +227,13 @@ model InspectionItemFile {
 
   @@index([inspectionItemId])
   @@index([organizationId])
+}
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  MEMBER
+  SUPERVISOR
 }
 
 enum InspectionTripType {
