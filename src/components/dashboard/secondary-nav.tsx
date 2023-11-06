@@ -34,7 +34,7 @@ export default function SecondaryNav({
             }
 
             return (
-              <li key={i}>
+              <li key={item.href}>
                 <Link
                   href={item.href}
                   className={cn(
