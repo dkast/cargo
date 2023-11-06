@@ -50,8 +50,8 @@ export function AddVehicleForm({ organizationId }: { organizationId: string }) {
       if (data?.success) {
         toast.success("Unidad agregada correctamente")
         setOpen(false)
-      } else if (data?.failure) {
-        toast.error(data.failure.reason!)
+      } else if (data?.failure.reason) {
+        toast.error(data.failure.reason)
       }
       reset()
     }

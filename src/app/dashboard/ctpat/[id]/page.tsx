@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Ver Inspección CTPAT"
 }
 
-export default async function CTPATViewPage({
+export default function CTPATViewPage({
   params: { id }
 }: {
   params: { id: string }

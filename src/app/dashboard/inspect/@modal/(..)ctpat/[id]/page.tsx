@@ -5,7 +5,7 @@ import Panel from "@/components/dashboard/page-panel"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export default async function CTPATModalPage({
+export default function CTPATModalPage({
   params: { id }
 }: {
   params: { id: string }

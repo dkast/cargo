@@ -54,8 +54,8 @@ export function AddOperatorForm({
       if (data?.success) {
         toast.success("Operador agregado correctamente")
         setOpen(false)
-      } else if (data?.failure) {
-        toast.error(data.failure.reason!)
+      } else if (data?.failure.reason) {
+        toast.error(data.failure.reason)
       }
       reset()
     }

@@ -141,10 +141,7 @@ export const inspectionItemSchema = z
   })
   .refine(
     data => {
-      if (data.result === "FAIL" && data.notes === "") {
-        return false
-      }
-      return true
+      return data.result === "FAIL" && data.notes !== ""
     },
     {
       message: "Comentarios son requeridos si el resultado es NOK",
@@ -153,10 +150,7 @@ export const inspectionItemSchema = z
   )
   .refine(
     data => {
-      if (data.result === "NA") {
-        return false
-      }
-      return true
+      return data.result !== "NA"
     },
     {
       message: "Elija un resultado",
@@ -176,11 +170,7 @@ export const inspectionDetailSchema = z
   })
   .refine(
     data => {
-      if (data.isLoaded && data.sealNbr === "") {
-        return false
-      } else {
-        return true
-      }
+      return data.isLoaded && data.sealNbr === ""
     },
     {
       message:

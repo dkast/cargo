@@ -62,8 +62,8 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
     onSuccess: data => {
       if (data?.success) {
         toast.success("Inspección actualizada")
-      } else if (data?.failure) {
-        toast.error(data.failure.reason!)
+      } else if (data?.failure.reason) {
+        toast.error(data.failure.reason)
       }
 
       reset()

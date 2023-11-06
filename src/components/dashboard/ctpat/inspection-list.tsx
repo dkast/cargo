@@ -75,7 +75,7 @@ export function InspectionListItem({
     >
       <div className="flex flex-row items-center justify-between py-3">
         <div className="flex flex-row items-center gap-3">
-          {item.order! < 17 && (
+          {item.order && item.order < 17 && (
             <span
               className={cn(
                 item.result === InspectionResult.PASS
@@ -84,7 +84,7 @@ export function InspectionListItem({
                 "flex h-7 w-7 items-center justify-center rounded-full text-sm ring-1 ring-inset"
               )}
             >
-              {item.order! + 1}
+              {item.order + 1}
             </span>
           )}
           <span>{item.question}</span>

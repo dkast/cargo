@@ -93,8 +93,8 @@ export default function CTPATMainForm({
     reset
   } = useAction(createCompany, {
     onSuccess: data => {
-      if (data?.failure) {
-        toast.error(data.failure.reason!)
+      if (data?.failure?.reason) {
+        toast.error(data.failure.reason)
       }
       reset()
     },
@@ -118,8 +118,8 @@ export default function CTPATMainForm({
     reset: resetContainer
   } = useAction(createContainer, {
     onSuccess: data => {
-      if (data?.failure) {
-        toast.error(data.failure.reason!)
+      if (data?.failure?.reason) {
+        toast.error(data.failure.reason)
       }
       resetContainer()
     },
@@ -146,8 +146,8 @@ export default function CTPATMainForm({
       toast.loading("Guardando...")
     },
     onSuccess: data => {
-      if (data?.failure) {
-        toast.error(data.failure.reason!)
+      if (data?.failure?.reason) {
+        toast.error(data.failure.reason)
       } else if (data?.success) {
         router.push(`/dashboard/ctpat/edit/${data.success.inspectionId}`)
         toast.dismiss()
@@ -296,7 +296,9 @@ export default function CTPATMainForm({
                         value={company.name}
                         key={company.id}
                         onSelect={() => {
-                          form.setValue("companyId", company.id!)
+                          if (company.id) {
+                            form.setValue("companyId", company.id)
+                          }
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
                       >
@@ -355,11 +357,13 @@ export default function CTPATMainForm({
                         value={operator.name}
                         key={operator.id}
                         onSelect={() => {
-                          form.setValue("operatorId", operator.id!)
-                          form.setValue(
-                            "licenseNumber",
-                            operator.licenseNumber!
-                          )
+                          if (operator.id) {
+                            form.setValue("operatorId", operator.id)
+                            form.setValue(
+                              "licenseNumber",
+                              operator.licenseNumber
+                            )
+                          }
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
                       >
@@ -438,8 +442,10 @@ export default function CTPATMainForm({
                         value={vehicle.vehicleNbr}
                         key={vehicle.id}
                         onSelect={() => {
-                          form.setValue("vehicleId", vehicle.id!)
-                          form.setValue("licensePlate", vehicle.licensePlate!)
+                          if (vehicle.id) {
+                            form.setValue("vehicleId", vehicle.id)
+                            form.setValue("licensePlate", vehicle.licensePlate)
+                          }
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
                       >
@@ -535,7 +541,9 @@ export default function CTPATMainForm({
                         value={container.containerNbr}
                         key={container.id}
                         onSelect={() => {
-                          form.setValue("containerId", container.id!)
+                          if (container.id) {
+                            form.setValue("containerId", container.id)
+                          }
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
                       >
