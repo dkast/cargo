@@ -1,16 +1,34 @@
 "use client"
 
-import { useFieldArray, useForm } from "react-hook-form"
+import { useEffect, useState } from "react"
+import {
+  type Control,
+  type FieldArrayWithId,
+  useFieldArray,
+  useForm
+} from "react-hook-form"
 import toast from "react-hot-toast"
 // import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { InspectionResult, type Prisma } from "@prisma/client"
-import { Camera, Check, Loader2, X } from "lucide-react"
+import {
+  Camera,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  Loader2,
+  X
+} from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import { useRouter } from "next/navigation"
 import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from "@/components/ui/collapsible"
 import {
   Form,
   FormControl,
@@ -89,86 +107,12 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
           className="flex flex-col gap-y-4 px-2 sm:px-0"
         >
           {fields.map((fieldItem, index) => (
-            <div
+            <ItemQuestion
               key={fieldItem.id}
-              className="border-200 space-y-4 rounded-lg border bg-white px-4 py-3 shadow-sm"
-            >
-              <div className="flex flex-row flex-wrap items-center gap-3">
-                {index < 17 && (
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-50  text-sm text-violet-700 ring-1 ring-inset ring-violet-700/10">
-                    {index + 1}
-                  </span>
-                )}
-                <span className="grow">{fieldItem.question}</span>
-                <FormField
-                  key={fieldItem.id}
-                  name={`items.${index}.result`}
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col sm:col-span-3">
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="grid grid-cols-2 gap-2"
-                      >
-                        <FormItem>
-                          <FormLabel className="[&:has([data-state=checked])>div]:border-green-500 [&:has([data-state=checked])>div]:text-green-700 [&:has([data-state=checked])>div]:ring-green-200">
-                            <FormControl>
-                              <RadioGroupItem
-                                value={InspectionResult.PASS}
-                                className="sr-only"
-                              />
-                            </FormControl>
-                            <div className="flex h-10 flex-row items-center gap-2 rounded-lg border px-2 text-gray-500 ring-2 ring-white">
-                              <Check className="h-4 w-4" />
-                              OK
-                            </div>
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem>
-                          <FormLabel className="[&:has([data-state=checked])>div]:border-red-500 [&:has([data-state=checked])>div]:text-red-700 [&:has([data-state=checked])>div]:ring-red-200">
-                            <FormControl>
-                              <RadioGroupItem
-                                value={InspectionResult.FAIL}
-                                className="sr-only"
-                              />
-                            </FormControl>
-                            <div className="flex h-10 flex-row items-center gap-2 rounded-lg border px-2 text-gray-500 ring-2 ring-white">
-                              <X className="h-4 w-4" />
-                              NOK
-                            </div>
-                          </FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              {/* Comments and photos */}
-              <div className="flex flex-row items-start gap-2">
-                <FormField
-                  key={fieldItem.id}
-                  name={`items.${index}.notes`}
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="grow">
-                      <FormControl>
-                        <Textarea
-                          className="h-[40px] min-h-[40px]"
-                          placeholder="Comentarios"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button variant="ghost" size="icon">
-                  <Camera className="h-6 w-6" />
-                </Button>
-              </div>
-            </div>
+              index={index}
+              fieldItem={fieldItem}
+              control={form.control}
+            />
           ))}
           <div className="border-200 space-y-6 rounded-lg border bg-white px-4 py-6 shadow-sm">
             <FormField
@@ -248,5 +192,115 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
         {/* <DevTool control={form.control} /> */}
       </Form>
     </div>
+  )
+}
+
+function ItemQuestion({
+  index,
+  fieldItem,
+  control
+}: {
+  index: number
+  fieldItem: FieldArrayWithId<z.infer<typeof inspectionDetailSchema>>
+  control: Control<z.infer<typeof inspectionDetailSchema>>
+}) {
+  const [open, setOpen] = useState(false)
+  const invalid = control.getFieldState(`items.${index}.notes`).invalid
+
+  useEffect(() => {
+    setOpen(invalid)
+  }, [invalid])
+
+  return (
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <div className="border-200 space-y-4 rounded-lg border bg-white px-4 py-3 shadow-sm">
+        <div className="flex flex-row flex-wrap items-center gap-3">
+          {index < 17 && (
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-50  text-sm text-violet-700 ring-1 ring-inset ring-violet-700/10">
+              {index + 1}
+            </span>
+          )}
+          <span className="grow">{fieldItem.question}</span>
+          <FormField
+            key={fieldItem.id}
+            name={`items.${index}.result`}
+            control={control}
+            render={({ field }) => (
+              <FormItem className="flex flex-col sm:col-span-3">
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="grid grid-cols-2 gap-2"
+                >
+                  <FormItem>
+                    <FormLabel className="[&:has([data-state=checked])>div]:border-green-500 [&:has([data-state=checked])>div]:text-green-700 [&:has([data-state=checked])>div]:ring-green-200">
+                      <FormControl>
+                        <RadioGroupItem
+                          value={InspectionResult.PASS}
+                          className="sr-only"
+                        />
+                      </FormControl>
+                      <div className="flex h-10 flex-row items-center gap-2 rounded-lg border px-2 text-gray-500 ring-2 ring-white">
+                        <Check className="h-4 w-4" />
+                        OK
+                      </div>
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem>
+                    <FormLabel className="[&:has([data-state=checked])>div]:border-red-500 [&:has([data-state=checked])>div]:text-red-700 [&:has([data-state=checked])>div]:ring-red-200">
+                      <FormControl>
+                        <RadioGroupItem
+                          value={InspectionResult.FAIL}
+                          className="sr-only"
+                        />
+                      </FormControl>
+                      <div className="flex h-10 flex-row items-center gap-2 rounded-lg border px-2 text-gray-500 ring-2 ring-white">
+                        <X className="h-4 w-4" />
+                        NOK
+                      </div>
+                    </FormLabel>
+                  </FormItem>
+                </RadioGroup>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="icon">
+              {open ? (
+                <ChevronDown className="h-4 w-4" />
+              ) : (
+                <ChevronRight className="h-4 w-4" />
+              )}
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        <CollapsibleContent>
+          {/* Comments and photos */}
+          <div className="flex flex-row items-start gap-2">
+            <FormField
+              key={fieldItem.id}
+              name={`items.${index}.notes`}
+              control={control}
+              render={({ field }) => (
+                <FormItem className="grow">
+                  <FormControl>
+                    <Textarea
+                      className="h-[40px] min-h-[40px]"
+                      placeholder="Comentarios"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button variant="ghost" size="icon">
+              <Camera className="h-6 w-6" />
+            </Button>
+          </div>
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
   )
 }
