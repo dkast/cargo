@@ -75,7 +75,7 @@ export function InspectionListItem({
     >
       <div className="flex flex-row items-center justify-between py-3">
         <div className="flex flex-row items-center gap-3">
-          {item.order && item.order < 17 && (
+          {typeof item.order === "number" && item.order < 17 && (
             <span
               className={cn(
                 item.result === InspectionResult.PASS

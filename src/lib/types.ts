@@ -141,7 +141,11 @@ export const inspectionItemSchema = z
   })
   .refine(
     data => {
-      return data.result === "FAIL" && data.notes !== ""
+      if (data.result === "FAIL" && data.notes === "") {
+        return false
+      } else {
+        return true
+      }
     },
     {
       message: "Comentarios son requeridos si el resultado es NOK",
@@ -170,7 +174,11 @@ export const inspectionDetailSchema = z
   })
   .refine(
     data => {
-      return data.isLoaded && data.sealNbr === ""
+      if (data.isLoaded && data.sealNbr === "") {
+        return false
+      } else {
+        return true
+      }
     },
     {
       message:
