@@ -51,7 +51,7 @@ export function DataTableFilter({
             <>
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
-                variant="violet"
+                variant="blue"
                 className="rounded-sm px-1 font-normal lg:hidden"
               >
                 {value.length}
@@ -59,7 +59,7 @@ export function DataTableFilter({
               <div className="hidden space-x-1 lg:flex">
                 {value.length > 2 ? (
                   <Badge
-                    variant="violet"
+                    variant="blue"
                     className="whitespace-nowrap rounded-sm px-1 font-normal"
                   >
                     {value.length} selecc.
@@ -69,7 +69,7 @@ export function DataTableFilter({
                     .filter(option => value.includes(option.value))
                     .map(option => (
                       <Badge
-                        variant="violet"
+                        variant="blue"
                         key={option.value}
                         className="whitespace-nowrap rounded-sm px-1 font-normal"
                       >
