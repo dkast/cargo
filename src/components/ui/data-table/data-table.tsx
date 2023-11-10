@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex flex-row items-center justify-between gap-x-3 py-2">
         <Input
-          placeholder="Buscar en columnas..."
+          placeholder="Buscar en resultados"
           value={globalFilter}
           onChange={e => setGlobalFilter(e.target.value)}
           className="h-8 w-[200px]"
