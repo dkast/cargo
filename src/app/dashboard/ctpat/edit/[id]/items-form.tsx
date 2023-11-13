@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import {
   useFieldArray,
   useForm,
@@ -12,8 +12,8 @@ import ItemMediaPreview from "@/app/dashboard/ctpat/edit/[id]/item-media-preview
 // import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
-  type InspectionItemFile,
   InspectionResult,
+  type InspectionItemFile,
   type Prisma
 } from "@prisma/client"
 import { DialogTitle, DialogTrigger } from "@radix-ui/react-dialog"

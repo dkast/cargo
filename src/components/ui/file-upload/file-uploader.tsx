@@ -1,10 +1,9 @@
-import React from "react"
+import React, { useEffect } from "react"
 import AwsS3, { type AwsS3UploadParameters } from "@uppy/aws-s3"
 import Uppy, { type UploadResult, type UppyFile } from "@uppy/core"
-// @ts-expect-error no types
+// @ts-expect-error - Uppy doesn't have types for this locale
 import Spanish from "@uppy/locales/lib/es_MX"
 import { Dashboard } from "@uppy/react"
-import { sha256 } from "crypto-hash"
 
 // Uppy styles
 import "@uppy/core/dist/style.min.css"
@@ -18,7 +17,6 @@ export async function getUploadParameters(
   organizationId: string,
   itemId: string
 ) {
-  const arrayBuffer = await new Response(file.data).arrayBuffer()
   const response = await fetch("/api/file", {
     method: "POST",
     headers: {
@@ -28,7 +26,7 @@ export async function getUploadParameters(
       organizationId,
       itemId,
       filename: file.name,
-      fileHash: await sha256(arrayBuffer),
+      fileHash: itemId,
       contentType: file.type
     })
   })
@@ -51,6 +49,16 @@ export async function getUploadParameters(
   return object
 }
 
+const uppy = new Uppy({
+  autoProceed: true,
+  restrictions: {
+    maxNumberOfFiles: 3
+  },
+  locale: Spanish
+})
+  .use(AwsS3)
+  .use(Webcam)
+
 export function FileUploader({
   organizationId,
   itemId,
@@ -60,25 +68,18 @@ export function FileUploader({
   itemId: string
   onUploadSuccess: (result: UploadResult) => void
 }) {
-  const uppy = React.useMemo(() => {
-    const uppy = new Uppy({
-      autoProceed: true,
-      restrictions: {
-        maxNumberOfFiles: 3
-      },
-      locale: Spanish
-    })
-      .use(AwsS3, {
-        id: "AwsS3",
+  useEffect(() => {
+    const awsS3Plugin = uppy.getPlugin("AwsS3")
+    if (awsS3Plugin) {
+      awsS3Plugin.setOptions({
         getUploadParameters: (file: UppyFile) =>
           getUploadParameters(file, organizationId, itemId)
       })
-      .use(Webcam, {})
-    return uppy
-  }, [organizationId, itemId])
-  uppy.on("complete", result => {
-    onUploadSuccess(result)
-  })
+    }
+    uppy.on("complete", result => {
+      onUploadSuccess(result)
+    })
+  }, [itemId, onUploadSuccess, organizationId])
   return (
     <Dashboard
       className="mx-auto max-w-[320px] sm:max-w-[520px]"
