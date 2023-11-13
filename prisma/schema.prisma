@@ -221,7 +221,7 @@ model InspectionItemFile {
   updatedAt        DateTime       @updatedAt
   inspectionItem   InspectionItem @relation(fields: [inspectionItemId], references: [id], onDelete: Cascade)
   inspectionItemId String
-  fileUrl          String
+  fileUrl          String         @db.Text
   organization     Organization   @relation(fields: [organizationId], references: [id])
   organizationId   String
 

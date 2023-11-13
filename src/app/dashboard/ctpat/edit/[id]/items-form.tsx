@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import {
   useFieldArray,
   useForm,
@@ -8,9 +8,15 @@ import {
   type FieldArrayWithId
 } from "react-hook-form"
 import toast from "react-hot-toast"
+import ItemMediaPreview from "@/app/dashboard/ctpat/edit/[id]/item-media-preview"
 // import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { InspectionResult, type Prisma } from "@prisma/client"
+import {
+  type InspectionItemFile,
+  InspectionResult,
+  type Prisma
+} from "@prisma/client"
+import { DialogTitle, DialogTrigger } from "@radix-ui/react-dialog"
 import {
   Camera,
   Check,
@@ -20,7 +26,7 @@ import {
   X
 } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
-import { useRouter } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -29,6 +35,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger
 } from "@/components/ui/collapsible"
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -44,6 +51,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { closeCTPATInspection } from "@/server/actions/ctpat"
 import { type getInspectionById } from "@/server/fetchers"
 import { inspectionDetailSchema } from "@/lib/types"
+import { ItemFileUploader } from "./item-file-uploader"
 
 type Inspection = Prisma.PromiseReturnType<typeof getInspectionById>
 
@@ -99,6 +107,8 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
     updateInspection(data)
   }
 
+  if (!inspection) return notFound()
+
   return (
     <div className="mx-auto my-4 max-w-2xl grow">
       <Form {...form}>
@@ -108,10 +118,13 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
         >
           {fields.map((fieldItem, index) => (
             <ItemQuestion
+              organizationId={inspection.organizationId}
+              inspectionItemId={inspection.inspectionItems[index]?.id}
               key={fieldItem.id}
               index={index}
               fieldItem={fieldItem}
               control={form.control}
+              fileList={inspection.inspectionItems[index]?.inspectionItemFiles}
             />
           ))}
           <div className="border-200 space-y-6 rounded-lg border bg-white px-4 py-6 shadow-sm">
@@ -196,22 +209,33 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
 }
 
 function ItemQuestion({
+  organizationId,
+  inspectionItemId,
   index,
   fieldItem,
-  control
+  control,
+  fileList
 }: {
+  organizationId: string
+  inspectionItemId: string | undefined
   index: number
   fieldItem: FieldArrayWithId<z.infer<typeof inspectionDetailSchema>>
   control: Control<z.infer<typeof inspectionDetailSchema>>
+  fileList: Partial<InspectionItemFile>[] | undefined
 }) {
   const [open, setOpen] = useState(false)
   const invalid = control.getFieldState(`items.${index}.notes`).invalid
 
+  // If there is an error, open the collapsible
   useEffect(() => {
     if (invalid) {
       setOpen(invalid)
     }
   }, [invalid])
+
+  if (!organizationId) return null
+
+  if (!inspectionItemId) return null
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
@@ -299,11 +323,27 @@ function ItemQuestion({
                 </FormItem>
               )}
             />
-            <Button type="button" variant="ghost" size="icon">
-              <Camera className="h-6 w-6" />
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button type="button" variant="ghost" size="icon">
+                  <Camera className="h-6 w-6" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-xl">
+                <DialogHeader>
+                  <DialogTitle>Subir fotos</DialogTitle>
+                </DialogHeader>
+                <ItemFileUploader
+                  organizationId={organizationId}
+                  itemId={inspectionItemId}
+                />
+              </DialogContent>
+            </Dialog>
           </div>
         </CollapsibleContent>
+        {fileList && fileList.length > 0 && (
+          <ItemMediaPreview fileList={fileList} />
+        )}
       </div>
     </Collapsible>
   )

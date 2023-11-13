@@ -7,7 +7,17 @@ await import("./src/env.mjs")
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  swcMinify: true
+  swcMinify: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.r2.cloudflarestorage.com",
+        port: "",
+        pathname: "/*/**"
+      }
+    ]
+  }
 }
 
 export default config

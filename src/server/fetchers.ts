@@ -1,9 +1,22 @@
+import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3"
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { type InspectionResult, type InspectionStatus } from "@prisma/client"
 import { parseISO, subMonths } from "date-fns"
 import { unstable_cache as cache } from "next/cache"
 
 import { prisma } from "@/server/db"
 import { type InspectionQueryFilter } from "@/lib/types"
+import { env } from "@/env.mjs"
+
+// Create an Cloudflare R2 service client object
+const R2 = new S3Client({
+  region: "auto",
+  endpoint: `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  credentials: {
+    accessKeyId: env.R2_ACCESS_KEY_ID,
+    secretAccessKey: env.R2_SECRET_KEY_ID
+  }
+})
 
 export async function getOrganization(organizationId: string) {
   return await cache(
@@ -212,7 +225,7 @@ export async function getInspections(filter: InspectionQueryFilter) {
 }
 
 export async function getInspectionById(inspectionId: string) {
-  return await prisma.inspection.findFirst({
+  const data = await prisma.inspection.findFirst({
     where: {
       id: inspectionId
     },
@@ -285,9 +298,33 @@ export async function getInspectionById(inspectionId: string) {
           question: true,
           result: true,
           notes: true,
-          order: true
+          order: true,
+          inspectionItemFiles: {
+            select: {
+              id: true,
+              fileUrl: true
+            }
+          }
         }
       }
     }
   })
+
+  // Replace fileUrl with a signed URL
+  if (data) {
+    for (const item of data.inspectionItems) {
+      for (const file of item.inspectionItemFiles) {
+        file.fileUrl = await getSignedUrl(
+          R2,
+          new GetObjectCommand({
+            Bucket: env.R2_BUCKET_NAME,
+            Key: file.fileUrl
+          }),
+          { expiresIn: 3600 }
+        )
+      }
+    }
+  }
+
+  return data
 }
