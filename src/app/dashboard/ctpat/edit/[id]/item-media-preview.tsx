@@ -22,10 +22,12 @@ import { cn } from "@/lib/utils"
 
 export default function ItemMediaPreview({
   fileList,
-  allowDelete = false
+  allowDelete = false,
+  onDeleteFile
 }: {
   fileList: Partial<InspectionItemFile>[]
   allowDelete?: boolean
+  onDeleteFile?: (id: string | undefined) => void
 }) {
   const router = useRouter()
   const { execute } = useAction(deleteFile, {
@@ -40,9 +42,11 @@ export default function ItemMediaPreview({
     }
   })
 
-  const onDeleteFile = async (id: string | undefined) => {
+  const handleDeleteFile = async (id: string | undefined) => {
     if (!id) return
     await execute({ id })
+    // Notify parent component of deletion
+    onDeleteFile && onDeleteFile(id)
     router.refresh()
   }
 
@@ -87,7 +91,7 @@ export default function ItemMediaPreview({
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
                   <AlertDialogAction
                     variant="destructive"
-                    onClick={() => onDeleteFile(file.id)}
+                    onClick={() => handleDeleteFile(file.id)}
                   >
                     Eliminar
                   </AlertDialogAction>

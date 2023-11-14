@@ -4,12 +4,13 @@ import { useEffect, useState } from "react"
 import {
   useFieldArray,
   useForm,
+  type UseFormSetValue,
   type Control,
   type FieldArrayWithId
 } from "react-hook-form"
 import toast from "react-hot-toast"
 import ItemMediaPreview from "@/app/dashboard/ctpat/edit/[id]/item-media-preview"
-// import { DevTool } from "@hookform/devtools"
+import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   InspectionResult,
@@ -63,7 +64,8 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
       id: inspection?.id,
       items: inspection?.inspectionItems.map(item => ({
         ...item,
-        notes: item.notes ?? ""
+        notes: item.notes ?? "",
+        fileCount: item.inspectionItemFiles?.length ?? 0
       })),
       isLoaded: inspection?.isLoaded ?? false,
       sealNbr: inspection?.sealNbr ?? "",
@@ -116,17 +118,27 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-y-4 px-2 sm:px-0"
         >
-          {fields.map((fieldItem, index) => (
-            <ItemQuestion
-              organizationId={inspection.organizationId}
-              inspectionItemId={inspection.inspectionItems[index]?.id}
-              key={fieldItem.id}
-              index={index}
-              fieldItem={fieldItem}
-              control={form.control}
-              fileList={inspection.inspectionItems[index]?.inspectionItemFiles}
-            />
-          ))}
+          {fields.map((fieldItem, index) => {
+            // Set the file count
+            // form.setValue(
+            //   `items.${index}.fileCount`,
+            //   inspection.inspectionItems[index]?.inspectionItemFiles.length ?? 0
+            // )
+            return (
+              <ItemQuestion
+                organizationId={inspection.organizationId}
+                inspectionItemId={inspection.inspectionItems[index]?.id}
+                key={fieldItem.id}
+                index={index}
+                fieldItem={fieldItem}
+                control={form.control}
+                setValue={form.setValue}
+                fileList={
+                  inspection.inspectionItems[index]?.inspectionItemFiles
+                }
+              />
+            )
+          })}
           <div className="border-200 space-y-6 rounded-lg border bg-white px-4 py-6 shadow-sm">
             <FormField
               control={form.control}
@@ -202,7 +214,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
             )}
           </Button>
         </form>
-        {/* <DevTool control={form.control} /> */}
+        <DevTool control={form.control} />
       </Form>
     </div>
   )
@@ -214,6 +226,7 @@ function ItemQuestion({
   index,
   fieldItem,
   control,
+  setValue,
   fileList
 }: {
   organizationId: string
@@ -221,10 +234,12 @@ function ItemQuestion({
   index: number
   fieldItem: FieldArrayWithId<z.infer<typeof inspectionDetailSchema>>
   control: Control<z.infer<typeof inspectionDetailSchema>>
+  setValue: UseFormSetValue<z.infer<typeof inspectionDetailSchema>>
   fileList: Partial<InspectionItemFile>[] | undefined
 }) {
   const [open, setOpen] = useState(false)
   const invalid = control.getFieldState(`items.${index}.notes`).invalid
+  const router = useRouter()
 
   // If there is an error, open the collapsible
   useEffect(() => {
@@ -336,13 +351,28 @@ function ItemQuestion({
                 <ItemFileUploader
                   organizationId={organizationId}
                   itemId={inspectionItemId}
+                  onUploadSuccess={() => {
+                    // Update the file count in the form so we can validate if a file is needed as evidence
+                    setValue(
+                      `items.${index}.fileCount`,
+                      (fileList?.length ?? 0) + 1
+                    )
+                    router.refresh()
+                  }}
                 />
               </DialogContent>
             </Dialog>
           </div>
         </CollapsibleContent>
         {fileList && fileList.length > 0 && (
-          <ItemMediaPreview fileList={fileList} allowDelete />
+          <ItemMediaPreview
+            fileList={fileList}
+            allowDelete
+            // Update the file count in the form so we can validate if a file is needed as evidence
+            onDeleteFile={() => {
+              setValue(`items.${index}.fileCount`, (fileList?.length ?? 0) - 1)
+            }}
+          />
         )}
       </div>
     </Collapsible>

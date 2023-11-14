@@ -1,24 +1,27 @@
 "use client"
 
 import { type UploadResult } from "@uppy/core"
-import { useRouter } from "next/navigation"
+
+// import { useRouter } from "next/navigation"
 
 import { FileUploader } from "@/components/ui/file-upload/file-uploader"
 
 export function ItemFileUploader({
   organizationId,
-  itemId
+  itemId,
+  onUploadSuccess
 }: {
   organizationId: string
   itemId: string
+  onUploadSuccess: (result: UploadResult) => void
 }) {
-  const router = useRouter()
-  const onUploadSuccess = async (result: UploadResult) => {
-    // If the upload was successful, revalidate the cache for the media
-    if (result.successful) {
-      router.refresh()
-    }
-  }
+  // const router = useRouter()
+  // const onUploadSuccess = async (result: UploadResult) => {
+  //   // If the upload was successful, revalidate the cache for the media
+  //   if (result.successful) {
+  //     router.refresh()
+  //   }
+  // }
 
   return (
     <FileUploader

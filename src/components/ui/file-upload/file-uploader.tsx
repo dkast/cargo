@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect } from "react"
 import AwsS3, { type AwsS3UploadParameters } from "@uppy/aws-s3"
 import Uppy, { type UploadResult, type UppyFile } from "@uppy/core"
