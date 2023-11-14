@@ -342,7 +342,7 @@ function ItemQuestion({
           </div>
         </CollapsibleContent>
         {fileList && fileList.length > 0 && (
-          <ItemMediaPreview fileList={fileList} />
+          <ItemMediaPreview fileList={fileList} allowDelete />
         )}
       </div>
     </Collapsible>

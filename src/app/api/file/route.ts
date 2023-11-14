@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   })
 
   // Return the signed URL to the client for a PUT request
-  // See https://developers.cloudflare.com/r2/examples/aws/aws-sdk-js-v3/#generate-presigned-urls
+  // @see https://developers.cloudflare.com/r2/examples/aws/aws-sdk-js-v3/#generate-presigned-urls
   return NextResponse.json(
     { url: signedUrl, method: "PUT" },
     {
