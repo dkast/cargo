@@ -49,12 +49,8 @@ export default function Panel({
         <Sheet
           defaultOpen
           onOpenChange={open => (!open ? router.back() : null)}
-          modal
         >
-          <SheetContent
-            className={className}
-            // onPointerDownOutside={e => e.preventDefault()}
-          >
+          <SheetContent className={className}>
             <SheetHeader>
               <SheetTitle>{title}</SheetTitle>
               <SheetDescription>{description}</SheetDescription>

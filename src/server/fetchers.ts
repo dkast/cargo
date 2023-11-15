@@ -1,7 +1,7 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { type InspectionResult, type InspectionStatus } from "@prisma/client"
-import { parseISO, subMonths } from "date-fns"
+import { endOfDay, parseISO, subMonths } from "date-fns"
 import { unstable_cache as cache } from "next/cache"
 
 import { prisma } from "@/server/db"
@@ -163,7 +163,7 @@ export async function getInspections(filter: InspectionQueryFilter) {
       organizationId: filter.organizationId,
       start: {
         gte: filter.start ? parseISO(filter.start) : subMonths(new Date(), 1),
-        lte: filter.end ? parseISO(filter.end) : new Date()
+        lte: filter.end ? endOfDay(parseISO(filter.end)) : endOfDay(new Date())
       },
       status: filter.status
         ? { in: filter.status.split(",") as InspectionStatus[] }
