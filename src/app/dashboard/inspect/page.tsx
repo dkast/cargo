@@ -57,8 +57,6 @@ export default async function CTPATPage({
     }
   }
 
-  console.log(filter)
-  console.log(searchParams)
   const data = await getInspections(filter)
 
   return (
