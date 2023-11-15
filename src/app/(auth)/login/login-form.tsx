@@ -1,8 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2 } from "lucide-react"
 import { signIn } from "next-auth/react"
 import { useSearchParams } from "next/navigation"
 import { z } from "zod"
@@ -35,6 +37,7 @@ export default function LoginForm() {
   const searchParams = useSearchParams()
   const error = searchParams.get("error")
   const callbackUrl = searchParams.get("callbackUrl")
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -44,8 +47,8 @@ export default function LoginForm() {
     }
   })
 
-  // TODO: Add env variable for login url callback
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    setIsSubmitting(true)
     const res = await signIn("credentials", {
       username: data.username,
       password: data.password,
@@ -55,6 +58,7 @@ export default function LoginForm() {
     if (!res) return null
     if (res.error) {
       toast.error("Usuario o contraseña incorrectos")
+      setIsSubmitting(false)
     }
   }
 
@@ -87,7 +91,16 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Entrar</Button>
+        <Button disabled={isSubmitting} type="submit">
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+              {"Iniciando sesión..."}
+            </>
+          ) : (
+            "Iniciar sesión"
+          )}
+        </Button>
         {error && (
           <div>
             <Alert variant="destructive">
