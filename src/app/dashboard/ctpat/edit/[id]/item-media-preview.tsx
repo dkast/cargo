@@ -48,7 +48,9 @@ export default function ItemMediaPreview({
     if (!id) return
     await execute({ id })
     // Notify parent component of deletion
-    onDeleteFile && onDeleteFile(id)
+    if (onDeleteFile) {
+      onDeleteFile(id)
+    }
     router.refresh()
   }
 
