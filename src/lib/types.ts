@@ -137,26 +137,40 @@ export const inspectionItemSchema = z
     question: z.string(),
     result: z.enum(["PASS", "FAIL", "NA"]),
     notes: z.string().optional(),
-    order: z.number()
+    order: z.number(),
+    fileCount: z.number()
   })
   .refine(
     data => {
+      // If result is FAIL, notes are required
       if (data.result === "FAIL" && data.notes === "") {
         return false
+      } else {
+        return true
       }
-      return true
     },
     {
-      message: "Comentarios son requeridos si el resultado es NOK",
+      message: "Comentarios son requeridos si la inspección es NOK",
+      path: ["notes"]
+    }
+  )
+  .refine(
+    // If result is FAIL, photos are required
+    data => {
+      if (data.result === "FAIL" && data.fileCount === 0) {
+        return false
+      } else {
+        return true
+      }
+    },
+    {
+      message: "Anexe una foto como evidencia si la inspección es NOK",
       path: ["notes"]
     }
   )
   .refine(
     data => {
-      if (data.result === "NA") {
-        return false
-      }
-      return true
+      return data.result !== "NA"
     },
     {
       message: "Elija un resultado",

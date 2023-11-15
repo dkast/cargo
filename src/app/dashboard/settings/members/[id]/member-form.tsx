@@ -57,8 +57,8 @@ export default function MemberForm({
     onSuccess: data => {
       if (data?.success) {
         toast.success("Usuario creado")
-      } else if (data?.failure) {
-        toast.error(data.failure.reason!)
+      } else if (data?.failure.reason) {
+        toast.error(data.failure.reason)
       }
 
       // Reset response object
@@ -82,8 +82,8 @@ export default function MemberForm({
     onSuccess: data => {
       if (data?.success) {
         toast.success("Usuario actualizado")
-      } else if (data?.failure) {
-        toast.error(data.failure.reason!)
+      } else if (data?.failure.reason) {
+        toast.error(data.failure.reason)
       }
 
       // Reset response object
@@ -101,9 +101,9 @@ export default function MemberForm({
 
   const onSubmit = async (data: z.infer<typeof userMemberSchema>) => {
     if (action === actionType.CREATE) {
-      createMember(data)
+      await createMember(data)
     } else {
-      updateMember(data)
+      await updateMember(data)
     }
   }
 

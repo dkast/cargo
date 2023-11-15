@@ -1,4 +1,4 @@
-import { type Viewport, type Metadata } from "next"
+import { type Metadata, type Viewport } from "next"
 import { Inter, Syne } from "next/font/google"
 
 import "../styles/globals.css"
@@ -44,7 +44,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html className={`${inter.variable} ${syne.variable}`}>
+    <html
+      className={`${inter.variable} ${syne.variable}`}
+      suppressHydrationWarning
+    >
       <body className="bg-white text-gray-950">
         <Providers>
           <main className="flex min-h-screen flex-col">{children}</main>

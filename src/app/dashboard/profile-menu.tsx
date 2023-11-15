@@ -33,7 +33,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
         >
           <Avatar>
             {user.image && <AvatarImage src={user.image} />}
-            <AvatarFallback>{getInitials(user.name!)}</AvatarFallback>
+            <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
           </Avatar>
           <span className="sr-only">Tu Perfil</span>
           {!isMobile && (

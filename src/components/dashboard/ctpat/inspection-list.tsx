@@ -1,4 +1,5 @@
-import { InspectionResult, type InspectionItem } from "@prisma/client"
+import ItemMediaPreview from "@/app/dashboard/ctpat/edit/[id]/item-media-preview"
+import { InspectionResult, Prisma, type InspectionItem } from "@prisma/client"
 import { Check, CheckCircle, X } from "lucide-react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -57,11 +58,18 @@ export function InspectionList({
     </div>
   )
 }
+
+const inspectionItemWithFiles = Prisma.validator<Prisma.InspectionItemArgs>()({
+  include: {
+    inspectionItemFiles: true
+  }
+})
+
 export function InspectionListItem({
   item,
   inspectedBy
 }: {
-  item: Partial<InspectionItem>
+  item: Partial<Prisma.InspectionItemGetPayload<typeof inspectionItemWithFiles>>
   inspectedBy: {
     id: string
     name: string
@@ -71,11 +79,11 @@ export function InspectionListItem({
   return (
     <div
       key={item.id}
-      className="flex w-full flex-col rounded-lg border px-4 py-3 shadow-sm"
+      className="flex w-full flex-col space-y-2 rounded-lg border px-4 py-3 shadow-sm"
     >
       <div className="flex flex-row items-center justify-between py-3">
         <div className="flex flex-row items-center gap-3">
-          {item.order! < 17 && (
+          {typeof item.order === "number" && item.order < 17 && (
             <span
               className={cn(
                 item.result === InspectionResult.PASS
@@ -84,7 +92,7 @@ export function InspectionListItem({
                 "flex h-7 w-7 items-center justify-center rounded-full text-sm ring-1 ring-inset"
               )}
             >
-              {item.order! + 1}
+              {item.order + 1}
             </span>
           )}
           <span>{item.question}</span>
@@ -110,6 +118,9 @@ export function InspectionListItem({
           }
         })()}
       </div>
+      {item.inspectionItemFiles && (
+        <ItemMediaPreview fileList={item.inspectionItemFiles} />
+      )}
       {item.result === InspectionResult.FAIL && (
         <div className="flex flex-row gap-4 border-t pt-4">
           <Avatar>

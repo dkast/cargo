@@ -44,8 +44,8 @@ export default function OrganizationForm({
     onSuccess: data => {
       if (data?.success) {
         toast.success("Datos actualizados")
-      } else if (data?.failure) {
-        toast.error(data.failure.reason!)
+      } else if (data?.failure.reason) {
+        toast.error(data.failure.reason)
       }
 
       // Reset response object
@@ -62,7 +62,7 @@ export default function OrganizationForm({
   const onSubmit = async (data: z.infer<typeof orgSchema>) => {
     if (!isDirty) return
 
-    execute(data)
+    await execute(data)
     form.reset(data)
   }
 

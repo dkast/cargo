@@ -25,7 +25,7 @@ export default function SecondaryNav({
     <>
       <nav className={cn("flex overflow-x-auto", className)} {...props}>
         <ul className="flex min-w-full flex-none gap-x-6 px-4">
-          {items.map((item, i) => {
+          {items.map(item => {
             let isActive = false
             if (!segment) {
               isActive = pathname === item.href
