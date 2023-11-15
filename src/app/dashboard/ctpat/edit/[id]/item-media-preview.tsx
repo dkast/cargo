@@ -1,3 +1,5 @@
+"use client"
+
 import toast from "react-hot-toast"
 import { type InspectionItemFile } from "@prisma/client"
 import { Trash2 } from "lucide-react"
@@ -49,6 +51,8 @@ export default function ItemMediaPreview({
     onDeleteFile && onDeleteFile(id)
     router.refresh()
   }
+
+  if (fileList.length === 0) return null
 
   return (
     <ul className="flex flex-row items-center gap-x-2">
