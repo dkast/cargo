@@ -192,7 +192,7 @@ export default async function InspectionView({
           {inspection.tiresVehicle}
         </dd>
         <dt className="text-sm font-medium leading-6">
-          Marcado de Llantas de Caja
+          Marcado de Llantas de Remolque
         </dt>
         <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
           {inspection.tiresContainer}
