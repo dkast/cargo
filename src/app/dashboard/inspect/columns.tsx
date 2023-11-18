@@ -194,7 +194,7 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
           )}
           {inspection.status === InspectionStatus.CLOSED && (
             <DropdownMenuItem asChild>
-              <span>Exportar PDF</span>
+              <Link href={`/ctpat/${inspection.id}/pdf`}>Exportar PDF</Link>
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
