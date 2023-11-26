@@ -1,9 +1,9 @@
 "use client"
 
 import {
-  type InspectionItem,
   InspectionResult,
   InspectionTripType,
+  type InspectionItem,
   type Prisma
 } from "@prisma/client"
 import {
@@ -187,21 +187,6 @@ export default function PDFDocument({
                     </Text>
                   </View>
                 </View>
-
-                {/* <View style={style.row}>
-                  <View style={style.block}>
-                    <Text style={style.label}>Hora entrada:</Text>
-                    <Text style={style.underline}>#Valor</Text>
-                  </View>
-                  <View style={style.block}>
-                    <Text style={style.label}>Hora salida:</Text>
-                    <Text style={style.underline}>#Valor</Text>
-                  </View>
-                  <View style={style.block}>
-                    <Text style={style.label}>Ingresa vacío:</Text>
-                    <Text style={style.underline}>#Valor</Text>
-                  </View>
-                </View> */}
 
                 <View style={style.row}>
                   <View style={[style.block, { flexBasis: "28%" }]}>
@@ -388,9 +373,11 @@ export default function PDFDocument({
                       Número de Sello de Seguridad
                     </Text>
                   </View>
-                  <View style={{ flexBasis: "35%" }}>
-                    <Text style={style.underline}>{inspection.sealNbr}</Text>
-                  </View>
+                  {/* <View style={{ flexBasis: "35%" }}> */}
+                  <Text style={[style.underline, { flexBasis: "35%" }]}>
+                    {inspection.sealNbr}
+                  </Text>
+                  {/* </View> */}
                 </View>
 
                 <View
@@ -451,7 +438,12 @@ export default function PDFDocument({
                     padding: "4px"
                   }}
                 >
-                  <View style={{ flex: 1 }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "flex-start"
+                    }}
+                  >
                     <Text style={style.signature}>
                       {inspection.approvedBy?.user.name}
                     </Text>

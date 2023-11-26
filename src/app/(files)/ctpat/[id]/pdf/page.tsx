@@ -1,6 +1,5 @@
-import PDFDocument from "@/app/ctpat/[id]/pdf/pdf-document"
-
 import { getInspectionById } from "@/server/fetchers"
+import PDFDocument from "./pdf-document"
 
 export default async function PDFPage({
   params: { id }

@@ -175,12 +175,17 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
         <DropdownMenuContent align="end" className="w-32">
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuItem asChild>
-            <Link href={`/dashboard/ctpat/${inspection.id}`}>Ver</Link>
+            <Link href={`/dashboard/ctpat/${inspection.id}`} prefetch={false}>
+              Ver
+            </Link>
           </DropdownMenuItem>
           {inspection.status === InspectionStatus.OPEN && (
             <>
               <DropdownMenuItem asChild>
-                <Link href={`/dashboard/ctpat/edit/${inspection.id}`}>
+                <Link
+                  href={`/dashboard/ctpat/edit/${inspection.id}`}
+                  prefetch={false}
+                >
                   Finalizar
                 </Link>
               </DropdownMenuItem>
@@ -192,9 +197,16 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
               </AlertDialogTrigger>
             </>
           )}
-          {inspection.status === InspectionStatus.CLOSED && (
+          {(inspection.status === InspectionStatus.CLOSED ||
+            inspection.status === InspectionStatus.APPROVED) && (
             <DropdownMenuItem asChild>
-              <Link href={`/ctpat/${inspection.id}/pdf`}>Exportar PDF</Link>
+              <Link
+                href={`/ctpat/${inspection.id}/pdf`}
+                prefetch={false}
+                target="_blank"
+              >
+                Exportar PDF
+              </Link>
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
