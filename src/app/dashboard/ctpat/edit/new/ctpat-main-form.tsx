@@ -161,7 +161,7 @@ export default function CTPATMainForm({
   })
 
   const onSubmit = async (data: z.infer<typeof ctpatMainSchema>) => {
-    insertInspection(data)
+    await insertInspection(data)
   }
 
   return (

@@ -46,9 +46,9 @@ export default function Sidebar() {
             <Logo className="fill-[#201923]" />
           </div>
           <nav className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col gap-y-7">
+            <ul className="flex flex-1 flex-col gap-y-7">
               <li>
-                <ul role="list" className="-mx-2 space-y-2">
+                <ul className="-mx-2 space-y-2">
                   {navigation.map(item => (
                     <NavigationLink item={item} key={item.name} />
                   ))}
@@ -81,9 +81,9 @@ export default function Sidebar() {
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-4 flex flex-1 flex-col">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7">
+              <ul className="flex flex-1 flex-col gap-y-7">
                 <li>
-                  <ul role="list" className="-mx-2 space-y-2">
+                  <ul className="-mx-2 space-y-2">
                     {navigation.map(item => (
                       <NavigationLink item={item} key={item.name} />
                     ))}
