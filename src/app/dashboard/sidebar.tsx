@@ -2,11 +2,14 @@
 
 import { useState } from "react"
 import ProfileMenu from "@/app/dashboard/profile-menu"
+import { useAtom } from "jotai"
 import {
   ClipboardCheck,
   FileBarChart,
   Home,
   Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
   Settings,
   type LucideIcon
 } from "lucide-react"
@@ -14,6 +17,7 @@ import Link from "next/link"
 import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
 import Logo from "@/components/logo"
+import { Button } from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
@@ -21,7 +25,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
+import { cn, isSidebarOpenAtom } from "@/lib/utils"
 
 type NavigationItem = {
   name: string
@@ -38,14 +42,38 @@ const navigation: NavigationItem[] = [
 
 export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  // const [open, setOpen] = useState(true)
+  const [isSidebarOpen, toggle] = useAtom(isSidebarOpenAtom)
   return (
     <>
       {/* Sidebar for desktop */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-60 lg:flex-col">
+      <div
+        className={cn(
+          isSidebarOpen ? "lg:w-60" : "lg:w-20",
+          "hidden transition-all duration-300 ease-in-out lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col"
+        )}
+      >
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-gray-50 px-6">
-          <div className="flex h-16 shrink-0 items-center">
-            <Logo className="fill-[#201923]" />
+          <div
+            className={cn(
+              isSidebarOpen ? "justify-between" : "justify-center",
+              "flex h-16 shrink-0 items-center"
+            )}
+          >
+            {isSidebarOpen && <Logo className="fill-[#201923]" />}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6 text-gray-500 hover:text-gray-800"
+              onClick={() => toggle(!isSidebarOpen)}
+            >
+              {isSidebarOpen ? (
+                <PanelLeftClose className="h-6 w-6" aria-hidden="true" />
+              ) : (
+                <PanelLeftOpen className="h-6 w-6" aria-hidden="true" />
+              )}
+            </Button>
           </div>
           <nav className="flex flex-1 flex-col">
             <ul className="flex flex-1 flex-col gap-y-7">
@@ -110,6 +138,7 @@ export default function Sidebar() {
 function NavigationLink({ item }: { item: NavigationItem }) {
   const pathname = usePathname()
   const segment = useSelectedLayoutSegment()
+  const [isSidebarOpen] = useAtom(isSidebarOpenAtom)
 
   let isActive = false
   if (!segment) {
@@ -145,7 +174,11 @@ function NavigationLink({ item }: { item: NavigationItem }) {
           )}
           aria-hidden="true"
         />
-        {item.name}
+        {isSidebarOpen && (
+          <span className="animate-in animate-out fade-in fade-out">
+            {item.name}
+          </span>
+        )}
       </Link>
     </li>
   )

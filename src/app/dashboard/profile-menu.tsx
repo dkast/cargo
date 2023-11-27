@@ -1,5 +1,6 @@
 "use client"
 
+import { useAtom } from "jotai"
 import { ChevronsUpDown, LogOut, User } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 
@@ -12,11 +13,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { cn, getInitials } from "@/lib/utils"
+import { cn, getInitials, isSidebarOpenAtom } from "@/lib/utils"
 
 export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
   const { data: session } = useSession()
   const user = session?.user
+  const [isSidebarOpen] = useAtom(isSidebarOpenAtom)
 
   if (!user) return null
 
@@ -28,7 +30,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
           className={cn(
             isMobile
               ? "focus:outline-none"
-              : "flex items-center gap-x-4 border-t px-3 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white focus:outline-none"
+              : "flex items-center justify-center gap-x-4 border-t px-3 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white focus:outline-none"
           )}
         >
           <Avatar>
@@ -36,7 +38,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
             <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
           </Avatar>
           <span className="sr-only">Tu Perfil</span>
-          {!isMobile && (
+          {!isMobile && isSidebarOpen && (
             <>
               <span aria-hidden="true">{session?.user.name}</span>
               <ChevronsUpDown className="h-4 w-4 text-gray-500" />
