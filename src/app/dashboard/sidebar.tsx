@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import ProfileMenu from "@/app/dashboard/profile-menu"
 import {
   ClipboardCheck,
@@ -36,6 +37,7 @@ const navigation: NavigationItem[] = [
 ]
 
 export default function Sidebar() {
+  const [mobileOpen, setMobileOpen] = useState(false)
   return (
     <>
       {/* Sidebar for desktop */}
@@ -64,7 +66,7 @@ export default function Sidebar() {
 
       {/* Sidebar for mobile */}
       <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-50 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
-        <Sheet>
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>
             <button
               type="button"
@@ -83,7 +85,10 @@ export default function Sidebar() {
             <nav className="mt-4 flex flex-1 flex-col">
               <ul className="flex flex-1 flex-col gap-y-7">
                 <li>
-                  <ul className="-mx-2 space-y-2">
+                  <ul
+                    className="-mx-2 space-y-2"
+                    onClick={() => setMobileOpen(false)}
+                  >
                     {navigation.map(item => (
                       <NavigationLink item={item} key={item.name} />
                     ))}
