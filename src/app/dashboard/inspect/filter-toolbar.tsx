@@ -96,8 +96,12 @@ export default function FilterToolbar() {
           onChange={setResultValue}
         />
       </div>
-      {/*@ts-expect-error TODO: Review types for this*/}
-      <DateRangePicker value={dateValue} onChange={setDateValue} />
+      <DateRangePicker
+        value={dateValue}
+        /*@ts-expect-error TODO: Review types for this*/
+        onChange={setDateValue}
+        maxValue={today("CST")}
+      />
     </>
   )
 }

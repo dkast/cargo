@@ -79,7 +79,13 @@ const DateRangePicker = React.forwardRef<
         </PopoverTrigger>
         <PopoverContent ref={contentRef} className="w-full">
           <div {...dialogProps} className="space-y-3">
-            <RangeCalendar {...calendarProps} />
+            <RangeCalendar
+              {...calendarProps}
+              onChange={newDateRange => {
+                props.onChange ? props.onChange(newDateRange) : null
+                setOpen(false)
+              }}
+            />
           </div>
         </PopoverContent>
       </Popover>
