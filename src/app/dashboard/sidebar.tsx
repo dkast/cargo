@@ -42,8 +42,8 @@ const navigation: NavigationItem[] = [
 
 export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  // const [open, setOpen] = useState(true)
   const [isSidebarOpen, toggle] = useAtom(isSidebarOpenAtom)
+
   return (
     <>
       {/* Sidebar for desktop */}
@@ -114,11 +114,12 @@ export default function Sidebar() {
               <ul className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul
+                    role="presentation"
                     className="-mx-2 space-y-2"
                     onClick={() => setMobileOpen(false)}
                   >
                     {navigation.map(item => (
-                      <NavigationLink item={item} key={item.name} />
+                      <NavigationLink item={item} key={item.name} isMobile />
                     ))}
                   </ul>
                 </li>
@@ -135,7 +136,13 @@ export default function Sidebar() {
   )
 }
 
-function NavigationLink({ item }: { item: NavigationItem }) {
+function NavigationLink({
+  item,
+  isMobile
+}: {
+  item: NavigationItem
+  isMobile?: boolean
+}) {
   const pathname = usePathname()
   const segment = useSelectedLayoutSegment()
   const [isSidebarOpen] = useAtom(isSidebarOpenAtom)
@@ -174,7 +181,7 @@ function NavigationLink({ item }: { item: NavigationItem }) {
           )}
           aria-hidden="true"
         />
-        {isSidebarOpen && (
+        {(isSidebarOpen || isMobile) && (
           <span className="animate-in animate-out fade-in fade-out">
             {item.name}
           </span>

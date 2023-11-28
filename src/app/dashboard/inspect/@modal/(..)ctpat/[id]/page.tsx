@@ -2,7 +2,6 @@ import { Suspense } from "react"
 
 import InspectionView from "@/components/dashboard/ctpat/inspection-view"
 import Panel from "@/components/dashboard/page-panel"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function CTPATModalPage({
@@ -12,11 +11,13 @@ export default function CTPATModalPage({
 }) {
   return (
     <Panel className="sm:w-1/2 sm:max-w-3xl">
-      <ScrollArea className="h-[100%] px-4 sm:px-2">
-        <Suspense fallback={<LoadingSkeleton />}>
-          <InspectionView inspectionId={id} />
-        </Suspense>
-      </ScrollArea>
+      <div className="h-[100%] overflow-x-auto">
+        <div className="px-4 sm:px-0">
+          <Suspense fallback={<LoadingSkeleton />}>
+            <InspectionView inspectionId={id} />
+          </Suspense>
+        </div>
+      </div>
     </Panel>
   )
 }
