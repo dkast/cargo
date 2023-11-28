@@ -1,7 +1,11 @@
 "use client"
 
 import React, { useRef, useState } from "react"
-import { useDateRangePicker, type DateValue } from "react-aria"
+import {
+  useDateRangePicker,
+  useInteractOutside,
+  type DateValue
+} from "react-aria"
 import {
   useDateRangePickerState,
   type DateRangePickerStateOptions
@@ -37,6 +41,12 @@ const DateRangePicker = React.forwardRef<
     dialogProps,
     calendarProps
   } = useDateRangePicker(props, state, ref)
+  useInteractOutside({
+    ref: contentRef,
+    onInteractOutside: e => {
+      setOpen(false)
+    }
+  })
 
   return (
     <div
