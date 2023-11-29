@@ -43,7 +43,7 @@ const DateRangePicker = React.forwardRef<
   } = useDateRangePicker(props, state, ref)
   useInteractOutside({
     ref: contentRef,
-    onInteractOutside: e => {
+    onInteractOutside: () => {
       setOpen(false)
     }
   })

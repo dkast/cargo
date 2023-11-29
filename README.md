@@ -1,3 +1,5 @@
+[![DeepSource](https://app.deepsource.com/gh/dkast/cargo.svg/?label=active+issues&show_trend=true&token=zZptTKiOmCdRIxR2IQMHpL47)](https://app.deepsource.com/gh/dkast/cargo/)
+
 # 📌 Overview
 
 Cargo is a logistic application for C-TPAT inspections. It utilizes various libraries and tools such as Prisma, Next.js, React, Tailwind CSS, and more.
@@ -14,6 +16,20 @@ Cargo is a logistic application for C-TPAT inspections. It utilizes various libr
 
 - Generate a new secret key using the command: openssl rand -base64 32.
 - Copy the generated key and assign it as the value for this variable.
+
+#### NEXTAUTH_URL
+
+- Set this variable to the URL where your application will be hosted. For example, `"http://localhost:3000"` for local development or `"https://example.com"` for production.
+
+### Configure your Cloudflare R2 Storage
+
+#### R2_ACCOUNT_ID
+
+#### R2_ACCESS_KEY_ID
+
+#### R2_SECRET_KEY_ID
+
+#### R2_BUCKET_NAME
 
 ## 🚀 Run Locally
 
@@ -41,4 +57,4 @@ pnpm dev
 
 ## 📄 License
 
-Distributed under the AGPLv3 License. See [LICENSE](https://github.com/dkast/cargo/blob/main/LICENSE) for more information.
+This project is licensed under the **GNU Affero General Public License v3.0** - see the [**GNU Affero General Public License v3.0**](https://github.com/dkast/cargo/blob/main/LICENSE) file for details.
