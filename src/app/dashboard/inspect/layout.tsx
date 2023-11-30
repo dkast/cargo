@@ -5,11 +5,11 @@ const SecondaryNavItems = [
   {
     title: "CTPAT",
     href: "/dashboard/inspect"
-  },
-  {
-    title: "Intercambio",
-    href: "/dashboard/inspect/interchange"
   }
+  // {
+  //   title: "Intercambio",
+  //   href: "/dashboard/inspect/interchange"
+  // }
 ]
 
 export default function Layout({

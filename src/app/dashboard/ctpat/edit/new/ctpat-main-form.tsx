@@ -75,6 +75,10 @@ export default function CTPATMainForm({
   const router = useRouter()
   const [searchCompany, setSearchCompany] = useState<string>("")
   const [searchContainer, setsearchContainer] = useState("")
+  const [openCompany, setOpenCompany] = useState(false)
+  const [openOperator, setOpenOperator] = useState(false)
+  const [openVehicle, setOpenVehicle] = useState(false)
+  const [openContainer, setOpenContainer] = useState(false)
   const form = useForm<z.infer<typeof ctpatMainSchema>>({
     resolver: zodResolver(ctpatMainSchema),
     defaultValues: {
@@ -248,6 +252,8 @@ export default function CTPATMainForm({
             <FormItem className="flex flex-col sm:col-span-4">
               <FormLabel htmlFor="company">Compañía de Transporte</FormLabel>
               <ComboBox
+                open={openCompany}
+                setOpen={setOpenCompany}
                 trigger={
                   <FormControl>
                     <Button
@@ -297,6 +303,7 @@ export default function CTPATMainForm({
                         onSelect={() => {
                           if (company.id) {
                             form.setValue("companyId", company.id)
+                            setOpenCompany(false)
                           }
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
@@ -327,6 +334,8 @@ export default function CTPATMainForm({
             <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="operator">Operador</FormLabel>
               <ComboBox
+                open={openOperator}
+                setOpen={setOpenOperator}
                 trigger={
                   <FormControl>
                     <Button
@@ -362,6 +371,7 @@ export default function CTPATMainForm({
                               "licenseNumber",
                               operator.licenseNumber
                             )
+                            setOpenOperator(false)
                           }
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
@@ -413,6 +423,8 @@ export default function CTPATMainForm({
             <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="vehicle">Tractor</FormLabel>
               <ComboBox
+                open={openVehicle}
+                setOpen={setOpenVehicle}
                 trigger={
                   <FormControl>
                     <Button
@@ -444,6 +456,7 @@ export default function CTPATMainForm({
                           if (vehicle.id) {
                             form.setValue("vehicleId", vehicle.id)
                             form.setValue("licensePlate", vehicle.licensePlate)
+                            setOpenVehicle(false)
                           }
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
@@ -490,6 +503,8 @@ export default function CTPATMainForm({
             <FormItem className="flex flex-col sm:col-span-3">
               <FormLabel htmlFor="container">Remolque</FormLabel>
               <ComboBox
+                open={openContainer}
+                setOpen={setOpenContainer}
                 trigger={
                   <FormControl>
                     <Button
@@ -542,6 +557,7 @@ export default function CTPATMainForm({
                         onSelect={() => {
                           if (container.id) {
                             form.setValue("containerId", container.id)
+                            setOpenContainer(false)
                           }
                         }}
                         className="py-2 text-base sm:py-1.5 sm:text-sm"
