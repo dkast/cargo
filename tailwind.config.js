@@ -18,7 +18,7 @@ export const theme = {
     }
   },
   fontFamily: {
-    display: ["var(--font-syne)"]
+    display: ["var(--font-outfit)"]
   },
   extend: {
     colors: {

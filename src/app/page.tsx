@@ -10,7 +10,9 @@ export default function HomePage() {
     >
       <div className="flex items-center gap-x-4">
         <img className="h-20 w-auto" src="/logo.svg" alt="Cargo" />
-        <h1 className="font-display text-6xl">Cargo</h1>
+        <h1 className="font-display text-7xl font-medium tracking-tight">
+          cargo
+        </h1>
       </div>
       <Button asChild size="lg">
         <Link href="/dashboard">Entrar</Link>
