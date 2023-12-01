@@ -22,7 +22,7 @@ export default function Layout({
   return (
     <>
       <PageHeader
-        title="Inspección"
+        title="Inspecciones"
         description="Realice inspecciones a unidades y remolques"
       />
       <SecondaryNav items={SecondaryNavItems} />
