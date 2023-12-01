@@ -14,7 +14,7 @@ export default function ImageViewer({
   return (
     <Zoom>
       <picture>
-        <source media="(max-width: 768px)" srcSet={src} />
+        <source media="(max-width: 100%)" srcSet={src} />
         <img
           src={src}
           alt=""

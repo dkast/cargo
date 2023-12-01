@@ -110,6 +110,9 @@ dependencies:
   '@uppy/aws-s3':
     specifier: ^3.5.0
     version: 3.5.0(@uppy/core@3.7.1)
+  '@uppy/compressor':
+    specifier: ^1.0.5
+    version: 1.0.5(@uppy/core@3.7.1)
   '@uppy/core':
     specifier: ^3.7.1
     version: 3.7.1
@@ -5200,6 +5203,19 @@ packages:
       p-retry: 6.1.0
     dev: false
 
+  /@uppy/compressor@1.0.5(@uppy/core@3.7.1):
+    resolution: {integrity: sha512-OJucPmpoWVO4fd+XRExZtJAkn0u/aqFLX5mBl280L10ozoGl4tEKMaT1VpySQEhDDtdZq7+N5hb+F7Vb3S9bIg==}
+    peerDependencies:
+      '@uppy/core': ^3.6.0
+    dependencies:
+      '@transloadit/prettier-bytes': 0.0.9
+      '@uppy/core': 3.7.1
+      '@uppy/utils': 5.6.0
+      compressorjs: 1.2.1
+      preact: 10.17.1
+      promise-queue: 2.2.5
+    dev: false
+
   /@uppy/core@3.7.1:
     resolution: {integrity: sha512-P8JoDbDYyJ5ZX35+IfrDj2WupKvfEpYwoMgyjutaLhaT/+hmHoTivZpJV256eaZahJMTYrQlZmGfXy1LRByV3A==}
     dependencies:
@@ -5676,6 +5692,10 @@ packages:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
 
+  /blueimp-canvas-to-blob@3.29.0:
+    resolution: {integrity: sha512-0pcSSGxC0QxT+yVkivxIqW0Y4VlO2XSDPofBAqoJ1qJxgH9eiUDLv50Rixij2cDuEfx4M6DpD9UGZpRhT5Q8qg==}
+    dev: false
+
   /bowser@2.11.0:
     resolution: {integrity: sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==}
     dev: false
@@ -5912,6 +5932,13 @@ packages:
       array-ify: 1.0.0
       dot-prop: 5.3.0
     dev: true
+
+  /compressorjs@1.2.1:
+    resolution: {integrity: sha512-+geIjeRnPhQ+LLvvA7wxBQE5ddeLU7pJ3FsKFWirDw6veY3s9iLxAQEw7lXGHnhCJvBujEQWuNnGzZcvCvdkLQ==}
+    dependencies:
+      blueimp-canvas-to-blob: 3.29.0
+      is-blob: 2.1.0
+    dev: false
 
   /concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -7127,6 +7154,11 @@ packages:
     dependencies:
       binary-extensions: 2.2.0
 
+  /is-blob@2.1.0:
+    resolution: {integrity: sha512-SZ/fTft5eUhQM6oF/ZaASFDEdbFVe89Imltn9uZr03wdKMcWNVYSMjQPFtg05QuNkt5l5c135ElvXEQG0rk4tw==}
+    engines: {node: '>=6'}
+    dev: false
+
   /is-boolean-object@1.1.2:
     resolution: {integrity: sha512-gDYaKHJmnj4aWxyj6YHyXVpdQawtVLHU5cb+eztPGczf6cjuTdwve5ZIEfgXqH4e57An1D1AKf8CZ3kYrQRqYA==}
     engines: {node: '>= 0.4'}
@@ -8334,6 +8366,11 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 5.6.0
+
+  /promise-queue@2.2.5:
+    resolution: {integrity: sha512-p/iXrPSVfnqPft24ZdNNLECw/UrtLTpT3jpAAMzl/o5/rDsGCPo3/CQS2611flL6LkoEJ3oQZw7C8Q80ZISXRQ==}
+    engines: {node: '>= 0.8.0'}
+    dev: false
 
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}

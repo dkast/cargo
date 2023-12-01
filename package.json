@@ -52,6 +52,7 @@
     "@tanstack/match-sorter-utils": "^8.8.4",
     "@tanstack/react-table": "^8.10.7",
     "@uppy/aws-s3": "^3.5.0",
+    "@uppy/compressor": "^1.0.5",
     "@uppy/core": "^3.7.1",
     "@uppy/dashboard": "^3.7.1",
     "@uppy/drag-drop": "^3.0.3",

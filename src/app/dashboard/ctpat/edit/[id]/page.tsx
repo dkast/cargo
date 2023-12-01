@@ -49,7 +49,7 @@ export default async function CTPATEditPage({
                 {(() => {
                   switch (inspection.status) {
                     case InspectionStatus.OPEN:
-                      return <Badge variant="yellow">Pendiente</Badge>
+                      return <Badge variant="yellow">En Proceso</Badge>
                     case InspectionStatus.CLOSED:
                       return <Badge variant="blue">Cerrado</Badge>
                     case InspectionStatus.APPROVED:
@@ -62,7 +62,7 @@ export default async function CTPATEditPage({
             </div>
             <div className="grid grid-cols-2 gap-y-4 text-sm sm:grid-cols-3">
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm">Tipo Inspección</dt>
+                <dt className="text-sm font-medium">Tipo Inspección</dt>
                 <dd className="text-sm leading-6 text-gray-700">
                   {inspection.tripType === InspectionTripType.IN ? (
                     <span>Entrada</span>
@@ -72,7 +72,7 @@ export default async function CTPATEditPage({
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm">Fecha</dt>
+                <dt className="text-sm font-medium">Fecha</dt>
                 <dd className="text-sm leading-6 text-gray-700">
                   {inspection.start instanceof Date
                     ? format(inspection.start, "Pp")
@@ -80,26 +80,27 @@ export default async function CTPATEditPage({
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm">Transportista</dt>
+                <dt className="text-sm font-medium">Transportista</dt>
                 <dd className="text-sm leading-6 text-gray-700">
                   {inspection.company.name}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm">Operador</dt>
+                <dt className="text-sm font-medium">Operador</dt>
                 <dd className="text-sm leading-6 text-gray-700">
                   {inspection.operator.name}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm">Remolque</dt>
+                <dt className="text-sm font-medium">Tractor</dt>
                 <dd className="text-sm leading-6 text-gray-700">
                   {inspection.vehicle.vehicleNbr}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm">Carga</dt>
-                <dd>
+                <dt className="text-sm font-medium">Remolque</dt>
+                <dd className="flex items-center gap-2 text-sm leading-6 text-gray-700">
+                  {inspection.container.containerNbr}
                   {inspection.isLoaded ? (
                     <Badge variant="yellow" className="rounded">
                       Cargado
@@ -111,6 +112,20 @@ export default async function CTPATEditPage({
                   )}
                 </dd>
               </dl>
+              {/* <dl className="space-y-1 sm:space-y-2">
+                <dt className="text-sm font-medium">Carga</dt>
+                <dd>
+                  {inspection.isLoaded ? (
+                    <Badge variant="yellow" className="rounded">
+                      Cargado
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary" className="rounded">
+                      Vacío
+                    </Badge>
+                  )}
+                </dd>
+              </dl> */}
             </div>
           </div>
         </div>
