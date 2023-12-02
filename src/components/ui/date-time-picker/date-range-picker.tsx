@@ -1,7 +1,11 @@
 "use client"
 
 import React, { useRef, useState } from "react"
-import { useDateRangePicker, type DateValue } from "react-aria"
+import {
+  useDateRangePicker,
+  useInteractOutside,
+  type DateValue
+} from "react-aria"
 import {
   useDateRangePickerState,
   type DateRangePickerStateOptions
@@ -37,6 +41,12 @@ const DateRangePicker = React.forwardRef<
     dialogProps,
     calendarProps
   } = useDateRangePicker(props, state, ref)
+  useInteractOutside({
+    ref: contentRef,
+    onInteractOutside: () => {
+      setOpen(false)
+    }
+  })
 
   return (
     <div
@@ -69,7 +79,13 @@ const DateRangePicker = React.forwardRef<
         </PopoverTrigger>
         <PopoverContent ref={contentRef} className="w-full">
           <div {...dialogProps} className="space-y-3">
-            <RangeCalendar {...calendarProps} />
+            <RangeCalendar
+              {...calendarProps}
+              onChange={newDateRange => {
+                props.onChange ? props.onChange(newDateRange) : null
+                setOpen(false)
+              }}
+            />
           </div>
         </PopoverContent>
       </Popover>

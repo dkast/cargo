@@ -1,5 +1,6 @@
 "use server"
 
+import { Prisma } from "@prisma/client"
 import { revalidateTag } from "next/cache"
 
 import { prisma } from "@/server/db"
@@ -28,8 +29,12 @@ export const createOperator = action(
       let message
       if (typeof error === "string") {
         message = error
-      } else if (error instanceof Error) {
-        message = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          message = "Ya existe un operador con ese número de licencia"
+        } else {
+          message = error.message
+        }
       }
       return {
         failure: {

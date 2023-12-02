@@ -38,7 +38,7 @@ export default async function InspectionView({
           {(() => {
             switch (inspection.status) {
               case InspectionStatus.OPEN:
-                return <Badge variant="yellow">Pendiente</Badge>
+                return <Badge variant="yellow">En Proceso</Badge>
               case InspectionStatus.CLOSED:
                 return <Badge variant="blue">Cerrado</Badge>
               case InspectionStatus.APPROVED:
@@ -119,12 +119,27 @@ export default async function InspectionView({
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Remolque</dt>
+          <dt className="text-sm font-medium leading-6">Tractor</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
             {inspection.vehicle.vehicleNbr}
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">Remolque</dt>
+          <dd className="mt-1 flex items-center gap-2 text-sm leading-6 text-gray-700 sm:mt-2">
+            {inspection.container.containerNbr}
+            {inspection.isLoaded ? (
+              <Badge variant="yellow" className="rounded">
+                Cargado
+              </Badge>
+            ) : (
+              <Badge variant="secondary" className="rounded">
+                Vacío
+              </Badge>
+            )}
+          </dd>
+        </div>
+        {/* <div className="border-t border-gray-100 py-3 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">Carga</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
             {inspection.isLoaded ? (
@@ -137,7 +152,7 @@ export default async function InspectionView({
               </Badge>
             )}
           </dd>
-        </div>
+        </div> */}
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">Inspeccionado por</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">

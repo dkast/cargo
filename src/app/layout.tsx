@@ -1,5 +1,5 @@
 import { type Metadata, type Viewport } from "next"
-import { Inter, Syne } from "next/font/google"
+import { Inter, Outfit } from "next/font/google"
 
 import "../styles/globals.css"
 
@@ -32,10 +32,10 @@ const inter = Inter({
   variable: "--font-inter"
 })
 
-const syne = Syne({
+const outfit = Outfit({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-syne"
+  variable: "--font-outfit"
 })
 
 export default function RootLayout({
@@ -45,7 +45,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      className={`${inter.variable} ${syne.variable}`}
+      className={`${inter.variable} ${outfit.variable}`}
       suppressHydrationWarning
     >
       <body className="bg-white text-gray-950">

@@ -373,11 +373,11 @@ export default function PDFDocument({
                       Número de Sello de Seguridad
                     </Text>
                   </View>
-                  {/* <View style={{ flexBasis: "35%" }}> */}
-                  <Text style={[style.underline, { flexBasis: "35%" }]}>
-                    {inspection.sealNbr}
-                  </Text>
-                  {/* </View> */}
+                  <View style={{ flexBasis: "35%" }}>
+                    <Text style={[style.underline, { flexBasis: "35%" }]}>
+                      {inspection.sealNbr}
+                    </Text>
+                  </View>
                 </View>
 
                 <View

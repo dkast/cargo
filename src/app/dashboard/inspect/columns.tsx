@@ -186,7 +186,7 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
                   href={`/dashboard/ctpat/edit/${inspection.id}`}
                   prefetch={false}
                 >
-                  Finalizar
+                  Continuar
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />

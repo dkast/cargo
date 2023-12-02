@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
+import { atomWithStorage } from "jotai/utils"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -18,3 +19,8 @@ export function getInitials(name: string | undefined | null) {
 export function canApprove(role: string) {
   return role === "OWNER" || role === "ADMIN" || role === "SUPERVISOR"
 }
+
+export const isSidebarOpenAtom = atomWithStorage<boolean>(
+  "is-sidebar-open",
+  true
+)

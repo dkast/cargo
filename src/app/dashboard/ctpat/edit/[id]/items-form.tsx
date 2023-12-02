@@ -4,13 +4,13 @@ import { useEffect, useState } from "react"
 import {
   useFieldArray,
   useForm,
-  type UseFormSetValue,
   type Control,
-  type FieldArrayWithId
+  type FieldArrayWithId,
+  type UseFormSetValue
 } from "react-hook-form"
 import toast from "react-hot-toast"
 import ItemMediaPreview from "@/app/dashboard/ctpat/edit/[id]/item-media-preview"
-import { DevTool } from "@hookform/devtools"
+// import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   InspectionResult,
@@ -106,7 +106,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
   })
 
   const onSubmit = async (data: z.infer<typeof inspectionDetailSchema>) => {
-    updateInspection(data)
+    await updateInspection(data)
   }
 
   if (!inspection) return notFound()
@@ -214,7 +214,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
             )}
           </Button>
         </form>
-        <DevTool control={form.control} />
+        {/* <DevTool control={form.control} /> */}
       </Form>
     </div>
   )

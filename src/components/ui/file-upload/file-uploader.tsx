@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react"
 import AwsS3, { type AwsS3UploadParameters } from "@uppy/aws-s3"
+import Compressor from "@uppy/compressor"
 import Uppy, { type UploadResult, type UppyFile } from "@uppy/core"
 // @ts-expect-error - Uppy doesn't have types for this locale
 import Spanish from "@uppy/locales/lib/es_MX"
@@ -52,14 +53,25 @@ export async function getUploadParameters(
 }
 
 const uppy = new Uppy({
-  autoProceed: true,
+  autoProceed: false,
   restrictions: {
     maxNumberOfFiles: 3
   },
   locale: Spanish
 })
   .use(AwsS3)
-  .use(Webcam)
+  .use(Webcam, {
+    modes: ["picture"]
+  })
+  .use(Compressor, {
+    locale: {
+      strings: {
+        // Shown in the Status Bar
+        compressingImages: "Optimizando imágenes...",
+        compressedX: "Ahorro de %{size} al optimizar imágenes"
+      }
+    }
+  })
 
 export function FileUploader({
   organizationId,
@@ -86,6 +98,7 @@ export function FileUploader({
     <Dashboard
       className="mx-auto max-w-[320px] sm:max-w-[520px]"
       uppy={uppy}
+      waitForThumbnailsBeforeUpload
       proudlyDisplayPoweredByUppy={false}
     />
   )
