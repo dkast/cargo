@@ -13,7 +13,6 @@ import {
   type FilterFn,
   type SortingState
 } from "@tanstack/react-table"
-import { is, tr } from "date-fns/locale"
 
 import { Input } from "@/components/ui/input"
 import {
@@ -89,6 +88,7 @@ export function DataTable<TData, TValue>({
         }
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile])
 
   return (
