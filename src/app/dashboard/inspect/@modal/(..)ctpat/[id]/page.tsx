@@ -10,7 +10,7 @@ export default function CTPATModalPage({
   params: { id: string }
 }) {
   return (
-    <Panel className="sm:w-1/2 sm:max-w-3xl">
+    <Panel className="max-h-[96%] sm:w-1/2 sm:max-w-3xl">
       <div className="h-[100%] overflow-x-auto">
         <div className="px-4 sm:px-0">
           <Suspense fallback={<LoadingSkeleton />}>
