@@ -16,6 +16,7 @@ import {
   View
 } from "@react-pdf/renderer"
 import { format } from "date-fns"
+import { es } from "date-fns/locale"
 
 import { type getInspectionById } from "@/server/fetchers"
 
@@ -168,8 +169,10 @@ export default function PDFDocument({
                     <Text style={style.label}>Fecha y Hora:</Text>
                     <Text style={style.underline}>
                       {inspection.start instanceof Date
-                        ? format(inspection.start, "Pp")
-                        : format(new Date(inspection.start), "Pp")}
+                        ? format(inspection.start, "Pp", { locale: es })
+                        : format(new Date(inspection.start), "Pp", {
+                            locale: es
+                          })}
                     </Text>
                   </View>
                   <View style={style.block}>

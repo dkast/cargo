@@ -4,6 +4,7 @@ import toast from "react-hot-toast"
 import { InspectionResult, InspectionStatus, type Prisma } from "@prisma/client"
 import { type ColumnDef, type Row } from "@tanstack/react-table"
 import { format } from "date-fns"
+import { es } from "date-fns/locale"
 import { MoreHorizontal } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import Link from "next/link"
@@ -59,9 +60,11 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
             <dt className="sr-only sm:hidden">Fecha</dt>
             <dd className="mt-1 truncate text-gray-500 sm:hidden">
               {inspection.start instanceof Date ? (
-                <span>{format(inspection.start, "Pp")}</span>
+                <span>{format(inspection.start, "dd/LL/yy HH:mm")}</span>
               ) : (
-                <span>{format(new Date(inspection.start), "Pp")}</span>
+                <span>
+                  {format(new Date(inspection.start), "dd/LL/YY HH:mm")}
+                </span>
               )}
             </dd>
           </dl>
@@ -97,9 +100,13 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
 
       // Validate if inspectionStart is a date
       if (inspection.start instanceof Date) {
-        return <span>{format(inspection.start, "Pp")}</span>
+        return <span>{format(inspection.start, "Pp", { locale: es })}</span>
       } else {
-        return <span>{format(new Date(inspection.start), "Pp")}</span>
+        return (
+          <span>
+            {format(new Date(inspection.start), "Pp", { locale: es })}
+          </span>
+        )
       }
     },
     enableHiding: true

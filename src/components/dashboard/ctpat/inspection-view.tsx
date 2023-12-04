@@ -4,6 +4,7 @@ import {
   InspectionTripType
 } from "@prisma/client"
 import { format } from "date-fns"
+import { es } from "date-fns/locale"
 import { Check, X } from "lucide-react"
 import { notFound } from "next/navigation"
 
@@ -92,8 +93,8 @@ export default async function InspectionView({
           <dt className="text-sm font-medium leading-6">Fecha Inicio</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
             {inspection.start instanceof Date
-              ? format(inspection.start, "Pp")
-              : format(new Date(inspection.start), "Pp")}
+              ? format(inspection.start, "Pp", { locale: es })
+              : format(new Date(inspection.start), "Pp", { locale: es })}
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
@@ -101,8 +102,8 @@ export default async function InspectionView({
           {inspection.end && (
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
               {inspection.end instanceof Date
-                ? format(inspection.end, "Pp")
-                : format(new Date(inspection.end), "Pp")}
+                ? format(inspection.end, "Pp", { locale: es })
+                : format(new Date(inspection.end), "Pp", { locale: es })}
             </dd>
           )}
         </div>
