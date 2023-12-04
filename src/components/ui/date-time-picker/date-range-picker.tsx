@@ -54,7 +54,7 @@ const DateRangePicker = React.forwardRef<
       ref={ref}
       className={cn(
         groupProps.className,
-        "flex items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
+        "flex w-[236px] items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
       )}
     >
       <div className="flex h-8 flex-row items-center justify-between rounded-l-md border border-r-0">

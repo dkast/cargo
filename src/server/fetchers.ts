@@ -219,7 +219,7 @@ export async function getInspections(filter: InspectionQueryFilter) {
       }
     },
     orderBy: {
-      start: "asc"
+      start: "desc"
     }
   })
 }

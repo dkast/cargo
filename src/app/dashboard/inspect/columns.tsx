@@ -4,6 +4,7 @@ import toast from "react-hot-toast"
 import { InspectionResult, InspectionStatus, type Prisma } from "@prisma/client"
 import { type ColumnDef, type Row } from "@tanstack/react-table"
 import { format } from "date-fns"
+import { es } from "date-fns/locale"
 import { MoreHorizontal } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import Link from "next/link"
@@ -44,20 +45,52 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     cell: ({ row }) => {
       const inspection = row.original
 
-      return <span>{inspection.inspectionNbr.toString().padStart(5, "0")}</span>
+      return (
+        <div>
+          <span>{inspection.inspectionNbr.toString().padStart(5, "0")}</span>
+          <dl className="font-normal lg:hidden">
+            <dt className="sr-only">Transportista</dt>
+            <dd className="mt-1 truncate text-gray-700">
+              {inspection.company.name}
+            </dd>
+            <dt className="sr-only sm:hidden">Unidad</dt>
+            <dd className="mt-1 truncate text-gray-500 sm:hidden">
+              {inspection.vehicle.vehicleNbr}
+            </dd>
+            <dt className="sr-only sm:hidden">Fecha</dt>
+            <dd className="mt-1 truncate text-gray-500 sm:hidden">
+              {inspection.start instanceof Date ? (
+                <span>{format(inspection.start, "dd/LL/yy HH:mm")}</span>
+              ) : (
+                <span>
+                  {format(new Date(inspection.start), "dd/LL/YY HH:mm")}
+                </span>
+              )}
+            </dd>
+          </dl>
+        </div>
+      )
     }
   },
   {
     accessorKey: "inspectedBy.user.name",
-    header: "Inspector"
+    header: "Inspector",
+    enableHiding: true
   },
   {
     accessorKey: "company.name",
-    header: "Transportista"
+    header: "Transportista",
+    enableHiding: true
+  },
+  {
+    accessorKey: "vehicle.vehicleNbr",
+    header: "Unidad",
+    enableHiding: true
   },
   {
     accessorKey: "operator.name",
-    header: "Operador"
+    header: "Operador",
+    enableHiding: true
   },
   {
     accessorKey: "start",
@@ -67,11 +100,16 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
 
       // Validate if inspectionStart is a date
       if (inspection.start instanceof Date) {
-        return <span>{format(inspection.start, "Pp")}</span>
+        return <span>{format(inspection.start, "Pp", { locale: es })}</span>
       } else {
-        return <span>{format(new Date(inspection.start), "Pp")}</span>
+        return (
+          <span>
+            {format(new Date(inspection.start), "Pp", { locale: es })}
+          </span>
+        )
       }
-    }
+    },
+    enableHiding: true
   },
   {
     accessorKey: "status",
@@ -91,7 +129,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
       }
 
       return (
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center justify-center gap-2 sm:justify-start">
           <div
             className={cn(
               color[inspection.status],
@@ -100,18 +138,20 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
           >
             <div className="h-1.5 w-1.5 rounded-full bg-current" />
           </div>
-          <div className="hidden sm:block">{legend[inspection.status]}</div>
+          <span className="hidden sm:block">{legend[inspection.status]}</span>
         </div>
       )
     }
   },
   {
     accessorKey: "result",
-    header: "Resultado",
+    header: () => (
+      <span className="hidden text-center sm:block">Resultado</span>
+    ),
     cell: ({ row }) => {
       const inspection = row.original
       return (
-        <div>
+        <div className="text-center">
           {(() => {
             switch (inspection.result) {
               case InspectionResult.PASS:

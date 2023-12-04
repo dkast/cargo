@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { rankItem } from "@tanstack/match-sorter-utils"
 import {
   flexRender,
@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { useMobile } from "@/lib/use-mobile"
 import { DataTablePagination } from "./data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
@@ -70,9 +71,29 @@ export function DataTable<TData, TValue>({
     }
   })
 
+  const isMobile = useMobile()
+
+  useEffect(() => {
+    // If isMobile is true, then we need to hide the columns that have the enableHidden prop to true
+    if (isMobile) {
+      table.getAllColumns().forEach(column => {
+        if (column.columnDef.enableHiding) {
+          column.toggleVisibility(false)
+        }
+      })
+    } else {
+      table.getAllColumns().forEach(column => {
+        if (column.columnDef.enableHiding) {
+          column.toggleVisibility(true)
+        }
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobile])
+
   return (
     <div>
-      <div className="flex flex-row items-center justify-between gap-x-3 py-2">
+      <div className="flex flex-col gap-3 py-2 sm:flex-row sm:items-center sm:justify-between">
         <Input
           placeholder="Buscar en resultados"
           value={globalFilter}
