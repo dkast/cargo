@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { motion } from "framer-motion"
 import { Loader2 } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 import { z } from "zod"
@@ -90,15 +91,20 @@ export default function Waitlist() {
             </Button>
           </div>
         ) : (
-          <Alert className="max-w-2xl space-y-2 border-gray-800 bg-gray-900">
-            <AlertTitle className="text-white">
-              ¡Gracias por tu interés!
-            </AlertTitle>
-            <AlertDescription className="text-gray-400">
-              Te enviaremos un correo electrónico cuando estemos listos para que
-              puedas probar la aplicación.
-            </AlertDescription>
-          </Alert>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Alert className="max-w-xl space-y-2 border-gray-800 bg-gray-900">
+              <AlertTitle className="text-white">
+                ¡Gracias por tu interés!
+              </AlertTitle>
+              <AlertDescription className="text-gray-400">
+                Te enviaremos un correo electrónico cuando estemos listos para
+                que puedas probar la aplicación.
+              </AlertDescription>
+            </Alert>
+          </motion.div>
         )}
       </form>
     </Form>
