@@ -25,9 +25,9 @@ export default function HomePage() {
           </h1>
           <p className="text-gray-400 sm:text-lg">
             <span className=" text-white">Cargo</span> es una aplicación que te
-            facilita la creación, el envío y la recepción de tus formatos CTPAT
-            desde cualquier dispositivo. Despídete de las dificultades
-            documentales para enfócarte en tu negocio.
+            facilita la gestión de tus formatos CTPAT desde cualquier
+            dispositivo. Despídete de las dificultades documentales para
+            enfócarte en tu negocio.
           </p>
         </section>
         <section className="mt-10">

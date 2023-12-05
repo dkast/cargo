@@ -1,9 +1,14 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2 } from "lucide-react"
+import { useAction } from "next-safe-action/hook"
 import { z } from "zod"
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -13,6 +18,7 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { joinWaitlist } from "@/server/actions/general"
 
 const emailSchema = z.object({
   email: z.string().email({
@@ -27,9 +33,20 @@ export default function Waitlist() {
       email: ""
     }
   })
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const { execute, status, reset } = useAction(joinWaitlist, {
+    onSuccess: data => {
+      if (data?.success) {
+        setIsSubmitted(true)
+      } else if (data?.failure.reason) {
+        toast(data.failure.reason)
+      }
+      reset()
+    }
+  })
 
   const onSubmit = async (data: z.infer<typeof emailSchema>) => {
-    console.log(data)
+    execute(data)
   }
   return (
     <Form {...form}>
@@ -38,31 +55,51 @@ export default function Waitlist() {
         className="flex flex-col items-center space-y-4"
       >
         <span className="text-gray-400">Unirse a la lista de espera</span>
-        <div className="flex flex-row items-start justify-center gap-x-2">
-          <FormField
-            name="email"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="nombre@correo.com"
-                    className="max-w-[300px] border border-gray-700 bg-gray-800 text-white"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            className="bg-gradient-to-t from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-400"
-          >
-            Unirse
-          </Button>
-        </div>
+        {!isSubmitted ? (
+          <div className="flex flex-row items-start justify-center gap-x-2">
+            <FormField
+              name="email"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="nombre@correo.com"
+                      className="max-w-[300px] border border-gray-700 bg-gray-800 text-white"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              disabled={status === "executing"}
+              type="submit"
+              className="bg-gradient-to-t from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-400"
+            >
+              {status === "executing" ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+                  {"Procesando..."}
+                </>
+              ) : (
+                "Unirse"
+              )}
+            </Button>
+          </div>
+        ) : (
+          <Alert className="max-w-2xl space-y-2 border-gray-800 bg-gray-900">
+            <AlertTitle className="text-white">
+              ¡Gracias por tu interés!
+            </AlertTitle>
+            <AlertDescription className="text-gray-400">
+              Te enviaremos un correo electrónico cuando estemos listos para que
+              puedas probar la aplicación.
+            </AlertDescription>
+          </Alert>
+        )}
       </form>
     </Form>
   )
