@@ -47,7 +47,7 @@ export default function Waitlist() {
   })
 
   const onSubmit = async (data: z.infer<typeof emailSchema>) => {
-    execute(data)
+    await execute(data)
   }
   return (
     <Form {...form}>
