@@ -69,6 +69,12 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Waitlist {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
 // Multi-Tenant
 model Organization {
   id                 String               @id @default(cuid())

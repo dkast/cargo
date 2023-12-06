@@ -1,22 +1,39 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import Waitlist from "@/components/landing/waitlist"
+import Logo from "@/components/logo"
 
 export default function HomePage() {
   return (
     <div
-      className="flex min-h-screen flex-col items-center justify-center gap-y-32 bg-gray-400 bg-[url(https://images.unsplash.com/photo-1571958529064-eaf827bf97d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1908&q=80)] 
-      bg-cover bg-blend-screen grayscale"
+      className="flex min-h-screen flex-col items-center justify-center bg-gray-950 bg-[url(/bg-landing.svg)] 
+      bg-cover bg-center bg-no-repeat"
     >
-      <div className="flex items-center gap-x-4">
-        <img className="h-20 w-auto" src="/logo.svg" alt="Cargo" />
-        <h1 className="font-display text-7xl font-medium tracking-tight">
-          cargo
-        </h1>
+      <div className="fixed right-4 top-4 text-white hover:underline">
+        <Link href="/dashboard">Iniciar sesión</Link>
       </div>
-      <Button asChild size="lg">
-        <Link href="/dashboard">Entrar</Link>
-      </Button>
+      <div className="flex flex-col">
+        <div className="mb-10 flex items-center justify-center gap-x-4 text-white">
+          <Logo className="h-10 w-auto fill-white" />
+          <h1 className="font-display text-3xl font-medium tracking-tight sm:text-5xl">
+            cargo
+          </h1>
+        </div>
+        <section className="flex max-w-4xl flex-col gap-y-10 px-3 text-center">
+          <h1 className="font-display text-4xl font-medium tracking-tight text-orange-500 sm:text-5xl">
+            Simplifica tus procesos de C-TPAT
+          </h1>
+          <p className="text-gray-400 sm:text-lg">
+            <span className=" text-white">Cargo</span> es una aplicación que te
+            facilita la gestión de tus formatos CTPAT desde cualquier
+            dispositivo. Despídete de las dificultades documentales para
+            enfócarte en tu negocio.
+          </p>
+        </section>
+        <section className="mt-10">
+          <Waitlist />
+        </section>
+      </div>
     </div>
   )
 }
