@@ -328,3 +328,24 @@ export async function getInspectionById(inspectionId: string) {
 
   return data
 }
+
+// Get count of inspections by status
+export async function getInspectionStatusCount(
+  organizationId: string,
+  start?: string,
+  end?: string
+) {
+  return await prisma.inspection.groupBy({
+    by: ["status"],
+    where: {
+      organizationId: organizationId,
+      start: {
+        gte: start ? parseISO(start) : subMonths(new Date(), 1),
+        lte: end ? endOfDay(parseISO(end)) : endOfDay(new Date())
+      }
+    },
+    _count: {
+      status: true
+    }
+  })
+}
