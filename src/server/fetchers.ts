@@ -349,3 +349,30 @@ export async function getInspectionStatusCount(
     }
   })
 }
+
+// Get count of inspections by date and result
+export async function getInspectionResultCount(
+  organizationId: string,
+  start?: string,
+  end?: string
+) {
+  // return await prisma.inspection.groupBy({
+  //   by: ["result", "start"],
+  //   where: {
+  //     organizationId: organizationId,
+  //     start: {
+  //       gte: start ? parseISO(start) : subMonths(new Date(), 2),
+  //       lte: end ? endOfDay(parseISO(end)) : endOfDay(new Date())
+  //     }
+  //   },
+  //   _count: {
+  //     result: true
+  //   }
+  // }
+  return await prisma.$queryRaw`select result, date(start) as start, cast(count(*) as char) as total from Inspection where organizationId = ${organizationId} and 
+  start >= ${start ? parseISO(start) : subMonths(new Date(), 2)} and 
+  start <= ${
+    end ? endOfDay(parseISO(end)) : endOfDay(new Date())
+  } and result is not null
+  group by result, date(start) order by start asc`
+}
