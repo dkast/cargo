@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
+import { getInspectionResultCount } from "@/server/fetchers"
+import { getCurrentUser } from "@/lib/session"
 
 type ResultData = {
   result: string
@@ -21,15 +23,18 @@ interface TransformedData {
   [key: string]: string | number
 }
 
-export default function InspectionResultChart({
-  data,
+export default async function InspectionResultChart({
   className
 }: {
-  data: ResultData[]
   className?: string
 }) {
-  console.log(data)
+  const user = await getCurrentUser()
 
+  if (!user) return null
+
+  const data = (await getInspectionResultCount(
+    user.organizationId
+  )) as ResultData[]
   // take the array and transform it into an array where the result is sum of the total and is grouped by date
   const transformedData = data.reduce(
     (acc: TransformedData[], item: ResultData) => {
@@ -52,8 +57,6 @@ export default function InspectionResultChart({
     },
     [] as TransformedData[]
   )
-
-  console.log(transformedData)
 
   const totalInspections = data.reduce(
     (acc, item) => acc + Number(item.total),

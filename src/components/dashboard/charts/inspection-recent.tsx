@@ -1,8 +1,11 @@
 import { InspectionResult } from "@prisma/client"
 import { TableCell } from "@tremor/react"
 import { format } from "date-fns"
+import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Table,
@@ -29,15 +32,20 @@ async function InspectionRecent({ className }: { className?: string }) {
 
   const filter: InspectionQueryFilter = {
     organizationId: user.organizationId,
-    take: 10
+    take: 5
   }
   const data = await getInspections(filter)
   return (
     <Card className={className}>
-      <CardHeader>
+      <CardHeader className="flex flex-row justify-between">
         <CardTitle className="text-base font-medium">
           Inspecciones recientes
         </CardTitle>
+        <Button asChild size="xs" variant="outline" className="text-xs">
+          <Link href="/dashboard/inspect">
+            Ver todas <ArrowRight className="ml-1" size={16} />
+          </Link>
+        </Button>
       </CardHeader>
       <CardContent>
         <Table>
@@ -50,7 +58,7 @@ async function InspectionRecent({ className }: { className?: string }) {
           <TableBody>
             {data.map(inspection => (
               <TableRow key={inspection.id}>
-                <TableCell className="flex flex-col gap-1">
+                <TableCell className="flex flex-col gap-1 p-2">
                   <div className="flex flex-row items-center gap-2">
                     <div
                       className={cn(
@@ -74,7 +82,7 @@ async function InspectionRecent({ className }: { className?: string }) {
                     )}
                   </div>
                 </TableCell>
-                <TableCell className="text-center">
+                <TableCell className="p-2 text-center">
                   {(() => {
                     switch (inspection.result) {
                       case InspectionResult.PASS:

@@ -148,7 +148,7 @@ function NavigationLink({
   const [isSidebarOpen] = useAtom(isSidebarOpenAtom)
 
   let isActive = false
-  if (!segment) {
+  if (!segment || segment === "(overview)") {
     isActive = pathname === item.href
   } else {
     isActive = item.href.includes(segment)
