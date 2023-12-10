@@ -159,6 +159,7 @@ export async function getContainers(organizationId: string) {
 
 export async function getInspections(filter: InspectionQueryFilter) {
   return await prisma.inspection.findMany({
+    take: filter.take ? filter.take : undefined,
     where: {
       organizationId: filter.organizationId,
       start: {
@@ -346,6 +347,9 @@ export async function getInspectionStatusCount(
     },
     _count: {
       status: true
+    },
+    orderBy: {
+      status: "asc"
     }
   })
 }
@@ -356,23 +360,10 @@ export async function getInspectionResultCount(
   start?: string,
   end?: string
 ) {
-  // return await prisma.inspection.groupBy({
-  //   by: ["result", "start"],
-  //   where: {
-  //     organizationId: organizationId,
-  //     start: {
-  //       gte: start ? parseISO(start) : subMonths(new Date(), 2),
-  //       lte: end ? endOfDay(parseISO(end)) : endOfDay(new Date())
-  //     }
-  //   },
-  //   _count: {
-  //     result: true
-  //   }
-  // }
-  return await prisma.$queryRaw`select result, date(start) as start, cast(count(*) as char) as total from Inspection where organizationId = ${organizationId} and 
-  start >= ${start ? parseISO(start) : subMonths(new Date(), 2)} and 
+  return await prisma.$queryRaw`select result, start, cast(count(*) as char) as total from Inspection where organizationId = ${organizationId} and 
+  start >= ${start ? parseISO(start) : subMonths(new Date(), 1)} and 
   start <= ${
     end ? endOfDay(parseISO(end)) : endOfDay(new Date())
   } and result is not null
-  group by result, date(start) order by start asc`
+  group by result, start order by start asc`
 }

@@ -209,6 +209,7 @@ export interface InspectionQueryFilter {
   result?: string
   start?: string
   end?: string
+  take?: number
 }
 
 export enum actionType {

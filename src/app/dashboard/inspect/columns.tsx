@@ -41,7 +41,7 @@ type InspectionMaster = Prisma.PromiseReturnType<typeof getInspections>
 export const columns: ColumnDef<InspectionMaster[number]>[] = [
   {
     accessorKey: "inspectionNbr",
-    header: "#Folio",
+    header: "# Folio",
     cell: ({ row }) => {
       const inspection = row.original
 
@@ -113,7 +113,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
   },
   {
     accessorKey: "status",
-    header: "Estado",
+    header: "Estatus",
     cell: ({ row }) => {
       const inspection = row.original
       const color = {

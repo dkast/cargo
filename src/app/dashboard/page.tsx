@@ -2,10 +2,10 @@ import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { type Metadata } from "next"
 
+import InspectionRecent from "@/components/dashboard/charts/inspection-recent"
 import InspectionResultChart from "@/components/dashboard/charts/inspection-result"
 import InspectionStatusChart from "@/components/dashboard/charts/inspection-status"
 import PageHeader from "@/components/dashboard/page-header"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   getInspectionResultCount,
   getInspectionStatusCount
@@ -37,24 +37,11 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <PageHeader title={greeting} description={humanDate} />
-      <section className="grid grid-cols-3 gap-4 px-3 py-4">
-        <Card className="col-span-2">
-          <CardHeader>
-            <CardTitle className="text-sm">Inspecciones</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <InspectionResultChart data={resultData} />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm">Inspecciones</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <InspectionStatusChart data={statusData} />
-          </CardContent>
-        </Card>
+      <PageHeader title={greeting} description={humanDate}></PageHeader>
+      <section className="grid grid-cols-1 gap-4 px-3 py-4 sm:grid-cols-4">
+        <InspectionStatusChart data={statusData} className="sm:col-span-1" />
+        <InspectionResultChart data={resultData} className="sm:col-span-2" />
+        <InspectionRecent className="sm:col-span-1" />
       </section>
     </>
   )

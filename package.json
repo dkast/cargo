@@ -69,6 +69,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "framer-motion": "^10.16.14",
     "jotai": "^2.6.0",
     "lucide-react": "^0.294.0",
