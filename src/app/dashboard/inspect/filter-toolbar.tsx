@@ -1,9 +1,8 @@
 "use client"
 
-import { parseDate, today, type DateValue } from "@internationalized/date"
+import { today } from "@internationalized/date"
 import { InspectionItemResult, InspectionStatus } from "@prisma/client"
 import {
-  createParser,
   parseAsArrayOf,
   parseAsString,
   useQueryState,
@@ -12,6 +11,7 @@ import {
 
 import { DataTableFilter } from "@/components/ui/data-table/data-table-filter"
 import { DateRangePicker } from "@/components/ui/date-time-picker/date-range-picker"
+import { calendarDateParser } from "@/lib/utils"
 
 const status = [
   {
@@ -38,18 +38,6 @@ const result = [
     label: "Falla"
   }
 ]
-
-const calendarDateParser = createParser({
-  parse: (value: string) => {
-    if (value === null) {
-      return null
-    }
-    return parseDate(value)
-  },
-  serialize: (value: DateValue) => {
-    return value.toString()
-  }
-})
 
 export default function FilterToolbar() {
   const [dateValue, setDateValue] = useQueryStates(

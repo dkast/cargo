@@ -54,10 +54,10 @@ const DateRangePicker = React.forwardRef<
       ref={ref}
       className={cn(
         groupProps.className,
-        "flex w-[236px] items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
+        "flex w-[250px] items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
       )}
     >
-      <div className="flex h-8 flex-row items-center justify-between rounded-l-md border border-r-0">
+      <div className="flex h-8 grow flex-row items-center justify-between rounded-l-md border border-r-0">
         <DateField {...startFieldProps} />
         <span aria-hidden="true" className="text-gray-700">
           -
@@ -70,7 +70,7 @@ const DateRangePicker = React.forwardRef<
             {...buttonProps}
             variant="outline"
             size="xs"
-            className="rounded-l-none"
+            className="rounded-l-none ring-0"
             disabled={props.isDisabled}
             onClick={() => setOpen(true)}
           >

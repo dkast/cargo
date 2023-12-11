@@ -331,18 +331,14 @@ export async function getInspectionById(inspectionId: string) {
 }
 
 // Get count of inspections by status
-export async function getInspectionStatusCount(
-  organizationId: string,
-  start?: string,
-  end?: string
-) {
+export async function getInspectionStatusCount(filter: InspectionQueryFilter) {
   return await prisma.inspection.groupBy({
     by: ["status"],
     where: {
-      organizationId: organizationId,
+      organizationId: filter.organizationId,
       start: {
-        gte: start ? parseISO(start) : subMonths(new Date(), 1),
-        lte: end ? endOfDay(parseISO(end)) : endOfDay(new Date())
+        gte: filter.start ? parseISO(filter.start) : subMonths(new Date(), 1),
+        lte: filter.end ? endOfDay(parseISO(filter.end)) : endOfDay(new Date())
       }
     },
     _count: {
@@ -355,15 +351,15 @@ export async function getInspectionStatusCount(
 }
 
 // Get count of inspections by date and result
-export async function getInspectionResultCount(
-  organizationId: string,
-  start?: string,
-  end?: string
-) {
-  return await prisma.$queryRaw`select result, start, cast(count(*) as char) as total from Inspection where organizationId = ${organizationId} and 
-  start >= ${start ? parseISO(start) : subMonths(new Date(), 1)} and 
+export async function getInspectionResultCount(filter: InspectionQueryFilter) {
+  return await prisma.$queryRaw`select result, start, cast(count(*) as char) as total from Inspection where organizationId = ${
+    filter.organizationId
+  } and 
+  start >= ${
+    filter.start ? parseISO(filter.start) : subMonths(new Date(), 1)
+  } and 
   start <= ${
-    end ? endOfDay(parseISO(end)) : endOfDay(new Date())
+    filter.end ? endOfDay(parseISO(filter.end)) : endOfDay(new Date())
   } and result is not null
   group by result, start order by start asc`
 }

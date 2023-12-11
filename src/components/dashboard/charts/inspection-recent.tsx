@@ -37,7 +37,7 @@ async function InspectionRecent({ className }: { className?: string }) {
   const data = await getInspections(filter)
   return (
     <Card className={className}>
-      <CardHeader className="flex flex-row justify-between">
+      <CardHeader className="flex flex-row items-start justify-between space-y-0">
         <CardTitle className="text-base font-medium">
           Inspecciones recientes
         </CardTitle>
