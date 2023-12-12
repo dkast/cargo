@@ -1,5 +1,7 @@
+import { type DateValue, parseDate } from "@internationalized/date"
 import { clsx, type ClassValue } from "clsx"
 import { atomWithStorage } from "jotai/utils"
+import { createParser } from "next-usequerystate"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -24,3 +26,15 @@ export const isSidebarOpenAtom = atomWithStorage<boolean>(
   "is-sidebar-open",
   true
 )
+
+export const calendarDateParser = createParser({
+  parse: (value: string) => {
+    if (value === null) {
+      return null
+    }
+    return parseDate(value)
+  },
+  serialize: (value: DateValue) => {
+    return value.toString()
+  }
+})
