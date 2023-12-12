@@ -93,6 +93,7 @@ export default async function InspectionResultChart({
           colors={["green", "red"]}
           stack
           showAnimation
+          animationDuration={500}
         />
       </CardContent>
     </Card>
