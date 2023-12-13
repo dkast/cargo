@@ -84,6 +84,7 @@ model Organization {
   updatedAt          DateTime             @updatedAt
   subdomain          String               @unique
   memberships        Membership[]
+  locations          Location[]
   companies          Company[]
   operators          Operator[]
   vehicles           Vehicle[]
@@ -108,6 +109,19 @@ model Membership {
 
   @@unique([organizationId, userId])
   @@index([userId])
+}
+
+model Location {
+  id             String       @id @default(cuid())
+  name           String       @unique
+  description    String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  // inspections    Inspection[]
+
+  @@index([organizationId])
 }
 
 model Company {

@@ -1,3 +1,4 @@
+import LocationForm from "@/app/dashboard/settings/location-form"
 import OrganizationForm from "@/app/dashboard/settings/organization-form"
 import { MembershipRole } from "@prisma/client"
 import { AlertTriangle } from "lucide-react"
@@ -6,6 +7,7 @@ import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Separator } from "@/components/ui/separator"
 import { getOrganization } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 
@@ -50,6 +52,12 @@ export default async function SettingsPage() {
           user?.role === MembershipRole.OWNER
         }
       />
+      <Separator className="my-8" />
+      <PageSubtitle
+        title="Ubicaciones"
+        description="Sitios clave de la empresa"
+      />
+      <LocationForm organizationId={user.organizationId} />
     </div>
   )
 }

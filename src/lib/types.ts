@@ -12,6 +12,15 @@ export const orgSchema = z.object({
   })
 })
 
+export const locationSchema = z.object({
+  id: z.string().optional(),
+  name: z.string({ required_error: "Requerido" }).min(3, {
+    message: "El nombre debe tener al menos 3 caracteres"
+  }),
+  description: z.string().optional(),
+  organizationId: z.string().cuid()
+})
+
 export const userMemberSchema = z
   .object({
     id: z.string().optional(),
