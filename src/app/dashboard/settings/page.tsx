@@ -1,4 +1,6 @@
+import { Suspense } from "react"
 import LocationForm from "@/app/dashboard/settings/location-form"
+import LocationList from "@/app/dashboard/settings/location-list"
 import OrganizationForm from "@/app/dashboard/settings/organization-form"
 import { MembershipRole } from "@prisma/client"
 import { AlertTriangle } from "lucide-react"
@@ -7,7 +9,9 @@ import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
 import { getOrganization } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 
@@ -58,6 +62,22 @@ export default async function SettingsPage() {
         description="Sitios clave de la empresa"
       />
       <LocationForm organizationId={user.organizationId} />
+      <Suspense fallback={<LocationSkeleton />}>
+        <LocationList organizationId={user.organizationId} />
+      </Suspense>
     </div>
+  )
+}
+
+function LocationSkeleton() {
+  return (
+    <Card className="mt-10">
+      <CardHeader title="Ubicaciones">
+        <Skeleton className="h-5 w-1/4" />
+      </CardHeader>
+      <CardContent>
+        <Skeleton className="h-10 w-full" />
+      </CardContent>
+    </Card>
   )
 }

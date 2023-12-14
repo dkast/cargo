@@ -35,6 +35,26 @@ export async function getOrganization(organizationId: string) {
   )()
 }
 
+export async function getLocations(organizationId: string) {
+  return await cache(
+    async () => {
+      return prisma.location.findMany({
+        where: {
+          organizationId: organizationId
+        },
+        orderBy: {
+          name: "asc"
+        }
+      })
+    },
+    [`locations-${organizationId}`],
+    {
+      revalidate: 900,
+      tags: [`locations-${organizationId}`]
+    }
+  )()
+}
+
 export async function getMembers(organizationId: string) {
   return await cache(
     async () => {

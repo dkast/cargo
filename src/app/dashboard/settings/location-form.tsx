@@ -1,12 +1,13 @@
 "use client"
 
 import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { MapPin } from "lucide-react"
+import { Loader2 } from "lucide-react"
+import { useAction } from "next-safe-action/hook"
 import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -16,6 +17,7 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { createLocation } from "@/server/actions/location"
 import { locationSchema } from "@/lib/types"
 
 export default function LocationForm({
@@ -30,8 +32,32 @@ export default function LocationForm({
     }
   })
 
-  const onSubmit = (data: z.infer<typeof locationSchema>) => {
-    console.log(data)
+  const { isDirty } = form.formState
+
+  const { execute, status, reset } = useAction(createLocation, {
+    onSuccess: data => {
+      if (data?.success) {
+        toast.success("Datos actualizados")
+      } else if (data?.failure.reason) {
+        toast.error(data.failure.reason)
+      }
+
+      // Reset response object
+      reset()
+    },
+    onError: () => {
+      toast.error("Algo salio mal")
+
+      // Reset response object
+      reset()
+    }
+  })
+
+  const onSubmit = async (data: z.infer<typeof locationSchema>) => {
+    if (!isDirty) return
+
+    await execute(data)
+    form.reset(data)
   }
 
   return (
@@ -64,7 +90,9 @@ export default function LocationForm({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="description">Descripción</FormLabel>
+                <FormLabel htmlFor="description">
+                  Descripción (opcional)
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="text"
@@ -77,28 +105,18 @@ export default function LocationForm({
               </FormItem>
             )}
           />
-          <Button type="submit">Guardar</Button>
+          <Button disabled={status === "executing"} type="submit">
+            {status === "executing" ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+                {"Guardando..."}
+              </>
+            ) : (
+              "Guardar"
+            )}
+          </Button>
         </form>
       </Form>
-      <Card className="mt-10">
-        <CardHeader title="Ubicaciones">
-          <CardTitle className="text-base">Lista de ubicaciones</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <EmptyState />
-        </CardContent>
-      </Card>
     </>
-  )
-}
-
-// Empty state
-
-export function EmptyState() {
-  return (
-    <div className="flex flex-col items-center justify-center">
-      <MapPin className="h-10 w-10 rounded-xl bg-orange-100 p-2 text-orange-400" />
-      <span className="mt-2 text-gray-500">No hay ubicaciones</span>
-    </div>
   )
 }

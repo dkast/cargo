@@ -197,7 +197,7 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
     }
   })
 
-  const deleteInspection = () => {
+  const onDeleteInspection = () => {
     execute({
       id: inspection.id,
       organizationId: inspection.organizationId
@@ -263,7 +263,7 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
-            onClick={() => deleteInspection()}
+            onClick={() => onDeleteInspection()}
           >
             Eliminar
           </AlertDialogAction>
