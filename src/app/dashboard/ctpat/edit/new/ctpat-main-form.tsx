@@ -51,6 +51,7 @@ import {
   ctpatMainSchema,
   type companySchema,
   type containerSchema,
+  type locationSchema,
   type operatorSchema,
   type vehicleSchema
 } from "@/lib/types"
@@ -62,6 +63,7 @@ export default function CTPATMainForm({
   operators,
   vehicles,
   containers,
+  locations,
   organizationId,
   membershipId
 }: {
@@ -69,12 +71,14 @@ export default function CTPATMainForm({
   operators: z.infer<typeof operatorSchema>[]
   vehicles: z.infer<typeof vehicleSchema>[]
   containers: z.infer<typeof containerSchema>[]
+  locations: z.infer<typeof locationSchema>[]
   organizationId: string
   membershipId: string
 }) {
   const router = useRouter()
   const [searchCompany, setSearchCompany] = useState<string>("")
   const [searchContainer, setsearchContainer] = useState("")
+  const [openLocation, setOpenLocation] = useState(false)
   const [openCompany, setOpenCompany] = useState(false)
   const [openOperator, setOpenOperator] = useState(false)
   const [openVehicle, setOpenVehicle] = useState(false)
@@ -174,6 +178,70 @@ export default function CTPATMainForm({
         className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
         onSubmit={form.handleSubmit(onSubmit)}
       >
+        {/* Location */}
+        <FormField
+          control={form.control}
+          name="locationId"
+          render={({ field }) => (
+            <FormItem className="flex flex-col sm:col-span-4">
+              <FormLabel htmlFor="location">Ubicación</FormLabel>
+              <FormControl>
+                <ComboBox
+                  open={openLocation}
+                  setOpen={setOpenLocation}
+                  trigger={
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-full justify-between sm:w-[300px]",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? locations.find(
+                            location => location.id === field.value
+                          )?.name
+                        : "Seleccionar Ubicación"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  }
+                >
+                  <ComboBoxInput placeholder="Buscar ubicación..." />
+                  <ComboBoxList className="max-h-full sm:max-h-[300px]">
+                    <ComboBoxEmpty>No se encontró ubicación</ComboBoxEmpty>
+                    <ComboBoxGroup className="overflow-y-auto sm:max-h-[300px]">
+                      {locations.map(location => (
+                        <ComboBoxItem
+                          value={location.name}
+                          key={location.id}
+                          onSelect={() => {
+                            if (location.id) {
+                              form.setValue("locationId", location.id)
+                              setOpenLocation(false)
+                            }
+                          }}
+                          className="py-2 text-base sm:py-1.5 sm:text-sm"
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              location.id === field.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {location.name}
+                        </ComboBoxItem>
+                      ))}
+                    </ComboBoxGroup>
+                  </ComboBoxList>
+                </ComboBox>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {/* Inspection Start */}
         <FormField
           control={form.control}

@@ -54,6 +54,14 @@ export default async function InspectionView({
         Información de la inspección
       </h2>
       <dl className="grid grid-cols-1 sm:grid-cols-2">
+        {inspection.location?.name && (
+          <div className="border-t border-gray-100 py-3 sm:col-span-2">
+            <dt className="text-sm font-medium leading-6">Ubicación</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+              {inspection.location.name}
+            </dd>
+          </div>
+        )}
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">Tipo de Inspección</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">

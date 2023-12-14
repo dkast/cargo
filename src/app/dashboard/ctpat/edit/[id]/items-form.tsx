@@ -89,7 +89,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
   } = useAction(closeCTPATInspection, {
     onSuccess: data => {
       if (data?.success) {
-        toast.success("Inspección actualizada")
+        toast.success("Inspección finalizada")
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
       }

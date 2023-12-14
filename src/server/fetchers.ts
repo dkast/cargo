@@ -42,6 +42,11 @@ export async function getLocations(organizationId: string) {
         where: {
           organizationId: organizationId
         },
+        select: {
+          id: true,
+          name: true,
+          organizationId: true
+        },
         orderBy: {
           name: "asc"
         }
@@ -237,6 +242,12 @@ export async function getInspections(filter: InspectionQueryFilter) {
           id: true,
           containerNbr: true
         }
+      },
+      location: {
+        select: {
+          id: true,
+          name: true
+        }
       }
     },
     orderBy: {
@@ -311,6 +322,13 @@ export async function getInspectionById(inspectionId: string) {
         select: {
           id: true,
           containerNbr: true
+        }
+      },
+      location: {
+        select: {
+          id: true,
+          name: true,
+          description: true
         }
       },
       inspectionItems: {

@@ -105,6 +105,7 @@ export const containerSchema = z.object({
 })
 
 export const ctpatMainSchema = z.object({
+  locationId: z.string().optional(),
   companyId: z.string({
     required_error: "Este campo es requerido"
   }),

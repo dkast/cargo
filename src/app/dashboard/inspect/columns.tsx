@@ -78,6 +78,11 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     enableHiding: true
   },
   {
+    accessorKey: "location.name",
+    header: "Ubicación",
+    enableHiding: true
+  },
+  {
     accessorKey: "company.name",
     header: "Transportista",
     enableHiding: true
