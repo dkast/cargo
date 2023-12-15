@@ -49,19 +49,16 @@ export const deleteLocation = action(
   // Delete location only if it has no inspections
   async ({ id, organizationId }) => {
     try {
-      // const location = await prisma.location.findFirst({
-      //   where: {
-      //     id: id,
-      //     inspections: {
-      //       none: {}
-      //     }
-      //   }
-      // })
+      const location = await prisma.location.findFirst({
+        where: {
+          id: id,
+          inspections: {
+            none: {}
+          }
+        }
+      })
 
-      // TODO: Implement validation against inspections
-      const location = false
-
-      if (!location) {
+      if (location) {
         await prisma.location.delete({
           where: {
             id: id
