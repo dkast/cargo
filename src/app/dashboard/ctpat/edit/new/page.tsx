@@ -60,7 +60,10 @@ export default async function NewCTPATPage() {
           operators={operators}
           vehicles={vehicles}
           containers={containers}
-          locations={locations}
+          locations={locations.map(location => ({
+            ...location,
+            description: location.description || ""
+          }))}
           organizationId={user.organizationId}
           membershipId={user.membershipId}
         />
