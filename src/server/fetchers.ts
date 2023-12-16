@@ -46,6 +46,7 @@ export async function getLocations(organizationId: string) {
           id: true,
           name: true,
           description: true,
+          isActive: true,
           organizationId: true
         },
         orderBy: {

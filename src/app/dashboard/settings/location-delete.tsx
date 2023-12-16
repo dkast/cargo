@@ -1,7 +1,8 @@
 "use client"
 
 import toast from "react-hot-toast"
-import { MoreHorizontal } from "lucide-react"
+import { type Prisma } from "@prisma/client"
+import { Trash2 } from "lucide-react"
 import { useAction } from "next-safe-action/hook"
 
 import {
@@ -16,22 +17,13 @@ import {
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
 import { deleteLocation } from "@/server/actions/location"
+import { type getLocations } from "@/server/fetchers"
 
 export default function LocationActionMenu({
-  id,
-  organizationId
+  data
 }: {
-  id: string
-  organizationId: string
+  data: Prisma.PromiseReturnType<typeof getLocations>[number]
 }) {
   const { execute, reset } = useAction(deleteLocation, {
     onExecute: () => {
@@ -54,30 +46,18 @@ export default function LocationActionMenu({
 
   const onDeleteLocation = () => {
     execute({
-      id: id,
-      organizationId: organizationId
+      id: data.id,
+      organizationId: data.organizationId
     })
   }
 
   return (
     <AlertDialog>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-          <DropdownMenuItem>Editar</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <AlertDialogTrigger asChild>
-            <DropdownMenuItem className="text-red-500">
-              <span>Eliminar</span>
-            </DropdownMenuItem>
-          </AlertDialogTrigger>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <AlertDialogTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Trash2 className="h-4 w-4 text-red-500" />
+        </Button>
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Eliminar ubicación</AlertDialogTitle>

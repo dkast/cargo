@@ -1,4 +1,5 @@
-import LocationActionMenu from "@/app/dashboard/settings/location-action-menu"
+import LocationDelete from "@/app/dashboard/settings/location-delete"
+import LocationEdit from "@/app/dashboard/settings/location-edit"
 import { MapPin } from "lucide-react"
 
 import { EmptyState } from "@/components/dashboard/empty-state"
@@ -33,10 +34,10 @@ export default async function LocationList({
                     {location.description}
                   </span>
                 </div>
-                <LocationActionMenu
-                  organizationId={organizationId}
-                  id={location.id}
-                />
+                <div>
+                  <LocationEdit data={location} />
+                  <LocationDelete data={location} />
+                </div>
               </div>
             ))}
           </div>

@@ -41,6 +41,43 @@ export const createLocation = action(
   }
 )
 
+export const updateLocation = action(
+  locationSchema,
+  async ({ id, name, description, isActive, organizationId }) => {
+    // Update location
+    try {
+      await prisma.location.update({
+        where: {
+          id: id
+        },
+        data: {
+          name: name,
+          description: description,
+          isActive: isActive
+        }
+      })
+
+      revalidateTag(`locations-${organizationId}`)
+
+      return {
+        success: true
+      }
+    } catch (error) {
+      let message
+      if (typeof error === "string") {
+        message = error
+      } else if (error instanceof Error) {
+        message = error.message
+      }
+      return {
+        failure: {
+          reason: message
+        }
+      }
+    }
+  }
+)
+
 export const deleteLocation = action(
   z.object({
     id: z.string().cuid(),

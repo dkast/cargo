@@ -18,6 +18,7 @@ export const locationSchema = z.object({
     message: "El nombre debe tener al menos 3 caracteres"
   }),
   description: z.string().optional(),
+  isActive: z.boolean(),
   organizationId: z.string().cuid()
 })
 
