@@ -171,14 +171,14 @@ export default async function InspectionView({
               <TabsTrigger value="fail">Fallas</TabsTrigger>
               <TabsTrigger value="all">Todos</TabsTrigger>
             </TabsList>
-            <TabsContent value="fail">
+            <TabsContent value="fail" className="rounded focus-visible:ring-2">
               <InspectionList
                 inspectedBy={inspection.inspectedBy.user}
                 inspectionItems={inspection.inspectionItems}
                 showOnlyFailures
               />
             </TabsContent>
-            <TabsContent value="all">
+            <TabsContent value="all" className="rounded focus-visible:ring-2">
               <InspectionList
                 inspectedBy={inspection.inspectedBy.user}
                 inspectionItems={inspection.inspectionItems}

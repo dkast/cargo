@@ -9,7 +9,7 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       <Provider>
-        <PhotoProvider>
+        <PhotoProvider maskOpacity={0.3}>
           {children}
           <Toaster
             position="top-center"
