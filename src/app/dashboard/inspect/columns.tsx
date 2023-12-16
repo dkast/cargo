@@ -235,7 +235,10 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <AlertDialogTrigger asChild>
+              <AlertDialogTrigger
+                asChild
+                onClick={event => event.stopPropagation()}
+              >
                 <DropdownMenuItem asChild>
                   <span className="text-red-500">Eliminar</span>
                 </DropdownMenuItem>
@@ -265,10 +268,15 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel onClick={event => event.stopPropagation()}>
+            Cancelar
+          </AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
-            onClick={() => onDeleteInspection()}
+            onClick={event => {
+              event.stopPropagation()
+              onDeleteInspection()
+            }}
           >
             Eliminar
           </AlertDialogAction>

@@ -53,7 +53,6 @@ export default function LocationActionMenu({
   })
 
   const onDeleteLocation = () => {
-    console.log("delete location")
     execute({
       id: id,
       organizationId: organizationId

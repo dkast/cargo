@@ -102,7 +102,7 @@ export default async function CTPATEditPage({
                 <dd className="flex items-center gap-2 text-sm leading-6 text-gray-700">
                   {inspection.container.containerNbr}
                   {inspection.isLoaded ? (
-                    <Badge variant="yellow" className="rounded">
+                    <Badge variant="violet" className="rounded">
                       Cargado
                     </Badge>
                   ) : (
