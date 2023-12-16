@@ -28,6 +28,9 @@ export default function LocationForm({
   const form = useForm<z.infer<typeof locationSchema>>({
     resolver: zodResolver(locationSchema),
     defaultValues: {
+      name: "",
+      description: "",
+      isActive: true,
       organizationId: organizationId
     }
   })
@@ -54,69 +57,69 @@ export default function LocationForm({
   })
 
   const onSubmit = async (data: z.infer<typeof locationSchema>) => {
+    console.log(data)
     if (!isDirty) return
 
     await execute(data)
-    form.reset(data)
+    form.reset({
+      name: "",
+      description: "",
+      isActive: true,
+      organizationId: organizationId
+    })
   }
 
   return (
-    <>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="mt-10 space-y-6"
-        >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="name">Nombre de la ubicación</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    id="name"
-                    placeholder="Nombre de la ubicación"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="description">
-                  Descripción (opcional)
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    id="description"
-                    placeholder="Descripción"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button disabled={status === "executing"} type="submit">
-            {status === "executing" ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
-                {"Guardando..."}
-              </>
-            ) : (
-              "Guardar"
-            )}
-          </Button>
-        </form>
-      </Form>
-    </>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="name">Nombre de la ubicación</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  id="name"
+                  placeholder="Nombre de la ubicación"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="description">
+                Descripción (opcional)
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  id="description"
+                  placeholder="Descripción"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button disabled={status === "executing"} type="submit">
+          {status === "executing" ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {"Guardando..."}
+            </>
+          ) : (
+            "Guardar"
+          )}
+        </Button>
+      </form>
+    </Form>
   )
 }

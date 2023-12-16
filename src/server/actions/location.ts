@@ -20,7 +20,7 @@ export const createLocation = action(
         }
       })
 
-      revalidateTag(`locations-${organizationId}`)
+      revalidateTag(`locations-${organizationId}-onlyActive-${false}`)
 
       return {
         success: true
@@ -57,7 +57,7 @@ export const updateLocation = action(
         }
       })
 
-      revalidateTag(`locations-${organizationId}`)
+      revalidateTag(`locations-${organizationId}-onlyActive-${false}`)
 
       return {
         success: true
@@ -102,7 +102,7 @@ export const deleteLocation = action(
           }
         })
 
-        revalidateTag(`locations-${organizationId}`)
+        revalidateTag(`locations-${organizationId}-onlyActive-${false}`)
 
         return {
           success: true
