@@ -2,6 +2,7 @@ import { type Metadata, type Viewport } from "next"
 import { Inter, Outfit } from "next/font/google"
 
 import "../styles/globals.css"
+import "react-photo-view/dist/react-photo-view.css"
 
 import Providers from "@/app/providers"
 
