@@ -3,6 +3,7 @@ import LocationEdit from "@/app/dashboard/settings/location-edit"
 import { MapPin } from "lucide-react"
 
 import { EmptyState } from "@/components/dashboard/empty-state"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getLocations } from "@/server/fetchers"
 
@@ -27,8 +28,11 @@ export default async function LocationList({
                 className="flex flex-row items-center justify-between py-4"
               >
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="flex gap-x-1 text-sm font-medium text-gray-900">
                     {location.name}
+                    {!location.isActive && (
+                      <Badge variant="secondary">Inactiva</Badge>
+                    )}
                   </span>
                   <span className="text-sm text-gray-500">
                     {location.description}

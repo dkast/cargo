@@ -35,12 +35,13 @@ export async function getOrganization(organizationId: string) {
   )()
 }
 
-export async function getLocations(organizationId: string) {
+export async function getLocations(organizationId: string, onlyActive = false) {
   return await cache(
     async () => {
       return prisma.location.findMany({
         where: {
-          organizationId: organizationId
+          organizationId: organizationId,
+          isActive: onlyActive ? true : undefined
         },
         select: {
           id: true,
@@ -54,10 +55,10 @@ export async function getLocations(organizationId: string) {
         }
       })
     },
-    [`locations-${organizationId}`],
+    [`locations-${organizationId}-onlyActive-${onlyActive}`],
     {
       revalidate: 900,
-      tags: [`locations-${organizationId}`]
+      tags: [`locations-${organizationId}-onlyActive-${onlyActive}`]
     }
   )()
 }

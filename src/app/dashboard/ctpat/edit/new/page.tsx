@@ -39,7 +39,7 @@ export default async function NewCTPATPage() {
   const operators = await getOperators(user?.organizationId)
   const vehicles = await getVehicles(user?.organizationId)
   const containers = await getContainers(user?.organizationId)
-  const locations = await getLocations(user?.organizationId)
+  const locations = await getLocations(user?.organizationId, true)
 
   return (
     <div className="relative">

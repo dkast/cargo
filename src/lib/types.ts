@@ -128,13 +128,12 @@ export const ctpatMainSchema = z.object({
   isLoaded: z.boolean({
     required_error: "Este campo es requerido"
   }),
-  start: z
-    .date({
-      required_error: "Este campo es requerido"
-    })
-    .max(addMinutes(new Date(), 5), {
-      message: "La fecha y hora no puede ser mayor a la actual"
-    }),
+  start: z.date({
+    required_error: "Este campo es requerido"
+  }),
+  // .max(addMinutes(new Date(), 5), {
+  //   message: "La fecha y hora no puede ser mayor a la actual"
+  // }),
   tripType: z.enum(["IN", "OUT"], {
     required_error: "Este campo es requerido"
   }),

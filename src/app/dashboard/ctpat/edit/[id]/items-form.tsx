@@ -341,7 +341,7 @@ function ItemQuestion({
             <Dialog>
               <DialogTrigger asChild>
                 <Button type="button" variant="ghost" size="icon">
-                  <Camera className="h-6 w-6" />
+                  <Camera className="h-6 w-6 text-gray-500" />
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-xl">
