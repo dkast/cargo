@@ -63,11 +63,12 @@ export default async function CTPATEditPage({
             <div className="grid grid-cols-2 gap-y-4 text-sm sm:grid-cols-3">
               <dl className="space-y-1 sm:space-y-2">
                 <dt className="text-sm font-medium">Tipo Inspección</dt>
-                <dd className="text-sm leading-6 text-gray-700">
+                <dd className="flex gap-x-2 text-sm leading-6 text-gray-700">
+                  {inspection.location?.name}
                   {inspection.tripType === InspectionTripType.IN ? (
-                    <span>Entrada</span>
+                    <Badge variant="blue">Entrada</Badge>
                   ) : (
-                    <span>Salida</span>
+                    <Badge variant="blue">Salida</Badge>
                   )}
                 </dd>
               </dl>
@@ -102,7 +103,7 @@ export default async function CTPATEditPage({
                 <dd className="flex items-center gap-2 text-sm leading-6 text-gray-700">
                   {inspection.container.containerNbr}
                   {inspection.isLoaded ? (
-                    <Badge variant="yellow" className="rounded">
+                    <Badge variant="violet" className="rounded">
                       Cargado
                     </Badge>
                   ) : (

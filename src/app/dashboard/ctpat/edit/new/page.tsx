@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   getCompanies,
   getContainers,
+  getLocations,
   getOperators,
   getVehicles
 } from "@/server/fetchers"
@@ -38,6 +39,7 @@ export default async function NewCTPATPage() {
   const operators = await getOperators(user?.organizationId)
   const vehicles = await getVehicles(user?.organizationId)
   const containers = await getContainers(user?.organizationId)
+  const locations = await getLocations(user?.organizationId, true)
 
   return (
     <div className="relative">
@@ -58,6 +60,10 @@ export default async function NewCTPATPage() {
           operators={operators}
           vehicles={vehicles}
           containers={containers}
+          locations={locations.map(location => ({
+            ...location,
+            description: location.description || ""
+          }))}
           organizationId={user.organizationId}
           membershipId={user.membershipId}
         />

@@ -1,12 +1,10 @@
-import { columns } from "@/app/dashboard/inspect/columns"
-import FilterToolbar from "@/app/dashboard/inspect/filter-toolbar"
+import InspectDataTable from "@/app/dashboard/inspect/inspect-datatable"
 import { type Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Button } from "@/components/ui/button"
-import { DataTable } from "@/components/ui/data-table/data-table"
 import { getInspections } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { type InspectionQueryFilter } from "@/lib/types"
@@ -67,7 +65,7 @@ export default async function CTPATPage({
         </Button>
       </PageSubtitle>
       <div className="mt-6">
-        <DataTable columns={columns} data={data} toolbar={<FilterToolbar />} />
+        <InspectDataTable data={data} />
       </div>
     </div>
   )

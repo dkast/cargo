@@ -20,6 +20,7 @@ import {
 export const createCTPATInspection = action(
   ctpatMainSchema,
   async ({
+    locationId,
     companyId,
     operatorId,
     licenseNumber,
@@ -36,6 +37,7 @@ export const createCTPATInspection = action(
     try {
       const inspection = await prisma.inspection.create({
         data: {
+          locationId: locationId,
           companyId: companyId,
           operatorId: operatorId,
           licenseNumber: licenseNumber,

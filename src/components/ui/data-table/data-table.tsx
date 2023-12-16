@@ -11,6 +11,7 @@ import {
   useReactTable,
   type ColumnDef,
   type FilterFn,
+  type Row,
   type SortingState
 } from "@tanstack/react-table"
 
@@ -24,12 +25,14 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { useMobile } from "@/lib/use-mobile"
+import { cn } from "@/lib/utils"
 import { DataTablePagination } from "./data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   toolbar?: React.ReactNode
+  onRowClick?: (row: Row<TData>) => void
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -48,7 +51,8 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  toolbar
+  toolbar,
+  onRowClick
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState<string>("")
@@ -128,6 +132,8 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => onRowClick && onRowClick(row)}
+                  className={cn(onRowClick && "cursor-pointer")}
                 >
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>

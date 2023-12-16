@@ -35,6 +35,34 @@ export async function getOrganization(organizationId: string) {
   )()
 }
 
+export async function getLocations(organizationId: string, onlyActive = false) {
+  return await cache(
+    async () => {
+      return prisma.location.findMany({
+        where: {
+          organizationId: organizationId,
+          isActive: onlyActive ? true : undefined
+        },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          isActive: true,
+          organizationId: true
+        },
+        orderBy: {
+          name: "asc"
+        }
+      })
+    },
+    [`locations-${organizationId}-onlyActive-${onlyActive}`],
+    {
+      revalidate: 900,
+      tags: [`locations-${organizationId}-onlyActive-${onlyActive}`]
+    }
+  )()
+}
+
 export async function getMembers(organizationId: string) {
   return await cache(
     async () => {
@@ -217,6 +245,12 @@ export async function getInspections(filter: InspectionQueryFilter) {
           id: true,
           containerNbr: true
         }
+      },
+      location: {
+        select: {
+          id: true,
+          name: true
+        }
       }
     },
     orderBy: {
@@ -291,6 +325,13 @@ export async function getInspectionById(inspectionId: string) {
         select: {
           id: true,
           containerNbr: true
+        }
+      },
+      location: {
+        select: {
+          id: true,
+          name: true,
+          description: true
         }
       },
       inspectionItems: {

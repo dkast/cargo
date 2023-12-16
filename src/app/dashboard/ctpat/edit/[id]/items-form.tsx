@@ -89,7 +89,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
   } = useAction(closeCTPATInspection, {
     onSuccess: data => {
       if (data?.success) {
-        toast.success("Inspección actualizada")
+        toast.success("Inspección finalizada")
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
       }
@@ -341,7 +341,7 @@ function ItemQuestion({
             <Dialog>
               <DialogTrigger asChild>
                 <Button type="button" variant="ghost" size="icon">
-                  <Camera className="h-6 w-6" />
+                  <Camera className="h-6 w-6 text-gray-500" />
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-xl">

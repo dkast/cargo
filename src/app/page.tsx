@@ -26,8 +26,8 @@ export default function HomePage() {
           <p className="text-gray-400 sm:text-lg">
             <span className=" text-white">Cargo</span> es una aplicación que te
             facilita la gestión de tus formatos CTPAT desde cualquier
-            dispositivo. Despídete de las dificultades documentales para
-            enfócarte en tu negocio.
+            dispositivo. Ahorra tiempo y reduce el estrés con nuestro sistema de
+            control de documentos.
           </p>
         </section>
         <section className="mt-10">

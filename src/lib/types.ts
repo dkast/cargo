@@ -1,4 +1,3 @@
-import { addMinutes } from "date-fns"
 import { z } from "zod"
 
 export const orgSchema = z.object({
@@ -10,6 +9,16 @@ export const orgSchema = z.object({
   subdomain: z.string().min(3, {
     message: "El subdominio debe tener al menos 3 caracteres"
   })
+})
+
+export const locationSchema = z.object({
+  id: z.string().optional(),
+  name: z.string({ required_error: "Requerido" }).min(3, {
+    message: "El nombre debe tener al menos 3 caracteres"
+  }),
+  description: z.string().optional(),
+  isActive: z.boolean(),
+  organizationId: z.string().cuid()
 })
 
 export const userMemberSchema = z
@@ -96,6 +105,7 @@ export const containerSchema = z.object({
 })
 
 export const ctpatMainSchema = z.object({
+  locationId: z.string().optional(),
   companyId: z.string({
     required_error: "Este campo es requerido"
   }),
@@ -117,13 +127,12 @@ export const ctpatMainSchema = z.object({
   isLoaded: z.boolean({
     required_error: "Este campo es requerido"
   }),
-  start: z
-    .date({
-      required_error: "Este campo es requerido"
-    })
-    .max(addMinutes(new Date(), 5), {
-      message: "La fecha y hora no puede ser mayor a la actual"
-    }),
+  start: z.date({
+    required_error: "Este campo es requerido"
+  }),
+  // .max(addMinutes(new Date(), 5), {
+  //   message: "La fecha y hora no puede ser mayor a la actual"
+  // }),
   tripType: z.enum(["IN", "OUT"], {
     required_error: "Este campo es requerido"
   }),

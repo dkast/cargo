@@ -78,6 +78,11 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     enableHiding: true
   },
   {
+    accessorKey: "location.name",
+    header: "Ubicación",
+    enableHiding: true
+  },
+  {
     accessorKey: "company.name",
     header: "Transportista",
     enableHiding: true
@@ -197,7 +202,7 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
     }
   })
 
-  const deleteInspection = () => {
+  const onDeleteInspection = () => {
     execute({
       id: inspection.id,
       organizationId: inspection.organizationId
@@ -230,7 +235,10 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <AlertDialogTrigger asChild>
+              <AlertDialogTrigger
+                asChild
+                onClick={event => event.stopPropagation()}
+              >
                 <DropdownMenuItem asChild>
                   <span className="text-red-500">Eliminar</span>
                 </DropdownMenuItem>
@@ -260,10 +268,15 @@ function InspectionActions({ row }: { row: Row<InspectionMaster[number]> }) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel onClick={event => event.stopPropagation()}>
+            Cancelar
+          </AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
-            onClick={() => deleteInspection()}
+            onClick={event => {
+              event.stopPropagation()
+              onDeleteInspection()
+            }}
           >
             Eliminar
           </AlertDialogAction>
