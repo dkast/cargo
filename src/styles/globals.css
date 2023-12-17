@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.PhotoView-Portal {
+  @apply pointer-events-auto;
+}
