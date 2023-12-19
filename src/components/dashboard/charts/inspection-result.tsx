@@ -94,6 +94,7 @@ export default async function InspectionResultChart({
           stack
           showAnimation
           animationDuration={500}
+          noDataText="No hay datos para mostrar"
         />
       </CardContent>
     </Card>

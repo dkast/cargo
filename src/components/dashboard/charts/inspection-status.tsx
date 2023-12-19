@@ -65,6 +65,7 @@ export default async function InspectionStatusChart({
             colors={transformedData.map(item => item.color)}
             showAnimation
             animationDuration={500}
+            noDataText="No hay datos para mostrar"
           />
           <List>
             {transformedData.map(item => (

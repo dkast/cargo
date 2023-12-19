@@ -10,7 +10,16 @@ import {
   useDateRangePickerState,
   type DateRangePickerStateOptions
 } from "react-stately"
+import {
+  endOfWeek,
+  startOfMonth,
+  startOfWeek,
+  startOfYear,
+  today
+} from "@internationalized/date"
+import { ca } from "date-fns/locale"
 import { CalendarIcon } from "lucide-react"
+import { c } from "next-usequerystate/dist/parsers-d2c58bed"
 
 import { RangeCalendar } from "@/components/ui/date-time-picker/range-calendar"
 import {
@@ -22,6 +31,57 @@ import { useForwardedRef } from "@/lib/use-forwarded-ref"
 import { cn } from "@/lib/utils"
 import { Button } from "../button"
 import { DateField } from "./date-field"
+
+const enum DateRangePickerPresets {
+  TODAY = "today",
+  YESTERDAY = "yesterday",
+  THIS_WEEK = "this-week",
+  LAST_WEEK = "last-week",
+  THIS_MONTH = "this-month",
+  LAST_MONTH = "last-month",
+  // THIS_QUARTER = "this-quarter",
+  // LAST_QUARTER = "last-quarter",
+  THIS_YEAR = "this-year"
+}
+
+const presetButtons = [
+  {
+    label: "Hoy",
+    value: DateRangePickerPresets.TODAY
+  },
+  {
+    label: "Ayer",
+    value: DateRangePickerPresets.YESTERDAY
+  },
+  {
+    label: "Esta semana",
+    value: DateRangePickerPresets.THIS_WEEK
+  },
+  {
+    label: "Semana pasada",
+    value: DateRangePickerPresets.LAST_WEEK
+  },
+  {
+    label: "Este mes",
+    value: DateRangePickerPresets.THIS_MONTH
+  },
+  {
+    label: "Mes pasado",
+    value: DateRangePickerPresets.LAST_MONTH
+  },
+  // {
+  //   label: "Este trimestre",
+  //   value: DateRangePickerPresets.THIS_QUARTER
+  // },
+  // {
+  //   label: "Trimestre pasado",
+  //   value: DateRangePickerPresets.LAST_QUARTER
+  // },
+  {
+    label: "Este año",
+    value: DateRangePickerPresets.THIS_YEAR
+  }
+]
 
 const DateRangePicker = React.forwardRef<
   HTMLDivElement,
@@ -47,6 +107,54 @@ const DateRangePicker = React.forwardRef<
       setOpen(false)
     }
   })
+
+  const handlePresetClick = (preset: DateRangePickerPresets) => {
+    switch (preset) {
+      case DateRangePickerPresets.TODAY:
+        state.setValue({
+          start: today("CST"),
+          end: today("CST")
+        })
+        break
+      case DateRangePickerPresets.YESTERDAY:
+        state.setValue({
+          start: today("CST").subtract({ days: 1 }),
+          end: today("CST").subtract({ days: 1 })
+        })
+        break
+      case DateRangePickerPresets.THIS_WEEK:
+        state.setValue({
+          start: startOfWeek(today("CST"), "en-MX"),
+          end: today("CST")
+        })
+        break
+      case DateRangePickerPresets.LAST_WEEK:
+        state.setValue({
+          start: startOfWeek(today("CST"), "en-MX").subtract({ weeks: 1 }),
+          end: endOfWeek(today("CST"), "en-MX").subtract({ weeks: 1 })
+        })
+        break
+      case DateRangePickerPresets.THIS_MONTH:
+        state.setValue({
+          start: startOfMonth(today("CST")),
+          end: today("CST")
+        })
+        break
+      case DateRangePickerPresets.LAST_MONTH:
+        state.setValue({
+          start: startOfMonth(today("CST")).subtract({ months: 1 }),
+          end: startOfMonth(today("CST")).subtract({ days: 1 })
+        })
+        break
+      case DateRangePickerPresets.THIS_YEAR:
+        state.setValue({
+          start: startOfYear(today("CST")),
+          end: today("CST")
+        })
+        break
+    }
+    setOpen(false)
+  }
 
   return (
     <div
@@ -78,7 +186,20 @@ const DateRangePicker = React.forwardRef<
           </Button>
         </PopoverTrigger>
         <PopoverContent ref={contentRef} className="w-full">
-          <div {...dialogProps} className="space-y-3">
+          <div {...dialogProps} className="flex space-y-3">
+            <div className="mr-2 flex flex-col pr-2 pt-2">
+              {presetButtons.map(({ label, value }) => (
+                <Button
+                  key={value}
+                  variant="ghost"
+                  size="xs"
+                  onClick={() => handlePresetClick(value)}
+                  className="text-left"
+                >
+                  {label}
+                </Button>
+              ))}
+            </div>
             <RangeCalendar
               {...calendarProps}
               onChange={newDateRange => {
