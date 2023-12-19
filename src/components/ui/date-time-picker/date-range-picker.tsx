@@ -17,9 +17,7 @@ import {
   startOfYear,
   today
 } from "@internationalized/date"
-import { ca } from "date-fns/locale"
 import { CalendarIcon } from "lucide-react"
-import { c } from "next-usequerystate/dist/parsers-d2c58bed"
 
 import { RangeCalendar } from "@/components/ui/date-time-picker/range-calendar"
 import {
@@ -151,6 +149,8 @@ const DateRangePicker = React.forwardRef<
           start: startOfYear(today("CST")),
           end: today("CST")
         })
+        break
+      default:
         break
     }
     setOpen(false)
