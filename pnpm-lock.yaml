@@ -179,6 +179,9 @@ dependencies:
   next-auth:
     specifier: ^4.24.5
     version: 4.24.5(next@14.0.4)(react-dom@18.2.0)(react@18.2.0)
+  next-axiom:
+    specifier: ^1.1.1
+    version: 1.1.1(next@14.0.4)(react@18.2.0)
   next-safe-action:
     specifier: ^5.2.1
     version: 5.2.1(next@14.0.4)(react@18.2.0)(zod@3.22.4)
@@ -8383,6 +8386,19 @@ packages:
       uuid: 8.3.2
     dev: false
 
+  /next-axiom@1.1.1(next@14.0.4)(react@18.2.0):
+    resolution: {integrity: sha512-0r/TJ+/zetD+uDc7B+2E7WpC86hEtQ1U+DuWYrP/JNmUz+ZdPFbrZgzOSqaZ6TwYbXP56VVlPfYwq1YsKHTHYQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      next: '>=13.4'
+      react: '>=18.0.0'
+    dependencies:
+      next: 14.0.4(@babel/core@7.22.11)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      remeda: 1.33.0
+      whatwg-fetch: 3.6.20
+    dev: false
+
   /next-safe-action@5.2.1(next@14.0.4)(react@18.2.0)(zod@3.22.4):
     resolution: {integrity: sha512-ta2+e3ZOhQ4BocMsy7J1PuPOyfa3eCtIF0PzcaYMHwShHR+e3VQ3KwilYAJPK814BO/tg0dFAxk09VucGiIzHQ==}
     engines: {node: '>=16'}
@@ -9366,6 +9382,10 @@ packages:
       functions-have-names: 1.2.3
     dev: true
 
+  /remeda@1.33.0:
+    resolution: {integrity: sha512-GExMiOhTB0eg1Rc7hvBMBNxwlVRYIulGfIj5pkuuAfy9HB3ms4PmLvbhMMjQ2btoCit0iN7eQmHgwTaGZTVWwg==}
+    dev: false
+
   /remove-accents@0.4.2:
     resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
     dev: false
@@ -10232,6 +10252,10 @@ packages:
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+    dev: false
+
+  /whatwg-fetch@3.6.20:
+    resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
     dev: false
 
   /whatwg-url@5.0.0:

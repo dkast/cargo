@@ -162,7 +162,7 @@ const DateRangePicker = React.forwardRef<
       ref={ref}
       className={cn(
         groupProps.className,
-        "flex w-[250px] items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
+        "flex w-[254px] items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
       )}
     >
       <div className="flex h-8 grow flex-row items-center justify-between rounded-l-md border border-r-0">
@@ -187,7 +187,7 @@ const DateRangePicker = React.forwardRef<
         </PopoverTrigger>
         <PopoverContent ref={contentRef} className="w-full">
           <div {...dialogProps} className="flex space-y-3">
-            <div className="mr-2 flex flex-col pr-2 pt-2">
+            <div className="flex flex-col pt-2">
               {presetButtons.map(({ label, value }) => (
                 <Button
                   key={value}
