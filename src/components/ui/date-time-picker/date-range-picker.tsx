@@ -185,9 +185,9 @@ const DateRangePicker = React.forwardRef<
             <CalendarIcon className="h-4 w-4" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent ref={contentRef} className="w-full">
+        <PopoverContent ref={contentRef} className="w-full p-2 sm:p-4">
           <div {...dialogProps} className="flex space-y-3">
-            <div className="flex flex-col pt-2">
+            <div className="flex flex-col pr-1 pt-2 sm:pr-2">
               {presetButtons.map(({ label, value }) => (
                 <Button
                   key={value}
