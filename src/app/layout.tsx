@@ -2,8 +2,10 @@ import { type Metadata, type Viewport } from "next"
 import { Inter, Outfit } from "next/font/google"
 
 import "../styles/globals.css"
+import "react-photo-view/dist/react-photo-view.css"
 
 import Providers from "@/app/providers"
+import { AxiomWebVitals } from "next-axiom"
 
 export const metadata: Metadata = {
   title: {
@@ -48,6 +50,7 @@ export default function RootLayout({
       className={`${inter.variable} ${outfit.variable}`}
       suppressHydrationWarning
     >
+      <AxiomWebVitals />
       <body className="bg-white text-gray-950">
         <Providers>
           <main className="flex min-h-screen flex-col">{children}</main>

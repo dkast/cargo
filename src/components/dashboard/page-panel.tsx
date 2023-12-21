@@ -38,7 +38,10 @@ export default function Panel({
           open={true}
           onOpenChange={open => (!open ? router.back() : null)}
         >
-          <DrawerContent className={cn(className, "py-4")}>
+          <DrawerContent
+            className={cn(className, "py-4")}
+            onInteractOutside={event => event.preventDefault()}
+          >
             <div className="mx-auto mb-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
@@ -49,8 +52,12 @@ export default function Panel({
         <Sheet
           defaultOpen
           onOpenChange={open => (!open ? router.back() : null)}
+          modal
         >
-          <SheetContent className={className}>
+          <SheetContent
+            className={className}
+            onInteractOutside={event => event.preventDefault()}
+          >
             <SheetHeader>
               <SheetTitle>{title}</SheetTitle>
               <SheetDescription>{description}</SheetDescription>

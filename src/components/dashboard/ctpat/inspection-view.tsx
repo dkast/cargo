@@ -5,13 +5,23 @@ import {
 } from "@prisma/client"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
-import { Check, X } from "lucide-react"
+import {
+  Check,
+  ClipboardEdit,
+  ExternalLink,
+  File,
+  Link2,
+  X
+} from "lucide-react"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { InspectionApprove } from "@/components/dashboard/ctpat/inspection-approve"
 import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { TooltipHelper } from "@/components/ui/tooltip"
 import { getInspectionById } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { canApprove } from "@/lib/utils"
@@ -30,7 +40,7 @@ export default async function InspectionView({
 
   return (
     <div className="flex flex-col gap-4">
-      <div>
+      <div className="flex items-center justify-between">
         <h1 className="flex flex-row items-center gap-4 text-2xl">
           <div>
             <span className="mr-2 text-gray-400">#</span>
@@ -49,6 +59,66 @@ export default async function InspectionView({
             }
           })()}
         </h1>
+        <div className="inline-flex  rounded-md shadow-sm">
+          <TooltipHelper content="Ver en pestaña">
+            <Button
+              size="icon"
+              variant="ghost"
+              asChild
+              className="rounded-r-none ring-1 ring-inset ring-gray-300"
+            >
+              <Link
+                href={`/dashboard/ctpat/${inspection.id}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </Link>
+            </Button>
+          </TooltipHelper>
+          {(inspection.status === InspectionStatus.CLOSED ||
+            inspection.status === InspectionStatus.APPROVED) && (
+            <TooltipHelper content="Exportar PDF">
+              <Button
+                size="icon"
+                variant="ghost"
+                asChild
+                className="-ml-px rounded-none ring-1 ring-inset ring-gray-300"
+              >
+                <Link
+                  href={`/ctpat/${inspection.id}/pdf`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <File className="h-4 w-4" />
+                </Link>
+              </Button>
+            </TooltipHelper>
+          )}
+          {inspection.status === InspectionStatus.OPEN && (
+            <TooltipHelper content="Continuar inspección">
+              <Button
+                size="icon"
+                variant="ghost"
+                asChild
+                className="-ml-px rounded-none ring-1 ring-inset ring-gray-300"
+              >
+                <Link href={`/dashboard/ctpat/edit/${inspection.id}`}>
+                  <ClipboardEdit className="h-4 w-4" />
+                </Link>
+              </Button>
+            </TooltipHelper>
+          )}
+          <TooltipHelper content="Compartir">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="-ml-px rounded-l-none ring-1 ring-inset ring-gray-300"
+            >
+              <Link2 className="h-4 w-4" />
+            </Button>
+          </TooltipHelper>
+        </div>
       </div>
       <h2 className="text-base font-semibold leading-7">
         Información de la inspección
@@ -171,14 +241,14 @@ export default async function InspectionView({
               <TabsTrigger value="fail">Fallas</TabsTrigger>
               <TabsTrigger value="all">Todos</TabsTrigger>
             </TabsList>
-            <TabsContent value="fail">
+            <TabsContent value="fail" className="rounded focus-visible:ring-2">
               <InspectionList
                 inspectedBy={inspection.inspectedBy.user}
                 inspectionItems={inspection.inspectionItems}
                 showOnlyFailures
               />
             </TabsContent>
-            <TabsContent value="all">
+            <TabsContent value="all" className="rounded focus-visible:ring-2">
               <InspectionList
                 inspectedBy={inspection.inspectedBy.user}
                 inspectionItems={inspection.inspectionItems}
