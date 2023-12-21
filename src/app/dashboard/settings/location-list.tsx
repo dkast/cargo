@@ -46,7 +46,7 @@ export default async function LocationList({
             ))}
           </div>
         ) : (
-          <EmptyState icon={<MapPin />} />
+          <EmptyState icon={<MapPin />} title="No hay ubicaciones" />
         )}
       </CardContent>
     </Card>

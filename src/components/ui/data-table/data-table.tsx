@@ -14,7 +14,9 @@ import {
   type Row,
   type SortingState
 } from "@tanstack/react-table"
+import { SearchX } from "lucide-react"
 
+import { EmptyState } from "@/components/dashboard/empty-state"
 import { Input } from "@/components/ui/input"
 import {
   Table,
@@ -151,7 +153,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No hay resultados
+                  <EmptyState icon={<SearchX />} title="No hay resultados" />
                 </TableCell>
               </TableRow>
             )}
