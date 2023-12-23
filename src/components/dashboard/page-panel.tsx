@@ -42,7 +42,6 @@ export default function Panel({
             className={cn(className, "h-[96%] gap-y-2")}
             onInteractOutside={event => event.preventDefault()}
           >
-            {/* <div className="mx-auto mb-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" /> */}
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
             {children}
