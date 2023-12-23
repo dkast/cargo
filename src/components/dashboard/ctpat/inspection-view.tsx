@@ -65,14 +65,14 @@ export default async function InspectionView({
               size="icon"
               variant="ghost"
               asChild
-              className="rounded-r-none ring-1 ring-inset ring-gray-300"
+              className="group rounded-r-none ring-1 ring-inset ring-gray-300"
             >
               <Link
                 href={`/dashboard/ctpat/${inspection.id}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                <ExternalLink className="h-4 w-4" />
+                <ExternalLink className="h-4 w-4 opacity-70 group-hover:opacity-100" />
               </Link>
             </Button>
           </TooltipHelper>
@@ -83,14 +83,14 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="-ml-px rounded-none ring-1 ring-inset ring-gray-300"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-300"
               >
                 <Link
                   href={`/ctpat/${inspection.id}/pdf`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <File className="h-4 w-4" />
+                  <File className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Link>
               </Button>
             </TooltipHelper>
@@ -101,10 +101,10 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="-ml-px rounded-none ring-1 ring-inset ring-gray-300"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-300"
               >
                 <Link href={`/dashboard/ctpat/edit/${inspection.id}`}>
-                  <ClipboardEdit className="h-4 w-4" />
+                  <ClipboardEdit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Link>
               </Button>
             </TooltipHelper>
@@ -113,9 +113,9 @@ export default async function InspectionView({
             <Button
               size="icon"
               variant="ghost"
-              className="-ml-px rounded-l-none ring-1 ring-inset ring-gray-300"
+              className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-300"
             >
-              <Link2 className="h-4 w-4" />
+              <Link2 className="h-4 w-4 opacity-70 group-hover:opacity-100" />
             </Button>
           </TooltipHelper>
         </div>
