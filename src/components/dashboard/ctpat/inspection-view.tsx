@@ -65,7 +65,7 @@ export default async function InspectionView({
               size="icon"
               variant="ghost"
               asChild
-              className="group rounded-r-none ring-1 ring-inset ring-gray-300"
+              className="group rounded-r-none ring-1 ring-inset ring-gray-200"
             >
               <Link
                 href={`/dashboard/ctpat/${inspection.id}`}
@@ -83,7 +83,7 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-300"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200"
               >
                 <Link
                   href={`/ctpat/${inspection.id}/pdf`}
@@ -101,7 +101,7 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-300"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200"
               >
                 <Link href={`/dashboard/ctpat/edit/${inspection.id}`}>
                   <ClipboardEdit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
@@ -113,7 +113,7 @@ export default async function InspectionView({
             <Button
               size="icon"
               variant="ghost"
-              className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-300"
+              className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-200"
             >
               <Link2 className="h-4 w-4 opacity-70 group-hover:opacity-100" />
             </Button>
