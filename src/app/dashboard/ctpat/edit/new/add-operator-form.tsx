@@ -22,6 +22,7 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
+  SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet"
 import { createOperator } from "@/server/actions/operator"
@@ -76,7 +77,9 @@ export function AddOperatorForm({
         side={isMobile ? "bottom" : "right"}
         className="h-[86%] sm:h-full"
       >
-        <SheetHeader>Agregar Operador</SheetHeader>
+        <SheetHeader>
+          <SheetTitle>Agregar Operador</SheetTitle>
+        </SheetHeader>
         <Form {...form}>
           <form className="mt-10 space-y-6">
             <FormField

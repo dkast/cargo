@@ -23,6 +23,7 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
+  SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet"
 import { Switch } from "@/components/ui/switch"
@@ -87,7 +88,9 @@ export default function LocationEdit({
         side={isMobile ? "bottom" : "right"}
         className="h-[86%] sm:h-full"
       >
-        <SheetHeader>Editar Ubicación</SheetHeader>
+        <SheetHeader>
+          <SheetTitle>Editar Ubicación</SheetTitle>
+        </SheetHeader>
         <Form {...form}>
           <form
             className="mt-10 space-y-6"

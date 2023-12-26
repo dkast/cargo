@@ -1,6 +1,6 @@
 "use client"
 
-import { type Membership } from "@prisma/client"
+import { MembershipRole, type Membership } from "@prisma/client"
 import { type ColumnDef } from "@tanstack/react-table"
 import {
   ChevronDown,
@@ -46,7 +46,26 @@ export const columns: ColumnDef<Membership>[] = [
   },
   {
     accessorKey: "role",
-    header: "Rol"
+    header: "Rol",
+    cell: ({ row }) => {
+      const membership = row.original
+      const roleLabel = (() => {
+        switch (membership.role) {
+          case MembershipRole.ADMIN:
+            return "Administrador"
+          case MembershipRole.MEMBER:
+            return "Miembro"
+          case MembershipRole.SUPERVISOR:
+            return "Supervisor"
+          case MembershipRole.OWNER:
+            return "Propietario"
+          default:
+            return ""
+        }
+      })()
+
+      return <span className="text-sm text-gray-900">{roleLabel}</span>
+    }
   },
   {
     id: "actions",

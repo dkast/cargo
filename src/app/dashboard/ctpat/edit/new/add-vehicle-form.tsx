@@ -22,6 +22,7 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
+  SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet"
 import { createVehicle } from "@/server/actions/vehicle"
@@ -72,7 +73,9 @@ export function AddVehicleForm({ organizationId }: { organizationId: string }) {
         side={isMobile ? "bottom" : "right"}
         className="h-[86%] sm:h-full"
       >
-        <SheetHeader>Agregar Unidad</SheetHeader>
+        <SheetHeader>
+          <SheetTitle>Agregar tractor</SheetTitle>
+        </SheetHeader>
         <Form {...form}>
           <form className="mt-10 space-y-6">
             <FormField
