@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button"
 import { deleteCompany } from "@/server/actions/company"
 import { type companySchema } from "@/lib/types"
 
-export default function DeleteAction({
+export default function TransportDelete({
   data
 }: {
   data: z.infer<typeof companySchema>

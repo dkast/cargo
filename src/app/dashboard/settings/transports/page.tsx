@@ -1,5 +1,5 @@
 import { columns } from "@/app/dashboard/settings/transports/columns"
-import { EditAction } from "@/app/dashboard/settings/transports/edit-action"
+import { EditAction } from "@/app/dashboard/settings/transports/transport-edit"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 

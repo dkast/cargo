@@ -28,7 +28,7 @@ import {
 import { createCompany, updateCompany } from "@/server/actions/company"
 import { actionType, companySchema } from "@/lib/types"
 
-export function EditAction({
+export default function TransportEdit({
   organizationId,
   company,
   action

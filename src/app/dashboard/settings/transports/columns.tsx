@@ -1,7 +1,7 @@
 "use client"
 
-import DeleteAction from "@/app/dashboard/settings/transports/delete-action"
-import { EditAction } from "@/app/dashboard/settings/transports/edit-action"
+import TransportDelete from "@/app/dashboard/settings/transports/transport-delete"
+import TransportEdit from "@/app/dashboard/settings/transports/transport-edit"
 import { type ColumnDef } from "@tanstack/react-table"
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react"
 import { type z } from "zod"
@@ -36,12 +36,12 @@ export const columns: ColumnDef<z.infer<typeof companySchema>>[] = [
 
       return (
         <div className="flex justify-end gap-x-2">
-          <EditAction
+          <TransportEdit
             organizationId={company.organizationId}
             company={company}
             action={actionType.UPDATE}
           />
-          <DeleteAction data={company} />
+          <TransportDelete data={company} />
         </div>
       )
     }
