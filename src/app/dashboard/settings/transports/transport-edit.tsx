@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sheet"
 import { createCompany, updateCompany } from "@/server/actions/company"
 import { actionType, companySchema } from "@/lib/types"
+import { useMobile } from "@/lib/use-mobile"
 
 export default function TransportEdit({
   organizationId,
@@ -47,6 +48,7 @@ export default function TransportEdit({
   })
 
   const [open, setOpen] = useState(false)
+  const isMobile = useMobile()
 
   const {
     execute: executeInsert,
@@ -55,6 +57,7 @@ export default function TransportEdit({
   } = useAction(createCompany, {
     onSuccess: data => {
       if (data?.success) {
+        form.reset()
         toast.success("Transportista agregado correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
@@ -79,6 +82,7 @@ export default function TransportEdit({
   } = useAction(updateCompany, {
     onSuccess: data => {
       if (data?.success) {
+        form.reset()
         toast.success("Transportista actualizado correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
@@ -104,6 +108,8 @@ export default function TransportEdit({
     if (action === actionType.UPDATE) {
       await executeUpdate(data)
     }
+
+    form.reset()
   }
 
   return (
@@ -117,7 +123,7 @@ export default function TransportEdit({
           </Button>
         )}
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side={isMobile ? "bottom" : "right"}>
         <SheetHeader>
           <SheetTitle>
             {action === actionType.CREATE

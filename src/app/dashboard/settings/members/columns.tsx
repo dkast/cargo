@@ -42,7 +42,8 @@ export const columns: ColumnDef<Membership>[] = [
   },
   {
     accessorKey: "user.email",
-    header: "Correo electrónico"
+    header: "Correo electrónico",
+    enableHiding: true
   },
   {
     accessorKey: "role",

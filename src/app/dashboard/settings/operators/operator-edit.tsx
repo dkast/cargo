@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sheet"
 import { createOperator, updateOperator } from "@/server/actions/operator"
 import { actionType, operatorSchema } from "@/lib/types"
+import { useMobile } from "@/lib/use-mobile"
 
 export default function OperatorEdit({
   organizationId,
@@ -48,6 +49,7 @@ export default function OperatorEdit({
   })
 
   const [open, setOpen] = useState(false)
+  const isMobile = useMobile()
 
   const {
     execute: executeInsert,
@@ -56,6 +58,7 @@ export default function OperatorEdit({
   } = useAction(createOperator, {
     onSuccess: data => {
       if (data?.success) {
+        form.reset()
         toast.success("Operador agregado correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
@@ -80,6 +83,7 @@ export default function OperatorEdit({
   } = useAction(updateOperator, {
     onSuccess: data => {
       if (data?.success) {
+        form.reset()
         toast.success("Operador actualizado correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
@@ -118,7 +122,7 @@ export default function OperatorEdit({
           </Button>
         )}
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side={isMobile ? "bottom" : "right"}>
         <SheetHeader>
           <SheetTitle>
             {action === actionType.CREATE

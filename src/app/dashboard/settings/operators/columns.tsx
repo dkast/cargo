@@ -46,7 +46,8 @@ export const columns: ColumnDef<z.infer<typeof operatorSchema>>[] = [
           )}
         </Button>
       )
-    }
+    },
+    enableHiding: true
   },
   {
     id: "actions",

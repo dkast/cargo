@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sheet"
 import { createVehicle, updateVehicle } from "@/server/actions/vehicle"
 import { actionType, vehicleSchema } from "@/lib/types"
+import { useMobile } from "@/lib/use-mobile"
 
 export default function VehicleEdit({
   organizationId,
@@ -48,6 +49,7 @@ export default function VehicleEdit({
   })
 
   const [open, setOpen] = useState(false)
+  const isMobile = useMobile()
 
   const {
     execute: executeInsert,
@@ -56,6 +58,7 @@ export default function VehicleEdit({
   } = useAction(createVehicle, {
     onSuccess: data => {
       if (data?.success) {
+        form.reset()
         toast.success("Unidad agregada correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
@@ -80,6 +83,7 @@ export default function VehicleEdit({
   } = useAction(updateVehicle, {
     onSuccess: data => {
       if (data?.success) {
+        form.reset()
         toast.success("Unidad actualizada correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
@@ -118,7 +122,7 @@ export default function VehicleEdit({
           </Button>
         )}
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side={isMobile ? "bottom" : "right"}>
         <SheetHeader>
           <SheetTitle>
             {action === actionType.CREATE ? "Agregar unidad" : "Editar unidad"}

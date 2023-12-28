@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sheet"
 import { createContainer, updateContainer } from "@/server/actions/container"
 import { actionType, containerSchema } from "@/lib/types"
+import { useMobile } from "@/lib/use-mobile"
 
 export default function ContainerEdit({
   organizationId,
@@ -47,6 +48,7 @@ export default function ContainerEdit({
   })
 
   const [open, setOpen] = useState(false)
+  const isMobile = useMobile()
 
   const {
     execute: executeInsert,
@@ -55,6 +57,7 @@ export default function ContainerEdit({
   } = useAction(createContainer, {
     onSuccess: data => {
       if (data?.success) {
+        form.reset()
         toast.success("Contenedor agregado correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
@@ -81,6 +84,7 @@ export default function ContainerEdit({
       if (data?.success) {
         toast.success("Contenedor actualizado correctamente")
         setOpen(false)
+        form.reset()
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
       }
@@ -102,6 +106,7 @@ export default function ContainerEdit({
     }
 
     if (action === actionType.UPDATE) {
+      console.dir(data)
       await executeUpdate(data)
     }
   }
@@ -117,7 +122,7 @@ export default function ContainerEdit({
           </Button>
         )}
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side={isMobile ? "bottom" : "right"}>
         <SheetHeader>
           <SheetTitle>
             {action === actionType.CREATE
