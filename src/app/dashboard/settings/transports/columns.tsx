@@ -35,7 +35,7 @@ export const columns: ColumnDef<z.infer<typeof companySchema>>[] = [
       const company = row.original
 
       return (
-        <div className="flex justify-end gap-x-2">
+        <div key={company.id} className="flex justify-end gap-x-2">
           <TransportEdit
             organizationId={company.organizationId}
             company={company}

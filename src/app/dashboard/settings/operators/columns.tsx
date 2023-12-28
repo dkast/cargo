@@ -55,7 +55,7 @@ export const columns: ColumnDef<z.infer<typeof operatorSchema>>[] = [
       const operator = row.original
 
       return (
-        <div className="flex justify-end gap-x-2">
+        <div key={operator.id} className="flex justify-end gap-x-2">
           <OperatorEdit
             organizationId={operator.organizationId}
             operator={operator}

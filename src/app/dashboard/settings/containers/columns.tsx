@@ -33,9 +33,8 @@ export const columns: ColumnDef<z.infer<typeof containerSchema>>[] = [
     id: "actions",
     cell: ({ row }) => {
       const container = row.original
-
       return (
-        <div className="flex justify-end gap-x-2">
+        <div key={container.id} className="flex justify-end gap-x-2">
           <ContainerEdit
             organizationId={container.organizationId}
             container={container}

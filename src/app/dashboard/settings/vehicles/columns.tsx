@@ -55,7 +55,7 @@ export const columns: ColumnDef<z.infer<typeof vehicleSchema>>[] = [
       const vehicle = row.original
 
       return (
-        <div className="flex justify-end gap-x-2">
+        <div key={vehicle.id} className="flex justify-end gap-x-2">
           <VehicleEdit
             organizationId={vehicle.organizationId}
             vehicle={vehicle}
