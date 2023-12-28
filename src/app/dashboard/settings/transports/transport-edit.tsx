@@ -128,7 +128,10 @@ export default function TransportEdit({
           </Button>
         )}
       </SheetTrigger>
-      <SheetContent side={isMobile ? "bottom" : "right"}>
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
+        className="h-[86%] sm:h-full"
+      >
         <SheetHeader>
           <SheetTitle>
             {action === actionType.CREATE
