@@ -64,11 +64,7 @@ export default function Sidebar() {
           >
             {isSidebarOpen && <Logo className="fill-[#201923]" />}
             <TooltipHelper
-              content={
-                isSidebarOpen
-                  ? "Ocultar barra lateral"
-                  : "Mostrar barra lateral"
-              }
+              content={isSidebarOpen ? "Colapsar menú" : "Mostrar menú"}
             >
               <Button
                 variant="ghost"

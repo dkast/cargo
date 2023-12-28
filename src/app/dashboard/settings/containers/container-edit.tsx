@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -49,6 +49,11 @@ export default function ContainerEdit({
 
   const [open, setOpen] = useState(false)
   const isMobile = useMobile()
+
+  // Focus on first field of the form
+  useEffect(() => {
+    form.setFocus("containerNbr")
+  })
 
   const {
     execute: executeInsert,
