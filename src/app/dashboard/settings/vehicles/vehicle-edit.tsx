@@ -25,23 +25,24 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet"
-import { createCompany, updateCompany } from "@/server/actions/company"
-import { actionType, companySchema } from "@/lib/types"
+import { createVehicle, updateVehicle } from "@/server/actions/vehicle"
+import { actionType, vehicleSchema } from "@/lib/types"
 
-export default function TransportEdit({
+export default function VehicleEdit({
   organizationId,
-  company,
+  vehicle,
   action
 }: {
   organizationId: string
-  company?: z.infer<typeof companySchema>
+  vehicle?: z.infer<typeof vehicleSchema>
   action: actionType
 }) {
-  const form = useForm<z.infer<typeof companySchema>>({
-    resolver: zodResolver(companySchema),
+  const form = useForm<z.infer<typeof vehicleSchema>>({
+    resolver: zodResolver(vehicleSchema),
     defaultValues: {
-      id: company?.id ?? "",
-      name: company?.name ?? "",
+      id: vehicle?.id ?? "",
+      vehicleNbr: vehicle?.vehicleNbr ?? "",
+      licensePlate: vehicle?.licensePlate ?? "",
       organizationId
     }
   })
@@ -52,10 +53,10 @@ export default function TransportEdit({
     execute: executeInsert,
     status: statusInsert,
     reset: resetInsert
-  } = useAction(createCompany, {
+  } = useAction(createVehicle, {
     onSuccess: data => {
       if (data?.success) {
-        toast.success("Transportista agregado correctamente")
+        toast.success("Unidad agregada correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
@@ -76,10 +77,10 @@ export default function TransportEdit({
     execute: executeUpdate,
     status: statusUpdate,
     reset: resetUpdate
-  } = useAction(updateCompany, {
+  } = useAction(updateVehicle, {
     onSuccess: data => {
       if (data?.success) {
-        toast.success("Transportista actualizado correctamente")
+        toast.success("Unidad actualizada correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
@@ -96,7 +97,7 @@ export default function TransportEdit({
     }
   })
 
-  const onSubmit = async (data: z.infer<typeof companySchema>) => {
+  const onSubmit = async (data: z.infer<typeof vehicleSchema>) => {
     if (action === actionType.CREATE) {
       await executeInsert(data)
     }
@@ -110,7 +111,7 @@ export default function TransportEdit({
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         {action === actionType.CREATE ? (
-          <Button>Agregar transportista</Button>
+          <Button>Agregar unidad</Button>
         ) : (
           <Button variant="ghost" size="icon" className="group">
             <Edit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
@@ -120,9 +121,7 @@ export default function TransportEdit({
       <SheetContent>
         <SheetHeader>
           <SheetTitle>
-            {action === actionType.CREATE
-              ? "Agregar transportista"
-              : "Editar transportista"}
+            {action === actionType.CREATE ? "Agregar unidad" : "Editar unidad"}
           </SheetTitle>
         </SheetHeader>
         <Form {...form}>
@@ -132,14 +131,29 @@ export default function TransportEdit({
           >
             <FormField
               control={form.control}
-              name="name"
+              name="vehicleNbr"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="name">Transportista</FormLabel>
+                  <FormLabel htmlFor="vehicleNbr">Unidad</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="Unidad" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="licensePlate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="licensePlate">
+                    Número de licencia
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Nombre del Transportista"
+                      placeholder="Número de placas"
                       {...field}
                     />
                   </FormControl>

@@ -98,7 +98,6 @@ export default function OperatorEdit({
   })
 
   const onSubmit = async (data: z.infer<typeof operatorSchema>) => {
-    console.log(data)
     if (action === actionType.CREATE) {
       await executeInsert(data)
     }

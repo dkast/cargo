@@ -1,24 +1,24 @@
 "use client"
 
-import OperatorDelete from "@/app/dashboard/settings/operators/operator-delete"
-import OperatorEdit from "@/app/dashboard/settings/operators/operator-edit"
+import VehicleDelete from "@/app/dashboard/settings/vehicles/vehicle-delete"
+import VehicleEdit from "@/app/dashboard/settings/vehicles/vehicle-edit"
 import { type ColumnDef } from "@tanstack/react-table"
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react"
 import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
-import { actionType, type operatorSchema } from "@/lib/types"
+import { actionType, type vehicleSchema } from "@/lib/types"
 
-export const columns: ColumnDef<z.infer<typeof operatorSchema>>[] = [
+export const columns: ColumnDef<z.infer<typeof vehicleSchema>>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "vehicleNbr",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Nombre
+          Unidad
           {{
             asc: <ChevronUp className="ml-2 h-4 w-4" />,
             desc: <ChevronDown className="ml-2 h-4 w-4" />
@@ -30,14 +30,14 @@ export const columns: ColumnDef<z.infer<typeof operatorSchema>>[] = [
     }
   },
   {
-    accessorKey: "licenseNumber",
+    accessorKey: "licensePlate",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Número de licencia
+          Número de placas
           {{
             asc: <ChevronUp className="ml-2 h-4 w-4" />,
             desc: <ChevronDown className="ml-2 h-4 w-4" />
@@ -51,16 +51,16 @@ export const columns: ColumnDef<z.infer<typeof operatorSchema>>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const operator = row.original
+      const vehicle = row.original
 
       return (
         <div className="flex justify-end gap-x-2">
-          <OperatorEdit
-            organizationId={operator.organizationId}
-            operator={operator}
+          <VehicleEdit
+            organizationId={vehicle.organizationId}
+            vehicle={vehicle}
             action={actionType.UPDATE}
           />
-          <OperatorDelete data={operator} />
+          <VehicleDelete data={vehicle} />
         </div>
       )
     }
