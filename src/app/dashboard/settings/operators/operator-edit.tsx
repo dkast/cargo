@@ -25,23 +25,24 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet"
-import { createCompany, updateCompany } from "@/server/actions/company"
-import { actionType, companySchema } from "@/lib/types"
+import { createOperator, updateOperator } from "@/server/actions/operator"
+import { actionType, operatorSchema } from "@/lib/types"
 
-export default function TransportEdit({
+export default function OperatorEdit({
   organizationId,
-  company,
+  operator,
   action
 }: {
   organizationId: string
-  company?: z.infer<typeof companySchema>
+  operator?: z.infer<typeof operatorSchema>
   action: actionType
 }) {
-  const form = useForm<z.infer<typeof companySchema>>({
-    resolver: zodResolver(companySchema),
+  const form = useForm<z.infer<typeof operatorSchema>>({
+    resolver: zodResolver(operatorSchema),
     defaultValues: {
-      id: company?.id ?? "",
-      name: company?.name ?? "",
+      id: operator?.id ?? "",
+      name: operator?.name ?? "",
+      licenseNumber: operator?.licenseNumber ?? "",
       organizationId
     }
   })
@@ -52,10 +53,10 @@ export default function TransportEdit({
     execute: executeInsert,
     status: statusInsert,
     reset: resetInsert
-  } = useAction(createCompany, {
+  } = useAction(createOperator, {
     onSuccess: data => {
       if (data?.success) {
-        toast.success("Transportista agregado correctamente")
+        toast.success("Operador agregado correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
@@ -76,10 +77,10 @@ export default function TransportEdit({
     execute: executeUpdate,
     status: statusUpdate,
     reset: resetUpdate
-  } = useAction(updateCompany, {
+  } = useAction(updateOperator, {
     onSuccess: data => {
       if (data?.success) {
-        toast.success("Transportista actualizado correctamente")
+        toast.success("Operador actualizado correctamente")
         setOpen(false)
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
@@ -96,7 +97,7 @@ export default function TransportEdit({
     }
   })
 
-  const onSubmit = async (data: z.infer<typeof companySchema>) => {
+  const onSubmit = async (data: z.infer<typeof operatorSchema>) => {
     console.log(data)
     if (action === actionType.CREATE) {
       await executeInsert(data)
@@ -111,7 +112,7 @@ export default function TransportEdit({
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         {action === actionType.CREATE ? (
-          <Button>Agregar transportista</Button>
+          <Button>Agregar operador</Button>
         ) : (
           <Button variant="ghost" size="icon" className="group">
             <Edit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
@@ -122,8 +123,8 @@ export default function TransportEdit({
         <SheetHeader>
           <SheetTitle>
             {action === actionType.CREATE
-              ? "Agregar transportista"
-              : "Editar transportista"}
+              ? "Agregar operador"
+              : "Editar operador"}
           </SheetTitle>
         </SheetHeader>
         <Form {...form}>
@@ -136,11 +137,30 @@ export default function TransportEdit({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="name">Transportista</FormLabel>
+                  <FormLabel htmlFor="name">Operador</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Nombre del Transportista"
+                      placeholder="Nombre del Operador"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="licenseNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="licenseNumber">
+                    Número de licencia
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Número de licencia"
                       {...field}
                     />
                   </FormControl>

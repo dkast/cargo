@@ -1,16 +1,16 @@
-import { columns } from "@/app/dashboard/settings/transports/columns"
-import TransportEdit from "@/app/dashboard/settings/transports/transport-edit"
+import { columns } from "@/app/dashboard/settings/operators/columns"
+import OperatorEdit from "@/app/dashboard/settings/operators/operator-edit"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { DataTable } from "@/components/ui/data-table/data-table"
-import { getCompanies } from "@/server/fetchers"
+import { getOperators } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { actionType } from "@/lib/types"
 
 export const metadata: Metadata = {
-  title: "Transportistas"
+  title: "Operadores"
 }
 
 export default async function Page() {
@@ -20,21 +20,21 @@ export default async function Page() {
     notFound()
   }
 
-  const companies = await getCompanies(user?.organizationId)
+  const operators = await getOperators(user?.organizationId)
 
   return (
     <div className="mx-auto grow px-4 sm:px-6">
       <PageSubtitle
-        title="Transportistas"
-        description="Listado de transportistas para el registro de viajes"
+        title="Operadores"
+        description="Listado de operadores para el registro de viajes"
       >
-        <TransportEdit
+        <OperatorEdit
           organizationId={user.organizationId}
           action={actionType.CREATE}
         />
       </PageSubtitle>
       <div className="mt-6">
-        <DataTable columns={columns} data={companies} />
+        <DataTable columns={columns} data={operators} />
       </div>
     </div>
   )
