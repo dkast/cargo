@@ -341,6 +341,7 @@ export async function getInspectionById(inspectionId: string) {
           result: true,
           notes: true,
           order: true,
+          createdAt: true,
           inspectionItemFiles: {
             select: {
               id: true,

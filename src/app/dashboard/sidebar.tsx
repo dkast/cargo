@@ -16,6 +16,7 @@ import {
 import Link from "next/link"
 import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
+import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
 import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import {
@@ -62,18 +63,22 @@ export default function Sidebar() {
             )}
           >
             {isSidebarOpen && <Logo className="fill-[#201923]" />}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6 text-gray-500 hover:text-gray-800"
-              onClick={() => toggle(!isSidebarOpen)}
+            <TooltipHelper
+              content={isSidebarOpen ? "Colapsar menú" : "Mostrar menú"}
             >
-              {isSidebarOpen ? (
-                <PanelLeftClose className="h-6 w-6" aria-hidden="true" />
-              ) : (
-                <PanelLeftOpen className="h-6 w-6" aria-hidden="true" />
-              )}
-            </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 text-gray-500 hover:text-gray-800"
+                onClick={() => toggle(!isSidebarOpen)}
+              >
+                {isSidebarOpen ? (
+                  <PanelLeftClose className="h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <PanelLeftOpen className="h-6 w-6" aria-hidden="true" />
+                )}
+              </Button>
+            </TooltipHelper>
           </div>
           <nav className="flex flex-1 flex-col">
             <ul className="flex flex-1 flex-col gap-y-7">

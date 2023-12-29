@@ -23,6 +23,7 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
+  SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet"
 import { Switch } from "@/components/ui/switch"
@@ -79,15 +80,14 @@ export default function LocationEdit({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Edit className="h-4 w-4" />
+        <Button variant="ghost" size="icon" className="group">
+          <Edit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
         </Button>
       </SheetTrigger>
-      <SheetContent
-        side={isMobile ? "bottom" : "right"}
-        className="h-[86%] sm:h-full"
-      >
-        <SheetHeader>Editar Ubicación</SheetHeader>
+      <SheetContent side={isMobile ? "bottom" : "right"}>
+        <SheetHeader>
+          <SheetTitle>Editar Ubicación</SheetTitle>
+        </SheetHeader>
         <Form {...form}>
           <form
             className="mt-10 space-y-6"

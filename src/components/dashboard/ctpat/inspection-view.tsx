@@ -18,10 +18,10 @@ import { notFound } from "next/navigation"
 
 import { InspectionApprove } from "@/components/dashboard/ctpat/inspection-approve"
 import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
+import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { TooltipHelper } from "@/components/ui/tooltip"
 import { getInspectionById } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { canApprove } from "@/lib/utils"
@@ -65,14 +65,14 @@ export default async function InspectionView({
               size="icon"
               variant="ghost"
               asChild
-              className="rounded-r-none ring-1 ring-inset ring-gray-300"
+              className="group rounded-r-none ring-1 ring-inset ring-gray-200"
             >
               <Link
                 href={`/dashboard/ctpat/${inspection.id}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                <ExternalLink className="h-4 w-4" />
+                <ExternalLink className="h-4 w-4 opacity-70 group-hover:opacity-100" />
               </Link>
             </Button>
           </TooltipHelper>
@@ -83,14 +83,14 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="-ml-px rounded-none ring-1 ring-inset ring-gray-300"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200"
               >
                 <Link
                   href={`/ctpat/${inspection.id}/pdf`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <File className="h-4 w-4" />
+                  <File className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Link>
               </Button>
             </TooltipHelper>
@@ -101,10 +101,10 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="-ml-px rounded-none ring-1 ring-inset ring-gray-300"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200"
               >
                 <Link href={`/dashboard/ctpat/edit/${inspection.id}`}>
-                  <ClipboardEdit className="h-4 w-4" />
+                  <ClipboardEdit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Link>
               </Button>
             </TooltipHelper>
@@ -113,9 +113,9 @@ export default async function InspectionView({
             <Button
               size="icon"
               variant="ghost"
-              className="-ml-px rounded-l-none ring-1 ring-inset ring-gray-300"
+              className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-200"
             >
-              <Link2 className="h-4 w-4" />
+              <Link2 className="h-4 w-4 opacity-70 group-hover:opacity-100" />
             </Button>
           </TooltipHelper>
         </div>

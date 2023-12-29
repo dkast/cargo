@@ -16,7 +16,7 @@ const SecondaryNavItems = [
   },
   {
     title: "Operadores",
-    href: "/dashboard/settings/drivers"
+    href: "/dashboard/settings/operators"
   },
   {
     title: "Unidades",

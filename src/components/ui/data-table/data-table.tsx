@@ -14,7 +14,9 @@ import {
   type Row,
   type SortingState
 } from "@tanstack/react-table"
+import { SearchX } from "lucide-react"
 
+import { EmptyState } from "@/components/dashboard/empty-state"
 import { Input } from "@/components/ui/input"
 import {
   Table,
@@ -136,7 +138,7 @@ export function DataTable<TData, TValue>({
                   className={cn(onRowClick && "cursor-pointer")}
                 >
                   {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="py-2">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -151,7 +153,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No hay resultados
+                  <EmptyState icon={<SearchX />} title="No hay resultados" />
                 </TableCell>
               </TableRow>
             )}

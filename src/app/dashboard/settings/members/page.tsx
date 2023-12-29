@@ -26,7 +26,7 @@ export default async function MembersPage() {
     <div className="mx-auto grow px-4 sm:px-6">
       <PageSubtitle
         title="Miembros"
-        description="Administre a los miembros de la empresa"
+        description="Administra a los miembros de la empresa"
       >
         <Button asChild>
           <Link href="/dashboard/settings/members/new">Nuevo miembro</Link>

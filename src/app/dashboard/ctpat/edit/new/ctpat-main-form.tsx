@@ -284,7 +284,7 @@ export default function CTPATMainForm({
                       />
                     </FormControl>
                     <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-4 ring-2 ring-white">
-                      <ArrowLeftFromLine className="h-4 w-4" />
+                      <ArrowLeftFromLine className="h-4 w-4 opacity-70" />
                       Entrada
                     </div>
                   </FormLabel>
@@ -298,7 +298,7 @@ export default function CTPATMainForm({
                       />
                     </FormControl>
                     <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-4 ring-2 ring-white">
-                      <ArrowRightFromLine className="h-4 w-4" />
+                      <ArrowRightFromLine className="h-4 w-4 opacity-70" />
                       Salida
                     </div>
                   </FormLabel>

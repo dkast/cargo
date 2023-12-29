@@ -1,5 +1,7 @@
 import ItemMediaPreview from "@/app/dashboard/ctpat/edit/[id]/item-media-preview"
 import { InspectionResult, Prisma, type InspectionItem } from "@prisma/client"
+import { formatDistanceToNow } from "date-fns"
+import { es } from "date-fns/locale"
 import { Check, CheckCircle, X } from "lucide-react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -127,9 +129,17 @@ export function InspectionListItem({
             <AvatarFallback>{getInitials(inspectedBy.name)}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="text-xs font-medium text-gray-950">
+            <div className="flex gap-1 text-xs font-medium text-gray-950">
               {inspectedBy.name}
-            </span>
+              {item.createdAt && (
+                <span className="text-gray-400">
+                  {formatDistanceToNow(item.createdAt, {
+                    addSuffix: true,
+                    locale: es
+                  })}
+                </span>
+              )}
+            </div>
             <span className="py-1.5 text-sm text-gray-600">{item.notes}</span>
           </div>
         </div>

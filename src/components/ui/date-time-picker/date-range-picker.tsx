@@ -182,7 +182,7 @@ const DateRangePicker = React.forwardRef<
             disabled={props.isDisabled}
             onClick={() => setOpen(true)}
           >
-            <CalendarIcon className="h-4 w-4" />
+            <CalendarIcon className="h-4 w-4 opacity-70" />
           </Button>
         </PopoverTrigger>
         <PopoverContent ref={contentRef} className="w-full p-2 sm:p-4">
