@@ -84,10 +84,14 @@ export default async function InspectionResultChart({
         </CardTitle>
         <CardDescription className="flex items-center gap-1">
           <Activity className="h-4 w-4" />
-          <span className="text-sm">{`${totalInspections} inspecciones realizadas`}</span>
+          {totalIssues > 0 ? (
+            <span className="text-sm">{`${totalInspections} inspecciones realizadas, ${totalIssues} con falla y ${totalOK} OK`}</span>
+          ) : (
+            <span className="text-sm">{`${totalInspections} inspecciones realizadas`}</span>
+          )}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex">
+      <CardContent className="flex flex-col">
         <BarChart
           data={transformedData}
           index="date"
@@ -98,35 +102,16 @@ export default async function InspectionResultChart({
           animationDuration={500}
           noDataText="No hay datos para mostrar"
         />
-        <div className="ml-2 hidden min-w-36 border-l border-gray-200 pl-4 lg:block">
-          <Title className="text-xs uppercase tracking-wide">Detalle</Title>
-          <List>
-            <ListItem>
-              <div className="flex items-center gap-2">
-                <span className="size-2 rounded-full bg-green-500"></span>
-                <span>OK</span>
-              </div>
-              <span>{totalOK}</span>
-            </ListItem>
-            <ListItem>
-              <div className="flex items-center gap-2">
-                <span className="size-2 rounded-full bg-red-500"></span>
-                <span>Falla</span>
-              </div>
-              <span>{totalIssues}</span>
-            </ListItem>
-          </List>
-          {issuePercentage > 5 && (
-            <Callout
-              title="Aviso"
-              color="red"
-              icon={AlertTriangleIcon}
-              className="mt-4"
-            >
-              {issuePercentage}% de las inspecciones presentaron fallas
-            </Callout>
-          )}
-        </div>
+        {issuePercentage > 10 && (
+          <Callout
+            title="Aviso"
+            color="orange"
+            icon={AlertTriangleIcon}
+            className="mt-4"
+          >
+            {issuePercentage}% de las inspecciones presentaron fallas
+          </Callout>
+        )}
       </CardContent>
     </Card>
   )
