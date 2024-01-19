@@ -1,4 +1,4 @@
-import { BarChart, Callout, List, ListItem, Title } from "@tremor/react"
+import { BarChart, Callout } from "@tremor/react"
 import { format } from "date-fns"
 import { Activity, AlertTriangleIcon } from "lucide-react"
 
