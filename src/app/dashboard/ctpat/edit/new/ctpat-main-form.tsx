@@ -276,7 +276,7 @@ export default function CTPATMainForm({
                 className="grid grid-cols-2 gap-4"
               >
                 <FormItem>
-                  <FormLabel className="[&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
+                  <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
                     <FormControl>
                       <RadioGroupItem
                         value={InspectionTripType.IN}
@@ -290,7 +290,7 @@ export default function CTPATMainForm({
                   </FormLabel>
                 </FormItem>
                 <FormItem>
-                  <FormLabel className="[&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
+                  <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
                     <FormControl>
                       <RadioGroupItem
                         value={InspectionTripType.OUT}
