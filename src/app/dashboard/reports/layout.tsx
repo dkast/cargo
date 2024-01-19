@@ -8,11 +8,11 @@ const SecondarySidebarItems = [
       {
         title: "Inspecciones y Fallas",
         href: "/dashboard/reports"
+      },
+      {
+        title: "Pareto de Fallas",
+        href: "/dashboard/reports/ctpat-issues"
       }
-      // {
-      //   title: "Inspecciones 2",
-      //   href: "/dashboard/reports/test"
-      // }
     ]
   }
   // {
