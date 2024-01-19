@@ -92,7 +92,7 @@ export const deleteVehicle = action(
   async ({ id, organizationId }) => {
     // Delete vehicle
     try {
-      const vehicle = await prisma.vehicle.findFirst({
+      const vehicle = await prisma.vehicle.findUnique({
         where: {
           id: id,
           inspections: {

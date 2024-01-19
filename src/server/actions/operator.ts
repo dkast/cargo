@@ -92,7 +92,7 @@ export const deleteOperator = action(
   async ({ id, organizationId }) => {
     // Delete operator
     try {
-      const operator = await prisma.operator.findFirst({
+      const operator = await prisma.operator.findUnique({
         where: {
           id: id,
           inspections: {

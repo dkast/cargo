@@ -25,7 +25,7 @@ const R2 = new S3Client({
 export async function getOrganization(organizationId: string) {
   return await cache(
     async () => {
-      return prisma.organization.findFirst({
+      return prisma.organization.findUnique({
         where: {
           id: organizationId
         }
@@ -264,7 +264,7 @@ export async function getInspections(filter: InspectionQueryFilter) {
 }
 
 export async function getInspectionById(inspectionId: string) {
-  const data = await prisma.inspection.findFirst({
+  const data = await prisma.inspection.findUnique({
     where: {
       id: inspectionId
     },

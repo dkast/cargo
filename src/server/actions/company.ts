@@ -80,7 +80,7 @@ export const deleteCompany = action(
   async ({ id, organizationId }) => {
     // Delete company
     try {
-      const company = await prisma.company.findFirst({
+      const company = await prisma.company.findUnique({
         where: {
           id: id,
           inspections: {

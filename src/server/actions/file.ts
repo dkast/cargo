@@ -23,7 +23,7 @@ export const deleteFile = action(
   }),
   async ({ id }) => {
     try {
-      const file = await prisma.inspectionItemFile.findFirst({
+      const file = await prisma.inspectionItemFile.findUnique({
         where: {
           id: id
         }
