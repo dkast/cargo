@@ -10,7 +10,7 @@ const SecondarySidebarItems = [
         href: "/dashboard/reports"
       },
       {
-        title: "Pareto de Fallas",
+        title: "Listado de Fallas",
         href: "/dashboard/reports/ctpat-issues"
       }
     ]

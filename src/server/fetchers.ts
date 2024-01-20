@@ -423,3 +423,83 @@ export async function getInspectionIssuesCount(filter: InspectionQueryFilter) {
   }) and result = ${InspectionItemResult.FAIL}
   group by question order by total desc`
 }
+
+// Get inspection items with comments where the result was set to fail
+export async function getInspectionIssues(filter: InspectionQueryFilter) {
+  return await prisma.inspectionItem.findMany({
+    where: {
+      inspection: {
+        organizationId: filter.organizationId,
+        start: {
+          gte: filter.start ? parseISO(filter.start) : subMonths(new Date(), 1),
+          lte: filter.end
+            ? endOfDay(parseISO(filter.end))
+            : endOfDay(new Date())
+        }
+      },
+      result: InspectionItemResult.FAIL,
+      notes: {
+        not: null
+      }
+    },
+    select: {
+      id: true,
+      question: true,
+      result: true,
+      notes: true,
+      order: true,
+      createdAt: true,
+      inspection: {
+        select: {
+          id: true,
+          inspectionNbr: true,
+          start: true,
+          end: true,
+          status: true,
+          result: true,
+          isLoaded: true,
+          tripType: true,
+          sealNbr: true,
+          tiresVehicle: true,
+          tiresContainer: true
+          // vehicle: {
+          //   select: {
+          //     id: true,
+          //     vehicleNbr: true,
+          //     licensePlate: true
+          //   }
+          // },
+          // operator: {
+          //   select: {
+          //     id: true,
+          //     name: true,
+          //     licenseNumber: true
+          //   }
+          // },
+          // company: {
+          //   select: {
+          //     id: true,
+          //     name: true
+          //   }
+          // },
+          // container: {
+          //   select: {
+          //     id: true,
+          //     containerNbr: true
+          //   }
+          // },
+          // location: {
+          //   select: {
+          //     id: true,
+          //     name: true,
+          //     description: true
+          //   }
+          // }
+        }
+      }
+    },
+    orderBy: {
+      createdAt: "desc"
+    }
+  })
+}

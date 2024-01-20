@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import IssueDataTable from "@/app/dashboard/reports/ctpat-issues/issue-datatable"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -6,11 +7,12 @@ import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
 import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue"
 import DateFilter from "@/components/dashboard/date-filter"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
+import { getInspectionIssues } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {
-  title: "Reporte Pareto de Fallas"
+  title: "Reporte Listado de Fallas"
 }
 
 export default async function CTPATIssuesPage({
@@ -41,10 +43,12 @@ export default async function CTPATIssuesPage({
     }
   }
 
+  const data = await getInspectionIssues(filter)
+
   return (
     <div className="flex grow flex-col gap-y-6">
       <PageSubtitle
-        title="Pareto de Fallas"
+        title="Listado de Fallas"
         description="Muestra las fallas mas comunes encontradas en las inspecciones CTPAT"
       >
         <DateFilter />
@@ -52,7 +56,7 @@ export default async function CTPATIssuesPage({
       <Suspense fallback={<CardSkeleton className="sm:col-span-2" />}>
         <InspectionIssueChart filter={filter} className="sm:col-span-2" />
       </Suspense>
-      {/* <InspectionIssueList filter={filter} /> */}
+      <IssueDataTable data={data} />
     </div>
   )
 }

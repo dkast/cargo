@@ -28,12 +28,11 @@ export default async function InspectionIssueChart({
 
   const totalIssues = data.reduce((acc, item) => acc + Number(item.total), 0)
 
-  console.dir(data)
   return (
     <Card className={cn(className)}>
       <CardHeader>
         <CardTitle className="text-base font-medium">
-          Incidencia de Fallas
+          Resúmen de Fallas
         </CardTitle>
         <CardDescription className="flex items-center gap-1">
           <Activity className="h-4 w-4" />
