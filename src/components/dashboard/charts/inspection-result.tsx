@@ -1,6 +1,6 @@
-import { BarChart } from "@tremor/react"
+import { BarChart, Callout } from "@tremor/react"
 import { format } from "date-fns"
-import { Activity } from "lucide-react"
+import { Activity, AlertTriangleIcon } from "lucide-react"
 
 import {
   Card,
@@ -64,15 +64,17 @@ export default async function InspectionResultChart({
     0
   )
 
-  // const totalOK = data.reduce(
-  //   (acc, item) => acc + Number(item.result === "PASS" ? item.total : 0),
-  //   0
-  // )
+  const totalOK = data.reduce(
+    (acc, item) => acc + Number(item.result === "PASS" ? item.total : 0),
+    0
+  )
 
-  // const totalFail = data.reduce(
-  //   (acc, item) => acc + Number(item.result === "FAIL" ? item.total : 0),
-  //   0
-  // )
+  const totalIssues = data.reduce(
+    (acc, item) => acc + Number(item.result === "FAIL" ? item.total : 0),
+    0
+  )
+
+  const issuePercentage = Math.round((totalIssues / totalInspections) * 100)
 
   return (
     <Card className={className}>
@@ -82,10 +84,14 @@ export default async function InspectionResultChart({
         </CardTitle>
         <CardDescription className="flex items-center gap-1">
           <Activity className="h-4 w-4" />
-          <span className="text-sm">{`${totalInspections} inspecciones realizadas`}</span>
+          {totalIssues > 0 ? (
+            <span className="text-sm">{`${totalInspections} inspecciones realizadas, ${totalIssues} con falla y ${totalOK} OK`}</span>
+          ) : (
+            <span className="text-sm">{`${totalInspections} inspecciones realizadas`}</span>
+          )}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col">
         <BarChart
           data={transformedData}
           index="date"
@@ -96,6 +102,16 @@ export default async function InspectionResultChart({
           animationDuration={500}
           noDataText="No hay datos para mostrar"
         />
+        {issuePercentage > 10 && (
+          <Callout
+            title="Aviso"
+            color="orange"
+            icon={AlertTriangleIcon}
+            className="mt-4"
+          >
+            {issuePercentage}% de las inspecciones presentaron fallas
+          </Callout>
+        )}
       </CardContent>
     </Card>
   )

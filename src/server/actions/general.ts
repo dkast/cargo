@@ -12,7 +12,7 @@ export const joinWaitlist = action(
 
   async ({ email }) => {
     try {
-      const waitlist = await prisma.waitlist.findFirst({
+      const waitlist = await prisma.waitlist.findUnique({
         where: {
           email: email
         }

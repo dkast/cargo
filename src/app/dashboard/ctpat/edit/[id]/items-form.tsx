@@ -277,20 +277,20 @@ function ItemQuestion({
                     className="grid grid-cols-2 place-items-center gap-3"
                   >
                     <FormItem>
-                      <FormLabel className="[&:has([data-state=checked])>div]:border-green-500 [&:has([data-state=checked])>div]:text-green-700 [&:has([data-state=checked])>div]:ring-green-200">
+                      <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-green-500 [&:has([data-state=checked])>div]:text-green-700 [&:has([data-state=checked])>div]:ring-green-200">
                         <FormControl>
                           <RadioGroupItem
                             value={InspectionResult.PASS}
                             className="sr-only"
                           />
                         </FormControl>
-                        <div className="flex flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white">
+                        <div className="flex cursor-pointer flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white">
                           <Check className="h-4 w-4" />
                         </div>
                       </FormLabel>
                     </FormItem>
                     <FormItem>
-                      <FormLabel className="[&:has([data-state=checked])>div]:border-red-500 [&:has([data-state=checked])>div]:text-red-700 [&:has([data-state=checked])>div]:ring-red-200">
+                      <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-red-500 [&:has([data-state=checked])>div]:text-red-700 [&:has([data-state=checked])>div]:ring-red-200">
                         <FormControl>
                           <RadioGroupItem
                             value={InspectionResult.FAIL}

@@ -1,6 +1,10 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
-import { type InspectionResult, type InspectionStatus } from "@prisma/client"
+import {
+  InspectionItemResult,
+  type InspectionResult,
+  type InspectionStatus
+} from "@prisma/client"
 import { endOfDay, parseISO, subMonths } from "date-fns"
 import { unstable_cache as cache } from "next/cache"
 
@@ -21,7 +25,7 @@ const R2 = new S3Client({
 export async function getOrganization(organizationId: string) {
   return await cache(
     async () => {
-      return prisma.organization.findFirst({
+      return prisma.organization.findUnique({
         where: {
           id: organizationId
         }
@@ -260,7 +264,7 @@ export async function getInspections(filter: InspectionQueryFilter) {
 }
 
 export async function getInspectionById(inspectionId: string) {
-  const data = await prisma.inspection.findFirst({
+  const data = await prisma.inspection.findUnique({
     where: {
       id: inspectionId
     },
@@ -404,4 +408,98 @@ export async function getInspectionResultCount(filter: InspectionQueryFilter) {
     filter.end ? endOfDay(parseISO(filter.end)) : endOfDay(new Date())
   } and result is not null
   group by result, start order by start asc`
+}
+
+// Get count of inspections items where the result was set to fail
+export async function getInspectionIssuesCount(filter: InspectionQueryFilter) {
+  return await prisma.$queryRaw`select question as issue, cast(count(*) as char) as total from InspectionItem where inspectionId in (select id from Inspection where organizationId = ${
+    filter.organizationId
+  } and 
+  start >= ${
+    filter.start ? parseISO(filter.start) : subMonths(new Date(), 1)
+  } and 
+  start <= ${
+    filter.end ? endOfDay(parseISO(filter.end)) : endOfDay(new Date())
+  }) and result = ${InspectionItemResult.FAIL}
+  group by question order by total desc`
+}
+
+// Get inspection items with comments where the result was set to fail
+export async function getInspectionIssues(filter: InspectionQueryFilter) {
+  return await prisma.inspectionItem.findMany({
+    where: {
+      inspection: {
+        organizationId: filter.organizationId,
+        start: {
+          gte: filter.start ? parseISO(filter.start) : subMonths(new Date(), 1),
+          lte: filter.end
+            ? endOfDay(parseISO(filter.end))
+            : endOfDay(new Date())
+        }
+      },
+      result: InspectionItemResult.FAIL,
+      notes: {
+        not: null
+      }
+    },
+    select: {
+      id: true,
+      question: true,
+      result: true,
+      notes: true,
+      order: true,
+      createdAt: true,
+      inspection: {
+        select: {
+          id: true,
+          inspectionNbr: true,
+          start: true,
+          end: true,
+          status: true,
+          result: true,
+          isLoaded: true,
+          tripType: true,
+          sealNbr: true,
+          tiresVehicle: true,
+          tiresContainer: true
+          // vehicle: {
+          //   select: {
+          //     id: true,
+          //     vehicleNbr: true,
+          //     licensePlate: true
+          //   }
+          // },
+          // operator: {
+          //   select: {
+          //     id: true,
+          //     name: true,
+          //     licenseNumber: true
+          //   }
+          // },
+          // company: {
+          //   select: {
+          //     id: true,
+          //     name: true
+          //   }
+          // },
+          // container: {
+          //   select: {
+          //     id: true,
+          //     containerNbr: true
+          //   }
+          // },
+          // location: {
+          //   select: {
+          //     id: true,
+          //     name: true,
+          //     description: true
+          //   }
+          // }
+        }
+      }
+    },
+    orderBy: {
+      createdAt: "desc"
+    }
+  })
 }

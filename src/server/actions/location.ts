@@ -86,7 +86,7 @@ export const deleteLocation = action(
   // Delete location only if it has no inspections
   async ({ id, organizationId }) => {
     try {
-      const location = await prisma.location.findFirst({
+      const location = await prisma.location.findUnique({
         where: {
           id: id,
           inspections: {

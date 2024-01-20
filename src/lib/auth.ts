@@ -76,7 +76,7 @@ export const authOptions: NextAuthOptions = {
           username: string
           password: string
         }
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
           where: {
             username: username
           },

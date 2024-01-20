@@ -220,6 +220,8 @@ model Inspection {
   @@index([inspectedById])
   @@index([approvedById])
   @@index([locationId])
+  @@index([start])
+  @@index([result])
 }
 
 model InspectionItem {

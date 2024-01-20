@@ -81,7 +81,7 @@ export const deleteContainer = action(
   async ({ id, organizationId }) => {
     // Delete container
     try {
-      const container = await prisma.container.findFirst({
+      const container = await prisma.container.findUnique({
         where: {
           id: id,
           inspections: {
