@@ -1,4 +1,5 @@
 import MemberForm from "@/app/dashboard/settings/members/[id]/member-form"
+import { MembershipRole } from "@prisma/client"
 import { AlertCircle, ShieldAlert } from "lucide-react"
 import { type Metadata } from "next"
 import { type z } from "zod"
@@ -38,7 +39,10 @@ export default async function MemberPage({
     )
   }
 
-  if (user?.role === "MEMBER") {
+  if (
+    user?.role !== MembershipRole.ADMIN &&
+    user?.role !== MembershipRole.OWNER
+  ) {
     return (
       <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
         <Alert variant="destructive">
@@ -61,7 +65,10 @@ export default async function MemberPage({
       include: { user: true }
     })
 
-    if (membership?.role === "ADMIN" && user?.role === "OWNER") {
+    if (
+      membership?.role === MembershipRole.ADMIN &&
+      user?.role !== MembershipRole.ADMIN
+    ) {
       return (
         <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
           <Alert variant="destructive">
