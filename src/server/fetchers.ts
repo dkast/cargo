@@ -33,7 +33,7 @@ export async function getOrganization(organizationId: string) {
     },
     [`organization-${organizationId}`],
     {
-      revalidate: 900,
+      revalidate: 3600,
       tags: [`organization-${organizationId}`]
     }
   )()

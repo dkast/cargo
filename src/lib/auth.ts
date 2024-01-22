@@ -28,6 +28,7 @@ declare module "next-auth" {
       role: MembershipRole
       membershipId: string
       organizationId: string
+      organizationName: string
     }
   }
 
@@ -119,6 +120,9 @@ export const authOptions: NextAuthOptions = {
             where: {
               //@ts-expect-error user assigned in jwt callback
               userId: token.user.id
+            },
+            include: {
+              organization: true
             }
           })
         },
@@ -138,6 +142,8 @@ export const authOptions: NextAuthOptions = {
       session.user.role = membershipData?.role
       //@ts-expect-error assign organizationId
       session.user.organizationId = membershipData?.organizationId
+      //@ts-expect-error assign organization name
+      session.user.organizationName = membershipData?.organization.name
       return session
     }
   },

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import ProfileMenu from "@/app/dashboard/profile-menu"
+import Workgroup from "@/app/dashboard/workgroup"
 import { useAtom } from "jotai"
 import {
   ClipboardCheck,
@@ -17,7 +18,6 @@ import Link from "next/link"
 import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
 import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
-import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -62,7 +62,7 @@ export default function Sidebar() {
               "flex h-16 shrink-0 items-center"
             )}
           >
-            {isSidebarOpen && <Logo className="fill-[#201923]" />}
+            {isSidebarOpen && <Workgroup />}
             <TooltipHelper
               content={isSidebarOpen ? "Colapsar menú" : "Mostrar menú"}
             >
@@ -112,7 +112,7 @@ export default function Sidebar() {
           <SheetContent side={"left"}>
             <SheetHeader>
               <SheetTitle>
-                <Logo className="h-8 w-auto fill-[#201923]" />
+                <Workgroup />
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-4 flex flex-1 flex-col">
