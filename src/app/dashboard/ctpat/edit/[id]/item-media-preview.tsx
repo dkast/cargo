@@ -3,7 +3,7 @@
 import toast from "react-hot-toast"
 import { type InspectionItemFile } from "@prisma/client"
 import { Trash2 } from "lucide-react"
-import { useAction } from "next-safe-action/hook"
+import { useAction } from "next-safe-action/hooks"
 import { useRouter } from "next/navigation"
 
 import {

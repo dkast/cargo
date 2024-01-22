@@ -5,7 +5,7 @@ import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { type Organization } from "@prisma/client"
 import { Loader2 } from "lucide-react"
-import { useAction } from "next-safe-action/hook"
+import { useAction } from "next-safe-action/hooks"
 import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
