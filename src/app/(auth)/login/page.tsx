@@ -1,5 +1,9 @@
+import { Suspense } from "react"
 import LoginForm from "@/app/(auth)/login/login-form"
 import { type Metadata } from "next"
+
+import { Skeleton } from "@/components/ui/skeleton"
+import Spinner from "@/components/ui/spinner"
 
 export const metadata: Metadata = {
   title: "Iniciar sesión",
@@ -25,7 +29,9 @@ export default function LoginPage() {
 
           <div className="mt-10">
             <div>
-              <LoginForm />
+              <Suspense fallback={<Loading />}>
+                <LoginForm />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -37,6 +43,14 @@ export default function LoginPage() {
           alt=""
         />
       </div>
+    </div>
+  )
+}
+
+const Loading = () => {
+  return (
+    <div className="flex h-64 grow items-center justify-center">
+      <Spinner />
     </div>
   )
 }
