@@ -14,7 +14,7 @@ export default function Workgroup() {
 
   return (
     <div className="flex flex-row items-center gap-2">
-      <Avatar className="rounded-lg shadow-sm">
+      <Avatar className="rounded-xl shadow">
         {/* {user.image && <AvatarImage src={user.image} />} */}
         <AvatarFallback>{getInitials(user.organizationName)}</AvatarFallback>
       </Avatar>

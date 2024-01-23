@@ -74,8 +74,8 @@ const AvatarFallback = React.memo(
     })
 
     const colorClass = getColor(text)
-    const bgColorClass = `bg-${colorClass}-100`
-    const textColorClass = `text-${colorClass}-900`
+    const bgColorClass = `bg-${colorClass}-500`
+    const textColorClass = `text-${colorClass}-100`
 
     return (
       <AvatarPrimitive.Fallback
