@@ -3,6 +3,7 @@
 import { useState } from "react"
 import ProfileMenu from "@/app/dashboard/profile-menu"
 import Workgroup from "@/app/dashboard/workgroup"
+import { motion } from "framer-motion"
 import { useAtom } from "jotai"
 import {
   ClipboardCheck,
@@ -62,7 +63,7 @@ export default function Sidebar() {
               "flex h-16 shrink-0 items-center"
             )}
           >
-            {isSidebarOpen && <Workgroup />}
+            <Workgroup className={cn(isSidebarOpen ? "visible" : "hidden")} />
             <TooltipHelper
               content={isSidebarOpen ? "Colapsar menú" : "Mostrar menú"}
             >
@@ -160,7 +161,11 @@ function NavigationLink({
   }
 
   return (
-    <li key={item.name} className="flex flex-row items-center gap-1">
+    <motion.li
+      key={item.name}
+      className="flex flex-row items-center gap-1"
+      whileTap={{ scale: 0.95 }}
+    >
       <div
         className={cn(
           isActive ? "bg-orange-500" : "bg-transparent",
@@ -192,6 +197,6 @@ function NavigationLink({
           </span>
         )}
       </Link>
-    </li>
+    </motion.li>
   )
 }

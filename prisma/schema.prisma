@@ -80,6 +80,9 @@ model Organization {
   id                 String               @id @default(cuid())
   name               String               @unique
   description        String?
+  image              String?
+  status             OrganizationStatus   @default(ACTIVE)
+  plan               OrganizationPlan     @default(TRIAL)
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
   subdomain          String               @unique
@@ -254,6 +257,19 @@ model InspectionItemFile {
 
   @@index([inspectionItemId])
   @@index([organizationId])
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  DUE
+  INACTIVE
+}
+
+enum OrganizationPlan {
+  TRIAL
+  BASIC
+  PRO
+  ENTERPRISE
 }
 
 enum MembershipRole {
