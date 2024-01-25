@@ -4,6 +4,7 @@ import {
   InspectionResult,
   InspectionTripType,
   type InspectionItem,
+  type Organization,
   type Prisma
 } from "@prisma/client"
 import {
@@ -68,17 +69,23 @@ const style = StyleSheet.create({
 })
 
 export default function PDFDocument({
-  inspection
+  inspection,
+  organization
 }: {
   inspection: Prisma.PromiseReturnType<typeof getInspectionById>
+  organization: Organization
 }) {
   if (!inspection) {
     return null
   }
 
+  console.log(organization.image)
+
   return (
     <PDFViewer className="grow">
-      <Document>
+      <Document
+        title={`Inspección CTPAT No. ${inspection.inspectionNbr.toString().padStart(5, "0")}`}
+      >
         <Page
           size="LETTER"
           style={{
@@ -118,14 +125,27 @@ export default function PDFDocument({
                   >
                     {/* eslint-disable-next-line jsx-a11y/alt-text */}
                     <Image
-                      src="/logo.png"
+                      src={
+                        organization?.image
+                          ? {
+                              uri: organization?.image,
+                              method: "GET",
+                              headers: { "Cache-Control": "no-cache" },
+                              body: ""
+                            }
+                          : "/logo.png"
+                      }
                       style={{
-                        width: "34px",
-                        height: "34px",
+                        width: "auto",
+                        height: "45px",
                         padding: "4px"
                       }}
                     />
-                    <Text style={{ fontSize: "12px" }}>Cargo</Text>
+                    {!organization?.image && (
+                      <Text style={{ fontSize: "12px" }}>
+                        {organization.name}
+                      </Text>
+                    )}
                   </View>
                 </View>
                 <View
