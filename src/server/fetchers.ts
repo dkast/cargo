@@ -39,7 +39,7 @@ export async function getOrganization(organizationId: string) {
             Bucket: env.R2_BUCKET_NAME,
             Key: data.image
           }),
-          { expiresIn: 3600 }
+          { expiresIn: 3600 * 24 }
         )
       }
 
@@ -47,7 +47,7 @@ export async function getOrganization(organizationId: string) {
     },
     [`organization-${organizationId}`],
     {
-      revalidate: 3600,
+      revalidate: 900,
       tags: [`organization-${organizationId}`]
     }
   )()
