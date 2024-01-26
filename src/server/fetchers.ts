@@ -53,6 +53,37 @@ export async function getOrganization(organizationId: string) {
   )()
 }
 
+export async function getMemberById(memberId: string) {
+  return await cache(
+    async () => {
+      return prisma.membership.findUnique({
+        where: {
+          id: memberId
+        },
+        select: {
+          id: true,
+          role: true,
+          organizationId: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              username: true,
+              image: true
+            }
+          }
+        }
+      })
+    },
+    [`member-${memberId}`],
+    {
+      revalidate: 900,
+      tags: [`member-${memberId}`]
+    }
+  )()
+}
+
 export async function getLocations(organizationId: string, onlyActive = false) {
   return await cache(
     async () => {

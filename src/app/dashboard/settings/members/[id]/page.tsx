@@ -6,7 +6,7 @@ import { type z } from "zod"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { prisma } from "@/server/db"
+import { getMemberById } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { actionType, type userMemberSchema } from "@/lib/types"
 
@@ -60,10 +60,7 @@ export default async function MemberPage({
   let member: Partial<UserMemberFormValues> = {}
 
   if (id !== "new") {
-    const membership = await prisma.membership.findUnique({
-      where: { id },
-      include: { user: true }
-    })
+    const membership = await getMemberById(id)
 
     if (
       membership?.role === MembershipRole.ADMIN &&
