@@ -67,7 +67,7 @@ const AvatarFallback = React.memo(
   >(({ className, children, ...props }, ref) => {
     let text = ""
 
-    // skipqc: JS-D008
+    // skipcq: JS-D008
     React.Children.map(children, child => {
       if (typeof child === "string") {
         text += child
