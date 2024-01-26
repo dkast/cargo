@@ -17,14 +17,20 @@ const config = withAxiom({
         hostname: "**.r2.cloudflarestorage.com",
         port: "",
         pathname: "/*/**"
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        port: ""
       }
     ]
   },
-  webpack: (config, { isServer }) => {
+  // Fix for PDF viewer
+  webpack: (_config, { isServer }) => {
     if (!isServer) {
-      config.resolve.fallback.fs = false
+      _config.resolve.fallback.fs = false
     }
-    return config
+    return _config
   }
 })
 
