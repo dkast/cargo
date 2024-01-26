@@ -78,7 +78,7 @@ export default async function InspectionView({
           </TooltipHelper>
           {(inspection.status === InspectionStatus.CLOSED ||
             inspection.status === InspectionStatus.APPROVED) && (
-            <TooltipHelper content="Exportar PDF">
+            <TooltipHelper content="Ver PDF">
               <Button
                 size="icon"
                 variant="ghost"

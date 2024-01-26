@@ -2,7 +2,7 @@
 
 import toast from "react-hot-toast"
 import { Trash2 } from "lucide-react"
-import { useAction } from "next-safe-action/hook"
+import { useAction } from "next-safe-action/hooks"
 import { type z } from "zod"
 
 import {

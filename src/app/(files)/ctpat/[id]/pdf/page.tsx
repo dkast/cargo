@@ -1,6 +1,7 @@
 import { type Metadata } from "next"
+import { notFound } from "next/navigation"
 
-import { getInspectionById } from "@/server/fetchers"
+import { getInspectionById, getOrganization } from "@/server/fetchers"
 import PDFDocument from "./pdf-document"
 
 export const metadata: Metadata = {
@@ -14,5 +15,15 @@ export default async function PDFPage({
 }) {
   const inspection = await getInspectionById(id)
 
-  return <PDFDocument inspection={inspection} />
+  if (!inspection) {
+    return notFound()
+  }
+
+  const organization = await getOrganization(inspection.organizationId)
+
+  if (!organization) {
+    return notFound()
+  }
+
+  return <PDFDocument inspection={inspection} organization={organization} />
 }

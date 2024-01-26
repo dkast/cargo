@@ -25,16 +25,61 @@ const R2 = new S3Client({
 export async function getOrganization(organizationId: string) {
   return await cache(
     async () => {
-      return prisma.organization.findUnique({
+      const data = await prisma.organization.findUnique({
         where: {
           id: organizationId
         }
       })
+
+      // Replace fileUrl with a signed URL
+      if (data?.image) {
+        data.image = await getSignedUrl(
+          R2,
+          new GetObjectCommand({
+            Bucket: env.R2_BUCKET_NAME,
+            Key: data.image
+          }),
+          { expiresIn: 3600 * 24 }
+        )
+      }
+
+      return data
     },
     [`organization-${organizationId}`],
     {
       revalidate: 900,
       tags: [`organization-${organizationId}`]
+    }
+  )()
+}
+
+export async function getMemberById(memberId: string) {
+  return await cache(
+    async () => {
+      return prisma.membership.findUnique({
+        where: {
+          id: memberId
+        },
+        select: {
+          id: true,
+          role: true,
+          organizationId: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              username: true,
+              image: true
+            }
+          }
+        }
+      })
+    },
+    [`member-${memberId}`],
+    {
+      revalidate: 900,
+      tags: [`member-${memberId}`]
     }
   )()
 }
@@ -462,39 +507,6 @@ export async function getInspectionIssues(filter: InspectionQueryFilter) {
           sealNbr: true,
           tiresVehicle: true,
           tiresContainer: true
-          // vehicle: {
-          //   select: {
-          //     id: true,
-          //     vehicleNbr: true,
-          //     licensePlate: true
-          //   }
-          // },
-          // operator: {
-          //   select: {
-          //     id: true,
-          //     name: true,
-          //     licenseNumber: true
-          //   }
-          // },
-          // company: {
-          //   select: {
-          //     id: true,
-          //     name: true
-          //   }
-          // },
-          // container: {
-          //   select: {
-          //     id: true,
-          //     containerNbr: true
-          //   }
-          // },
-          // location: {
-          //   select: {
-          //     id: true,
-          //     name: true,
-          //     description: true
-          //   }
-          // }
         }
       }
     },

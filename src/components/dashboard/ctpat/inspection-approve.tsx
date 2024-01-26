@@ -3,7 +3,7 @@
 import toast from "react-hot-toast"
 import { Loader2 } from "lucide-react"
 import { useSession } from "next-auth/react"
-import { useAction } from "next-safe-action/hook"
+import { useAction } from "next-safe-action/hooks"
 import { notFound, useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"

@@ -3,11 +3,8 @@
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { MembershipRole } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -21,57 +18,21 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { createOrgMember, updateOrgMember } from "@/server/actions/organization"
-import { actionType, userMemberSchema } from "@/lib/types"
+import { updateOrgMember } from "@/server/actions/organization"
+import { userMemberSchema } from "@/lib/types"
 
 type UserMemberFormValues = z.infer<typeof userMemberSchema>
 
-export default function MemberForm({
-  action,
+export default function ProfileForm({
   member
 }: {
-  action: actionType
   member: Partial<UserMemberFormValues>
 }) {
-  const router = useRouter()
-
   const form = useForm<z.infer<typeof userMemberSchema>>({
     resolver: zodResolver(userMemberSchema),
     defaultValues: member,
     mode: "onChange"
-  })
-
-  const {
-    execute: createMember,
-    status: createStatus,
-    reset
-  } = useAction(createOrgMember, {
-    onSuccess: data => {
-      if (data?.success) {
-        toast.success("Usuario creado")
-      } else if (data?.failure.reason) {
-        toast.error(data.failure.reason)
-      }
-
-      // Reset response object
-      reset()
-
-      router.push("/dashboard/settings/members")
-    },
-    onError: () => {
-      toast.error("Algo salió mal")
-
-      // Reset response object
-      reset()
-    }
   })
 
   const {
@@ -81,15 +42,13 @@ export default function MemberForm({
   } = useAction(updateOrgMember, {
     onSuccess: data => {
       if (data?.success) {
-        toast.success("Usuario actualizado")
+        toast.success("Datos actualizados")
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
       }
 
       // Reset response object
       resetUpdate()
-
-      router.push("/dashboard/settings/members")
     },
     onError: () => {
       toast.error("Algo salio mal")
@@ -100,16 +59,12 @@ export default function MemberForm({
   })
 
   const onSubmit = async (data: z.infer<typeof userMemberSchema>) => {
-    if (action === actionType.CREATE) {
-      await createMember(data)
-    } else {
-      await updateMember(data)
-    }
+    await updateMember(data)
   }
 
   return (
     <Form {...form}>
-      <form className="mt-10 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -132,6 +87,7 @@ export default function MemberForm({
               <FormControl>
                 <Input
                   type="text"
+                  disabled
                   placeholder="Nombre de usuario"
                   {...field}
                   className="sm:w-1/2"
@@ -201,44 +157,9 @@ export default function MemberForm({
             </FormItem>
           )}
         />
-        <Separator />
-        <FormField
-          control={form.control}
-          name="role"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="role">Rol</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger className="sm:w-1/3">
-                    <SelectValue placeholder="Seleccione el rol" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value={MembershipRole.OWNER}>
-                    Propietario
-                  </SelectItem>
-                  <SelectItem value={MembershipRole.SUPERVISOR}>
-                    Supervisor
-                  </SelectItem>
-                  <SelectItem value={MembershipRole.MEMBER}>Miembro</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                El rol determina los permisos que tendrá el usuario
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <div className="flex justify-start gap-x-2 pt-6">
-          <Button
-            type="submit"
-            disabled={
-              createStatus === "executing" || updateStatus === "executing"
-            }
-          >
-            {createStatus === "executing" || updateStatus === "executing" ? (
+          <Button type="submit" disabled={updateStatus === "executing"}>
+            {updateStatus === "executing" ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
                 {"Guardando..."}
@@ -246,9 +167,6 @@ export default function MemberForm({
             ) : (
               "Guardar"
             )}
-          </Button>
-          <Button variant="outline" asChild>
-            <Link href="/dashboard/settings/members">Cancelar</Link>
           </Button>
         </div>
       </form>

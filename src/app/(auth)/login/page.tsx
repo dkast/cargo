@@ -1,5 +1,9 @@
+import { Suspense } from "react"
 import LoginForm from "@/app/(auth)/login/login-form"
 import { type Metadata } from "next"
+import Image from "next/image"
+
+import Spinner from "@/components/ui/spinner"
 
 export const metadata: Metadata = {
   title: "Iniciar sesión",
@@ -25,18 +29,29 @@ export default function LoginPage() {
 
           <div className="mt-10">
             <div>
-              <LoginForm />
+              <Suspense fallback={<Loading />}>
+                <LoginForm />
+              </Suspense>
             </div>
           </div>
         </div>
       </div>
       <div className="relative hidden w-0 flex-1 lg:block">
-        <img
+        <Image
           className="absolute inset-0 h-full w-full object-cover grayscale"
           src="https://images.unsplash.com/photo-1616432043562-3671ea2e5242?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1908&q=80"
           alt=""
+          layout="fill"
         />
       </div>
+    </div>
+  )
+}
+
+const Loading = () => {
+  return (
+    <div className="flex h-64 grow items-center justify-center">
+      <Spinner />
     </div>
   )
 }
