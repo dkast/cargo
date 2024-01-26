@@ -6,7 +6,7 @@ import { type ColumnDef, type Row } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { MoreHorizontal } from "lucide-react"
-import { useAction } from "next-safe-action/hook"
+import { useAction } from "next-safe-action/hooks"
 import Link from "next/link"
 
 import {

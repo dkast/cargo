@@ -16,7 +16,7 @@ import {
   Loader2,
   PlusIcon
 } from "lucide-react"
-import { useAction } from "next-safe-action/hook"
+import { useAction } from "next-safe-action/hooks"
 import { useRouter } from "next/navigation"
 import { type z } from "zod"
 

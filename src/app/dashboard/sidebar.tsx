@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import ProfileMenu from "@/app/dashboard/profile-menu"
+import Workgroup from "@/app/dashboard/workgroup"
+import { motion } from "framer-motion"
 import { useAtom } from "jotai"
 import {
   ClipboardCheck,
@@ -17,7 +19,6 @@ import Link from "next/link"
 import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
 import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
-import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -62,7 +63,7 @@ export default function Sidebar() {
               "flex h-16 shrink-0 items-center"
             )}
           >
-            {isSidebarOpen && <Logo className="fill-[#201923]" />}
+            <Workgroup className={cn(isSidebarOpen ? "visible" : "hidden")} />
             <TooltipHelper
               content={isSidebarOpen ? "Colapsar menú" : "Mostrar menú"}
             >
@@ -112,7 +113,7 @@ export default function Sidebar() {
           <SheetContent side={"left"}>
             <SheetHeader>
               <SheetTitle>
-                <Logo className="h-8 w-auto fill-[#201923]" />
+                <Workgroup />
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-4 flex flex-1 flex-col">
@@ -160,7 +161,11 @@ function NavigationLink({
   }
 
   return (
-    <li key={item.name} className="flex flex-row items-center gap-1">
+    <motion.li
+      key={item.name}
+      className="flex flex-row items-center gap-1"
+      whileTap={{ scale: 0.95 }}
+    >
       <div
         className={cn(
           isActive ? "bg-orange-500" : "bg-transparent",
@@ -192,6 +197,6 @@ function NavigationLink({
           </span>
         )}
       </Link>
-    </li>
+    </motion.li>
   )
 }

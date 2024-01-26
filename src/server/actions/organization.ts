@@ -1,7 +1,7 @@
 "use server"
 
 import { hash } from "bcrypt"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
@@ -119,7 +119,7 @@ export const updateOrgMember = action(
         })
       }
 
-      revalidatePath("/dashboard/settings/members")
+      revalidateTag(`member-${membership.id}`)
 
       return {
         success: true

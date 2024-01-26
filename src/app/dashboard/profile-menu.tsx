@@ -3,6 +3,7 @@
 import { useAtom } from "jotai"
 import { ChevronsUpDown, LogOut, User } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
+import Link from "next/link"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -48,9 +49,11 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-52">
         <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
-        <DropdownMenuItem>
-          <User className="mr-2 h-4 w-4" />
-          <span>Perfil</span>
+        <DropdownMenuItem asChild>
+          <Link href="/dashboard/profile">
+            <User className="mr-2 h-4 w-4" />
+            Perfil
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => signOut()}>

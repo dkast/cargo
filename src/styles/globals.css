@@ -5,3 +5,15 @@
 .PhotoView-Portal {
   @apply pointer-events-auto;
 }
+
+@layer utilities {
+  .bg-dot-pattern {
+    background-image: conic-gradient(
+      at 92% 8%,
+      #202128 90deg,
+      transparent 0 225deg,
+      transparent 0
+    );
+    background-size: 15px 15px;
+  }
+}

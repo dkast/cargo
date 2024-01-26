@@ -1,11 +1,12 @@
 import MemberForm from "@/app/dashboard/settings/members/[id]/member-form"
+import { MembershipRole } from "@prisma/client"
 import { AlertCircle, ShieldAlert } from "lucide-react"
 import { type Metadata } from "next"
 import { type z } from "zod"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { prisma } from "@/server/db"
+import { getMemberById } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { actionType, type userMemberSchema } from "@/lib/types"
 
@@ -38,7 +39,10 @@ export default async function MemberPage({
     )
   }
 
-  if (user?.role === "MEMBER") {
+  if (
+    user?.role !== MembershipRole.ADMIN &&
+    user?.role !== MembershipRole.OWNER
+  ) {
     return (
       <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
         <Alert variant="destructive">
@@ -56,12 +60,12 @@ export default async function MemberPage({
   let member: Partial<UserMemberFormValues> = {}
 
   if (id !== "new") {
-    const membership = await prisma.membership.findUnique({
-      where: { id },
-      include: { user: true }
-    })
+    const membership = await getMemberById(id)
 
-    if (membership?.role === "ADMIN" && user?.role === "OWNER") {
+    if (
+      membership?.role === MembershipRole.ADMIN &&
+      user?.role !== MembershipRole.ADMIN
+    ) {
       return (
         <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
           <Alert variant="destructive">

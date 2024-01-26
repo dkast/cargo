@@ -26,7 +26,7 @@ import {
   Loader2,
   X
 } from "lucide-react"
-import { useAction } from "next-safe-action/hook"
+import { useAction } from "next-safe-action/hooks"
 import { notFound, useRouter } from "next/navigation"
 import { type z } from "zod"
 
