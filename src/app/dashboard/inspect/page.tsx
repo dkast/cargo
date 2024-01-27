@@ -1,4 +1,4 @@
-import InspectDataTable from "@/app/dashboard/inspect/inspect-datatable"
+import InspectionDataTable from "@/app/dashboard/inspect/inspection-datatable"
 import { type Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -65,7 +65,7 @@ export default async function CTPATPage({
         </Button>
       </PageSubtitle>
       <div className="mt-6">
-        <InspectDataTable data={data} />
+        <InspectionDataTable data={data} />
       </div>
     </div>
   )
