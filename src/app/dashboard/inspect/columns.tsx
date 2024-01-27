@@ -6,9 +6,12 @@ import { type ColumnDef, type Row } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import {
+  CheckCircle2,
   ChevronDown,
   ChevronsUpDown,
   ChevronUp,
+  CircleDashed,
+  CircleDot,
   MoreHorizontal
 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
@@ -257,7 +260,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
       const color = {
         OPEN: "bg-amber-100 text-amber-500",
         CLOSED: "bg-blue-100 text-blue-500",
-        APPROVED: "bg-green-100 text-green-500"
+        APPROVED: "bg-violet-100 text-violet-500"
       }
 
       const legend = {
@@ -266,15 +269,22 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         APPROVED: "Aprobado"
       }
 
+      const icon = {
+        OPEN: <CircleDashed className="size-4" />,
+        CLOSED: <CircleDot className="size-4" />,
+        APPROVED: <CheckCircle2 className="size-4" />
+      }
+
       return (
         <div className="flex flex-row items-center justify-center gap-2 sm:justify-start">
           <div
             className={cn(
               color[inspection.status],
-              "flex-none rounded-full p-1"
+              "flex-none rounded-full p-0.5"
             )}
           >
-            <div className="h-1.5 w-1.5 rounded-full bg-current" />
+            {/* <div className="h-1.5 w-1.5 rounded-full bg-current" /> */}
+            {icon[inspection.status]}
           </div>
           <span className="hidden sm:block">{legend[inspection.status]}</span>
         </div>

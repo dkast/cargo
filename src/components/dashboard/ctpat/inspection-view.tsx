@@ -7,6 +7,9 @@ import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import {
   Check,
+  CheckCircle2,
+  CircleDashed,
+  CircleDot,
   ClipboardEdit,
   ExternalLink,
   File,
@@ -49,11 +52,26 @@ export default async function InspectionView({
           {(() => {
             switch (inspection.status) {
               case InspectionStatus.OPEN:
-                return <Badge variant="yellow">En Proceso</Badge>
+                return (
+                  <Badge variant="yellow">
+                    <CircleDashed className="-ml-0.5 mr-1 size-3" />
+                    En Proceso
+                  </Badge>
+                )
               case InspectionStatus.CLOSED:
-                return <Badge variant="blue">Cerrado</Badge>
+                return (
+                  <Badge variant="blue">
+                    <CircleDot className="-ml-0.5 mr-1 size-3" />
+                    Cerrado
+                  </Badge>
+                )
               case InspectionStatus.APPROVED:
-                return <Badge variant="green">Aprobado</Badge>
+                return (
+                  <Badge variant="violet">
+                    <CheckCircle2 className="-ml-0.5 mr-1 size-3" />
+                    Aprobado
+                  </Badge>
+                )
               default:
                 return null
             }

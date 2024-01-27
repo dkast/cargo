@@ -7,9 +7,9 @@ import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 const color = {
-  yellow: "bg-amber-100 text-amber-500",
+  amber: "bg-amber-100 text-amber-500",
   blue: "bg-blue-100 text-blue-500",
-  green: "bg-green-100 text-green-500",
+  violet: "bg-violet-100 text-violet-500",
   gray: "bg-gray-100 text-gray-500"
 }
 
@@ -28,7 +28,7 @@ export default async function InspectionStatusChart({
     switch (item.status) {
       case InspectionStatus.APPROVED:
         status = "Aprobadas"
-        color = "green"
+        color = "violet"
         break
       case InspectionStatus.CLOSED:
         status = "Cerradas"
@@ -36,7 +36,7 @@ export default async function InspectionStatusChart({
         break
       case InspectionStatus.OPEN:
         status = "En Proceso"
-        color = "yellow"
+        color = "amber"
         break
       default:
         status = "Desconocido"

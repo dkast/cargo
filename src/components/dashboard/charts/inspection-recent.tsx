@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils"
 const color = {
   OPEN: "bg-amber-100 text-amber-500",
   CLOSED: "bg-blue-100 text-blue-500",
-  APPROVED: "bg-green-100 text-green-500"
+  APPROVED: "bg-violet-100 text-violet-500"
 }
 
 async function InspectionRecent({ className }: { className?: string }) {
