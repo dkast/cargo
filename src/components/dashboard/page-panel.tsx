@@ -37,9 +37,13 @@ export default function Panel({
         <Drawer
           open={true}
           onOpenChange={open => (!open ? router.back() : null)}
+          modal={false}
         >
           <DrawerContent
-            className={cn(className, "h-[96%] gap-y-2")}
+            className={cn(
+              className,
+              "h-[96%] gap-y-2 shadow focus:outline-none"
+            )}
             onInteractOutside={event => event.preventDefault()}
           >
             <DrawerTitle>{title}</DrawerTitle>
