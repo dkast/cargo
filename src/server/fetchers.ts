@@ -64,6 +64,8 @@ export async function getMemberById(memberId: string) {
           id: true,
           role: true,
           organizationId: true,
+          isActive: true,
+          createdAt: true,
           user: {
             select: {
               id: true,

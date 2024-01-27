@@ -87,7 +87,8 @@ export default async function MemberPage({
       email: membership?.user.email ?? undefined,
       password: "password",
       confirmPassword: "password",
-      role: membership?.role
+      role: membership?.role,
+      isActive: membership?.isActive
     }
   } else {
     //default values
@@ -99,7 +100,8 @@ export default async function MemberPage({
       email: "",
       password: "",
       confirmPassword: "",
-      role: "MEMBER"
+      role: "MEMBER",
+      isActive: true
     }
   }
 
@@ -107,7 +109,7 @@ export default async function MemberPage({
     <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
       <PageSubtitle
         title={`${actionMessage} miembro`}
-        description="Capture la información general"
+        description="Capture la información general de la cuenta de usuario"
       />
       <MemberForm action={action} member={member} />
     </div>

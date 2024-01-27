@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -69,6 +70,19 @@ export const columns: ColumnDef<Membership>[] = [
     }
   },
   {
+    accessorKey: "isActive",
+    header: "Estado",
+    cell: ({ row }) => {
+      const membership = row.original
+
+      return (
+        <Badge variant={membership.isActive ? "green" : "secondary"}>
+          {membership.isActive ? "Activo" : "Inactivo"}
+        </Badge>
+      )
+    }
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const membership = row.original
@@ -85,10 +99,10 @@ export const columns: ColumnDef<Membership>[] = [
             <DropdownMenuItem asChild>
               <Link href={`members/${membership.id}`}>Editar</Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-500">
               <span>Desactivar</span>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       )

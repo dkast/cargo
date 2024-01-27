@@ -82,6 +82,7 @@ export const authOptions: NextAuthOptions = {
             username: username
           },
           include: {
+            // TODO: find membership for the organization the user is logging in to and check if it's active
             memberships: true
           }
         })
