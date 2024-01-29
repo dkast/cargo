@@ -84,7 +84,10 @@ export default function LocationEdit({
           <Edit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
         </Button>
       </SheetTrigger>
-      <SheetContent side={isMobile ? "bottom" : "right"}>
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
+        className="h-[86%] sm:h-full"
+      >
         <SheetHeader>
           <SheetTitle>Editar Ubicación</SheetTitle>
         </SheetHeader>

@@ -276,17 +276,39 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
       }
 
       return (
-        <div className="flex flex-row items-center justify-center gap-2 sm:justify-start">
-          <div
-            className={cn(
-              color[inspection.status],
-              "flex-none rounded-full p-0.5"
-            )}
-          >
-            {/* <div className="h-1.5 w-1.5 rounded-full bg-current" /> */}
-            {icon[inspection.status]}
+        <div className="flex flex-col gap-y-4">
+          <div className="flex flex-row items-center justify-center gap-2 sm:justify-start">
+            <div
+              className={cn(
+                color[inspection.status],
+                "flex-none rounded-full p-0.5"
+              )}
+            >
+              {/* <div className="h-1.5 w-1.5 rounded-full bg-current" /> */}
+              {icon[inspection.status]}
+            </div>
+            <span className="hidden sm:block">{legend[inspection.status]}</span>
           </div>
-          <span className="hidden sm:block">{legend[inspection.status]}</span>
+          <div className="text-center">
+            {(() => {
+              switch (inspection.result) {
+                case InspectionResult.PASS:
+                  return (
+                    <Badge variant="green" className="rounded md:hidden">
+                      OK
+                    </Badge>
+                  )
+                case InspectionResult.FAIL:
+                  return (
+                    <Badge variant="red" className="rounded md:hidden">
+                      Falla
+                    </Badge>
+                  )
+                default:
+                  return null
+              }
+            })()}
+          </div>
         </div>
       )
     }
@@ -335,7 +357,8 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
           })()}
         </div>
       )
-    }
+    },
+    enableHiding: true
   },
   {
     id: "actions",

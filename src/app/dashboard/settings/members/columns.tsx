@@ -17,7 +17,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 
@@ -66,7 +65,17 @@ export const columns: ColumnDef<Membership>[] = [
         }
       })()
 
-      return <span className="text-sm text-gray-900">{roleLabel}</span>
+      return (
+        <div>
+          <span className="text-sm text-gray-900">{roleLabel}</span>
+          <Badge
+            variant={membership.isActive ? "green" : "secondary"}
+            className="lg:hidden"
+          >
+            {membership.isActive ? "Activo" : "Inactivo"}
+          </Badge>
+        </div>
+      )
     }
   },
   {
@@ -80,7 +89,8 @@ export const columns: ColumnDef<Membership>[] = [
           {membership.isActive ? "Activo" : "Inactivo"}
         </Badge>
       )
-    }
+    },
+    enableHiding: true
   },
   {
     id: "actions",
@@ -99,10 +109,6 @@ export const columns: ColumnDef<Membership>[] = [
             <DropdownMenuItem asChild>
               <Link href={`members/${membership.id}`}>Editar</Link>
             </DropdownMenuItem>
-            {/* <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-500">
-              <span>Desactivar</span>
-            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       )
