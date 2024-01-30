@@ -21,6 +21,7 @@ import { notFound } from "next/navigation"
 
 import { InspectionApprove } from "@/components/dashboard/ctpat/inspection-approve"
 import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
+import Share from "@/components/dashboard/ctpat/share"
 import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -128,13 +129,17 @@ export default async function InspectionView({
             </TooltipHelper>
           )}
           <TooltipHelper content="Compartir">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-200"
-            >
-              <Link2 className="h-4 w-4 opacity-70 group-hover:opacity-100" />
-            </Button>
+            <div>
+              <Share>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-200"
+                >
+                  <Link2 className="h-4 w-4 opacity-70 group-hover:opacity-100" />
+                </Button>
+              </Share>
+            </div>
           </TooltipHelper>
         </div>
       </div>

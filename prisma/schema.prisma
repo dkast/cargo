@@ -95,6 +95,7 @@ model Organization {
   inspections        Inspection[]
   inspectionItem     InspectionItem[]
   inspectionItemFile InspectionItemFile[]
+  shareItems         ShareItem[]
 }
 
 model Membership {
@@ -257,6 +258,21 @@ model InspectionItemFile {
 
   @@index([inspectionItemId])
   @@index([organizationId])
+}
+
+model ShareItem {
+  id             String       @id @default(cuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  shareUrl       String       @unique
+  expires        DateTime?
+  password       String?
+  nanoid         String       @unique
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+
+  @@index([organizationId])
+  @@index([nanoid])
 }
 
 enum OrganizationStatus {

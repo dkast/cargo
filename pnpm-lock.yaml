@@ -182,6 +182,9 @@ dependencies:
   lucide-react:
     specifier: ^0.317.0
     version: 0.317.0(react@18.2.0)
+  nanoid:
+    specifier: ^5.0.4
+    version: 5.0.4
   next:
     specifier: ^14.1.0
     version: 14.1.0(@babel/core@7.22.11)(react-dom@18.2.0)(react@18.2.0)
@@ -8376,6 +8379,12 @@ packages:
   /nanoid@4.0.2:
     resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
     engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
+
+  /nanoid@5.0.4:
+    resolution: {integrity: sha512-vAjmBf13gsmhXSgBrtIclinISzFFy22WwCYoyilZlsrRXNIHSwgFQ1bEdjRwMT3aoadeIF6HMuDRlOxzfXV8ig==}
+    engines: {node: ^18 || >=20}
     hasBin: true
     dev: false
 
