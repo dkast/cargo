@@ -10,13 +10,13 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 
@@ -65,8 +65,31 @@ export const columns: ColumnDef<Membership>[] = [
         }
       })()
 
-      return <span className="text-sm text-gray-900">{roleLabel}</span>
+      return (
+        <div className="flex flex-col gap-y-1">
+          <span className="text-sm text-gray-900">{roleLabel}</span>
+          <div className="lg:hidden">
+            <Badge variant={membership.isActive ? "green" : "secondary"}>
+              {membership.isActive ? "Activo" : "Inactivo"}
+            </Badge>
+          </div>
+        </div>
+      )
     }
+  },
+  {
+    accessorKey: "isActive",
+    header: "Estado",
+    cell: ({ row }) => {
+      const membership = row.original
+
+      return (
+        <Badge variant={membership.isActive ? "green" : "secondary"}>
+          {membership.isActive ? "Activo" : "Inactivo"}
+        </Badge>
+      )
+    },
+    enableHiding: true
   },
   {
     id: "actions",
@@ -84,10 +107,6 @@ export const columns: ColumnDef<Membership>[] = [
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
             <DropdownMenuItem asChild>
               <Link href={`members/${membership.id}`}>Editar</Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-500">
-              <span>Desactivar</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

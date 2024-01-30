@@ -11,7 +11,11 @@ import { type getInspections } from "@/server/fetchers"
 
 type InspectionMaster = Prisma.PromiseReturnType<typeof getInspections>
 
-export default function InspectDataTable({ data }: { data: InspectionMaster }) {
+export default function InspectionDataTable({
+  data
+}: {
+  data: InspectionMaster
+}) {
   const router = useRouter()
 
   const onRowClick = (row: Row<InspectionMaster[number]>) => {

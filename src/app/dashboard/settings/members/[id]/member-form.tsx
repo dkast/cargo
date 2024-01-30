@@ -29,6 +29,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
+import { Switch } from "@/components/ui/switch"
 import { createOrgMember, updateOrgMember } from "@/server/actions/organization"
 import { actionType, userMemberSchema } from "@/lib/types"
 
@@ -228,6 +229,29 @@ export default function MemberForm({
                 El rol determina los permisos que tendrá el usuario
               </FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="isActive"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center justify-between gap-4 rounded-lg border p-4">
+              <div className="space-y-0.5">
+                <FormLabel htmlFor="isActive">Cuenta activa</FormLabel>
+                <FormDescription>
+                  Usuarios inactivos no pueden acceder a la aplicación. Al
+                  desactivar un usuario los datos generado por el mismo no se
+                  eliminarán.
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Switch
+                  id="isActive"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
             </FormItem>
           )}
         />

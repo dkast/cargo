@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@aws-sdk/client-s3':
-    specifier: ^3.496.0
-    version: 3.496.0
+    specifier: ^3.501.0
+    version: 3.501.0
   '@aws-sdk/s3-request-presigner':
-    specifier: ^3.496.0
-    version: 3.496.0
+    specifier: ^3.501.0
+    version: 3.501.0
   '@hookform/resolvers':
     specifier: ^3.3.4
     version: 3.3.4(react-hook-form@7.49.3)
@@ -108,11 +108,11 @@ dependencies:
     specifier: ^1.0.7
     version: 1.0.7(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
   '@react-pdf/renderer':
-    specifier: ^3.3.2
-    version: 3.3.2(react@18.2.0)
+    specifier: ^3.3.4
+    version: 3.3.4(react@18.2.0)
   '@t3-oss/env-nextjs':
-    specifier: ^0.7.3
-    version: 0.7.3(typescript@5.3.3)(zod@3.22.4)
+    specifier: ^0.8.0
+    version: 0.8.0(typescript@5.3.3)(zod@3.22.4)
   '@tanstack/match-sorter-utils':
     specifier: ^8.11.7
     version: 8.11.7
@@ -120,8 +120,8 @@ dependencies:
     specifier: ^8.11.7
     version: 8.11.7(react-dom@18.2.0)(react@18.2.0)
   '@tremor/react':
-    specifier: ^3.13.2
-    version: 3.13.2(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1)
+    specifier: ^3.13.3
+    version: 3.13.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1)
   '@uppy/aws-s3':
     specifier: ^3.6.0
     version: 3.6.0(@uppy/core@3.8.0)
@@ -171,17 +171,17 @@ dependencies:
     specifier: ^2.0.0
     version: 2.0.0(date-fns@3.3.1)
   embla-carousel-react:
-    specifier: 8.0.0-rc17
-    version: 8.0.0-rc17(react@18.2.0)
+    specifier: 8.0.0-rc21
+    version: 8.0.0-rc21(react@18.2.0)
   framer-motion:
-    specifier: ^10.18.0
-    version: 10.18.0(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^11.0.3
+    version: 11.0.3(react-dom@18.2.0)(react@18.2.0)
   jotai:
-    specifier: ^2.6.2
-    version: 2.6.2(@types/react@18.2.48)(react@18.2.0)
+    specifier: ^2.6.3
+    version: 2.6.3(@types/react@18.2.48)(react@18.2.0)
   lucide-react:
-    specifier: ^0.314.0
-    version: 0.314.0(react@18.2.0)
+    specifier: ^0.316.0
+    version: 0.316.0(react@18.2.0)
   next:
     specifier: ^14.1.0
     version: 14.1.0(@babel/core@7.22.11)(react-dom@18.2.0)(react@18.2.0)
@@ -192,8 +192,8 @@ dependencies:
     specifier: ^1.1.1
     version: 1.1.1(next@14.1.0)(react@18.2.0)
   next-safe-action:
-    specifier: ^6.0.1
-    version: 6.0.1(next@14.1.0)(react@18.2.0)
+    specifier: ^6.0.2
+    version: 6.0.2(next@14.1.0)(react@18.2.0)
   next-usequerystate:
     specifier: ^1.15.4
     version: 1.15.4(next@14.1.0)
@@ -242,11 +242,11 @@ dependencies:
 
 devDependencies:
   '@commitlint/cli':
-    specifier: ^18.5.0
-    version: 18.5.0(@types/node@20.11.5)(typescript@5.3.3)
+    specifier: ^18.6.0
+    version: 18.6.0(@types/node@20.11.7)(typescript@5.3.3)
   '@commitlint/config-conventional':
-    specifier: ^18.5.0
-    version: 18.5.0
+    specifier: ^18.6.0
+    version: 18.6.0
   '@hookform/devtools':
     specifier: ^4.3.1
     version: 4.3.1(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
@@ -263,8 +263,8 @@ devDependencies:
     specifier: ^8.56.2
     version: 8.56.2
   '@types/node':
-    specifier: ^20.11.5
-    version: 20.11.5
+    specifier: ^20.11.7
+    version: 20.11.7
   '@types/react':
     specifier: ^18.2.48
     version: 18.2.48
@@ -287,8 +287,8 @@ devDependencies:
     specifier: ^14.1.0
     version: 14.1.0(eslint@8.56.0)(typescript@5.3.3)
   husky:
-    specifier: ^8.0.3
-    version: 8.0.3
+    specifier: ^9.0.6
+    version: 9.0.6
   lint-staged:
     specifier: ^15.2.0
     version: 15.2.0
@@ -309,7 +309,7 @@ devDependencies:
     version: 3.4.1(ts-node@10.9.2)
   ts-node:
     specifier: ^10.9.2
-    version: 10.9.2(@types/node@20.11.5)(typescript@5.3.3)
+    version: 10.9.2(@types/node@20.11.7)(typescript@5.3.3)
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
@@ -401,16 +401,16 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@aws-sdk/client-s3@3.496.0:
-    resolution: {integrity: sha512-Q16iIP8SmM/7uWHbTCRnvXgM+RxgEDHQmkKL1bvdPLhfu4q1+RwWwJ/WS+1amwQtwvWc8Z51W4XEsokJmqOYUA==}
+  /@aws-sdk/client-s3@3.501.0:
+    resolution: {integrity: sha512-ovxYSGdnEdr4UrNiT+9e3ov2XULFr0bcyoXJkYxnkXPDg9Y65nuZgZAIZQMS6wnJVmNrUprhqTSQB3KHXvaEuQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/sha1-browser': 3.0.0
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.496.0
+      '@aws-sdk/client-sts': 3.501.0
       '@aws-sdk/core': 3.496.0
-      '@aws-sdk/credential-provider-node': 3.496.0
+      '@aws-sdk/credential-provider-node': 3.501.0
       '@aws-sdk/middleware-bucket-endpoint': 3.496.0
       '@aws-sdk/middleware-expect-continue': 3.496.0
       '@aws-sdk/middleware-flexible-checksums': 3.496.0
@@ -418,12 +418,12 @@ packages:
       '@aws-sdk/middleware-location-constraint': 3.496.0
       '@aws-sdk/middleware-logger': 3.496.0
       '@aws-sdk/middleware-recursion-detection': 3.496.0
-      '@aws-sdk/middleware-sdk-s3': 3.496.0
+      '@aws-sdk/middleware-sdk-s3': 3.499.0
       '@aws-sdk/middleware-signing': 3.496.0
-      '@aws-sdk/middleware-ssec': 3.496.0
+      '@aws-sdk/middleware-ssec': 3.498.0
       '@aws-sdk/middleware-user-agent': 3.496.0
       '@aws-sdk/region-config-resolver': 3.496.0
-      '@aws-sdk/signature-v4-multi-region': 3.496.0
+      '@aws-sdk/signature-v4-multi-region': 3.499.0
       '@aws-sdk/types': 3.496.0
       '@aws-sdk/util-endpoints': 3.496.0
       '@aws-sdk/util-user-agent-browser': 3.496.0
@@ -512,14 +512,14 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/client-sts@3.496.0:
-    resolution: {integrity: sha512-3pSdqgegdwbK3CT1WvGHhA+Bf91R9cr8G1Ynp+iU2wZvy8ueJfMUk0NYfjo3EEv0YhSbMLKuduzZfvQHFHXYhw==}
+  /@aws-sdk/client-sts@3.501.0:
+    resolution: {integrity: sha512-Uwc/xuxsA46dZS5s+4U703LBNDrGpWF7RB4XYEEMD21BLfGuqntxLLQux8xxKt3Pcur0CsXNja5jXt3uLnE5MA==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
       '@aws-sdk/core': 3.496.0
-      '@aws-sdk/credential-provider-node': 3.496.0
+      '@aws-sdk/credential-provider-node': 3.501.0
       '@aws-sdk/middleware-host-header': 3.496.0
       '@aws-sdk/middleware-logger': 3.496.0
       '@aws-sdk/middleware-recursion-detection': 3.496.0
@@ -582,13 +582,13 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/credential-provider-ini@3.496.0:
-    resolution: {integrity: sha512-2nD1jp1sIwcQaWK1y/9ruQOkW16RUxZpzgjbW/gnK3iiUXwx+/FNQWxshud+GTSx3Q4x6eIhqsbjtP4VVPPuUA==}
+  /@aws-sdk/credential-provider-ini@3.501.0:
+    resolution: {integrity: sha512-6UXnwLtYIr298ljveumCVXsH+x7csGscK5ylY+veRFy514NqyloRdJt8JY26hhh5SF9MYnkW+JyWSJ2Ls3tOjQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/credential-provider-env': 3.496.0
       '@aws-sdk/credential-provider-process': 3.496.0
-      '@aws-sdk/credential-provider-sso': 3.496.0
+      '@aws-sdk/credential-provider-sso': 3.501.0
       '@aws-sdk/credential-provider-web-identity': 3.496.0
       '@aws-sdk/types': 3.496.0
       '@smithy/credential-provider-imds': 2.2.1
@@ -600,14 +600,14 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/credential-provider-node@3.496.0:
-    resolution: {integrity: sha512-IVF9RvLePfRa5S5/eBIRChJCWOzQkGwM8P/L79Gl84u/cH2oSG4NtUI/YTDlrtmnYn7YsGhINSV0WnzfF2twfQ==}
+  /@aws-sdk/credential-provider-node@3.501.0:
+    resolution: {integrity: sha512-NM62D8gYrQ1nyLYwW4k48B2/lMHDzHDcQccS1wJakr6bg5sdtG06CumwlVcY+LAa0o1xRnhHmh/yiwj/nN4avw==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/credential-provider-env': 3.496.0
-      '@aws-sdk/credential-provider-ini': 3.496.0
+      '@aws-sdk/credential-provider-ini': 3.501.0
       '@aws-sdk/credential-provider-process': 3.496.0
-      '@aws-sdk/credential-provider-sso': 3.496.0
+      '@aws-sdk/credential-provider-sso': 3.501.0
       '@aws-sdk/credential-provider-web-identity': 3.496.0
       '@aws-sdk/types': 3.496.0
       '@smithy/credential-provider-imds': 2.2.1
@@ -630,12 +630,12 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/credential-provider-sso@3.496.0:
-    resolution: {integrity: sha512-eP7GxpT2QYubSDG7uk1GJW4eNymZCq65IxDyEFCXOP/kfqkxriCY+iVEFG6/Mo3LxvgrgHXU4jxrCAXMAWN43g==}
+  /@aws-sdk/credential-provider-sso@3.501.0:
+    resolution: {integrity: sha512-y90dlvvZ55PwecODFdMx0NiNlJJfm7X6S61PKdLNCMRcu1YK+eWn0CmPHGHobBUQ4SEYhnFLcHSsf+VMim6BtQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/client-sso': 3.496.0
-      '@aws-sdk/token-providers': 3.496.0
+      '@aws-sdk/token-providers': 3.501.0
       '@aws-sdk/types': 3.496.0
       '@smithy/property-provider': 2.1.1
       '@smithy/shared-ini-file-loader': 2.3.1
@@ -730,8 +730,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/middleware-sdk-s3@3.496.0:
-    resolution: {integrity: sha512-OKrTPzubisQCQzPuF4G7jmbYt71o6W7oefmW9zm1MpGokRSJeC9zv4aT1gkMglpXEHgvL0S5fUVGi0AtF/F8Kw==}
+  /@aws-sdk/middleware-sdk-s3@3.499.0:
+    resolution: {integrity: sha512-thTb47U1hYHk5ei+yO0D0aehbgQXeAcgvyyxOID9/HDuRfWuTvKdclWh/goIeDfvSS87VBukEAjnCa5JYBwzug==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/types': 3.496.0
@@ -758,8 +758,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/middleware-ssec@3.496.0:
-    resolution: {integrity: sha512-6RUFEgGqKGq8N8W9tsctS8KRlYnmD/yiExb/LvblCJqV1DWoD0psRFWNz8TQZtujHklG5dHjuq+aN/qicjBNdw==}
+  /@aws-sdk/middleware-ssec@3.498.0:
+    resolution: {integrity: sha512-sWujXgzeTqMZzj/pRYEnnEbSzhBosqw9DXHOY1Mg2igI9NEfGlB7lPARp6aKmCaYlP3Bcj2X86vKCqF53mbyig==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/types': 3.496.0
@@ -790,11 +790,11 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/s3-request-presigner@3.496.0:
-    resolution: {integrity: sha512-l4FMNKYjEDRwjry5zG0TAmfKY/COh/ZoGiUGfTUXaL92NzNqv8NpREHVvL7Rp6YeGzF1/j6/1LeVzDct94lc/Q==}
+  /@aws-sdk/s3-request-presigner@3.501.0:
+    resolution: {integrity: sha512-n5PF9viJEVVG2C+QIM749oCTWRXe8GzDaooJJPffN8Di1Lsqmm00V4R00AJStkt0SQaJ4tr/YPVC2zHgKfK+qg==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@aws-sdk/signature-v4-multi-region': 3.496.0
+      '@aws-sdk/signature-v4-multi-region': 3.499.0
       '@aws-sdk/types': 3.496.0
       '@aws-sdk/util-format-url': 3.496.0
       '@smithy/middleware-endpoint': 2.4.1
@@ -804,11 +804,11 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/signature-v4-multi-region@3.496.0:
-    resolution: {integrity: sha512-zi3cL8+dRVSvC0PA6votwEHF4l9uxOyQTiRfgpFgzJ9iiPbsrtWCalGCwN0UyzmeDv7eViU6FK1YTHH/OgDJ4A==}
+  /@aws-sdk/signature-v4-multi-region@3.499.0:
+    resolution: {integrity: sha512-8HSFnZErRm7lAfk+Epxrf4QNdQEamg1CnbLybtKQQEjmvxLuXYvj16KlpYEZIwEENOMEvnCqMc7syTPkmjVhJA==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@aws-sdk/middleware-sdk-s3': 3.496.0
+      '@aws-sdk/middleware-sdk-s3': 3.499.0
       '@aws-sdk/types': 3.496.0
       '@smithy/protocol-http': 3.1.1
       '@smithy/signature-v4': 2.1.1
@@ -816,8 +816,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/token-providers@3.496.0:
-    resolution: {integrity: sha512-fyi8RcObEa1jNETJdc2H6q9VHrrdKCj/b6+fbLvymb7mUVRd0aWUn+24SNUImnSOnrwYnwaMfyyEC388X4MbFQ==}
+  /@aws-sdk/token-providers@3.501.0:
+    resolution: {integrity: sha512-MvLPhNxlStmQqVm2crGLUqYWvK/AbMmI9j4FbEfJ15oG/I+730zjSJQEy2MvdiqbJRDPZ/tRCL89bUedOrmi0g==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
@@ -1137,16 +1137,16 @@ packages:
       '@babel/helper-validator-identifier': 7.22.5
       to-fast-properties: 2.0.0
 
-  /@commitlint/cli@18.5.0(@types/node@20.11.5)(typescript@5.3.3):
-    resolution: {integrity: sha512-g/N0mJBrHcTdiccUpJknS6/ru45eIEAZyhEy9sL2ILjzK2IVNrpzlAPtxEr8bZCZLGwPBUrQ5UCIIu4uebhImw==}
+  /@commitlint/cli@18.6.0(@types/node@20.11.7)(typescript@5.3.3):
+    resolution: {integrity: sha512-FiH23cr9QG8VdfbmvJJZmdfHGVMCouOOAzoXZ3Cd7czGC52RbycwNt8YCI7SA69pAl+t30vh8LMaO/N+kcel6w==}
     engines: {node: '>=v18'}
     hasBin: true
     dependencies:
-      '@commitlint/format': 18.4.4
-      '@commitlint/lint': 18.5.0
-      '@commitlint/load': 18.5.0(@types/node@20.11.5)(typescript@5.3.3)
-      '@commitlint/read': 18.4.4
-      '@commitlint/types': 18.4.4
+      '@commitlint/format': 18.6.0
+      '@commitlint/lint': 18.6.0
+      '@commitlint/load': 18.6.0(@types/node@20.11.7)(typescript@5.3.3)
+      '@commitlint/read': 18.6.0
+      '@commitlint/types': 18.6.0
       execa: 5.1.1
       lodash.isfunction: 3.0.9
       resolve-from: 5.0.0
@@ -1157,26 +1157,26 @@ packages:
       - typescript
     dev: true
 
-  /@commitlint/config-conventional@18.5.0:
-    resolution: {integrity: sha512-XGmU4u3Z7bCn0H0nTEG9LUn6hMDUIPP4P6dun7PKFhtnt/wwiKAqmPj+QRmFiqWjkOWcmrh7w7xRiDL32cWS5g==}
+  /@commitlint/config-conventional@18.6.0:
+    resolution: {integrity: sha512-CDCOf2eJz9D/TL44IBks0stM9TmdLCNE2B48owIU3YCadwzts/bobXPScagIgPQF6hhKYMEdj5zpUDlmbwuqwQ==}
     engines: {node: '>=v18'}
     dependencies:
       conventional-changelog-conventionalcommits: 7.0.2
     dev: true
 
-  /@commitlint/config-validator@18.5.0:
-    resolution: {integrity: sha512-mDAA6WQPjh9Ida8ACdInDylBQcqeUD2gBHE+dQu+B3OIHiWiSSrq4F2+wg3nDU9EzfcQSwPwYL+QbMmiW5SmLA==}
+  /@commitlint/config-validator@18.6.0:
+    resolution: {integrity: sha512-Ptfa865arNozlkjxrYG3qt6wT9AlhNUHeuDyKEZiTL/l0ftncFhK/KN0t/EAMV2tec+0Mwxo0FmhbESj/bI+1g==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/types': 18.4.4
+      '@commitlint/types': 18.6.0
       ajv: 8.12.0
     dev: true
 
-  /@commitlint/ensure@18.4.4:
-    resolution: {integrity: sha512-KjD19p6julB5WrQL+Cd8p+AePwpl1XzGAjB0jnuFMKWtji9L7ucCZUKDstGjlkBZGGzH/nvdB8K+bh5K27EVUg==}
+  /@commitlint/ensure@18.6.0:
+    resolution: {integrity: sha512-xY07NmOBJ7JuhX3tic021PaeLepZARIQyqpAQoNQZoml1keBFfB6MbA7XlWZv0ebbarUFE4yhKxOPw+WFv7/qw==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/types': 18.4.4
+      '@commitlint/types': 18.6.0
       lodash.camelcase: 4.3.0
       lodash.kebabcase: 4.1.1
       lodash.snakecase: 4.1.1
@@ -1189,43 +1189,43 @@ packages:
     engines: {node: '>=v18'}
     dev: true
 
-  /@commitlint/format@18.4.4:
-    resolution: {integrity: sha512-2v3V5hVlv0R3pe7p66IX5F7cjeVvGM5JqITRIbBCFvGHPJ/CG74rjTkAu0RBEiIhlk3eOaLjVGq3d5falPkLBA==}
+  /@commitlint/format@18.6.0:
+    resolution: {integrity: sha512-8UNWfs2slPPSQiiVpLGJTnPHv7Jkd5KYxfbNXbmLL583bjom4RrylvyrCVnmZReA8nNad7pPXq6mDH4FNVj6xg==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/types': 18.4.4
+      '@commitlint/types': 18.6.0
       chalk: 4.1.2
     dev: true
 
-  /@commitlint/is-ignored@18.4.4:
-    resolution: {integrity: sha512-rXWes9owKBTjfTr6Od7YlflRg4N+ngkOH+dUZhk0qL/XQb26mHz0EgVgdixMVBac1OsohRwJaLmVHX+5F6vfmg==}
+  /@commitlint/is-ignored@18.6.0:
+    resolution: {integrity: sha512-Xjx/ZyyJ4FdLuz0FcOvqiqSFgiO2yYj3QN9XlvyrxqbXTxPVC7QFEXJYBVPulUSN/gR7WXH1Udw+HYYfD17xog==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/types': 18.4.4
+      '@commitlint/types': 18.6.0
       semver: 7.5.4
     dev: true
 
-  /@commitlint/lint@18.5.0:
-    resolution: {integrity: sha512-4VbfTGTZf/aDaOn+vednMQFu5EIKfERvv7j8La3etQCra0O2QMrZL28xugTroYekawpTkiWWvLswtpVfabIbgw==}
+  /@commitlint/lint@18.6.0:
+    resolution: {integrity: sha512-ycbuDWfyykPmslgiHzhz8dL6F0BJYltXLVfc+M49z0c+FNITM0v+r0Vd2+Tdtq06VTc894p2+YSmZhulY8Jn3Q==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/is-ignored': 18.4.4
-      '@commitlint/parse': 18.4.4
-      '@commitlint/rules': 18.4.4
-      '@commitlint/types': 18.4.4
+      '@commitlint/is-ignored': 18.6.0
+      '@commitlint/parse': 18.6.0
+      '@commitlint/rules': 18.6.0
+      '@commitlint/types': 18.6.0
     dev: true
 
-  /@commitlint/load@18.5.0(@types/node@20.11.5)(typescript@5.3.3):
-    resolution: {integrity: sha512-vpyGgk7rzbFsU01NVwPNC/WetHFP0EwSYnQ1R833SJFHkEo+cWvqoVlw/VoZwBMoI6sF5/lwEdKzFDr1DHJ6+A==}
+  /@commitlint/load@18.6.0(@types/node@20.11.7)(typescript@5.3.3):
+    resolution: {integrity: sha512-RRssj7TmzT0bowoEKlgwg8uQ7ORXWkw7lYLsZZBMi9aInsJuGNLNWcMxJxRZbwxG3jkCidGUg85WmqJvRjsaDA==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/config-validator': 18.5.0
+      '@commitlint/config-validator': 18.6.0
       '@commitlint/execute-rule': 18.4.4
-      '@commitlint/resolve-extends': 18.5.0
-      '@commitlint/types': 18.4.4
+      '@commitlint/resolve-extends': 18.6.0
+      '@commitlint/types': 18.6.0
       chalk: 4.1.2
       cosmiconfig: 8.3.6(typescript@5.3.3)
-      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.11.5)(cosmiconfig@8.3.6)(typescript@5.3.3)
+      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.11.7)(cosmiconfig@8.3.6)(typescript@5.3.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -1240,45 +1240,45 @@ packages:
     engines: {node: '>=v18'}
     dev: true
 
-  /@commitlint/parse@18.4.4:
-    resolution: {integrity: sha512-99G7dyn/OoyNWXJni0Ki0K3aJd01pEb/Im/Id6y4X7PN+kGOahjz2z/cXYYHn7xDdooqFVdiVrVLeChfgpWZ2g==}
+  /@commitlint/parse@18.6.0:
+    resolution: {integrity: sha512-Y/G++GJpATFw54O0jikc/h2ibyGHgghtPnwsOk3O/aU092ydJ5XEHYcd7xGNQYuLweLzQis2uEwRNk9AVIPbQQ==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/types': 18.4.4
+      '@commitlint/types': 18.6.0
       conventional-changelog-angular: 7.0.0
       conventional-commits-parser: 5.0.0
     dev: true
 
-  /@commitlint/read@18.4.4:
-    resolution: {integrity: sha512-r58JbWky4gAFPea/CZmvlqP9Ehbs+8gSEUqhIJOojKzTc3xlxFnZUDVPcEnnaqzQEEoV6C69VW7xuzdcBlu/FQ==}
+  /@commitlint/read@18.6.0:
+    resolution: {integrity: sha512-w39ji8VfWhPKRquPhRHB3Yd8XIHwaNHgOh28YI1QEmZ59qVpuVUQo6h/NsVb+uoC6LbXZiofTZv2iFR084jKEA==}
     engines: {node: '>=v18'}
     dependencies:
       '@commitlint/top-level': 18.4.4
-      '@commitlint/types': 18.4.4
+      '@commitlint/types': 18.6.0
       git-raw-commits: 2.0.11
       minimist: 1.2.8
     dev: true
 
-  /@commitlint/resolve-extends@18.5.0:
-    resolution: {integrity: sha512-OxCYOMnlkOEEIkwTaRiFjHyuWBq962WBZQVHfMHej8tr3d+SfjznvqZhPmW8/SuqtfmGEiJPGWUNOxgwH+O0MA==}
+  /@commitlint/resolve-extends@18.6.0:
+    resolution: {integrity: sha512-k2Xp+Fxeggki2i90vGrbiLDMefPius3zGSTFFlRAPKce/SWLbZtI+uqE9Mne23mHO5lmcSV8z5m6ziiJwGpOcg==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/config-validator': 18.5.0
-      '@commitlint/types': 18.4.4
+      '@commitlint/config-validator': 18.6.0
+      '@commitlint/types': 18.6.0
       import-fresh: 3.3.0
       lodash.mergewith: 4.6.2
       resolve-from: 5.0.0
       resolve-global: 1.0.0
     dev: true
 
-  /@commitlint/rules@18.4.4:
-    resolution: {integrity: sha512-6Uzlsnl/GljEI+80NWjf4ThOfR8NIsbm18IfXYuCEchlwMHSxiuYG4rHSK5DNmG/+MIo8eR5VdQ0gQyt7kWzAA==}
+  /@commitlint/rules@18.6.0:
+    resolution: {integrity: sha512-pTalvCEvuCWrBWZA/YqO/3B3nZnY3Ncc+TmQsRajBdC1tkQIm5Iovdo4Ec7f2Dw1tVvpYMUUNAgcWqsY0WckWg==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/ensure': 18.4.4
+      '@commitlint/ensure': 18.6.0
       '@commitlint/message': 18.4.4
       '@commitlint/to-lines': 18.4.4
-      '@commitlint/types': 18.4.4
+      '@commitlint/types': 18.6.0
       execa: 5.1.1
     dev: true
 
@@ -1294,8 +1294,8 @@ packages:
       find-up: 5.0.0
     dev: true
 
-  /@commitlint/types@18.4.4:
-    resolution: {integrity: sha512-/FykLtodD8gKs3+VNkAUwofu4LBHankclj+I8fB2jTRvG6PV7k/OUt4P+VbM7ip853qS4F0g7Z6hLNa6JeMcAQ==}
+  /@commitlint/types@18.6.0:
+    resolution: {integrity: sha512-oavoKLML/eJa2rJeyYSbyGAYzTxQ6voG5oeX3OrxpfrkRWhJfm4ACnhoRf5tgiybx2MZ+EVFqC1Lw3W8/uwpZA==}
     engines: {node: '>=v18'}
     dependencies:
       chalk: 4.1.2
@@ -4027,13 +4027,13 @@ packages:
   /@react-pdf/fns@2.1.0:
     resolution: {integrity: sha512-EZAvv96Ec0zxwvpL5jyVHY22FlzTQcrQn7WFzknx1BsaeF5P74m1SV2UnIfyFxrottw0H4f3n5XJjMgrR5yTYg==}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
     dev: false
 
   /@react-pdf/font@2.4.2:
     resolution: {integrity: sha512-p4bDluB99/Rdhy8ynPND4k335RT2bhCuV6jzwqqZkKOKZ2lG2VjE7/DJyKdFMLE+dbPuM5MDX5dDp0FQbtQT/w==}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
       '@react-pdf/types': 2.4.0
       cross-fetch: 3.1.8
       fontkit: 2.0.2
@@ -4045,7 +4045,7 @@ packages:
   /@react-pdf/image@2.3.1:
     resolution: {integrity: sha512-wfnbw0AGFRHIyx6I/LbHfYwD/OW8JM1ItR2H6pdY80SclgiM+jS2tOu7LOwoqCbXr9X6ReyhqqZPBLUa+hSLmA==}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
       '@react-pdf/png-js': 2.3.0
       cross-fetch: 3.1.8
       jpeg-exif: 1.1.4
@@ -4053,13 +4053,13 @@ packages:
       - encoding
     dev: false
 
-  /@react-pdf/layout@3.10.2:
-    resolution: {integrity: sha512-cZfkFb5bUZOR2LTWk3ch3bpQ53nbQSNE6oVkUPP5Qy99r1YxSdqWOrw2Z5mJLyzaN+0tf7DXhfG7HZ1bRFbgOA==}
+  /@react-pdf/layout@3.10.3:
+    resolution: {integrity: sha512-JT6wfbBh5an7YmD0VIG8A/PLmj2kMzjnS874kxK+5WOaEQOx8oEw+OEMqk67jK413JIPYLR4+BdjplI7iwOsUQ==}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
       '@react-pdf/fns': 2.1.0
       '@react-pdf/image': 2.3.1
-      '@react-pdf/pdfkit': 3.1.1
+      '@react-pdf/pdfkit': 3.1.2
       '@react-pdf/primitives': 3.1.1
       '@react-pdf/stylesheet': 4.2.2
       '@react-pdf/textkit': 4.3.0
@@ -4072,10 +4072,10 @@ packages:
       - encoding
     dev: false
 
-  /@react-pdf/pdfkit@3.1.1:
-    resolution: {integrity: sha512-woyyE10vnj9bXh+C15qFx+4MmbcS40gfwFOcGsRb4iA/bTDyVzUmfCIbxZNhbosKLULlT7IF1Leg/6zp+DgNTQ==}
+  /@react-pdf/pdfkit@3.1.2:
+    resolution: {integrity: sha512-/u8uT/LE7C67maMQHQdV20wwwD1jG0yLfSJ0PJEJG/bn2GvIWy5aaNLlHTMdHXLzkr2NdgEZcevI/2WEfQxUjQ==}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
       '@react-pdf/png-js': 2.3.0
       browserify-zlib: 0.2.0
       crypto-js: 4.2.0
@@ -4094,10 +4094,10 @@ packages:
     resolution: {integrity: sha512-miwjxLwTnO3IjoqkTVeTI+9CdyDggwekmSLhVCw+a/7FoQc+gF3J2dSKwsHvAcVFM0gvU8mzCeTofgw0zPDq0w==}
     dev: false
 
-  /@react-pdf/render@3.4.0:
-    resolution: {integrity: sha512-7QX7YwNbrESvWWfhJF1jyF61S6OnKcBfXBT7tBpc+dgbk5czp7l46EL3p5kZdojLeQTcgQyfycWolWujldlJ3A==}
+  /@react-pdf/render@3.4.1:
+    resolution: {integrity: sha512-wLs9L20OWv6Dz0QTWeTtX+ZyxGHYWD1VFWcbvOC3vYq9caA81QisMn5T4Tfzn5HaxRz5VBFy+pQ8dFR54n86Wg==}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
       '@react-pdf/fns': 2.1.0
       '@react-pdf/primitives': 3.1.1
       '@react-pdf/textkit': 4.3.0
@@ -4109,17 +4109,17 @@ packages:
       svg-arc-to-cubic-bezier: 3.2.0
     dev: false
 
-  /@react-pdf/renderer@3.3.2(react@18.2.0):
-    resolution: {integrity: sha512-UR6kciz+aKwqyiPdhnKJMaKxrH6vAPsNz8prgoQrIpKz6+9lMUw+6H352cFvHj/POMaVB+Gov8aDX031Ma1g5A==}
+  /@react-pdf/renderer@3.3.4(react@18.2.0):
+    resolution: {integrity: sha512-Y8tOGOeSZ/alYlvmngK90EbYJItcsE0D2yY2E9Nt+6K7oLPwgw8CY6D2zaPYNHvzyJWRGbIuML8noK/CY2zRug==}
     peerDependencies:
       react: ^16.8.6 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
       '@react-pdf/font': 2.4.2
-      '@react-pdf/layout': 3.10.2
-      '@react-pdf/pdfkit': 3.1.1
+      '@react-pdf/layout': 3.10.3
+      '@react-pdf/pdfkit': 3.1.2
       '@react-pdf/primitives': 3.1.1
-      '@react-pdf/render': 3.4.0
+      '@react-pdf/render': 3.4.1
       '@react-pdf/types': 2.4.0
       events: 3.3.0
       object-assign: 4.1.1
@@ -4134,7 +4134,7 @@ packages:
   /@react-pdf/stylesheet@4.2.2:
     resolution: {integrity: sha512-2VRjp2oIXrSqYZebEMfIiFfbHeuVag8hrY2APAfCsQptvSpc6JHv/2OK1o07zxS6AkUDSyjlH6MUbEcIkwhdIA==}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
       '@react-pdf/fns': 2.1.0
       '@react-pdf/types': 2.4.0
       color-string: 1.9.1
@@ -4146,7 +4146,7 @@ packages:
   /@react-pdf/textkit@4.3.0:
     resolution: {integrity: sha512-A0bbHFxLYOh2lEFKbtgefmxlJEVbCX5dRhaI5ORwgHJNpbFOCTQyowq3h9gWXO9sSWl5GQdTTYAO35wp4oS2NQ==}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
       '@react-pdf/fns': 2.1.0
       hyphen: 1.9.0
       unicode-properties: 1.4.1
@@ -5181,10 +5181,10 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@t3-oss/env-core@0.7.3(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-hhtj59TKC6TKVdwJ0CcbKsvkr9R8Pc/SNKd4IgGUIC9T9X6moB8EZZ3FTJdABA/h9UABCK4J+KsF8gzmvMvHPg==}
+  /@t3-oss/env-core@0.8.0(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-Tc1pg0KH/tJeI0Z1s/Isp1VsGDj1N03ZAYFV8GjWgMxytF/ve0Dv+opjmTapHICRv8qiB1Y/fsTjkWNMpKPRCQ==}
     peerDependencies:
-      typescript: '>=4.7.2'
+      typescript: '>=5.0.0'
       zod: ^3.0.0
     peerDependenciesMeta:
       typescript:
@@ -5194,16 +5194,16 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@t3-oss/env-nextjs@0.7.3(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-90TNffS17vjkQwfYyMUb4Zw9yqHwFV40f78qFug4JiQa5+N6DydTdlLOpzOcj8Cna/qpAVDwMSypofF/TVQDuA==}
+  /@t3-oss/env-nextjs@0.8.0(typescript@5.3.3)(zod@3.22.4):
+    resolution: {integrity: sha512-bJyoE8of4QmqZN7a49iLJAbUq4graScb9ezXzvnuIVr9JP43C093vmy55hT1uZL533CwiPz8zo1INwyAS6qnHw==}
     peerDependencies:
-      typescript: '>=4.7.2'
+      typescript: '>=5.0.0'
       zod: ^3.0.0
     peerDependenciesMeta:
       typescript:
         optional: true
     dependencies:
-      '@t3-oss/env-core': 0.7.3(typescript@5.3.3)(zod@3.22.4)
+      '@t3-oss/env-core': 0.8.0(typescript@5.3.3)(zod@3.22.4)
       typescript: 5.3.3
       zod: 3.22.4
     dev: false
@@ -5255,8 +5255,8 @@ packages:
     resolution: {integrity: sha512-pCvdmea/F3Tn4hAtHqNXmjcixSaroJJ+L3STXlYJdir1g1m2mRQpWbN8a4SvgQtaw2930Ckhdx8qXdXBFMKbAA==}
     dev: false
 
-  /@tremor/react@3.13.2(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1):
-    resolution: {integrity: sha512-Imw5wei9A8fOUIKkqt8+XDzY8NCh88cO/hmzhv0HV+SMydj/Km0WpMvQqeo1Ft6GUIVNhcIo1L/T3/02+OwHWA==}
+  /@tremor/react@3.13.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1):
+    resolution: {integrity: sha512-v0JTAhZr1VTj67nmrb5WF/vI5Mq3Fj7LigPYwqFZcYwrF1UXkUwv5mEt8V5GR5QVMmprmYx7A6m8baImt99IQQ==}
     peerDependencies:
       react: ^18.0.0
       react-dom: '>=16.6.0'
@@ -5268,7 +5268,7 @@ packages:
       react: 18.2.0
       react-day-picker: 8.10.0(date-fns@2.30.0)(react@18.2.0)
       react-dom: 18.2.0(react@18.2.0)
-      react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      react-transition-state: 2.1.1(react-dom@18.2.0)(react@18.2.0)
       recharts: 2.10.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       tailwind-merge: 1.14.0
     transitivePeerDependencies:
@@ -5291,7 +5291,7 @@ packages:
   /@types/bcrypt@5.0.2:
     resolution: {integrity: sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==}
     dependencies:
-      '@types/node': 20.11.5
+      '@types/node': 20.11.7
     dev: true
 
   /@types/d3-array@3.2.1:
@@ -5363,8 +5363,8 @@ packages:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
     dev: true
 
-  /@types/node@20.11.5:
-    resolution: {integrity: sha512-g557vgQjUUfN76MZAN/dt1z3dzcUsimuysco0KeluHgrPdJXkP/XdAURgyO2W9fZWHRtRBiVKzKn8vyOAwlG+w==}
+  /@types/node@20.11.7:
+    resolution: {integrity: sha512-GPmeN1C3XAyV5uybAf4cMLWT9fDWcmQhZVtMFu7OR32WjrqGG+Wnk2V1d0bmtUyE/Zy1QJ9BxyiTih9z8Oks8A==}
     dependencies:
       undici-types: 5.26.5
 
@@ -6373,7 +6373,7 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /cosmiconfig-typescript-loader@5.0.0(@types/node@20.11.5)(cosmiconfig@8.3.6)(typescript@5.3.3):
+  /cosmiconfig-typescript-loader@5.0.0(@types/node@20.11.7)(cosmiconfig@8.3.6)(typescript@5.3.3):
     resolution: {integrity: sha512-+8cK7jRAReYkMwMiG+bxhcNKiHJDM6bR9FD/nGBXOWdMLuYawjF5cGrtLilJ+LGd3ZjCXnJjR5DkfWPoIVlqJA==}
     engines: {node: '>=v16'}
     peerDependencies:
@@ -6381,7 +6381,7 @@ packages:
       cosmiconfig: '>=8.2'
       typescript: '>=4'
     dependencies:
-      '@types/node': 20.11.5
+      '@types/node': 20.11.7
       cosmiconfig: 8.3.6(typescript@5.3.3)
       jiti: 1.19.3
       typescript: 5.3.3
@@ -6538,7 +6538,7 @@ packages:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.8
     dev: false
 
   /date-fns@3.3.1:
@@ -6652,14 +6652,7 @@ packages:
   /dom-helpers@3.4.0:
     resolution: {integrity: sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==}
     dependencies:
-      '@babel/runtime': 7.23.5
-    dev: false
-
-  /dom-helpers@5.2.1:
-    resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
-    dependencies:
-      '@babel/runtime': 7.23.5
-      csstype: 3.1.2
+      '@babel/runtime': 7.23.8
     dev: false
 
   /dot-prop@5.3.0:
@@ -6680,26 +6673,26 @@ packages:
     resolution: {integrity: sha512-z/6oZ/Muqk4BaE7P69bXhUhpJbUM9ZJeka43ZwxsDshKtePns4mhBlh8bU5+yrnOnz3fhG82XLzGUXazOmsWnA==}
     dev: true
 
-  /embla-carousel-react@8.0.0-rc17(react@18.2.0):
-    resolution: {integrity: sha512-x4aFprwFB+PQO9EsHHZsrDxARb0uYNBYn9mr5oDFdBdPez4M8G1r5yidWbUcT9pNUc8AQXC9sGzlfauBfBxVOw==}
+  /embla-carousel-react@8.0.0-rc21(react@18.2.0):
+    resolution: {integrity: sha512-DOa9hgF/T1fwb8D3rZ8FFMceY3aDXtbluZwzZYMLnN2Dqn0IBLN0l97o3obkMxI9Zzog0u1WMM6HE7AGF9SjEg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.1 || ^18.0.0
     dependencies:
-      embla-carousel: 8.0.0-rc17
-      embla-carousel-reactive-utils: 8.0.0-rc17(embla-carousel@8.0.0-rc17)
+      embla-carousel: 8.0.0-rc21
+      embla-carousel-reactive-utils: 8.0.0-rc21(embla-carousel@8.0.0-rc21)
       react: 18.2.0
     dev: false
 
-  /embla-carousel-reactive-utils@8.0.0-rc17(embla-carousel@8.0.0-rc17):
-    resolution: {integrity: sha512-eluEOK/u5HdjYaTLC4bUG3iTCnyX7RsYix3il0aH4ZECOKa5fS+pVK2vrM17Mgw6C5Hyjcr3r3lfJtGerVzVsQ==}
+  /embla-carousel-reactive-utils@8.0.0-rc21(embla-carousel@8.0.0-rc21):
+    resolution: {integrity: sha512-TnV49hoTdwfcKr2vgQHQ3zcCqJSkvLJ5rR/pGzmEx5GeO07CV/e755lkSD7No0C6cz+JFB8dcHV7uS+5Gnc7Lg==}
     peerDependencies:
-      embla-carousel: 8.0.0-rc17
+      embla-carousel: 8.0.0-rc21
     dependencies:
-      embla-carousel: 8.0.0-rc17
+      embla-carousel: 8.0.0-rc21
     dev: false
 
-  /embla-carousel@8.0.0-rc17:
-    resolution: {integrity: sha512-evF49b88VOitvqFtlvhvKVSu96Y8A+QSFdhok87Bfm8R7OYuk95FT+o8+M1GQLi/EhGDUlT193HTVAR0Wt2neQ==}
+  /embla-carousel@8.0.0-rc21:
+    resolution: {integrity: sha512-rK//vyPIhmD/5QUDtjk9A5RxPoDZ5LOATYMVSFECAzwcAe7yJmqXQbdYzEZf4ASOR+ivod5msqXsKgZXypA35Q==}
     dev: false
 
   /emoji-regex@10.3.0:
@@ -7264,8 +7257,8 @@ packages:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
     dev: true
 
-  /framer-motion@10.18.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-oGlDh1Q1XqYPksuTD/usb0I70hq95OUzmL9+6Zd+Hs4XV0oaISBa/UUMSjYiq6m8EUF32132mOJ8xVZS+I0S6w==}
+  /framer-motion@11.0.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-6x2poQpIWBdbZwLd73w6cKZ1I9IEPIU94C6/Swp1Zt3LJ+sB5bPe1E2wC6EH5hSISXNkMJ4afH7AdwS7MrtkWw==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -7595,9 +7588,9 @@ packages:
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /husky@8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
-    engines: {node: '>=14'}
+  /husky@9.0.6:
+    resolution: {integrity: sha512-EEuw/rfTiMjOfuL7pGO/i9otg1u36TXxqjIA6D9qxVjd/UXoDOsLor/BSFf5hTK50shwzCU3aVVwdXDp/lp7RA==}
+    engines: {node: '>=18'}
     hasBin: true
     dev: true
 
@@ -7934,8 +7927,8 @@ packages:
     resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
     dev: false
 
-  /jotai@2.6.2(@types/react@18.2.48)(react@18.2.0):
-    resolution: {integrity: sha512-kl4KguU1Fr+tFiLi3A3h9qPEzhvLTTDA10DO3QZAz6k7BEaQJ+qvSBwolzonnfNI4QzEovyQfUqVgnRxfnnQVQ==}
+  /jotai@2.6.3(@types/react@18.2.48)(react@18.2.0):
+    resolution: {integrity: sha512-0htSJ2d6426ZdSEYHncJHXY6Lkgde1Hc2HE/ADIRi9d2L3hQL+jLKY1LkWBMeCNyOSlKH8+1u/Gc33Ox0uq21Q==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@types/react': '>=17.0.0'
@@ -8186,8 +8179,8 @@ packages:
     dependencies:
       yallist: 4.0.0
 
-  /lucide-react@0.314.0(react@18.2.0):
-    resolution: {integrity: sha512-c2zOW7TOyKxPCaSs1og2lFdoI3SR4iii3yrZJU2Zpdc78nOw4fUmrcFNultaCiwZcr4CyiKdzjMdvKNlBBk+UQ==}
+  /lucide-react@0.316.0(react@18.2.0):
+    resolution: {integrity: sha512-dTmYX1H4IXsRfVcj/KUxworV6814ApTl7iXaS21AimK2RUEl4j4AfOmqD3VR8phe5V91m4vEJ8tCK4uT1jE5nA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -8404,8 +8397,8 @@ packages:
       whatwg-fetch: 3.6.20
     dev: false
 
-  /next-safe-action@6.0.1(next@14.1.0)(react@18.2.0):
-    resolution: {integrity: sha512-iXkjorrUrz3sHMo1MVdBx5WzcCGktrBe+XqMfBav++eegXMdOkZB2+LqUTPXmaidv0lo+/fSRLOcNmr/S9IqTw==}
+  /next-safe-action@6.0.2(next@14.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-czJrcw4Ov6obePv/AwUki+Z90xxFH6Gx9V5cBN/TU/cuEggxj151kTggo0h1fAiYqZEOxw5PRbDvutvm9/exaw==}
     engines: {node: '>=18.17'}
     peerDependencies:
       next: '>= 14.0.0'
@@ -8867,7 +8860,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.33
-      ts-node: 10.9.2(@types/node@20.11.5)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@20.11.7)(typescript@5.3.3)
       yaml: 2.3.4
 
   /postcss-nested@6.0.1(postcss@8.4.33):
@@ -9300,16 +9293,12 @@ packages:
       react-lifecycles-compat: 3.0.4
     dev: false
 
-  /react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
+  /react-transition-state@2.1.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-kQx5g1FVu9knoz1T1WkapjUgFz08qQ/g1OmuWGi3/AoEFfS0kStxrPlZx81urjCXdz2d+1DqLpU6TyLW/Ro04Q==}
     peerDependencies:
-      react: '>=16.6.0'
-      react-dom: '>=16.6.0'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
     dependencies:
-      '@babel/runtime': 7.23.5
-      dom-helpers: 5.2.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -9975,7 +9964,7 @@ packages:
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
-  /ts-node@10.9.2(@types/node@20.11.5)(typescript@5.3.3):
+  /ts-node@10.9.2(@types/node@20.11.7)(typescript@5.3.3):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
     peerDependencies:
@@ -9994,7 +9983,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.11.5
+      '@types/node': 20.11.7
       acorn: 8.10.0
       acorn-walk: 8.2.0
       arg: 4.1.3

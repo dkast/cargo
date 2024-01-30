@@ -20,7 +20,7 @@ const badgeVariants = cva(
         green:
           "border-transparent bg-green-50 text-green-700 ring-green-600/20 hover:bg-green-500/80 dark:bg-green-900 dark:text-gray-50 dark:hover:bg-green-900/80",
         yellow:
-          "border-transparent bg-yellow-50 text-yellow-800 ring-yellow-600/20 hover:bg-yellow-500/80 dark:bg-yellow-900 dark:text-gray-50 dark:hover:bg-yellow-900/80",
+          "border-transparent bg-amber-50 text-amber-700 ring-amber-600/20 hover:bg-amber-500/80 dark:bg-amber-900 dark:text-gray-50 dark:hover:bg-amber-900/80",
         red: "border-transparent bg-red-50 text-red-700 ring-red-600/10 hover:bg-red-500/80 dark:bg-red-900 dark:text-gray-50 dark:hover:bg-red-900/80",
         blue: "border-transparent bg-blue-50 text-blue-700 ring-blue-700/10 hover:bg-blue-500/80 dark:bg-blue-900 dark:text-gray-50 dark:hover:bg-blue-900/80"
       }

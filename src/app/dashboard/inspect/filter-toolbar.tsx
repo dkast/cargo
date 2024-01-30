@@ -72,7 +72,7 @@ export default function FilterToolbar() {
     <>
       <div className="flex grow flex-row items-center gap-x-2">
         <DataTableFilter
-          title="Estado"
+          title="Estatus"
           options={status}
           value={statusValue}
           onChange={setStatusValue}

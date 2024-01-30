@@ -5,7 +5,15 @@ import { InspectionResult, InspectionStatus, type Prisma } from "@prisma/client"
 import { type ColumnDef, type Row } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
-import { MoreHorizontal } from "lucide-react"
+import {
+  CheckCircle2,
+  ChevronDown,
+  ChevronsUpDown,
+  ChevronUp,
+  CircleDashed,
+  CircleDot,
+  MoreHorizontal
+} from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import Link from "next/link"
 
@@ -41,7 +49,23 @@ type InspectionMaster = Prisma.PromiseReturnType<typeof getInspections>
 export const columns: ColumnDef<InspectionMaster[number]>[] = [
   {
     accessorKey: "inspectionNbr",
-    header: "# Folio",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          # Folio
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const inspection = row.original
 
@@ -74,32 +98,128 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
   },
   {
     accessorKey: "inspectedBy.user.name",
-    header: "Inspector",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Inspector
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     enableHiding: true
   },
   {
     accessorKey: "location.name",
-    header: "Ubicación",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Ubicación
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     enableHiding: true
   },
   {
     accessorKey: "company.name",
-    header: "Transportista",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Transportista
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     enableHiding: true
   },
   {
     accessorKey: "vehicle.vehicleNbr",
-    header: "Unidad",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Unidad
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     enableHiding: true
   },
   {
     accessorKey: "operator.name",
-    header: "Operador",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Operador
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     enableHiding: true
   },
   {
     accessorKey: "start",
-    header: "Fecha Inspección",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Fecha Inspección
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const inspection = row.original
 
@@ -118,13 +238,29 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
   },
   {
     accessorKey: "status",
-    header: "Estatus",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Estatus
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const inspection = row.original
       const color = {
         OPEN: "bg-amber-100 text-amber-500",
         CLOSED: "bg-blue-100 text-blue-500",
-        APPROVED: "bg-green-100 text-green-500"
+        APPROVED: "bg-violet-100 text-violet-500"
       }
 
       const legend = {
@@ -133,26 +269,70 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         APPROVED: "Aprobado"
       }
 
+      const icon = {
+        OPEN: <CircleDashed className="size-4" />,
+        CLOSED: <CircleDot className="size-4" />,
+        APPROVED: <CheckCircle2 className="size-4" />
+      }
+
       return (
-        <div className="flex flex-row items-center justify-center gap-2 sm:justify-start">
-          <div
-            className={cn(
-              color[inspection.status],
-              "flex-none rounded-full p-1"
-            )}
-          >
-            <div className="h-1.5 w-1.5 rounded-full bg-current" />
+        <div className="flex flex-col gap-y-4">
+          <div className="flex flex-row items-center justify-center gap-2 sm:justify-start">
+            <div
+              className={cn(
+                color[inspection.status],
+                "flex-none rounded-full p-0.5"
+              )}
+            >
+              {/* <div className="h-1.5 w-1.5 rounded-full bg-current" /> */}
+              {icon[inspection.status]}
+            </div>
+            <span className="hidden sm:block">{legend[inspection.status]}</span>
           </div>
-          <span className="hidden sm:block">{legend[inspection.status]}</span>
+          <div className="text-center">
+            {(() => {
+              switch (inspection.result) {
+                case InspectionResult.PASS:
+                  return (
+                    <Badge variant="green" className="rounded md:hidden">
+                      OK
+                    </Badge>
+                  )
+                case InspectionResult.FAIL:
+                  return (
+                    <Badge variant="red" className="rounded md:hidden">
+                      Falla
+                    </Badge>
+                  )
+                default:
+                  return null
+              }
+            })()}
+          </div>
         </div>
       )
     }
   },
   {
     accessorKey: "result",
-    header: () => (
-      <span className="hidden text-center sm:block">Resultado</span>
-    ),
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hidden sm:inline-flex"
+        >
+          Resultado
+          {{
+            asc: <ChevronUp className="ml-1 h-4 w-4" />,
+            desc: <ChevronDown className="ml-1 h-4 w-4" />
+          }[column.getIsSorted() as string] ?? (
+            <ChevronsUpDown className="ml-1 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const inspection = row.original
       return (
@@ -177,7 +357,8 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
           })()}
         </div>
       )
-    }
+    },
+    enableHiding: true
   },
   {
     id: "actions",

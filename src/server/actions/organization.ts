@@ -89,7 +89,7 @@ export const createOrgMember = action(
 
 export const updateOrgMember = action(
   userMemberSchema,
-  async ({ id, name, email, username, password, role }) => {
+  async ({ id, name, email, username, password, role, isActive }) => {
     // Update member
     try {
       const membership = await prisma.membership.update({
@@ -98,6 +98,7 @@ export const updateOrgMember = action(
         },
         data: {
           role: role,
+          isActive: isActive,
           user: {
             update: {
               name: name,
@@ -120,6 +121,41 @@ export const updateOrgMember = action(
       }
 
       revalidateTag(`member-${membership.id}`)
+
+      return {
+        success: true
+      }
+    } catch (error) {
+      let message
+      if (typeof error === "string") {
+        message = error
+      } else if (error instanceof Error) {
+        message = error.message
+      }
+      return {
+        failure: {
+          reason: message
+        }
+      }
+    }
+  }
+)
+
+export const deactivateOrgMember = action(
+  userMemberSchema,
+  async ({ id, isActive }) => {
+    // Deactivate member
+    try {
+      await prisma.membership.update({
+        where: {
+          id: id
+        },
+        data: {
+          isActive: isActive
+        }
+      })
+
+      revalidateTag(`member-${id}`)
 
       return {
         success: true
