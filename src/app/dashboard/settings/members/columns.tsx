@@ -66,14 +66,13 @@ export const columns: ColumnDef<Membership>[] = [
       })()
 
       return (
-        <div>
+        <div className="flex flex-col gap-y-1">
           <span className="text-sm text-gray-900">{roleLabel}</span>
-          <Badge
-            variant={membership.isActive ? "green" : "secondary"}
-            className="lg:hidden"
-          >
-            {membership.isActive ? "Activo" : "Inactivo"}
-          </Badge>
+          <div className="lg:hidden">
+            <Badge variant={membership.isActive ? "green" : "secondary"}>
+              {membership.isActive ? "Activo" : "Inactivo"}
+            </Badge>
+          </div>
         </div>
       )
     }
