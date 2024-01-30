@@ -264,7 +264,7 @@ model ShareItem {
   id             String       @id @default(cuid())
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  shareUrl       String       @unique
+  sharePath      String       @unique
   expires        DateTime?
   password       String?
   nanoid         String       @unique
