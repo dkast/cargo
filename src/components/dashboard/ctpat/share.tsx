@@ -1,6 +1,5 @@
 import { Copy } from "lucide-react"
 import { headers } from "next/headers"
-import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import {
