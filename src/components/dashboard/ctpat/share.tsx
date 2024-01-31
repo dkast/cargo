@@ -1,7 +1,14 @@
-import { Copy } from "lucide-react"
-import { headers } from "next/headers"
+"use client"
+
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { fromDate } from "@internationalized/date"
+import { Copy, Globe, LockKeyhole, Radio } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import { DateTimePicker } from "@/components/ui/date-time-picker/date-time-picker"
 import {
   Dialog,
   DialogClose,
@@ -9,37 +16,176 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { cn } from "@/lib/utils"
+
+enum AccessType {
+  PUBLIC = "PUBLIC",
+  PRIVATE = "PRIVATE"
+}
+
+const FormSchema = z.object({
+  link: z.string(),
+  accessType: z.enum(["PUBLIC", "PRIVATE"]),
+  password: z
+    .string()
+    .min(5, { message: "La contraseña debe tener al menos 5 caracteres" })
+    .max(32, {
+      message: "La contraseña debe tener como máximo 32 caracteres"
+    })
+    .optional(),
+  expiresAt: z.date().optional()
+})
 
 export default function Share({ children }: { children: React.ReactNode }) {
-  const headersList = headers()
-  const url = `${headersList.get("host")}/${headersList.get("next-url")}`
+  const pathname = usePathname()
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      link: pathname,
+      accessType: AccessType.PUBLIC,
+      password: "",
+      expiresAt: undefined
+    }
+  })
 
-  if (!url) return null
+  const accessType = form.watch("accessType")
 
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
-        <DialogHeader>Compartir</DialogHeader>
-        <DialogDescription>
-          Comparte este enlace con los usuarios que deseas que tengan acceso a
-          esta inspección.
-        </DialogDescription>
+        <DialogHeader>
+          <DialogTitle>Compartir</DialogTitle>
+          <DialogDescription>
+            Compartir enlace para dar acceso a esta inspección.
+          </DialogDescription>
+        </DialogHeader>
         <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Liga
-            </Label>
-            <Input id="link" defaultValue={url} readOnly />
-          </div>
-          <Button type="submit" size="sm" className="px-3">
-            <span className="sr-only">Copiar</span>
-            <Copy className="h-4 w-4" />
-          </Button>
+          <Form {...form}>
+            <form
+              className="flex w-full flex-col gap-4"
+              onSubmit={form.handleSubmit(console.log)}
+            >
+              <FormField
+                control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="link" className="sr-only">
+                      Liga
+                    </FormLabel>
+                    <FormControl>
+                      <Input disabled type="text" {...field} readOnly />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="accessType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="accessType">Seguridad</FormLabel>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormItem>
+                        <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
+                          <div className="flex flex-row items-center justify-between gap-2 rounded-md border px-4 py-2 ring-2 ring-white">
+                            <div className="rounded-full bg-green-100 p-1.5">
+                              <Globe className="size-5 text-green-500" />
+                            </div>
+                            <div className="flex grow flex-col">
+                              <span className="text-sm">Público</span>
+                              <span className="text-xs text-gray-500">
+                                Cualquiera con el enlace puede acceder
+                              </span>
+                            </div>
+                            <FormControl>
+                              <RadioGroupItem
+                                value={AccessType.PUBLIC}
+                                className="border-gray-300 text-blue-500 [&:has([data-state=checked])]:border-blue-500"
+                              />
+                            </FormControl>
+                          </div>
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem>
+                        <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
+                          <div className="flex flex-row items-center justify-between gap-2 rounded-md border px-4 py-2 ring-2 ring-white">
+                            <div className="rounded-full bg-gray-100 p-1.5">
+                              <LockKeyhole className="size-5 text-gray-500" />
+                            </div>
+                            <div className="flex grow flex-col">
+                              <span className="text-sm">Privado</span>
+                              <span className="text-xs text-gray-500">
+                                Solo usuarios con la contraseña pueden acceder
+                              </span>
+                            </div>
+                            <FormControl>
+                              <RadioGroupItem
+                                value={AccessType.PRIVATE}
+                                className="border-gray-300 text-blue-500 [&:has([data-state=checked])]:border-blue-500"
+                              />
+                            </FormControl>
+                          </div>
+                        </FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem
+                    className={cn(
+                      accessType === AccessType.PUBLIC ? "hidden" : "block"
+                    )}
+                  >
+                    <FormLabel htmlFor="password">Contraseña</FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="expiresAt"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="expiresAt">Expira</FormLabel>
+                    <FormControl>
+                      <DateTimePicker
+                        granularity={"day"}
+                        value={
+                          field.value ? fromDate(field.value, "CST") : undefined
+                        }
+                        onChange={date => {
+                          field.onChange(date.toDate("CST"))
+                        }}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
