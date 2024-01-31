@@ -3,18 +3,17 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fromDate } from "@internationalized/date"
-import { Copy, Globe, LockKeyhole, Radio } from "lucide-react"
+import { Globe, LockKeyhole } from "lucide-react"
+import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { z } from "zod"
+import { type z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import { DateTimePicker } from "@/components/ui/date-time-picker/date-time-picker"
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
@@ -24,39 +23,25 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel
+  FormLabel,
+  FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { cn } from "@/lib/utils"
-
-enum AccessType {
-  PUBLIC = "PUBLIC",
-  PRIVATE = "PRIVATE"
-}
-
-const FormSchema = z.object({
-  link: z.string(),
-  accessType: z.enum(["PUBLIC", "PRIVATE"]),
-  password: z
-    .string()
-    .min(5, { message: "La contraseña debe tener al menos 5 caracteres" })
-    .max(32, {
-      message: "La contraseña debe tener como máximo 32 caracteres"
-    })
-    .optional(),
-  expiresAt: z.date().optional()
-})
+import { AccessType, ShareFormSchema } from "@/lib/types"
+import { cn, getBaseUrl } from "@/lib/utils"
 
 export default function Share({ children }: { children: React.ReactNode }) {
+  const user = useSession().data?.user
   const pathname = usePathname()
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof ShareFormSchema>>({
+    resolver: zodResolver(ShareFormSchema),
     defaultValues: {
-      link: pathname,
+      sharePath: getBaseUrl() + pathname,
       accessType: AccessType.PUBLIC,
       password: "",
-      expiresAt: undefined
+      expiresAt: undefined,
+      organizationId: user?.organizationId
     }
   })
 
@@ -69,7 +54,7 @@ export default function Share({ children }: { children: React.ReactNode }) {
         <DialogHeader>
           <DialogTitle>Compartir</DialogTitle>
           <DialogDescription>
-            Compartir enlace para dar acceso a esta inspección.
+            Compartir vínculo para dar acceso a esta inspección.
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
@@ -80,7 +65,7 @@ export default function Share({ children }: { children: React.ReactNode }) {
             >
               <FormField
                 control={form.control}
-                name="link"
+                name="sharePath"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel htmlFor="link" className="sr-only">
@@ -161,6 +146,7 @@ export default function Share({ children }: { children: React.ReactNode }) {
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -184,16 +170,10 @@ export default function Share({ children }: { children: React.ReactNode }) {
                   </FormItem>
                 )}
               />
+              <Button type="submit">Copiar vínculo</Button>
             </form>
           </Form>
         </div>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Cerrar
-            </Button>
-          </DialogClose>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
