@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -22,6 +23,14 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog"
 import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger
+} from "@/components/ui/drawer"
+import {
   Form,
   FormControl,
   FormField,
@@ -33,7 +42,7 @@ import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { createShareItem } from "@/server/actions/share"
 import { ShareFormSchema } from "@/lib/types"
-import { useCopyToClipboard } from "@/lib/use-copy-to-clipboard"
+import { useMobile } from "@/lib/use-mobile"
 import { cn } from "@/lib/utils"
 
 export default function Share({
@@ -43,6 +52,42 @@ export default function Share({
   children: React.ReactNode
   path?: string
 }) {
+  const isMobile = useMobile()
+
+  if (isMobile) {
+    return (
+      <Drawer>
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader className="text-left">
+            <DrawerTitle>Compartir</DrawerTitle>
+            <DrawerDescription>
+              Compartir vínculo para dar acceso a esta inspección.
+            </DrawerDescription>
+          </DrawerHeader>
+          <ShareForm path={path} className="px-4 pb-4" />
+        </DrawerContent>
+      </Drawer>
+    )
+  }
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Compartir</DialogTitle>
+          <DialogDescription>
+            Compartir vínculo para dar acceso a esta inspección.
+          </DialogDescription>
+        </DialogHeader>
+        <ShareForm path={path} />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function ShareForm({ path, className }: { path?: string; className?: string }) {
   const user = useSession().data?.user
   const pathname = usePathname()
   const form = useForm<z.infer<typeof ShareFormSchema>>({
@@ -58,18 +103,26 @@ export default function Share({
 
   const accessType = form.watch("accessType")
 
-  const [copiedText, copy] = useCopyToClipboard()
+  // const [copiedText, copy] = useCopyToClipboard()
+  const [shareURL, setShareURL] = useState<string | undefined>(undefined)
   const {
     execute: createShare,
     status: shareStatus,
     reset: resetShare
   } = useAction(createShareItem, {
-    onSuccess: data => {
+    onSuccess: async data => {
       if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       } else if (data?.success) {
-        copy(data.success.shareURL)
+        const text = new ClipboardItem({
+          "text/plain": new Blob([data.success.shareURL], {
+            type: "text/plain"
+          })
+        })
+        await navigator.clipboard
+          .write([text])
           .then(() => {
+            setShareURL(data.success.shareURL)
             toast.success("Vínculo copiado al portapapeles")
           })
           .catch(error => {
@@ -87,9 +140,21 @@ export default function Share({
 
   const onSubmit = async (data: z.infer<typeof ShareFormSchema>) => {
     console.dir(data)
-    if (copiedText && !form.formState.isDirty) {
-      toast.success("Vínculo copiado al portapapeles")
-      return
+    if (shareURL && !form.formState.isDirty) {
+      const text = new ClipboardItem({
+        "text/plain": new Blob([shareURL], {
+          type: "text/plain"
+        })
+      })
+      await navigator.clipboard
+        .write([text])
+        .then(() => {
+          toast.success("Vínculo copiado al portapapeles")
+        })
+        .catch(error => {
+          toast.error("Algo salió mal al copiar el vínculo al portapapeles")
+          console.error(error)
+        })
     } else {
       await createShare(data)
       form.reset(data)
@@ -97,139 +162,114 @@ export default function Share({
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Compartir</DialogTitle>
-          <DialogDescription>
-            Compartir vínculo para dar acceso a esta inspección.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <Form {...form}>
-            <form
-              className="flex w-full flex-col gap-4"
-              onSubmit={form.handleSubmit(onSubmit)}
-            >
-              <FormField
-                control={form.control}
-                name="sharePath"
-                render={({ field }) => (
+    <div className={cn("flex items-center space-x-2", className)}>
+      <Form {...form}>
+        <form
+          className="flex w-full flex-col gap-4"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="accessType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="accessType">Seguridad</FormLabel>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormItem>
-                    <FormLabel htmlFor="link" className="sr-only">
-                      Liga
+                    <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
+                      <div className="flex flex-row items-center justify-between gap-2 rounded-md border px-4 py-2 ring-2 ring-white">
+                        <div className="rounded-full bg-green-100 p-1.5">
+                          <Globe className="size-5 text-green-500" />
+                        </div>
+                        <div className="flex grow flex-col">
+                          <span className="text-sm">Público</span>
+                          <span className="text-xs text-gray-500">
+                            Cualquiera con el enlace puede acceder
+                          </span>
+                        </div>
+                        <FormControl>
+                          <RadioGroupItem
+                            value={AccessType.PUBLIC}
+                            className="border-gray-300 text-blue-500 [&:has([data-state=checked])]:border-blue-500"
+                          />
+                        </FormControl>
+                      </div>
                     </FormLabel>
-                    <FormControl>
-                      <Input disabled type="text" {...field} readOnly />
-                    </FormControl>
                   </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="accessType"
-                render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="accessType">Seguridad</FormLabel>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormItem>
-                        <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
-                          <div className="flex flex-row items-center justify-between gap-2 rounded-md border px-4 py-2 ring-2 ring-white">
-                            <div className="rounded-full bg-green-100 p-1.5">
-                              <Globe className="size-5 text-green-500" />
-                            </div>
-                            <div className="flex grow flex-col">
-                              <span className="text-sm">Público</span>
-                              <span className="text-xs text-gray-500">
-                                Cualquiera con el enlace puede acceder
-                              </span>
-                            </div>
-                            <FormControl>
-                              <RadioGroupItem
-                                value={AccessType.PUBLIC}
-                                className="border-gray-300 text-blue-500 [&:has([data-state=checked])]:border-blue-500"
-                              />
-                            </FormControl>
-                          </div>
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem>
-                        <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
-                          <div className="flex flex-row items-center justify-between gap-2 rounded-md border px-4 py-2 ring-2 ring-white">
-                            <div className="rounded-full bg-gray-100 p-1.5">
-                              <LockKeyhole className="size-5 text-gray-500" />
-                            </div>
-                            <div className="flex grow flex-col">
-                              <span className="text-sm">Privado</span>
-                              <span className="text-xs text-gray-500">
-                                Solo usuarios con la contraseña pueden acceder
-                              </span>
-                            </div>
-                            <FormControl>
-                              <RadioGroupItem
-                                value={AccessType.PRIVATE}
-                                className="border-gray-300 text-blue-500 [&:has([data-state=checked])]:border-blue-500"
-                              />
-                            </FormControl>
-                          </div>
-                        </FormLabel>
-                      </FormItem>
-                    </RadioGroup>
+                    <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
+                      <div className="flex flex-row items-center justify-between gap-2 rounded-md border px-4 py-2 ring-2 ring-white">
+                        <div className="rounded-full bg-gray-100 p-1.5">
+                          <LockKeyhole className="size-5 text-gray-500" />
+                        </div>
+                        <div className="flex grow flex-col">
+                          <span className="text-sm">Privado</span>
+                          <span className="text-xs text-gray-500">
+                            Solo usuarios con la contraseña pueden acceder
+                          </span>
+                        </div>
+                        <FormControl>
+                          <RadioGroupItem
+                            value={AccessType.PRIVATE}
+                            className="border-gray-300 text-blue-500 [&:has([data-state=checked])]:border-blue-500"
+                          />
+                        </FormControl>
+                      </div>
+                    </FormLabel>
                   </FormItem>
+                </RadioGroup>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem
+                className={cn(
+                  accessType === AccessType.PUBLIC ? "hidden" : "block"
                 )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem
-                    className={cn(
-                      accessType === AccessType.PUBLIC ? "hidden" : "block"
-                    )}
-                  >
-                    <FormLabel htmlFor="password">Contraseña</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="expiresAt"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor="expiresAt">Expira</FormLabel>
-                    <FormControl>
-                      <DateTimePicker
-                        granularity={"day"}
-                        value={
-                          field.value ? fromDate(field.value, "CST") : undefined
-                        }
-                        onChange={date => {
-                          field.onChange(date.toDate("CST"))
-                        }}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={shareStatus === "executing"}>
-                {shareStatus === "executing" ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  "Copiar vínculo"
-                )}
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </DialogContent>
-    </Dialog>
+              >
+                <FormLabel htmlFor="password">Contraseña</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="expiresAt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="expiresAt">Expira</FormLabel>
+                <FormControl>
+                  <DateTimePicker
+                    granularity={"day"}
+                    value={
+                      field.value ? fromDate(field.value, "CST") : undefined
+                    }
+                    onChange={date => {
+                      field.onChange(date.toDate("CST"))
+                    }}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <Button type="submit" disabled={shareStatus === "executing"}>
+            {shareStatus === "executing" ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              "Copiar vínculo"
+            )}
+          </Button>
+        </form>
+      </Form>
+    </div>
   )
 }
