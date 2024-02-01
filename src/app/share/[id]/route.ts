@@ -9,7 +9,7 @@ export async function GET(
   const shareId = params.id
 
   if (!shareId) {
-    return notFound
+    notFound()
   }
 
   // Find the share item in the database
@@ -20,8 +20,8 @@ export async function GET(
   })
 
   if (!shareItem) {
-    return notFound()
+    notFound()
   } else {
-    return redirect(shareItem.sharePath)
+    redirect(shareItem.sharePath)
   }
 }
