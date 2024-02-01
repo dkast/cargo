@@ -130,7 +130,7 @@ export default async function InspectionView({
           )}
           <TooltipHelper content="Compartir">
             <div>
-              <Share>
+              <Share path={`/share/ctpat/${inspection.id}`}>
                 <Button
                   size="icon"
                   variant="ghost"

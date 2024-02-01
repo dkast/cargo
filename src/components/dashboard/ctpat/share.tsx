@@ -1,10 +1,13 @@
 "use client"
 
 import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fromDate } from "@internationalized/date"
-import { Globe, LockKeyhole } from "lucide-react"
+import { AccessType } from "@prisma/client"
+import { Globe, Loader2, LockKeyhole } from "lucide-react"
 import { useSession } from "next-auth/react"
+import { useAction } from "next-safe-action/hooks"
 import { usePathname } from "next/navigation"
 import { type z } from "zod"
 
@@ -28,17 +31,25 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { AccessType, ShareFormSchema } from "@/lib/types"
-import { cn, getBaseUrl } from "@/lib/utils"
+import { createShareItem } from "@/server/actions/share"
+import { ShareFormSchema } from "@/lib/types"
+import { useCopyToClipboard } from "@/lib/use-copy-to-clipboard"
+import { cn } from "@/lib/utils"
 
-export default function Share({ children }: { children: React.ReactNode }) {
+export default function Share({
+  children,
+  path
+}: {
+  children: React.ReactNode
+  path?: string
+}) {
   const user = useSession().data?.user
   const pathname = usePathname()
   const form = useForm<z.infer<typeof ShareFormSchema>>({
     resolver: zodResolver(ShareFormSchema),
     defaultValues: {
-      sharePath: getBaseUrl() + pathname,
       accessType: AccessType.PUBLIC,
+      sharePath: path ?? pathname,
       password: "",
       expiresAt: undefined,
       organizationId: user?.organizationId
@@ -46,6 +57,44 @@ export default function Share({ children }: { children: React.ReactNode }) {
   })
 
   const accessType = form.watch("accessType")
+
+  const [copiedText, copy] = useCopyToClipboard()
+  const {
+    execute: createShare,
+    status: shareStatus,
+    reset: resetShare
+  } = useAction(createShareItem, {
+    onSuccess: data => {
+      if (data?.failure?.reason) {
+        toast.error(data.failure.reason)
+      } else if (data?.success) {
+        copy(data.success.shareURL)
+          .then(() => {
+            toast.success("Vínculo copiado al portapapeles")
+          })
+          .catch(error => {
+            toast.error("Algo salió mal al copiar el vínculo al portapapeles")
+            console.error(error)
+          })
+      }
+      resetShare()
+    },
+    onError: () => {
+      toast.error("Algo salió mal al compartir el vínculo")
+      resetShare()
+    }
+  })
+
+  const onSubmit = async (data: z.infer<typeof ShareFormSchema>) => {
+    console.dir(data)
+    if (copiedText && !form.formState.isDirty) {
+      toast.success("Vínculo copiado al portapapeles")
+      return
+    } else {
+      await createShare(data)
+      form.reset(data)
+    }
+  }
 
   return (
     <Dialog>
@@ -61,7 +110,7 @@ export default function Share({ children }: { children: React.ReactNode }) {
           <Form {...form}>
             <form
               className="flex w-full flex-col gap-4"
-              onSubmit={form.handleSubmit(console.log)}
+              onSubmit={form.handleSubmit(onSubmit)}
             >
               <FormField
                 control={form.control}
@@ -170,7 +219,13 @@ export default function Share({ children }: { children: React.ReactNode }) {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Copiar vínculo</Button>
+              <Button type="submit" disabled={shareStatus === "executing"}>
+                {shareStatus === "executing" ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Copiar vínculo"
+                )}
+              </Button>
             </form>
           </Form>
         </div>

@@ -264,7 +264,8 @@ model ShareItem {
   id             String       @id @default(cuid())
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  sharePath      String       @unique
+  sharePath      String
+  accessType     AccessType
   expiresAt      DateTime?
   password       String?
   nanoid         String       @unique
@@ -321,4 +322,9 @@ enum InspectionItemResult {
   PASS
   FAIL
   NA
+}
+
+enum AccessType {
+  PUBLIC
+  PRIVATE
 }

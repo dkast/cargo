@@ -254,11 +254,6 @@ export enum actionType {
   DELETE = "DELETE"
 }
 
-export enum AccessType {
-  PUBLIC = "PUBLIC",
-  PRIVATE = "PRIVATE"
-}
-
 export const ctpatInspections = [
   "Defensa",
   "Motor",

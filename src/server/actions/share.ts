@@ -5,23 +5,25 @@ import { nanoid } from "nanoid"
 import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
 import { ShareFormSchema } from "@/lib/types"
+import { getBaseUrl } from "@/lib/utils"
 
 export const createShareItem = action(
   ShareFormSchema,
-  async ({ sharePath, password, expiresAt, organizationId }) => {
+  async ({ accessType, sharePath, password, expiresAt, organizationId }) => {
     try {
       const shareItem = await prisma.shareItem.create({
         data: {
+          accessType: accessType,
           sharePath: sharePath,
           password: password ?? undefined,
           expiresAt: expiresAt ?? undefined,
           organizationId: organizationId,
-          nanoid: nanoid(10)
+          nanoid: nanoid(8)
         }
       })
       return {
         success: {
-          shareItem: shareItem
+          shareURL: getBaseUrl() + `/share/${shareItem.nanoid}`
         }
       }
     } catch (error) {
