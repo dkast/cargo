@@ -121,10 +121,9 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
         })
 
         if (navigator?.share) {
-          navigator
+          await navigator
             .share({
               title: "Compartir inspección",
-              text: "Compartir inspección",
               url: data.success.shareURL
             })
             .then(() => {
@@ -165,10 +164,9 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
       })
 
       if (navigator?.share) {
-        navigator
+        await navigator
           .share({
             title: "Compartir inspección",
-            text: "Compartir inspección",
             url: shareURL
           })
           .then(() => {
@@ -177,6 +175,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
           .catch(error => {
             toast.error("Algo salió mal al compartir el vínculo")
             console.error(error)
+            toast.error(error.message)
           })
       } else {
         await navigator.clipboard
@@ -188,6 +187,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
           .catch(error => {
             toast.error("Algo salió mal al copiar el vínculo al portapapeles")
             console.error(error)
+            toast.error(error.message)
           })
       }
     } else {
