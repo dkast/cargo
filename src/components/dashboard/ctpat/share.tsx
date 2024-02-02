@@ -175,7 +175,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
           .catch(error => {
             toast.error("Algo salió mal al compartir el vínculo")
             console.error(error)
-            toast.error(error.message)
+            toast.error(error)
           })
       } else {
         await navigator.clipboard
@@ -187,7 +187,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
           .catch(error => {
             toast.error("Algo salió mal al copiar el vínculo al portapapeles")
             console.error(error)
-            toast.error(error.message)
+            toast.error(error)
           })
       }
     } else {
