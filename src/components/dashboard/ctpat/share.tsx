@@ -119,16 +119,33 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
             type: "text/plain"
           })
         })
-        await navigator.clipboard
-          .write([text])
-          .then(() => {
-            setShareURL(data.success.shareURL)
-            toast.success("Vínculo copiado al portapapeles")
-          })
-          .catch(error => {
-            toast.error("Algo salió mal al copiar el vínculo al portapapeles")
-            console.error(error)
-          })
+
+        if (navigator?.share) {
+          navigator
+            .share({
+              title: "Compartir inspección",
+              text: "Compartir inspección",
+              url: data.success.shareURL
+            })
+            .then(() => {
+              setShareURL(data.success.shareURL)
+            })
+            .catch(error => {
+              toast.error("Algo salió mal al compartir el vínculo")
+              console.error(error)
+            })
+        } else {
+          await navigator.clipboard
+            .write([text])
+            .then(() => {
+              setShareURL(data.success.shareURL)
+              toast.success("Vínculo copiado al portapapeles")
+            })
+            .catch(error => {
+              toast.error("Algo salió mal al copiar el vínculo al portapapeles")
+              console.error(error)
+            })
+        }
       }
       resetShare()
     },
@@ -146,16 +163,33 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
           type: "text/plain"
         })
       })
-      await navigator.clipboard
-        .write([text])
-        .then(() => {
-          setShareURL(shareURL)
-          toast.success("Vínculo copiado al portapapeles")
-        })
-        .catch(error => {
-          toast.error("Algo salió mal al copiar el vínculo al portapapeles")
-          console.error(error)
-        })
+
+      if (navigator?.share) {
+        navigator
+          .share({
+            title: "Compartir inspección",
+            text: "Compartir inspección",
+            url: shareURL
+          })
+          .then(() => {
+            setShareURL(shareURL)
+          })
+          .catch(error => {
+            toast.error("Algo salió mal al compartir el vínculo")
+            console.error(error)
+          })
+      } else {
+        await navigator.clipboard
+          .write([text])
+          .then(() => {
+            setShareURL(shareURL)
+            toast.success("Vínculo copiado al portapapeles")
+          })
+          .catch(error => {
+            toast.error("Algo salió mal al copiar el vínculo al portapapeles")
+            console.error(error)
+          })
+      }
     } else {
       await createShare(data)
       form.reset(data)

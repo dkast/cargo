@@ -20,6 +20,7 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 
 const loginSchema = z.object({
   username: z
@@ -85,7 +86,11 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel htmlFor="password">Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder="Contraseña" {...field} type="password" />
+                <PasswordInput
+                  {...field}
+                  type="password"
+                  placeholder="Contraseña"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
