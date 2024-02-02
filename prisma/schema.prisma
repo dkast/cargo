@@ -95,6 +95,7 @@ model Organization {
   inspections        Inspection[]
   inspectionItem     InspectionItem[]
   inspectionItemFile InspectionItemFile[]
+  shareItems         ShareItem[]
 }
 
 model Membership {
@@ -259,6 +260,23 @@ model InspectionItemFile {
   @@index([organizationId])
 }
 
+model ShareItem {
+  id             String       @id @default(cuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  sharePath      String
+  accessType     AccessType
+  expiresAt      DateTime?
+  password       String?
+  nanoid         String       @unique
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+
+  @@index([nanoid])
+  @@index([sharePath])
+  @@index([organizationId])
+}
+
 enum OrganizationStatus {
   ACTIVE
   DUE
@@ -304,4 +322,9 @@ enum InspectionItemResult {
   PASS
   FAIL
   NA
+}
+
+enum AccessType {
+  PUBLIC
+  PRIVATE
 }

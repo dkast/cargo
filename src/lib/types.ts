@@ -56,6 +56,9 @@ export const userMemberSchema = z
       })
       .min(8, {
         message: "La contraseña debe tener al menos 8 caracteres"
+      })
+      .max(32, {
+        message: "La contraseña debe tener como máximo 32 caracteres"
       }),
     confirmPassword: z.string({
       required_error: "Requerido"
@@ -214,6 +217,28 @@ export const inspectionDetailSchema = z
     }
   )
 
+export const ShareFormSchema = z
+  .object({
+    sharePath: z.string(),
+    accessType: z.enum(["PUBLIC", "PRIVATE"]),
+    password: z.string().optional(),
+    expiresAt: z.date().optional(),
+    organizationId: z.string().cuid()
+  })
+  .refine(
+    data => {
+      if (data.accessType === "PRIVATE" && data.password === "") {
+        return false
+      } else {
+        return true
+      }
+    },
+    {
+      message: "La contraseña es requerida si el acceso es privado",
+      path: ["password"]
+    }
+  )
+
 export interface InspectionQueryFilter {
   organizationId: string
   status?: string
@@ -228,6 +253,7 @@ export enum actionType {
   UPDATE = "UPDATE",
   DELETE = "DELETE"
 }
+
 export const ctpatInspections = [
   "Defensa",
   "Motor",

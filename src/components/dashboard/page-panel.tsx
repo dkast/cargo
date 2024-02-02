@@ -37,7 +37,7 @@ export default function Panel({
         <Drawer
           open={true}
           onOpenChange={open => (!open ? router.back() : null)}
-          modal={false}
+          modal
         >
           <DrawerContent
             className={cn(

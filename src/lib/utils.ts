@@ -1,4 +1,4 @@
-import { type DateValue, parseDate } from "@internationalized/date"
+import { parseDate, type DateValue } from "@internationalized/date"
 import { clsx, type ClassValue } from "clsx"
 import { atomWithStorage } from "jotai/utils"
 import { createParser } from "next-usequerystate"
@@ -38,3 +38,11 @@ export const calendarDateParser = createParser({
     return value.toString()
   }
 })
+
+export const getBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV === "production")
+    return "https://cargohq.vercel.app"
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV === "preview")
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  return "http://localhost:3000"
+}

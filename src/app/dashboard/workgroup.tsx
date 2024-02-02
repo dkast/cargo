@@ -13,6 +13,7 @@ export default function Workgroup({ className }: { className?: string }) {
   const [imageURL, setImageURL] = useState("")
 
   useEffect(() => {
+    if (!user?.organizationId) return
     fetch(`/api/file/brand-image?orgId=${user?.organizationId}`)
       .then(res => res.json())
       .then(data => setImageURL(data.signedUrl))
