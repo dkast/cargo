@@ -22,6 +22,16 @@ export async function GET(
   if (!shareItem) {
     notFound()
   } else {
-    redirect(shareItem.sharePath)
+    // If the share item has expired, redirect to the expired page
+    if (shareItem.expiresAt && shareItem.expiresAt < new Date()) {
+      redirect("/share/expired")
+    }
+
+    // If the share item is password protected, redirect to the password page
+    if (shareItem.password) {
+      redirect(`/share/${shareId}/secure`)
+    } else {
+      redirect(shareItem.sharePath)
+    }
   }
 }

@@ -149,6 +149,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
       await navigator.clipboard
         .write([text])
         .then(() => {
+          setShareURL(shareURL)
           toast.success("Vínculo copiado al portapapeles")
         })
         .catch(error => {
