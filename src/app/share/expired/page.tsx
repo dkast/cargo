@@ -1,7 +1,12 @@
 import { CalendarX2 } from "lucide-react"
+import type { Metadata } from "next"
 
 import Logo from "@/components/logo"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+
+export const metadata: Metadata = {
+  title: "Vínculo expirado"
+}
 
 export default function ExpiredPage() {
   return (

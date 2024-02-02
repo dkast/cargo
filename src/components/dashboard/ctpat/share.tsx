@@ -38,7 +38,7 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { createShareItem } from "@/server/actions/share"
 import { ShareFormSchema } from "@/lib/types"
@@ -236,7 +236,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
               >
                 <FormLabel htmlFor="password">Contraseña</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
