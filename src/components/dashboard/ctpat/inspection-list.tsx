@@ -1,4 +1,4 @@
-import ItemMediaPreview from "@/app/dashboard/ctpat/edit/[id]/item-media-preview"
+import ItemMediaPreview from "@/app/[domain]/dashboard/ctpat/edit/[id]/item-media-preview"
 import { InspectionResult, Prisma, type InspectionItem } from "@prisma/client"
 import { formatDistanceToNow } from "date-fns"
 import { es } from "date-fns/locale"
