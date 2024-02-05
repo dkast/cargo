@@ -5,16 +5,16 @@ import Panel from "@/components/dashboard/page-panel"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function CTPATModalPage({
-  params: { id }
+  params: { domain, id }
 }: {
-  params: { id: string }
+  params: { domain: string; id: string }
 }) {
   return (
     <Panel className="max-h-[100%] sm:w-1/2 sm:max-w-3xl">
       <div className="h-[100%] overflow-x-auto">
         <div className="px-4 pb-4 pt-4 sm:px-0 sm:pb-0">
           <Suspense fallback={<LoadingSkeleton />}>
-            <InspectionView inspectionId={id} />
+            <InspectionView domain={domain} inspectionId={id} />
           </Suspense>
         </div>
       </div>

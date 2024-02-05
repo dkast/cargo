@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type: _type, ...props }, ref) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const togglePasswordVisibility = () => setShowPassword(!showPassword)
 

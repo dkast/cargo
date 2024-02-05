@@ -3,6 +3,7 @@ import LoginForm from "@/app/(auth)/login/login-form"
 import { type Metadata } from "next"
 import Image from "next/image"
 
+import Logo from "@/components/logo"
 import Spinner from "@/components/ui/spinner"
 
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export default function LoginPage() {
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
             <div className="flex items-center gap-x-3">
-              <img className="h-10 w-auto" src="/logo.svg" alt="Cargo" />
+              <Logo className="size-10" />
               <span className="font-display text-4xl font-medium tracking-tight">
                 cargo
               </span>
