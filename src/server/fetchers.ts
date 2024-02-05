@@ -68,6 +68,18 @@ export async function getOrganizationBySubDomain(domain: string) {
     }
   })
 
+  // Replace fileUrl with a signed URL
+  if (orgData?.image) {
+    orgData.image = await getSignedUrl(
+      R2,
+      new GetObjectCommand({
+        Bucket: env.R2_BUCKET_NAME,
+        Key: orgData.image
+      }),
+      { expiresIn: 3600 * 24 }
+    )
+  }
+
   // Find the user's membership for the organization
   const membershipData = await prisma.membership.findFirst({
     where: {

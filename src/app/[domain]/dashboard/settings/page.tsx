@@ -12,21 +12,25 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
-import { getOrganizationById } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 
 export const metadata: Metadata = {
   title: "Configuración"
 }
 
-export default async function SettingsPage() {
+export default async function SettingsPage({
+  params: { domain }
+}: {
+  params: { domain: string }
+}) {
   const user = await getCurrentUser()
 
   if (!user) {
     return notFound()
   }
 
-  const data = await getOrganizationById(user?.organizationId)
+  const data = await getOrganizationBySubDomain(domain)
 
   if (!data) {
     //TODO: Add empty state

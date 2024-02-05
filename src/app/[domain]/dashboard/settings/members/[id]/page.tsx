@@ -2,11 +2,12 @@ import MemberForm from "@/app/[domain]/dashboard/settings/members/[id]/member-fo
 import { MembershipRole } from "@prisma/client"
 import { AlertCircle, ShieldAlert } from "lucide-react"
 import { type Metadata } from "next"
+import { notFound } from "next/navigation"
 import { type z } from "zod"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { getMemberById } from "@/server/fetchers"
+import { getMemberById, getOrganizationBySubDomain } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { actionType, type userMemberSchema } from "@/lib/types"
 
@@ -15,24 +16,28 @@ export const metadata: Metadata = {
 }
 
 export default async function MemberPage({
-  params
+  params: { domain, id }
 }: {
-  params: { id: string }
+  params: { domain: string; id: string }
 }) {
-  const { id } = params
   const action = id === "new" ? actionType.CREATE : actionType.UPDATE
   const actionMessage = id === "new" ? "Crear" : "Editar"
 
   const user = await getCurrentUser()
+  const orgData = await getOrganizationBySubDomain(domain)
 
-  if (!user?.organizationId) {
+  if (!orgData) {
+    notFound()
+  }
+
+  if (user?.organizationId !== orgData?.id) {
     return (
       <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Ocurrió un error</AlertTitle>
           <AlertDescription>
-            El usuario no pertenece a una organización
+            El usuario no pertenece a la organización
           </AlertDescription>
         </Alert>
       </div>

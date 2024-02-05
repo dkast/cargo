@@ -21,14 +21,14 @@ export default async function DashboardPage({
   params: { domain: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const data = await getOrganizationBySubDomain(domain)
+  const orgData = await getOrganizationBySubDomain(domain)
 
-  if (!data) {
+  if (!orgData) {
     notFound()
   }
 
   const filter: InspectionQueryFilter = {
-    organizationId: data.id
+    organizationId: orgData.id
   }
 
   if (searchParams.start) {

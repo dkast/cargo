@@ -1,15 +1,15 @@
 import BackButton from "@/app/[domain]/dashboard/ctpat/[id]/back-button"
 import CTPATMainForm from "@/app/[domain]/dashboard/ctpat/edit/new/ctpat-main-form"
-import { AlertCircle } from "lucide-react"
 import { type Metadata } from "next"
+import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   getCompanies,
   getContainers,
   getLocations,
   getOperators,
+  getOrganizationBySubDomain,
   getVehicles
 } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
@@ -18,28 +18,23 @@ export const metadata: Metadata = {
   title: "Nueva Inspección CTPAT"
 }
 
-export default async function NewCTPATPage() {
+export default async function NewCTPATPage({
+  params: { domain }
+}: {
+  params: { domain: string }
+}) {
+  const orgData = await getOrganizationBySubDomain(domain)
   const user = await getCurrentUser()
 
-  if (!user?.organizationId) {
-    return (
-      <div className="mx-auto max-w-2xl grow px-3 sm:px-0">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Ocurrió un error</AlertTitle>
-          <AlertDescription>
-            El usuario no pertenece a una organización
-          </AlertDescription>
-        </Alert>
-      </div>
-    )
+  if (!orgData || !user) {
+    notFound()
   }
 
-  const companies = await getCompanies(user?.organizationId)
-  const operators = await getOperators(user?.organizationId)
-  const vehicles = await getVehicles(user?.organizationId)
-  const containers = await getContainers(user?.organizationId)
-  const locations = await getLocations(user?.organizationId, true)
+  const companies = await getCompanies(orgData.id)
+  const operators = await getOperators(orgData.id)
+  const vehicles = await getVehicles(orgData.id)
+  const containers = await getContainers(orgData.id)
+  const locations = await getLocations(orgData.id, true)
 
   return (
     <div className="relative">
@@ -58,7 +53,7 @@ export default async function NewCTPATPage() {
             ...location,
             description: location.description || ""
           }))}
-          organizationId={user.organizationId}
+          organizationId={orgData.id}
           membershipId={user.membershipId}
         />
       </div>

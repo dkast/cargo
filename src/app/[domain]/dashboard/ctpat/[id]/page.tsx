@@ -8,16 +8,16 @@ export const metadata: Metadata = {
 }
 
 export default function CTPATViewPage({
-  params: { id }
+  params: { domain, id }
 }: {
-  params: { id: string }
+  params: { domain: string; id: string }
 }) {
   return (
     <div>
       <div className="relative">
         <div className="mx-auto max-w-2xl grow px-4 py-4 sm:px-0 sm:py-8">
           <BackButton />
-          <InspectionView inspectionId={id} />
+          <InspectionView domain={domain} inspectionId={id} />
         </div>
       </div>
     </div>

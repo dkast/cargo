@@ -6,21 +6,24 @@ import { notFound } from "next/navigation"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table/data-table"
-import { getMembers } from "@/server/fetchers"
-import { getCurrentUser } from "@/lib/session"
+import { getMembers, getOrganizationBySubDomain } from "@/server/fetchers"
 
 export const metadata: Metadata = {
   title: "Miembros"
 }
 
-export default async function MembersPage() {
-  const user = await getCurrentUser()
+export default async function MembersPage({
+  params: { domain }
+}: {
+  params: { domain: string }
+}) {
+  const orgData = await getOrganizationBySubDomain(domain)
 
-  if (!user) {
-    return notFound()
+  if (!orgData) {
+    notFound()
   }
 
-  const data = await getMembers(user?.organizationId)
+  const data = await getMembers(orgData.id)
 
   return (
     <div className="mx-auto grow px-4 sm:px-6">

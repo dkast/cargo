@@ -5,26 +5,27 @@ import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Button } from "@/components/ui/button"
-import { getInspections } from "@/server/fetchers"
-import { getCurrentUser } from "@/lib/session"
+import { getInspections, getOrganizationBySubDomain } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {
   title: "Inspecciones CTPAT"
 }
 export default async function CTPATPage({
+  params: { domain },
   searchParams
 }: {
+  params: { domain: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const user = await getCurrentUser()
+  const orgData = await getOrganizationBySubDomain(domain)
 
-  if (!user) {
-    return notFound()
+  if (!orgData) {
+    notFound()
   }
 
   const filter: InspectionQueryFilter = {
-    organizationId: user.organizationId
+    organizationId: orgData.id
   }
   if (searchParams.status) {
     if (typeof searchParams.status === "string") {

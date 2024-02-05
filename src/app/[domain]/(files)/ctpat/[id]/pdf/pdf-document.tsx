@@ -79,8 +79,6 @@ export default function PDFDocument({
     return null
   }
 
-  console.log(organization.image)
-
   return (
     <PDFViewer className="grow">
       <Document

@@ -7,8 +7,10 @@ import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
 import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue"
 import DateFilter from "@/components/dashboard/date-filter"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
-import { getInspectionIssues } from "@/server/fetchers"
-import { getCurrentUser } from "@/lib/session"
+import {
+  getInspectionIssues,
+  getOrganizationBySubDomain
+} from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {
@@ -16,16 +18,20 @@ export const metadata: Metadata = {
 }
 
 export default async function CTPATIssuesPage({
+  params: { domain },
   searchParams
 }: {
+  params: { domain: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const user = await getCurrentUser()
+  const orgData = await getOrganizationBySubDomain(domain)
 
-  if (!user) return notFound()
+  if (!orgData) {
+    notFound()
+  }
 
   const filter: InspectionQueryFilter = {
-    organizationId: user.organizationId
+    organizationId: orgData.id
   }
 
   if (searchParams.start) {

@@ -7,22 +7,24 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
-import { getInspectionById } from "@/server/fetchers"
+import {
+  getInspectionById,
+  getOrganizationBySubDomain
+} from "@/server/fetchers"
 
 export const metadata: Metadata = {
   title: "Inspección CTPAT"
 }
 
 export default async function CTPATEditPage({
-  params
+  params: { domain, id }
 }: {
-  params: { id: string }
+  params: { domain: string; id: string }
 }) {
-  const { id } = params
-
   const inspection = await getInspectionById(id)
+  const orgData = await getOrganizationBySubDomain(domain)
 
-  if (!inspection) {
+  if (!inspection || !orgData || inspection.organizationId !== orgData.id) {
     return notFound()
   }
 
@@ -113,20 +115,6 @@ export default async function CTPATEditPage({
                   )}
                 </dd>
               </dl>
-              {/* <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm font-medium">Carga</dt>
-                <dd>
-                  {inspection.isLoaded ? (
-                    <Badge variant="yellow" className="rounded">
-                      Cargado
-                    </Badge>
-                  ) : (
-                    <Badge variant="secondary" className="rounded">
-                      Vacío
-                    </Badge>
-                  )}
-                </dd>
-              </dl> */}
             </div>
           </div>
         </div>

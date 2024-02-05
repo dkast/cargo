@@ -5,22 +5,25 @@ import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { DataTable } from "@/components/ui/data-table/data-table"
-import { getOperators } from "@/server/fetchers"
-import { getCurrentUser } from "@/lib/session"
+import { getOperators, getOrganizationBySubDomain } from "@/server/fetchers"
 import { actionType } from "@/lib/types"
 
 export const metadata: Metadata = {
   title: "Operadores"
 }
 
-export default async function Page() {
-  const user = await getCurrentUser()
+export default async function OperatorsPage({
+  params: { domain }
+}: {
+  params: { domain: string }
+}) {
+  const orgData = await getOrganizationBySubDomain(domain)
 
-  if (!user?.organizationId) {
+  if (!orgData) {
     notFound()
   }
 
-  const operators = await getOperators(user?.organizationId)
+  const operators = await getOperators(orgData.id)
 
   return (
     <div className="mx-auto grow px-4 sm:px-6">
@@ -28,10 +31,7 @@ export default async function Page() {
         title="Operadores"
         description="Listado de operadores para el registro de viajes"
       >
-        <OperatorEdit
-          organizationId={user.organizationId}
-          action={actionType.CREATE}
-        />
+        <OperatorEdit organizationId={orgData.id} action={actionType.CREATE} />
       </PageSubtitle>
       <div className="mt-6">
         <DataTable columns={columns} data={operators} />
