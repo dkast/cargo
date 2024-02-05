@@ -121,6 +121,7 @@ export const updateOrgMember = action(
       }
 
       revalidateTag(`member-${membership.id}`)
+      revalidateTag(`members-${membership.organizationId}`)
 
       return {
         success: true

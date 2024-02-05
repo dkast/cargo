@@ -15,7 +15,6 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { getInspections } from "@/server/fetchers"
-import { getCurrentUser } from "@/lib/session"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -25,15 +24,13 @@ const color = {
   APPROVED: "bg-violet-100 text-violet-500"
 }
 
-async function InspectionRecent({ className }: { className?: string }) {
-  const user = await getCurrentUser()
-
-  if (!user) return null
-
-  const filter: InspectionQueryFilter = {
-    organizationId: user.organizationId,
-    take: 5
-  }
+async function InspectionRecent({
+  filter,
+  className
+}: {
+  filter: InspectionQueryFilter
+  className?: string
+}) {
   const data = await getInspections(filter)
   return (
     <Card className={className}>

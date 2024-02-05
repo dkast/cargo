@@ -65,7 +65,7 @@ export default function MemberForm({
       // Reset response object
       reset()
 
-      router.push("/dashboard/settings/members")
+      router.push(".")
     },
     onError: () => {
       toast.error("Algo salió mal")
@@ -90,7 +90,7 @@ export default function MemberForm({
       // Reset response object
       resetUpdate()
 
-      router.push("/dashboard/settings/members")
+      router.push(".")
     },
     onError: () => {
       toast.error("Algo salio mal")

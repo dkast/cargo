@@ -7,8 +7,10 @@ import {
 } from "@prisma/client"
 import { endOfDay, parseISO, subMonths } from "date-fns"
 import { unstable_cache as cache } from "next/cache"
+import { redirect } from "next/navigation"
 
 import { prisma } from "@/server/db"
+import { getCurrentUser } from "@/lib/session"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { env } from "@/env.mjs"
 
@@ -22,7 +24,7 @@ const R2 = new S3Client({
   }
 })
 
-export async function getOrganization(organizationId: string) {
+export async function getOrganizationById(organizationId: string) {
   return await cache(
     async () => {
       const data = await prisma.organization.findUnique({
@@ -51,6 +53,37 @@ export async function getOrganization(organizationId: string) {
       tags: [`organization-${organizationId}`]
     }
   )()
+}
+
+export async function getOrganizationBySubDomain(domain: string) {
+  const user = await getCurrentUser()
+
+  if (!user) {
+    return null
+  }
+
+  const orgData = await prisma.organization.findUnique({
+    where: {
+      subdomain: domain
+    }
+  })
+
+  // Find the user's membership for the organization
+  const membershipData = await prisma.membership.findFirst({
+    where: {
+      userId: user?.id,
+      organizationId: orgData?.id,
+      isActive: true
+    }
+  })
+
+  if (!membershipData) {
+    redirect("/access-denied")
+  }
+
+  if (orgData && membershipData) {
+    return orgData
+  }
 }
 
 export async function getMemberById(memberId: string) {

@@ -12,7 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
-import { getOrganization } from "@/server/fetchers"
+import { getOrganizationById } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default async function SettingsPage() {
     return notFound()
   }
 
-  const data = await getOrganization(user?.organizationId)
+  const data = await getOrganizationById(user?.organizationId)
 
   if (!data) {
     //TODO: Add empty state
