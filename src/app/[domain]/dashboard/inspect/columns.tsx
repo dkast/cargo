@@ -54,6 +54,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <Button
           variant="ghost"
           size="sm"
+          className="px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           # Folio
@@ -103,6 +104,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <Button
           variant="ghost"
           size="sm"
+          className="px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Inspector
@@ -124,6 +126,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <Button
           variant="ghost"
           size="sm"
+          className="px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Ubicación
@@ -145,6 +148,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <Button
           variant="ghost"
           size="sm"
+          className="px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Transportista
@@ -166,6 +170,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <Button
           variant="ghost"
           size="sm"
+          className="px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Unidad
@@ -187,6 +192,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <Button
           variant="ghost"
           size="sm"
+          className="px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Operador
@@ -208,6 +214,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <Button
           variant="ghost"
           size="sm"
+          className="px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Fecha Inspección
@@ -243,6 +250,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
         <Button
           variant="ghost"
           size="sm"
+          className="px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Estatus
@@ -321,7 +329,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
           variant="ghost"
           size="sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="hidden sm:inline-flex"
+          className="hidden px-0 sm:inline-flex"
         >
           Resultado
           {{
