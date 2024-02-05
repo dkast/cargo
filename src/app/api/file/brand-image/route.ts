@@ -66,39 +66,38 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const searchParams = req.nextUrl.searchParams
-  const organizationId = searchParams.get("orgId")
+  const subdomain = searchParams.get("subdomain")
 
-  if (!organizationId) {
-    return new Response("Missing organizationId", {
+  if (!subdomain) {
+    return new Response("Missing subdomain", {
       status: 400
     })
   }
 
   const organization = await prisma.organization.findUnique({
     where: {
-      id: organizationId as string
+      subdomain: subdomain
     },
     select: {
+      name: true,
       image: true
     }
   })
 
-  if (!organization?.image) {
-    return new Response("Image not found", {
-      status: 404
-    })
+  let signedUrl = null
+  if (organization?.image) {
+    signedUrl = await getSignedUrl(
+      R2,
+      new GetObjectCommand({
+        Bucket: env.R2_BUCKET_NAME,
+        Key: organization?.image
+      }),
+      { expiresIn: 3600 }
+    )
   }
 
-  const signedUrl = await getSignedUrl(
-    R2,
-    new GetObjectCommand({
-      Bucket: env.R2_BUCKET_NAME,
-      Key: organization?.image
-    }),
-    { expiresIn: 3600 }
-  )
-
-  // console.log(signedUrl)
-
-  return Response.json({ signedUrl })
+  return Response.json({
+    organizationName: organization?.name,
+    imageURL: signedUrl
+  })
 }

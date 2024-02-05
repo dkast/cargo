@@ -3,12 +3,10 @@ import LocationForm from "@/app/[domain]/dashboard/settings/location-form"
 import LocationList from "@/app/[domain]/dashboard/settings/location-list"
 import OrganizationForm from "@/app/[domain]/dashboard/settings/organization-form"
 import { MembershipRole } from "@prisma/client"
-import { AlertTriangle } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -27,24 +25,13 @@ export default async function SettingsPage({
   const user = await getCurrentUser()
 
   if (!user) {
-    return notFound()
+    return null
   }
 
   const data = await getOrganizationBySubDomain(domain)
 
   if (!data) {
-    //TODO: Add empty state
-    return (
-      <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
-        <Alert>
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Empresa no tiene datos</AlertTitle>
-          <AlertDescription>
-            Consulte al proveedor para la configuración de la Empresa
-          </AlertDescription>
-        </Alert>
-      </div>
-    )
+    notFound()
   }
 
   return (

@@ -7,7 +7,7 @@ import { MembershipRole, type Organization } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useAction } from "next-safe-action/hooks"
-import { notFound, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { type z } from "zod"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -82,7 +82,7 @@ export default function OrganizationForm({
     form.reset(data)
   }
 
-  if (!user) return notFound()
+  if (!user) return null
 
   return (
     <Form {...form}>

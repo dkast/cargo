@@ -10,7 +10,7 @@ export default function HomePage() {
       bg-cover bg-center bg-no-repeat"
     >
       <div className="fixed right-4 top-4 text-white hover:underline">
-        <Link href="/dashboard">Iniciar sesión</Link>
+        <Link href="/cargo/dashboard">Iniciar sesión</Link>
       </div>
       <div className="flex flex-col">
         <div className="mb-10 flex items-center justify-center gap-x-4 text-white">
