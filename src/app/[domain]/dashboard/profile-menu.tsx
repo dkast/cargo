@@ -4,6 +4,7 @@ import { useAtom } from "jotai"
 import { ChevronsUpDown, LogOut, User } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -20,6 +21,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
   const { data: session } = useSession()
   const user = session?.user
   const [isSidebarOpen] = useAtom(isSidebarOpenAtom)
+  const params = useParams<{ domain: string }>()
 
   if (!user) return null
 
@@ -50,7 +52,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
       <DropdownMenuContent className="w-52">
         <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/profile">
+          <Link href={`/${params.domain}/dashboard/profile`}>
             <User className="mr-2 h-4 w-4" />
             Perfil
           </Link>
