@@ -66,6 +66,7 @@
     "@uppy/progress-bar": "^3.0.4",
     "@uppy/react": "^3.2.1",
     "@uppy/webcam": "^3.3.4",
+    "@vercel/speed-insights": "^1.0.9",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
