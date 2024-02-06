@@ -53,8 +53,10 @@ export default function LoginForm() {
     const res = await signIn("credentials", {
       username: data.username,
       password: data.password,
-      callbackUrl: callbackUrl ? callbackUrl : "/dashboard"
+      callbackUrl: callbackUrl ? callbackUrl : "/redirect-org"
     })
+
+    console.log(res)
 
     if (!res) return null
     if (res.error) {

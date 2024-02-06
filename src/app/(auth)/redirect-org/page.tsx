@@ -1,36 +1,38 @@
-import { ShieldX } from "lucide-react"
+import { Building } from "lucide-react"
 import type { Metadata } from "next"
-import Link from "next/link"
+import { redirect } from "next/navigation"
 
 import Logo from "@/components/logo"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
+import { getCurrentUser } from "@/lib/session"
 
 export const metadata: Metadata = {
-  title: "Vínculo expirado"
+  title: "Redireccionando..."
 }
 
-export default function AccessDeniedPage() {
+export default async function AccessDeniedPage() {
+  const user = await getCurrentUser()
+
+  if (user) {
+    redirect(`/${user.organizationDomain}/dashboard`)
+  }
+
   return (
     <div className="flex h-svh items-center justify-center">
-      <div className="flex max-w-md flex-col px-4">
+      <div className="max-w-md px-4">
         <div className="my-8 flex items-center justify-center gap-2">
           <Logo className="size-10 fill-gray-900" />
           <h1 className="font-display text-2xl font-medium tracking-tight text-gray-900 sm:text-4xl">
             cargo
           </h1>
         </div>
-        <Alert variant="destructive">
-          <ShieldX className="size-4" />
-          <AlertTitle>No tiene acceso a esta organización</AlertTitle>
+        <Alert variant="information">
+          <Building className="size-4" />
+          <AlertTitle>Redireccionando a su organización</AlertTitle>
           <AlertDescription>
-            No tiene permisos para acceder a esta organización. Consulte al
-            administrador
+            Espere un momento mientras lo redireccionamos a su organización
           </AlertDescription>
         </Alert>
-        <Button variant="ghost" className="mt-4" asChild>
-          <Link href="/login">Regresar</Link>
-        </Button>
       </div>
     </div>
   )

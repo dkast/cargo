@@ -27,8 +27,9 @@ declare module "next-auth" {
       username: string
       role: MembershipRole
       membershipId: string
+      // default organization
       organizationId: string
-      organizationName: string
+      organizationDomain: string
     }
   }
 
@@ -82,7 +83,6 @@ export const authOptions: NextAuthOptions = {
             username: username
           },
           include: {
-            // TODO: find membership for the organization the user is logging in to and check if it's active
             memberships: true
           }
         })
@@ -144,7 +144,7 @@ export const authOptions: NextAuthOptions = {
       //@ts-expect-error assign organizationId
       session.user.organizationId = membershipData?.organizationId
       //@ts-expect-error assign organization name
-      session.user.organizationName = membershipData?.organization.name
+      session.user.organizationDomain = membershipData?.organization?.subdomain
       return session
     }
   },
