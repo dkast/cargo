@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fromDate } from "@internationalized/date"
 import { AccessType } from "@prisma/client"
+import { AnimatePresence, motion } from "framer-motion"
 import { Globe, Loader2, LockKeyhole } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useAction } from "next-safe-action/hooks"
@@ -259,23 +260,57 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem
-                className={cn(
-                  accessType === AccessType.PUBLIC ? "hidden" : "block"
-                )}
+          <AnimatePresence>
+            {accessType === AccessType.PRIVATE && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{
+                  height: "auto",
+                  opacity: 1,
+                  transition: {
+                    height: {
+                      duration: 0.2
+                    },
+                    opacity: {
+                      duration: 0.1,
+                      delay: 0.05
+                    }
+                  }
+                }}
+                exit={{
+                  height: 0,
+                  opacity: 0,
+                  transition: {
+                    height: {
+                      duration: 0.2
+                    },
+                    opacity: {
+                      duration: 0.1
+                    }
+                  }
+                }}
+                key={"password"}
               >
-                <FormLabel htmlFor="password">Contraseña</FormLabel>
-                <FormControl>
-                  <PasswordInput {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem
+                    // className={cn(
+                    //   accessType === AccessType.PUBLIC ? "hidden" : "block"
+                    // )}
+                    >
+                      <FormLabel htmlFor="password">Contraseña</FormLabel>
+                      <FormControl>
+                        <PasswordInput {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
             )}
-          />
+          </AnimatePresence>
           <FormField
             control={form.control}
             name="expiresAt"
