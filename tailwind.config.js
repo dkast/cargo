@@ -86,6 +86,20 @@ export const theme = {
           strong: "#fafaf9", // gray-50
           inverted: "#000000" // black
         }
+      },
+      // cargo brand colors https://www.tints.dev/brand/FF7100
+      brand: {
+        50: "color(display-p3 1 0.945 0.898 / <alpha-value>)",
+        100: "color(display-p3 1 0.89 0.8 / <alpha-value>)",
+        200: "color(display-p3 1 0.78 0.6 / <alpha-value>)",
+        300: "color(display-p3 1 0.671 0.4 / <alpha-value>)",
+        400: "color(display-p3 1 0.561 0.2 / <alpha-value>)",
+        500: "color(display-p3 1 0.443 0 / <alpha-value>)",
+        600: "color(display-p3 0.8 0.361 0 / <alpha-value>)",
+        700: "color(display-p3 0.6 0.271 0 / <alpha-value>)",
+        800: "color(display-p3 0.4 0.18 0 / <alpha-value>)",
+        900: "color(display-p3 0.2 0.09 0 / <alpha-value>)",
+        950: "color(display-p3 0.098 0.043 0 / <alpha-value>)"
       }
     },
     keyframes: {
