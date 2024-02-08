@@ -1,11 +1,18 @@
 import Balancer from "react-wrap-balancer"
-import { FileIcon } from "lucide-react"
+import {
+  ClipboardCheck,
+  CloudCog,
+  FileBarChart,
+  FolderSearch,
+  LinkIcon
+} from "lucide-react"
 import type { Metadata } from "next"
 import Link from "next/link"
 
 import { BentoCard, BentoGrid } from "@/components/landing/bento-grid"
 import { BorderBeam } from "@/components/landing/border-beam"
 import DotPattern from "@/components/landing/dot-pattern"
+import Globe from "@/components/landing/globe"
 import Waitlist from "@/components/landing/waitlist"
 import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
@@ -58,7 +65,7 @@ function Hero() {
         )}
       />
       <Balancer>
-        <h1 className="relative mt-24 bg-gradient-to-br from-gray-800 via-gray-600 to-brand-500 bg-clip-text font-display text-5xl font-medium tracking-tight text-transparent sm:mt-32 sm:bg-gradient-to-tr sm:text-6xl sm:leading-normal">
+        <h1 className="relative mt-24 bg-gradient-to-br from-gray-800 via-gray-700 to-brand-500 bg-clip-text font-display text-5xl font-medium tracking-tight text-transparent sm:mt-32 sm:bg-gradient-to-tr sm:text-6xl sm:leading-normal">
           Agiliza tus inspecciones C-TPAT
         </h1>
       </Balancer>
@@ -97,50 +104,56 @@ function Display() {
 
 const features = [
   {
-    Icon: FileIcon,
-    name: "Save your files",
-    description: "We automatically save your files as you type.",
+    Icon: ClipboardCheck,
+    name: "Inspecciones",
+    description:
+      "Realiza inspecciones de los 17 puntos desde un dispositivo móvil. Guarda evidencia fotográfica y notas.",
     href: "/",
-    cta: "Learn more",
+    cta: "Ver más",
     background: <div></div>,
     className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3"
   },
   {
-    Icon: FileIcon,
-    name: "Full text search",
-    description: "Search through all your files in one place.",
-    href: "/",
-    cta: "Learn more",
-    background: <div></div>,
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3"
-  },
-  {
-    Icon: FileIcon,
-    name: "Multilingual",
-    description: "Supports 100+ languages and counting.",
-    href: "/",
-    cta: "Learn more",
-    background: <div></div>,
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4"
-  },
-  {
-    Icon: FileIcon,
-    name: "Calendar",
-    description: "Use the calendar to filter your files by date.",
-    href: "/",
-    cta: "Learn more",
-    background: <div></div>,
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2"
-  },
-  {
-    Icon: FileIcon,
-    name: "Notifications",
+    Icon: FolderSearch,
+    name: "Historial y búsqueda",
     description:
-      "Get notified when someone shares a file or mentions you in a comment.",
+      "Busca y filtra tus inspecciones por diferentes criterios. Toda tu información se almacena de forma segura en la nube.",
     href: "/",
-    cta: "Learn more",
+    cta: "Ver más",
     background: <div></div>,
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4"
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-4"
+  },
+  {
+    Icon: LinkIcon,
+    name: "Comparte y colabora",
+    description:
+      "Genera reportes en PDF y enlaces que puedes compartir dentro o fuera de tu organización.",
+    href: undefined,
+    cta: "Ver más",
+    background: <div></div>,
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2"
+  },
+  {
+    Icon: FileBarChart,
+    name: "Informes y Analítica",
+    description:
+      "Obtén información relevante sobre tus inspecciones. Descubre tendencias y áreas de oportunidad.",
+    href: undefined,
+    cta: "Ver más",
+    background: <div></div>,
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-3"
+  },
+  {
+    Icon: CloudCog,
+    name: "Implementación rápida",
+    description:
+      "Sin instalaciones, accesible desde cualquier sitio en tu navegador.",
+    href: undefined,
+    cta: "Ver más",
+    background: (
+      <Globe className="-top-20 h-[600px] w-[600px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_30%,#000_100%)] group-hover:scale-105 sm:left-10" />
+    ),
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-3 lg:row-end-4"
   }
 ]
 
@@ -169,7 +182,7 @@ function Features() {
 
 function Footer() {
   return (
-    <footer className="mt-10 flex flex-col items-center justify-center gap-y-2 py-6">
+    <footer className="mt-10 flex flex-col items-center justify-center gap-y-2 py-6 text-sm">
       <p className="text-gray-600">
         &copy; {new Date().getFullYear()} Cargo. Todos los derechos reservados.
       </p>
