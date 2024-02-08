@@ -12,15 +12,16 @@ const GLOBE_CONFIG: COBEOptions = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onRender: () => {},
   devicePixelRatio: 2,
-  phi: 0,
+  phi: 0.003,
   theta: 0.3,
   dark: 0,
   diffuse: 0.4,
-  mapSamples: 16000,
+  mapSamples: 6000,
   mapBrightness: 1.2,
   baseColor: [1, 1, 1],
   markerColor: [251 / 255, 100 / 255, 21 / 255],
   glowColor: [1, 1, 1],
+  opacity: 0.9,
   markers: [
     { location: [14.5995, 120.9842], size: 0.03 },
     { location: [19.076, 72.8777], size: 0.1 },
@@ -72,7 +73,7 @@ export default function Globe({
 
   const onRender = useCallback(
     (state: Record<string, unknown>) => {
-      if (!pointerInteracting.current) phi += 0.005
+      if (!pointerInteracting.current) phi += 0.0015
       state.phi = phi + r.get()
       state.width = width * 2
       state.height = width * 2

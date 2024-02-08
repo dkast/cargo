@@ -4,15 +4,18 @@ import {
   CloudCog,
   FileBarChart,
   FolderSearch,
-  LinkIcon
+  LinkIcon,
+  Share
 } from "lucide-react"
 import type { Metadata } from "next"
 import Link from "next/link"
 
 import { BentoCard, BentoGrid } from "@/components/landing/bento-grid"
 import { BorderBeam } from "@/components/landing/border-beam"
+import ChartDemo from "@/components/landing/chart-demo"
 import DotPattern from "@/components/landing/dot-pattern"
 import Globe from "@/components/landing/globe"
+import ListDemo from "@/components/landing/list-demo"
 import Waitlist from "@/components/landing/waitlist"
 import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
@@ -89,7 +92,7 @@ function Display() {
         <img
           src="dashboard.png"
           alt="Hero Image"
-          className="w-[768px] rounded-[inherit] border object-contain shadow-lg"
+          className="w-[1024px] rounded-[inherit] border object-contain shadow-lg"
         />
         <BorderBeam
           size={250}
@@ -110,7 +113,9 @@ const features = [
       "Realiza inspecciones de los 17 puntos desde un dispositivo móvil. Guarda evidencia fotográfica y notas.",
     href: "/",
     cta: "Ver más",
-    background: <div></div>,
+    background: (
+      <ListDemo className="absolute right-0 top-0 origin-top transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_80%,#000_100%)] group-hover:scale-105 sm:[mask-image:linear-gradient(to_top,transparent_60%,#000_100%)]" />
+    ),
     className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3"
   },
   {
@@ -120,7 +125,13 @@ const features = [
       "Busca y filtra tus inspecciones por diferentes criterios. Toda tu información se almacena de forma segura en la nube.",
     href: "/",
     cta: "Ver más",
-    background: <div></div>,
+    background: (
+      <img
+        src="query.png"
+        alt="Search"
+        className="absolute right-0 top-[-136px] w-[300px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_60%)] group-hover:translate-x-10 sm:top-[-132px]"
+      />
+    ),
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-4"
   },
   {
@@ -130,7 +141,17 @@ const features = [
       "Genera reportes en PDF y enlaces que puedes compartir dentro o fuera de tu organización.",
     href: undefined,
     cta: "Ver más",
-    background: <div></div>,
+    background: (
+      <div className="absolute inset-0 top-32 flex items-start justify-center transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_20%,#000_80%)] group-hover:-translate-y-10 group-hover:scale-105">
+        <Button
+          size="lg"
+          className="gap-x-3 rounded-full bg-brand-500 shadow-lg shadow-brand-500/30 hover:bg-brand-400 active:bg-brand-600 sm:hidden"
+        >
+          <Share className="size-4" />
+          Compartir
+        </Button>
+      </div>
+    ),
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2"
   },
   {
@@ -140,7 +161,9 @@ const features = [
       "Obtén información relevante sobre tus inspecciones. Descubre tendencias y áreas de oportunidad.",
     href: undefined,
     cta: "Ver más",
-    background: <div></div>,
+    background: (
+      <ChartDemo className="absolute left-10 top-5 w-[300px] origin-top translate-x-0 transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:-translate-x-10"></ChartDemo>
+    ),
     className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-3"
   },
   {
@@ -151,7 +174,7 @@ const features = [
     href: undefined,
     cta: "Ver más",
     background: (
-      <Globe className="-top-20 h-[600px] w-[600px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_30%,#000_100%)] group-hover:scale-105 sm:left-10" />
+      <Globe className="-top-20 h-[600px] w-[600px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-105 sm:left-10" />
     ),
     className: "lg:col-start-3 lg:col-end-3 lg:row-start-3 lg:row-end-4"
   }
