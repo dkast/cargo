@@ -34,6 +34,7 @@ export default function HomePage() {
       <Hero />
       <Display />
       <Features />
+      <CTA />
       <Footer />
     </div>
   )
@@ -111,7 +112,7 @@ const features = [
     name: "Inspecciones",
     description:
       "Realiza inspecciones de los 17 puntos desde un dispositivo móvil. Guarda evidencia fotográfica y notas.",
-    href: "/",
+    href: undefined,
     cta: "Ver más",
     background: (
       <ListDemo className="absolute right-0 top-0 origin-top transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_80%,#000_100%)] group-hover:scale-105 sm:[mask-image:linear-gradient(to_top,transparent_60%,#000_100%)]" />
@@ -123,7 +124,7 @@ const features = [
     name: "Historial y búsqueda",
     description:
       "Busca y filtra tus inspecciones por diferentes criterios. Toda tu información se almacena de forma segura en la nube.",
-    href: "/",
+    href: undefined,
     cta: "Ver más",
     background: (
       <img
@@ -145,7 +146,8 @@ const features = [
       <div className="absolute inset-0 top-32 flex items-start justify-center transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_20%,#000_80%)] group-hover:-translate-y-10 group-hover:scale-105">
         <Button
           size="lg"
-          className="gap-x-3 rounded-full bg-brand-500 shadow-lg shadow-brand-500/30 hover:bg-brand-400 active:bg-brand-600 sm:hidden"
+          variant="outline"
+          className="gap-x-3 rounded-full shadow-lg sm:hidden"
         >
           <Share className="size-4" />
           Compartir
@@ -203,17 +205,39 @@ function Features() {
   )
 }
 
+function CTA() {
+  return (
+    <section
+      className="my-20 flex w-full max-w-4xl flex-col items-center gap-y-4 bg-gray-950 bg-[url(/bg-landing.svg)] 
+      bg-cover bg-top bg-no-repeat px-4 py-10 sm:rounded-xl sm:px-0 sm:py-20 sm:shadow-xl"
+    >
+      <h2 className="font-display text-3xl font-semibold tracking-tight text-gray-100 sm:text-4xl">
+        ¿Listo para probar Cargo?
+      </h2>
+      <p className="px-4 text-center text-gray-400 sm:text-lg">
+        <Balancer>
+          Regístrate para unirte a la lista de espera y ser de los primeros en
+          probar nuestra solución.
+        </Balancer>
+      </p>
+      <div className="mt-10">
+        <Waitlist />
+      </div>
+    </section>
+  )
+}
+
 function Footer() {
   return (
-    <footer className="mt-10 flex flex-col items-center justify-center gap-y-2 py-6 text-sm">
+    <footer className="flex flex-col items-center justify-center gap-y-2 py-5 text-sm sm:py-10">
       <p className="text-gray-600">
         &copy; {new Date().getFullYear()} Cargo. Todos los derechos reservados.
       </p>
       <div className="flex gap-x-4">
-        <Link href="/terms" className="text-gray-600">
+        <Link href="/terms" className="text-gray-600 hover:text-gray-800">
           Términos de uso
         </Link>
-        <Link href="/privacy" className="text-gray-600">
+        <Link href="/privacy" className="text-gray-600 hover:text-gray-800">
           Política de privacidad
         </Link>
       </div>

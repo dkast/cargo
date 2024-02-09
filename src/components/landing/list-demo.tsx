@@ -13,7 +13,7 @@ export default function ListDemo({ className }: { className?: string }) {
           <span className="text-sm">{inspection}</span>
           {index === 2 ? (
             <span className="relative flex">
-              <span className="absolute inset-0 mx-2 my-0.5 animate-ping rounded-sm bg-red-400 opacity-30"></span>
+              <span className="absolute inset-0 mx-2 my-0.5 animate-ping rounded-sm bg-red-400 opacity-50"></span>
               <Badge variant="red" className="relative rounded">
                 Falla
               </Badge>
