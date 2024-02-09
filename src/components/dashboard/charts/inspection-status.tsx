@@ -57,7 +57,7 @@ export default async function InspectionStatusChart({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-2">
           <DonutChart
             data={transformedData}
             index="status"
@@ -67,6 +67,10 @@ export default async function InspectionStatusChart({
             animationDuration={500}
             noDataText="No hay datos para mostrar"
           />
+          <p className="mt-8 flex w-full items-center justify-between text-tremor-label text-tremor-content dark:text-dark-tremor-content">
+            <span>Estatus</span>
+            <span>Total</span>
+          </p>
           <List>
             {transformedData.map(item => (
               <ListItem key={item.status}>
