@@ -52,15 +52,27 @@ export default async function DashboardPage({
         <Filter />
       </section>
       <section className="grid grid-cols-1 gap-4 px-3 py-4 sm:grid-cols-4">
-        <Suspense fallback={<CardSkeleton className="sm:col-span-1" />}>
-          <InspectionStatusChart filter={filter} className="sm:col-span-1" />
-        </Suspense>
-        <Suspense fallback={<CardSkeleton className="sm:col-span-2" />}>
-          <InspectionResultChart filter={filter} className="sm:col-span-2" />
-        </Suspense>
-        <Suspense fallback={<CardSkeleton className="sm:col-span-1" />}>
-          <InspectionRecent filter={filter} className="sm:col-span-1" />
-        </Suspense>
+        <div className="sm:col-span-1">
+          <div className="grid gap-4">
+            <Suspense fallback={<CardSkeleton />}>
+              <InspectionStatusChart filter={filter} />
+            </Suspense>
+          </div>
+        </div>
+        <div className="sm:col-span-2">
+          <div className="grip gap-4">
+            <Suspense fallback={<CardSkeleton />}>
+              <InspectionResultChart filter={filter} />
+            </Suspense>
+          </div>
+        </div>
+        <div className="sm:col-span-1">
+          <div className="grid gap-4">
+            <Suspense fallback={<CardSkeleton />}>
+              <InspectionRecent filter={filter} />
+            </Suspense>
+          </div>
+        </div>
       </section>
     </div>
   )

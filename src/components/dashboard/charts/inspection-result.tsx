@@ -105,7 +105,7 @@ export default async function InspectionResultChart({
         {issuePercentage > 10 && (
           <Callout
             title="Aviso"
-            color="orange"
+            color="amber"
             icon={AlertTriangleIcon}
             className="mt-4"
           >

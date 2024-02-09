@@ -31,7 +31,10 @@ async function InspectionRecent({
   filter: InspectionQueryFilter
   className?: string
 }) {
-  const data = await getInspections(filter)
+  const data = await getInspections({
+    organizationId: filter.organizationId,
+    take: 5
+  })
   return (
     <Card className={className}>
       <CardHeader className="flex flex-row items-start justify-between space-y-0">

@@ -1,7 +1,7 @@
 import ItemsForm from "@/app/[domain]/dashboard/ctpat/edit/[id]/items-form"
 import { InspectionStatus, InspectionTripType } from "@prisma/client"
 import { format } from "date-fns"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, CheckCircle2, CircleDashed, CircleDot } from "lucide-react"
 import { type Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -51,11 +51,26 @@ export default async function CTPATEditPage({
                 {(() => {
                   switch (inspection.status) {
                     case InspectionStatus.OPEN:
-                      return <Badge variant="yellow">En Proceso</Badge>
+                      return (
+                        <Badge variant="yellow">
+                          <CircleDashed className="-ml-0.5 mr-1 size-3" />
+                          En Proceso
+                        </Badge>
+                      )
                     case InspectionStatus.CLOSED:
-                      return <Badge variant="blue">Cerrado</Badge>
+                      return (
+                        <Badge variant="blue">
+                          <CircleDot className="-ml-0.5 mr-1 size-3" />
+                          Cerrado
+                        </Badge>
+                      )
                     case InspectionStatus.APPROVED:
-                      return <Badge variant="green">Aprobado</Badge>
+                      return (
+                        <Badge variant="violet">
+                          <CheckCircle2 className="-ml-0.5 mr-1 size-3" />
+                          Aprobado
+                        </Badge>
+                      )
                     default:
                       return null
                   }
@@ -66,12 +81,12 @@ export default async function CTPATEditPage({
               <dl className="space-y-1 sm:space-y-2">
                 <dt className="text-sm font-medium">Tipo Inspección</dt>
                 <dd className="flex gap-x-2 text-sm leading-6 text-gray-700">
-                  {inspection.location?.name}
                   {inspection.tripType === InspectionTripType.IN ? (
                     <Badge variant="blue">Entrada</Badge>
                   ) : (
                     <Badge variant="blue">Salida</Badge>
                   )}
+                  {inspection.location?.name}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
