@@ -92,7 +92,7 @@ export default async function InspectionResultChart({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col">
-        <ul className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-10">
+        <ul className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-4">
           <li>
             <div className="flex items-center space-x-2">
               <span className="size-3 shrink-0 bg-green-500"></span>
