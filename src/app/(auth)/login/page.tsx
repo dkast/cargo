@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import LoginForm from "@/app/(auth)/login/login-form"
 import { type Metadata } from "next"
 import Image from "next/image"
+import Link from "next/link"
 
 import Logo from "@/components/logo"
 import Spinner from "@/components/ui/spinner"
@@ -17,12 +18,12 @@ export default function LoginPage() {
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
-            <div className="flex items-center gap-x-3">
+            <Link href="/" className="flex items-center gap-x-3">
               <Logo className="size-10" />
               <span className="font-display text-4xl font-medium tracking-tight">
                 cargo
               </span>
-            </div>
+            </Link>
             <h2 className="mt-8 text-2xl font-medium leading-9 tracking-tight text-gray-900">
               Bienvenido
             </h2>

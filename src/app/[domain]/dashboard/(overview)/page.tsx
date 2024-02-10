@@ -84,7 +84,11 @@ export default async function DashboardPage({
             className="sm:col-start-4 sm:col-end-5 sm:row-start-1 sm:row-end-3"
           />
         </Suspense>
-        <Suspense fallback={<CardSkeleton />}>
+        <Suspense
+          fallback={
+            <CardSkeleton className="sm:col-start-1 sm:col-end-3 sm:row-start-3 sm:row-end-5" />
+          }
+        >
           <InspectionRecent
             filter={filter}
             className="sm:col-start-1 sm:col-end-3 sm:row-start-3 sm:row-end-5"

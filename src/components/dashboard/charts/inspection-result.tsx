@@ -146,7 +146,7 @@ export default async function InspectionResultChart({
           animationDuration={500}
           showLegend={false}
           noDataText="No hay datos para mostrar"
-          className="mt-10 hidden h-64 md:block"
+          className="mt-10 h-64"
         />
         {/* {issuePercentage > 10 && (
           <Callout

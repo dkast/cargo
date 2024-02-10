@@ -52,7 +52,9 @@ async function InspectionRecent({
           <TableHeader>
             <TableRow>
               <TableHead># Folio</TableHead>
-              <TableHead>Resultado</TableHead>
+              <TableHead>Ubicación</TableHead>
+              <TableHead>Transportista</TableHead>
+              <TableHead className="text-center">Resultado</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -81,6 +83,12 @@ async function InspectionRecent({
                       </span>
                     )}
                   </div>
+                </TableCell>
+                <TableCell className="p-2">
+                  {inspection.location?.name || "Sin ubicación"}
+                </TableCell>
+                <TableCell className="p-2">
+                  {inspection.company?.name}
                 </TableCell>
                 <TableCell className="p-2 text-center">
                   {(() => {
