@@ -52,9 +52,9 @@ export default async function SettingsPage({
         title="Ubicaciones"
         description="Sitios clave de la empresa"
       />
-      <LocationForm organizationId={user.organizationId} />
+      <LocationForm organizationId={data.id} />
       <Suspense fallback={<LocationSkeleton />}>
-        <LocationList organizationId={user.organizationId} />
+        <LocationList organizationId={data.id} />
       </Suspense>
     </div>
   )
