@@ -1,4 +1,4 @@
-import { BarChart, Callout } from "@tremor/react"
+import { BarChart } from "@tremor/react"
 import { format } from "date-fns"
 import { Activity, AlertTriangleIcon } from "lucide-react"
 
@@ -35,7 +35,7 @@ export default async function InspectionResultChart({
   // take the array and transform it into an array where the result is sum of the total and is grouped by date
   const transformedData = data.reduce(
     (acc: TransformedData[], item: ResultData) => {
-      const date = format(item.start, "dd/MM/yy")
+      const date = format(item.start, "MMM dd")
       const result = item.result === "PASS" ? "OK" : "Falla"
       const total = Number(item.total)
 
@@ -92,7 +92,7 @@ export default async function InspectionResultChart({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col">
-        <ul className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-4">
+        <ul className="flex flex-wrap items-center gap-x-10 gap-y-4">
           <li>
             <div className="flex items-center space-x-2">
               <span className="size-3 shrink-0 bg-green-500"></span>
@@ -141,11 +141,12 @@ export default async function InspectionResultChart({
           categories={["OK", "Falla"]}
           colors={["green", "red"]}
           stack
+          tickGap={20}
           showAnimation
           animationDuration={500}
           showLegend={false}
           noDataText="No hay datos para mostrar"
-          className="mt-10 hidden h-72 md:block"
+          className="mt-10 hidden h-64 md:block"
         />
         {/* {issuePercentage > 10 && (
           <Callout

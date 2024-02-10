@@ -60,7 +60,11 @@ export default async function CTPATIssuesPage({
         <DateFilter />
       </PageSubtitle>
       <Suspense fallback={<CardSkeleton className="sm:col-span-2" />}>
-        <InspectionIssueChart filter={filter} className="sm:col-span-2" />
+        <InspectionIssueChart
+          filter={filter}
+          type="CHART"
+          className="sm:col-span-2"
+        />
       </Suspense>
       <IssueDataTable data={data} />
     </div>
