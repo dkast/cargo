@@ -117,7 +117,7 @@ model Membership {
 
 model Location {
   id             String       @id @default(cuid())
-  name           String       @unique
+  name           String
   description    String?
   isActive       Boolean      @default(true)
   createdAt      DateTime     @default(now())
@@ -126,62 +126,69 @@ model Location {
   organizationId String
   inspections    Inspection[]
 
+  @@unique([organizationId, name])
   @@index([organizationId])
 }
 
 model Company {
   id             String       @id @default(cuid())
-  name           String       @unique
+  name           String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   inspections    Inspection[]
 
+  @@unique([organizationId, name])
   @@index([organizationId])
 }
 
 model Operator {
   id             String       @id @default(cuid())
-  name           String       @unique
-  licenseNumber  String       @unique
+  name           String
+  licenseNumber  String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   inspections    Inspection[]
 
+  @@unique([organizationId, name])
+  @@unique([organizationId, licenseNumber])
   @@index([organizationId])
 }
 
 model Vehicle {
   id             String       @id @default(cuid())
-  vehicleNbr     String       @unique
-  licensePlate   String       @unique
+  vehicleNbr     String
+  licensePlate   String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   inspections    Inspection[]
 
+  @@unique([organizationId, vehicleNbr])
+  @@unique([organizationId, licensePlate])
   @@index([organizationId])
 }
 
 model Container {
   id             String       @id @default(cuid())
-  containerNbr   String       @unique
+  containerNbr   String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   inspections    Inspection[]
 
+  @@unique([organizationId, containerNbr])
   @@index([organizationId])
 }
 
 model Inspection {
   id              String             @id @default(cuid())
-  inspectionNbr   Int                @unique @default(autoincrement())
+  inspectionNbr   Int                @default(autoincrement())
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
   operator        Operator           @relation(fields: [operatorId], references: [id])
@@ -215,6 +222,7 @@ model Inspection {
   location        Location?          @relation(fields: [locationId], references: [id])
   locationId      String?
 
+  @@unique([organizationId, inspectionNbr])
   @@index([inspectionNbr])
   @@index([operatorId])
   @@index([vehicleId])

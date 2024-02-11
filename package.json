@@ -14,7 +14,7 @@
     "prepare": "husky install"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed-dev.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.504.0",
