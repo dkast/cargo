@@ -205,7 +205,7 @@ model Inspection {
   sealNbr         String?
   tiresVehicle    String?
   tiresContainer  String?
-  inspectedBy     Membership         @relation(name: "inspectedBy", fields: [inspectedById], references: [id])
+  inspectedBy     Membership         @relation(name: "inspectedBy", fields: [inspectedById], references: [id], onDelete: Cascade)
   inspectedById   String
   approvedBy      Membership?        @relation(name: "approvedBy", fields: [approvedById], references: [id])
   approvedById    String?

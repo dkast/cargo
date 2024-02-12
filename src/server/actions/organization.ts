@@ -2,6 +2,7 @@
 
 import { hash } from "bcrypt"
 import { revalidatePath, revalidateTag } from "next/cache"
+import { z } from "zod"
 
 import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
@@ -176,3 +177,32 @@ export const deactivateOrgMember = action(
     }
   }
 )
+
+export const deleteOrganization = action(z.string().cuid(), async id => {
+  // Delete organization
+  try {
+    await prisma.organization.delete({
+      where: {
+        id: id
+      }
+    })
+
+    revalidatePath("/dashboard/settings")
+
+    return {
+      success: true
+    }
+  } catch (error) {
+    let message
+    if (typeof error === "string") {
+      message = error
+    } else if (error instanceof Error) {
+      message = error.message
+    }
+    return {
+      failure: {
+        reason: message
+      }
+    }
+  }
+})

@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import LocationForm from "@/app/[domain]/dashboard/settings/location-form"
 import LocationList from "@/app/[domain]/dashboard/settings/location-list"
+import OrganizationDelete from "@/app/[domain]/dashboard/settings/organization-delete"
 import OrganizationForm from "@/app/[domain]/dashboard/settings/organization-form"
 import { MembershipRole } from "@prisma/client"
 import { type Metadata } from "next"
@@ -56,6 +57,9 @@ export default async function SettingsPage({
       <Suspense fallback={<LocationSkeleton />}>
         <LocationList organizationId={data.id} />
       </Suspense>
+      {user?.role === MembershipRole.ADMIN && (
+        <OrganizationDelete organizationId={data.id} />
+      )}
     </div>
   )
 }
