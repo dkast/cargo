@@ -52,7 +52,7 @@ function OrganizationDelete({ organizationId }: { organizationId: string }) {
               Eliminar Empresa
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-row items-center justify-center gap-x-8">
+          <CardContent className="flex flex-col items-start justify-center gap-x-8 gap-y-4 sm:flex-row sm:items-center">
             <p className="text-gray-500">
               Eliminar la Empresa, catalogos e inspecciones asociadas a la
               misma. Esta operación es irreversible.

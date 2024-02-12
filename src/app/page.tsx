@@ -68,11 +68,9 @@ function Hero() {
           "fill-gray-400/60 [mask-image:radial-gradient(400px_circle_at_center,white,transparent)] sm:[mask-image:radial-gradient(700px_circle_at_center,white,transparent)]"
         )}
       />
-      <Balancer>
-        <h1 className="relative mt-24 bg-gradient-to-br from-gray-800 via-gray-700 to-brand-500 bg-clip-text font-display text-5xl font-medium tracking-tight text-transparent sm:mt-32 sm:bg-gradient-to-tr sm:text-6xl sm:leading-normal">
-          Agiliza tus inspecciones C-TPAT
-        </h1>
-      </Balancer>
+      <h1 className="relative mt-24 bg-gradient-to-br from-gray-800 via-gray-700 to-brand-500 bg-clip-text font-display text-5xl font-medium tracking-tight text-transparent sm:mt-32 sm:bg-gradient-to-tr sm:text-6xl sm:leading-normal">
+        <Balancer>Agiliza tus inspecciones C-TPAT</Balancer>
+      </h1>
       <p className="text-gray-600 sm:text-xl">
         <Balancer>
           Realiza inspecciones C-TPAT desde cualquir dispositvo. Registra
