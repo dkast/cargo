@@ -85,7 +85,7 @@ async function InspectionRecent({
                   </div>
                 </TableCell>
                 <TableCell className="p-2">
-                  {inspection.location?.name || "Sin ubicación"}
+                  {inspection.location?.name ?? "Sin ubicación"}
                 </TableCell>
                 <TableCell className="p-2">
                   {inspection.company?.name}

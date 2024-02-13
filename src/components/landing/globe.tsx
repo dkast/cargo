@@ -93,17 +93,19 @@ export default function Globe({
     window.addEventListener("resize", onResize)
     onResize()
 
-    const globe = createGlobe(canvasRef.current!, {
-      ...config,
-      width: width * 2,
-      height: width * 2,
-      onRender
-    })
+    if (canvasRef.current) {
+      const globe = createGlobe(canvasRef.current, {
+        ...config,
+        width: width * 2,
+        height: width * 2,
+        onRender
+      })
 
-    setTimeout(() => {
-      if (canvasRef.current) canvasRef.current.style.opacity = "1"
-    })
-    return () => globe.destroy()
+      setTimeout(() => {
+        if (canvasRef.current) canvasRef.current.style.opacity = "1"
+      })
+      return () => globe.destroy()
+    }
   }, [])
 
   return (
