@@ -195,7 +195,7 @@ export default function CTPATMainForm({
                       role="combobox"
                       className={cn(
                         "w-full justify-between sm:w-[300px]",
-                        !field.value && "text-muted-foreground"
+                        field.value ?? "text-gray-500"
                       )}
                     >
                       {field.value
@@ -329,7 +329,7 @@ export default function CTPATMainForm({
                       role="combobox"
                       className={cn(
                         "w-full justify-between sm:w-[300px]",
-                        !field.value && "text-muted-foreground"
+                        field.value ?? "text-gray-500"
                       )}
                     >
                       {field.value
@@ -411,7 +411,7 @@ export default function CTPATMainForm({
                       role="combobox"
                       className={cn(
                         "w-full justify-between sm:w-[300px]",
-                        !field.value && "text-muted-foreground"
+                        field.value ?? "text-gray-500"
                       )}
                     >
                       {field.value
@@ -500,7 +500,7 @@ export default function CTPATMainForm({
                       role="combobox"
                       className={cn(
                         "w-full justify-between sm:w-[300px]",
-                        !field.value && "text-muted-foreground"
+                        field.value ?? "text-gray-500"
                       )}
                     >
                       {field.value
@@ -580,7 +580,7 @@ export default function CTPATMainForm({
                       role="combobox"
                       className={cn(
                         "w-full justify-between sm:w-[300px]",
-                        !field.value && "text-muted-foreground"
+                        field.value ?? "text-gray-500"
                       )}
                     >
                       {field.value

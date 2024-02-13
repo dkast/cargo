@@ -60,7 +60,9 @@ export default function Globe({
 
   const updatePointerInteraction = (value: number | null) => {
     pointerInteracting.current = value
-    canvasRef.current!.style.cursor = value ? "grabbing" : "grab"
+    if (canvasRef.current) {
+      canvasRef.current.style.cursor = value ? "grabbing" : "grab"
+    }
   }
 
   const updateMovement = (clientX: number) => {
@@ -98,7 +100,9 @@ export default function Globe({
       onRender
     })
 
-    setTimeout(() => (canvasRef.current!.style.opacity = "1"))
+    setTimeout(() => {
+      if (canvasRef.current) canvasRef.current.style.opacity = "1"
+    })
     return () => globe.destroy()
   }, [])
 

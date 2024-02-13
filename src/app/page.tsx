@@ -8,6 +8,7 @@ import {
   Share
 } from "lucide-react"
 import type { Metadata } from "next"
+import Image from "next/image"
 
 import { BentoCard, BentoGrid } from "@/components/landing/bento-grid"
 import { BorderBeam } from "@/components/landing/border-beam"
@@ -68,10 +69,12 @@ function Display() {
   return (
     <section className="my-10">
       <div className="relative rounded-lg px-4 sm:rounded-xl sm:px-0">
-        <img
-          src="dashboard.png"
-          alt="Hero Image"
+        <Image
+          src="/dashboard.png"
+          alt="Tablero de inspecciones C-TPAT"
           className="w-[1024px] rounded-[inherit] border object-contain shadow-lg"
+          width={1024}
+          height={768}
         />
         <BorderBeam
           size={250}

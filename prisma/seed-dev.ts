@@ -177,13 +177,13 @@ async function main() {
       Math.random() < 0.8 ? InspectionResult.PASS : InspectionResult.FAIL
 
     const inspection = {
-      locationId: randomLocation!.id,
-      companyId: randomCompany!.id,
-      operatorId: randomOperator!.id,
+      locationId: randomLocation?.id ?? "error",
+      companyId: randomCompany?.id ?? "error",
+      operatorId: randomOperator?.id ?? "error",
       licenseNumber: "123456",
-      vehicleId: randomVehicle!.id,
+      vehicleId: randomVehicle?.id ?? "error",
       licensePlate: "ABC123",
-      containerId: randomContainer!.id,
+      containerId: randomContainer?.id ?? "error",
       start: randomDate,
       end: randomDate,
       tripType: randomTripType,

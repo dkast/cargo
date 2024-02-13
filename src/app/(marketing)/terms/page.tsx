@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Términos de uso",
@@ -58,7 +59,7 @@ export default function TermsPage() {
         <li>
           <strong>Privacidad.</strong> Estos Términos incluyen las disposiciones
           de este documento, así como las de nuestra{" "}
-          <a href="/privacy">Política de Privacidad</a> .<a href="/privacy"></a>
+          <Link href="/privacy">Política de Privacidad</Link>.
         </li>
         <li>
           <p>
@@ -130,8 +131,7 @@ export default function TermsPage() {
           <p>
             Si desea que cancelemos su cuenta, siga los procedimientos
             establecidos en nuestra{" "}
-            <a href="/privacy">Política de Privacidad.</a>
-            <a href="/privacy"></a>
+            <Link href="/privacy">Política de Privacidad.</Link>
           </p>
           <p>
             No puede transferir su cuenta a nadie más sin nuestro permiso previo
@@ -302,11 +302,11 @@ export default function TermsPage() {
           la Plataforma, y reemplazan todos los acuerdos anteriores, escritos u
           orales, distintos de los Acuerdos de organización.
         </li>
-        <li>
+        {/* <li>
           <strong>Contáctenos.</strong> Si tiene alguna pregunta sobre la
           Plataforma, no dude en contactarnos en soporte@{application}hq.co o en
-          nuestra <a href="/contact">página de contacto</a> .
-        </li>
+          nuestra <Link href="/contact">página de contacto</Link> .
+        </li> */}
       </ol>
     </section>
   )

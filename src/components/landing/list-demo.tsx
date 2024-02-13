@@ -7,7 +7,7 @@ export default function ListDemo({ className }: { className?: string }) {
     <div className={cn("flex flex-col gap-y-2 p-4", className)}>
       {ctpatInspections.map((inspection, index) => (
         <div
-          key={index}
+          key={inspection.substring(0, 3) + index}
           className="flex items-center justify-between rounded-lg border px-4 py-2 shadow-sm"
         >
           <span className="text-sm">{inspection}</span>

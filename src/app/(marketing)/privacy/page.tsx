@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Política de privacidad",
@@ -27,7 +28,7 @@ export default function PrivacyPage() {
             recopilemos, usemos y compartamos su información personal de las
             siguientes maneras. Cualquier término en mayúscula que no esté
             definido en esta Política se define en nuestros{" "}
-            <a href="/terms">Términos de servicio</a> .
+            <Link href="/terms">Términos de servicio</Link> .
           </p>
         </li>
         <li>

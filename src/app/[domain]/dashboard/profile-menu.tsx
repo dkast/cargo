@@ -28,12 +28,12 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <a
-          href="#"
+        <button
+          type="button"
           className={cn(
             isMobile
               ? "focus:outline-none"
-              : "flex items-center justify-center gap-x-4 border-t px-3 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white focus:outline-none"
+              : "flex w-full items-center justify-center gap-x-4 border-t px-3 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-white focus:outline-none"
           )}
         >
           <Avatar>
@@ -47,7 +47,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
               <ChevronsUpDown className="h-4 w-4 text-gray-500" />
             </>
           )}
-        </a>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-52">
         <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>

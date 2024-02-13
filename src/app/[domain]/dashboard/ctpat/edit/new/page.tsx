@@ -51,7 +51,7 @@ export default async function NewCTPATPage({
           containers={containers}
           locations={locations.map(location => ({
             ...location,
-            description: location.description || ""
+            description: location.description ?? ""
           }))}
           organizationId={orgData.id}
           membershipId={user.membershipId}

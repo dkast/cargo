@@ -42,7 +42,7 @@ export default function LocationEdit({
     defaultValues: {
       id: data.id,
       name: data.name,
-      description: data.description || "",
+      description: data.description ?? "",
       isActive: data.isActive,
       organizationId: data.organizationId
     }
