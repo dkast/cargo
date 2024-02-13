@@ -1,3 +1,10 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Términos de uso",
+  description: "Términos de uso de la aplicación Cargo."
+}
+
 export default function TermsPage() {
   const application = "Cargo"
   return (
@@ -61,42 +68,41 @@ export default function TermsPage() {
             específicamente que su uso cumplirá con las siguientes restricciones
             y obligaciones:
           </p>
-        </li>
-        <li>
-          <p>
-            Solo puede utilizar la Plataforma en nombre de las Organizaciones y
-            solo según lo permitido en los Acuerdos de la Organización.
-          </p>
-        </li>
-        <li>
-          No puede transferir su acceso a otros ni permitir que otros accedan a
-          la Plataforma a través de su propio acceso.
-        </li>
-        <li>
-          Sólo puede utilizar la Plataforma para actividades legales. Es su
-          responsabilidad cumplir con todas las leyes y regulaciones locales,
-          estatales y federales aplicables.
-        </li>
-        <li>
-          No puede descompilar, realizar ingeniería inversa ni intentar obtener
-          el código fuente o las ideas subyacentes o información de la
-          Plataforma o relacionada con ella.
-        </li>
-        <li>
-          No puede ingresar, almacenar ni transmitir virus, gusanos u otros
-          códigos maliciosos dentro, a través de, hacia o utilizando la
-          Plataforma.
-        </li>
-        <li>
-          No puede anular, evitar, eludir, eliminar, desactivar ni eludir de
-          otro modo ningún mecanismo de protección de software en la Plataforma.
-        </li>
-        <li>
-          <p>
-            No puede eliminar ni ocultar ninguna identificación de producto,
-            derechos de autor u otro aviso de propiedad de ningún elemento de la
-            Plataforma o documentación asociada.
-          </p>
+          <ul>
+            <li>
+              Solo puede utilizar la Plataforma en nombre de las Organizaciones
+              y solo según lo permitido en los Acuerdos de la Organización.
+            </li>
+            <li>
+              No puede transferir su acceso a otros ni permitir que otros
+              accedan a la Plataforma a través de su propio acceso.
+            </li>
+            <li>
+              Sólo puede utilizar la Plataforma para actividades legales. Es su
+              responsabilidad cumplir con todas las leyes y regulaciones
+              locales, estatales y federales aplicables.
+            </li>
+            <li>
+              No puede descompilar, realizar ingeniería inversa ni intentar
+              obtener el código fuente o las ideas subyacentes o información de
+              la Plataforma o relacionada con ella.
+            </li>
+            <li>
+              No puede ingresar, almacenar ni transmitir virus, gusanos u otros
+              códigos maliciosos dentro, a través de, hacia o utilizando la
+              Plataforma.
+            </li>
+            <li>
+              No puede anular, evitar, eludir, eliminar, desactivar ni eludir de
+              otro modo ningún mecanismo de protección de software en la
+              Plataforma.
+            </li>
+            <li>
+              No puede eliminar ni ocultar ninguna identificación de producto,
+              derechos de autor u otro aviso de propiedad de ningún elemento de
+              la Plataforma o documentación asociada.
+            </li>
+          </ul>
         </li>
         <li>
           <p>
@@ -279,7 +285,7 @@ export default function TermsPage() {
           estos Términos permanecerán en pleno vigor y efecto.
         </li>
         <li>
-          <strong>Ley que rige.</strong> Las leyes del Estado de Coahuila, sin
+          <strong>Ley que rige.</strong> Las leyes del Estado de California, sin
           referencia a su elección o ley o reglas o principios de conflicto de
           leyes, regirán estos Términos y cualquier disputa de cualquier tipo
           que pueda surgir entre usted y {application} con respecto a estos
@@ -296,11 +302,11 @@ export default function TermsPage() {
           la Plataforma, y reemplazan todos los acuerdos anteriores, escritos u
           orales, distintos de los Acuerdos de organización.
         </li>
-        {/* <li>
+        <li>
           <strong>Contáctenos.</strong> Si tiene alguna pregunta sobre la
-          Plataforma, no dude en contactarnos en soporte@{application}hq.co o en nuestra{" "}
-          <a href="/contact">página de contacto</a> .
-        </li> */}
+          Plataforma, no dude en contactarnos en soporte@{application}hq.co o en
+          nuestra <a href="/contact">página de contacto</a> .
+        </li>
       </ol>
     </section>
   )
