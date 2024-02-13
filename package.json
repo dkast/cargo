@@ -108,6 +108,7 @@
     "@hookform/devtools": "^4.3.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@react-types/shared": "^3.22.0",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/bcrypt": "^5.0.2",
     "@types/eslint": "^8.56.2",
     "@types/node": "^20.11.16",

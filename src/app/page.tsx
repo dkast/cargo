@@ -8,16 +8,16 @@ import {
   Share
 } from "lucide-react"
 import type { Metadata } from "next"
-import Link from "next/link"
 
 import { BentoCard, BentoGrid } from "@/components/landing/bento-grid"
 import { BorderBeam } from "@/components/landing/border-beam"
 import ChartDemo from "@/components/landing/chart-demo"
 import DotPattern from "@/components/landing/dot-pattern"
+import { Footer } from "@/components/landing/footer"
 import Globe from "@/components/landing/globe"
 import ListDemo from "@/components/landing/list-demo"
+import { NavBar } from "@/components/landing/navbar"
 import Waitlist from "@/components/landing/waitlist"
-import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -37,26 +37,6 @@ export default function HomePage() {
       <CTA />
       <Footer />
     </div>
-  )
-}
-
-function NavBar() {
-  return (
-    <nav className="flex w-full max-w-4xl items-center justify-between px-4 py-8 sm:px-0">
-      <div>
-        <Link href="/" className="flex items-center justify-center gap-x-2">
-          <Logo className="h-8 w-auto" />
-          <h1 className="font-display text-3xl font-medium tracking-tight">
-            cargo
-          </h1>
-        </Link>
-      </div>
-      <div>
-        <Button variant="outline" className="rounded-full" asChild>
-          <Link href="/login">Iniciar sesión</Link>
-        </Button>
-      </div>
-    </nav>
   )
 }
 
@@ -222,23 +202,5 @@ function CTA() {
         <Waitlist />
       </div>
     </section>
-  )
-}
-
-function Footer() {
-  return (
-    <footer className="flex flex-col items-center justify-center gap-y-2 py-5 text-sm sm:py-10">
-      <p className="text-gray-600">
-        &copy; {new Date().getFullYear()} Cargo. Todos los derechos reservados.
-      </p>
-      <div className="flex gap-x-4">
-        <Link href="/terms" className="text-gray-600 hover:text-gray-800">
-          Términos de uso
-        </Link>
-        <Link href="/privacy" className="text-gray-600 hover:text-gray-800">
-          Política de privacidad
-        </Link>
-      </div>
-    </footer>
   )
 }

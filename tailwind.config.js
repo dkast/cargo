@@ -180,4 +180,7 @@ export const safelist = [
   }
 ]
 
-export const plugins = [require("tailwindcss-animate")]
+export const plugins = [
+  require("tailwindcss-animate"),
+  require("@tailwindcss/typography")
+]
