@@ -38,7 +38,9 @@ export default function Workgroup({ className }: { className?: string }) {
       </Avatar>
       <div className="flex flex-col items-start">
         <span className="line-clamp-1 text-sm font-semibold">{name}</span>
-        <span className="text-xs font-semibold text-gray-500">Empresa</span>
+        <span className="text-xs font-semibold text-gray-500">
+          Organización
+        </span>
       </div>
     </div>
   )

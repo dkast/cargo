@@ -25,7 +25,7 @@ function OrganizationDelete({ organizationId }: { organizationId: string }) {
 
   const { execute, reset } = useAction(deleteOrganization, {
     onExecute: () => {
-      toast.loading("Eliminando empresa")
+      toast.loading("Eliminando organización")
     },
     onSuccess: () => {
       toast.dismiss()
@@ -33,7 +33,7 @@ function OrganizationDelete({ organizationId }: { organizationId: string }) {
       reset()
     },
     onError: () => {
-      toast.error("No se pudo eliminar la empresa")
+      toast.error("No se pudo eliminar la organización")
       reset()
     }
   })
@@ -49,23 +49,23 @@ function OrganizationDelete({ organizationId }: { organizationId: string }) {
         <Card className="border-red-500">
           <CardHeader>
             <CardTitle className="text-base text-red-500">
-              Eliminar Empresa
+              Eliminar Organización
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col items-start justify-center gap-x-8 gap-y-4 sm:flex-row sm:items-center">
             <p className="text-gray-500">
-              Eliminar la Empresa, catalogos e inspecciones asociadas a la
+              Eliminar la organización, catalogos e inspecciones asociadas a la
               misma. Esta operación es irreversible.
             </p>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive">Eliminar Empresa</Button>
+              <Button variant="destructive">Eliminar Organización</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Eliminar Empresa</AlertDialogTitle>
+                <AlertDialogTitle>Eliminar Organización</AlertDialogTitle>
                 <AlertDialogDescription>
-                  ¿Estás seguro que deseas eliminar la empresa? Esta acción es
-                  irreversible.
+                  ¿Estás seguro que deseas eliminar la organización? Esta acción
+                  es irreversible.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>

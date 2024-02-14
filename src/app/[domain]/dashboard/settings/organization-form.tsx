@@ -124,11 +124,11 @@ export default function OrganizationForm({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="name">Nombre de la empresa</FormLabel>
+                <FormLabel htmlFor="name">Nombre de la organización</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Nombre de la empresa"
+                    placeholder="Nombre de la organización"
                     {...field}
                   />
                 </FormControl>

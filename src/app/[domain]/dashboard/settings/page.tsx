@@ -38,8 +38,8 @@ export default async function SettingsPage({
   return (
     <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
       <PageSubtitle
-        title="Empresa"
-        description="Información general de la empresa"
+        title="Organización"
+        description="Información general de la organización"
       />
       <OrganizationForm
         data={data}
@@ -51,7 +51,7 @@ export default async function SettingsPage({
       <Separator className="my-8" />
       <PageSubtitle
         title="Ubicaciones"
-        description="Sitios clave de la empresa"
+        description="Sitios clave de la organización"
       />
       <LocationForm organizationId={data.id} />
       <Suspense fallback={<LocationSkeleton />}>

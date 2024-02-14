@@ -29,7 +29,7 @@ export default async function MembersPage({
     <div className="mx-auto grow px-4 sm:px-6">
       <PageSubtitle
         title="Miembros"
-        description="Administra a los miembros de la empresa"
+        description="Administra a los miembros de la organización"
       >
         <Button asChild>
           <Link href="members/new">Nuevo miembro</Link>
