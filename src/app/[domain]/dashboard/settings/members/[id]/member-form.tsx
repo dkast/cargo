@@ -58,14 +58,12 @@ export default function MemberForm({
     onSuccess: data => {
       if (data?.success) {
         toast.success("Usuario creado")
+        router.push(".")
       } else if (data?.failure.reason) {
         toast.error(data.failure.reason)
       }
-
       // Reset response object
       reset()
-
-      router.push(".")
     },
     onError: () => {
       toast.error("Algo salió mal")

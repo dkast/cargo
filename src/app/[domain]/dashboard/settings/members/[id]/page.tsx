@@ -30,7 +30,10 @@ export default async function MemberPage({
     notFound()
   }
 
-  if (user?.organizationId !== orgData?.id) {
+  if (
+    user?.role !== MembershipRole.ADMIN &&
+    user?.organizationId !== orgData?.id
+  ) {
     return (
       <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
         <Alert variant="destructive">
@@ -99,7 +102,7 @@ export default async function MemberPage({
     //default values
     member = {
       id: "",
-      organizationId: user?.organizationId,
+      organizationId: orgData?.id,
       name: "",
       username: "",
       email: "",

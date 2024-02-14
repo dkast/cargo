@@ -1,5 +1,6 @@
 "use server"
 
+import { Prisma } from "@prisma/client"
 import { hash } from "bcrypt"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { z } from "zod"
@@ -24,7 +25,7 @@ export const updateOrg = action(
         }
       })
 
-      revalidatePath("/dashboard/settings")
+      revalidateTag(`organization-${id}`)
 
       return {
         success: true
@@ -50,8 +51,24 @@ export const createOrgMember = action(
   async ({ organizationId, name, email, username, password, role }) => {
     // Create member
     try {
-      await prisma.user.create({
-        data: {
+      await prisma.user.upsert({
+        where: {
+          email: email
+        },
+        update: {
+          name: name,
+          username: username,
+          password: await hash(password, 12),
+          memberships: {
+            create: [
+              {
+                role: role,
+                organizationId: organizationId
+              }
+            ]
+          }
+        },
+        create: {
           name: name,
           email: email,
           username: username,
@@ -67,7 +84,7 @@ export const createOrgMember = action(
         }
       })
 
-      revalidatePath("/dashboard/settings/members")
+      revalidateTag(`members-${organizationId}`)
 
       return {
         success: true
@@ -76,8 +93,12 @@ export const createOrgMember = action(
       let message
       if (typeof error === "string") {
         message = error
-      } else if (error instanceof Error) {
-        message = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          message = "Nombre de usuario o correo electrónico ya existe"
+        } else {
+          message = error.message
+        }
       }
       return {
         failure: {
