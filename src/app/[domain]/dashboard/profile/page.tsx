@@ -5,7 +5,7 @@ import { type z } from "zod"
 import PageHeader from "@/components/dashboard/page-header"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { getMemberById } from "@/server/fetchers"
+import { getMemberById, getUserMemberships } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { type userMemberSchema } from "@/lib/types"
 import { getInitials } from "@/lib/utils"
@@ -19,6 +19,8 @@ export default async function ProfilePage() {
 
   const membership = await getMemberById(user.membershipId)
 
+  const membershipList = await getUserMemberships(user.id)
+
   const member: Partial<UserMemberFormValues> = {
     id: membership?.id,
     organizationId: membership?.organizationId,
@@ -27,7 +29,9 @@ export default async function ProfilePage() {
     email: membership?.user.email ?? undefined,
     password: "password",
     confirmPassword: "password",
-    role: membership?.role
+    role: membership?.role,
+    isActive: membership?.isActive,
+    defaultById: membership?.defaultById ?? ""
   }
 
   return (
@@ -59,7 +63,7 @@ export default async function ProfilePage() {
               </p>
             </div>
           </div>
-          <ProfileForm member={member} />
+          <ProfileForm member={member} memberships={membershipList} />
         </div>
       </div>
     </>

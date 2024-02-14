@@ -1,12 +1,15 @@
 "use client"
 
+import { memo } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { type Prisma } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import { type z } from "zod"
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -18,21 +21,31 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { updateOrgMember } from "@/server/actions/organization"
+import type { getUserMemberships } from "@/server/fetchers"
 import { userMemberSchema } from "@/lib/types"
+import { getInitials } from "@/lib/utils"
 
 type UserMemberFormValues = z.infer<typeof userMemberSchema>
 
 export default function ProfileForm({
-  member
+  member,
+  memberships
 }: {
   member: Partial<UserMemberFormValues>
+  memberships: Prisma.PromiseReturnType<typeof getUserMemberships>
 }) {
   const form = useForm<z.infer<typeof userMemberSchema>>({
     resolver: zodResolver(userMemberSchema),
-    defaultValues: member,
-    mode: "onChange"
+    defaultValues: member
   })
 
   const {
@@ -59,6 +72,7 @@ export default function ProfileForm({
   })
 
   const onSubmit = async (data: z.infer<typeof userMemberSchema>) => {
+    console.log(data)
     await updateMember(data)
   }
 
@@ -106,6 +120,7 @@ export default function ProfileForm({
               <FormControl>
                 <Input
                   type="text"
+                  disabled
                   placeholder="Email"
                   {...field}
                   className="sm:w-1/2"
@@ -157,6 +172,37 @@ export default function ProfileForm({
             </FormItem>
           )}
         />
+        <Separator />
+        <FormField
+          control={form.control}
+          name="defaultById"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="role">Organización Primaria</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar organización" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {memberships.map(membership => (
+                    <SelectItem key={membership.id} value={membership.id}>
+                      <div className="flex w-full flex-row items-center gap-x-2">
+                        <OrgAvatar
+                          imageURL={membership.organization.image ?? ""}
+                          name={membership.organization.name}
+                        />
+                        <span>{membership.organization.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="flex justify-start gap-x-2 pt-6">
           <Button type="submit" disabled={updateStatus === "executing"}>
             {updateStatus === "executing" ? (
@@ -173,3 +219,18 @@ export default function ProfileForm({
     </Form>
   )
 }
+
+const OrgAvatar = memo(function OrgAvatar({
+  imageURL,
+  name
+}: {
+  imageURL: string
+  name: string
+}) {
+  return (
+    <Avatar className="size-6 rounded shadow">
+      <AvatarImage src={imageURL} />
+      <AvatarFallback>{getInitials(name)}</AvatarFallback>
+    </Avatar>
+  )
+})

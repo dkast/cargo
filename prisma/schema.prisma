@@ -47,18 +47,19 @@ model Session {
 }
 
 model User {
-  id            String       @id @default(cuid())
-  name          String
-  email         String?      @unique
-  emailVerified DateTime?
-  image         String?
+  id                String       @id @default(cuid())
+  name              String
+  email             String?      @unique
+  emailVerified     DateTime?
+  image             String?
   //local accounts
-  username      String       @unique
-  password      String
+  username          String       @unique
+  password          String
   //
-  accounts      Account[]
-  sessions      Session[]
-  memberships   Membership[]
+  accounts          Account[]
+  sessions          Session[]
+  memberships       Membership[] @relation("Memberships")
+  defaultMembership Membership?  @relation("DefaultMembership")
 }
 
 model VerificationToken {
@@ -103,11 +104,13 @@ model Membership {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   role           MembershipRole
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User           @relation("Memberships", fields: [userId], references: [id], onDelete: Cascade)
   userId         String
   isActive       Boolean        @default(true)
   organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
+  defaultBy      User?          @relation("DefaultMembership", fields: [defaultById], references: [id])
+  defaultById    String?        @unique
   inspections    Inspection[]   @relation(name: "inspectedBy")
   approvals      Inspection[]   @relation(name: "approvedBy")
 

@@ -111,7 +111,7 @@ export const createOrgMember = action(
 
 export const updateOrgMember = action(
   userMemberSchema,
-  async ({ id, name, email, username, password, role, isActive }) => {
+  async ({ id, name, password, role, isActive, defaultById }) => {
     // Update member
     try {
       const membership = await prisma.membership.update({
@@ -121,13 +121,16 @@ export const updateOrgMember = action(
         data: {
           role: role,
           isActive: isActive,
-          user: {
-            update: {
-              name: name,
-              email: email,
-              username: username
-            }
-          }
+          defaultById: defaultById
+        }
+      })
+
+      await prisma.user.update({
+        where: {
+          id: membership.userId
+        },
+        data: {
+          name: name
         }
       })
 
