@@ -102,7 +102,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
-        console.log("user", user)
         token.user = {
           id: user.id,
           email: user.email,
@@ -114,14 +113,15 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     session: async ({ session, token }) => {
+      console.log("token", token)
       const membershipData = await unstable_cache(
         async () => {
           //@ts-expect-error user assigned in jwt callback
-          if (token.user.defaultMembershipId) {
+          if (token.user.membershipId) {
             return await prisma.membership.findFirst({
               where: {
                 //@ts-expect-error user assigned in jwt callback
-                id: token.user.defaultMembershipId
+                id: token.user.membershipId
               },
               include: {
                 organization: true
