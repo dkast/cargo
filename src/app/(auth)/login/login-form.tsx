@@ -56,8 +56,6 @@ export default function LoginForm() {
       callbackUrl: callbackUrl ? callbackUrl : "/redirect-org"
     })
 
-    console.log(res)
-
     if (!res) return null
     if (res.error) {
       toast.error("Usuario o contraseña incorrectos")

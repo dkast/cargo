@@ -1,5 +1,4 @@
 import { InspectionResult } from "@prisma/client"
-import { TableCell } from "@tremor/react"
 import { format } from "date-fns"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
@@ -10,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow
@@ -41,7 +41,7 @@ async function InspectionRecent({
         <CardTitle className="text-base font-medium">
           Inspecciones recientes
         </CardTitle>
-        <Button asChild size="xs" variant="outline" className="text-xs">
+        <Button asChild size="xs" variant="ghost" className="text-xs">
           <Link href="dashboard/inspect">
             Ver todas <ArrowRight className="ml-1 opacity-70" size={16} />
           </Link>
@@ -49,12 +49,16 @@ async function InspectionRecent({
       </CardHeader>
       <CardContent>
         <Table>
-          <TableHeader>
+          <TableHeader className="[&_tr]:border-b-0">
             <TableRow>
-              <TableHead># Folio</TableHead>
-              <TableHead>Ubicación</TableHead>
-              <TableHead>Transportista</TableHead>
-              <TableHead className="text-center">Resultado</TableHead>
+              <TableHead className="h-10 rounded-l-md bg-gray-50">
+                # Folio
+              </TableHead>
+              <TableHead className="h-10 bg-gray-50">Ubicación</TableHead>
+              <TableHead className="h-10 bg-gray-50">Transportista</TableHead>
+              <TableHead className="h-10 rounded-r-md bg-gray-50 text-center">
+                Resultado
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

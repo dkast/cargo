@@ -57,7 +57,6 @@ export default function SecurePage({
   })
 
   const onSubmit = async (data: z.infer<typeof VerifySchema>) => {
-    console.log(data)
     await execute(data)
   }
 

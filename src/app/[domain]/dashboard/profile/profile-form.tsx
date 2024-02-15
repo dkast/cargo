@@ -72,7 +72,6 @@ export default function ProfileForm({
   })
 
   const onSubmit = async (data: z.infer<typeof userMemberSchema>) => {
-    console.log(data)
     await updateMember(data)
   }
 

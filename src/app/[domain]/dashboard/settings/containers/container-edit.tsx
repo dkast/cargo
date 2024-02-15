@@ -111,7 +111,6 @@ export default function ContainerEdit({
     }
 
     if (action === actionType.UPDATE) {
-      console.dir(data)
       await executeUpdate(data)
     }
   }

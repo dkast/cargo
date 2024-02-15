@@ -24,8 +24,6 @@ export default async function InspectionIssueList({
   className?: string
 }) {
   const data = (await getInspectionIssuesCount(filter)) as ResultData[]
-
-  console.dir(data)
   return (
     <Card className={cn(className, "p-0")}>
       <CardContent className="p-0">

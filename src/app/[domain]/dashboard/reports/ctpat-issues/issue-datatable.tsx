@@ -18,7 +18,6 @@ export default function IssueDataTable({
   const router = useRouter()
 
   const onRowClick = (row: Row<getInspectionIssues[number]>) => {
-    // console.log(row.original)
     router.push(`/dashboard/ctpat/${row.original.inspection.id}`)
   }
 

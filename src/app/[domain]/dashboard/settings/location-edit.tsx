@@ -67,7 +67,6 @@ export default function LocationEdit({
   })
 
   const onSubmit = async (data: z.infer<typeof locationSchema>) => {
-    console.log(data)
     await execute({
       id: data.id,
       name: data.name,

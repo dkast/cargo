@@ -57,7 +57,6 @@ export default function LocationForm({
   })
 
   const onSubmit = async (data: z.infer<typeof locationSchema>) => {
-    console.log(data)
     if (!isDirty) return
 
     await execute(data)

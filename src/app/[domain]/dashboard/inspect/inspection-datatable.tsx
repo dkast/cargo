@@ -19,7 +19,6 @@ export default function InspectionDataTable({
   const router = useRouter()
 
   const onRowClick = (row: Row<InspectionMaster[number]>) => {
-    // console.log(row.original)
     router.push(`ctpat/${row.original.id}`)
   }
 

@@ -156,7 +156,6 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
   })
 
   const onSubmit = async (data: z.infer<typeof ShareFormSchema>) => {
-    console.dir(data)
     if (shareURL && !form.formState.isDirty) {
       const text = new ClipboardItem({
         "text/plain": new Blob([shareURL], {
