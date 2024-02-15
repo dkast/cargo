@@ -47,19 +47,19 @@ model Session {
 }
 
 model User {
-  id                String       @id @default(cuid())
-  name              String
-  email             String?      @unique
-  emailVerified     DateTime?
-  image             String?
+  id                  String       @id @default(cuid())
+  name                String
+  email               String?      @unique
+  emailVerified       DateTime?
+  image               String?
   //local accounts
-  username          String       @unique
-  password          String
+  username            String       @unique
+  password            String
   //
-  accounts          Account[]
-  sessions          Session[]
-  memberships       Membership[] @relation("Memberships")
-  defaultMembership Membership?  @relation("DefaultMembership")
+  accounts            Account[]
+  sessions            Session[]
+  memberships         Membership[] @relation("Memberships")
+  defaultMembershipId String?
 }
 
 model VerificationToken {
@@ -109,8 +109,6 @@ model Membership {
   isActive       Boolean        @default(true)
   organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
-  defaultBy      User?          @relation("DefaultMembership", fields: [defaultById], references: [id])
-  defaultById    String?        @unique
   inspections    Inspection[]   @relation(name: "inspectedBy")
   approvals      Inspection[]   @relation(name: "approvedBy")
 

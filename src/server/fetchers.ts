@@ -111,14 +111,14 @@ export async function getMemberById(memberId: string) {
           organizationId: true,
           isActive: true,
           createdAt: true,
-          defaultById: true,
           user: {
             select: {
               id: true,
               name: true,
               email: true,
               username: true,
-              image: true
+              image: true,
+              defaultMembershipId: true
             }
           }
         }

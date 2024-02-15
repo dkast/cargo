@@ -33,10 +33,10 @@ declare module "next-auth" {
     }
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    defaultMembershipId: string | null
+  }
 }
 
 /**
@@ -81,13 +81,10 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findUnique({
           where: {
             username: username
-          },
-          include: {
-            memberships: true
           }
         })
 
-        if (user && user.password) {
+        if (user?.password) {
           const passwordMatch = await compare(password, user.password)
 
           if (passwordMatch) {
@@ -105,11 +102,13 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
+        console.log("user", user)
         token.user = {
           id: user.id,
           email: user.email,
           name: user.name,
-          image: user.image
+          image: user.image,
+          membershipId: user.defaultMembershipId
         }
       }
       return token
@@ -117,15 +116,28 @@ export const authOptions: NextAuthOptions = {
     session: async ({ session, token }) => {
       const membershipData = await unstable_cache(
         async () => {
-          return await prisma.membership.findFirst({
-            where: {
-              //@ts-expect-error user assigned in jwt callback
-              userId: token.user.id
-            },
-            include: {
-              organization: true
-            }
-          })
+          //@ts-expect-error user assigned in jwt callback
+          if (token.user.defaultMembershipId) {
+            return await prisma.membership.findFirst({
+              where: {
+                //@ts-expect-error user assigned in jwt callback
+                id: token.user.defaultMembershipId
+              },
+              include: {
+                organization: true
+              }
+            })
+          } else {
+            return await prisma.membership.findFirst({
+              where: {
+                //@ts-expect-error user assigned in jwt callback
+                userId: token.user.id
+              },
+              include: {
+                organization: true
+              }
+            })
+          }
         },
         //@ts-expect-error user assigned in jwt callback
         [`membership-${token.user.id}`],

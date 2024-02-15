@@ -175,7 +175,7 @@ export default function ProfileForm({
         <Separator />
         <FormField
           control={form.control}
-          name="defaultById"
+          name="defaultMembershipId"
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor="role">Organización Primaria</FormLabel>

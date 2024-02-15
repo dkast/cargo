@@ -31,7 +31,7 @@ export default async function ProfilePage() {
     confirmPassword: "password",
     role: membership?.role,
     isActive: membership?.isActive,
-    defaultById: membership?.defaultById ?? ""
+    defaultMembershipId: membership?.user?.defaultMembershipId ?? ""
   }
 
   return (

@@ -65,7 +65,7 @@ export const userMemberSchema = z
     }),
     role: z.enum(["ADMIN", "OWNER", "SUPERVISOR", "MEMBER"]),
     isActive: z.boolean(),
-    defaultById: z.string().optional()
+    defaultMembershipId: z.string().optional()
   })
   .refine(data => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",

@@ -111,7 +111,7 @@ export const createOrgMember = action(
 
 export const updateOrgMember = action(
   userMemberSchema,
-  async ({ id, name, password, role, isActive, defaultById }) => {
+  async ({ id, name, password, role, isActive, defaultMembershipId }) => {
     // Update member
     try {
       const membership = await prisma.membership.update({
@@ -121,16 +121,12 @@ export const updateOrgMember = action(
         data: {
           role: role,
           isActive: isActive,
-          defaultById: defaultById
-        }
-      })
-
-      await prisma.user.update({
-        where: {
-          id: membership.userId
-        },
-        data: {
-          name: name
+          user: {
+            update: {
+              name: name,
+              defaultMembershipId: defaultMembershipId
+            }
+          }
         }
       })
 
@@ -146,6 +142,7 @@ export const updateOrgMember = action(
       }
 
       revalidateTag(`member-${membership.id}`)
+      revalidateTag(`membership-${membership.userId}`)
       revalidateTag(`members-${membership.organizationId}`)
 
       return {
