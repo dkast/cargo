@@ -53,7 +53,9 @@ function Calendar({
         ...classNames
       }}
       components={{
+        // skipcq: JS-0356
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
+        // skipcq: JS-0356
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />
       }}
       {...props}

@@ -1,5 +1,4 @@
 import { InspectionResult } from "@prisma/client"
-import { TableCell } from "@tremor/react"
 import { format } from "date-fns"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
@@ -10,12 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow
 } from "@/components/ui/table"
 import { getInspections } from "@/server/fetchers"
-import { getCurrentUser } from "@/lib/session"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -25,34 +24,41 @@ const color = {
   APPROVED: "bg-violet-100 text-violet-500"
 }
 
-async function InspectionRecent({ className }: { className?: string }) {
-  const user = await getCurrentUser()
-
-  if (!user) return null
-
-  const filter: InspectionQueryFilter = {
-    organizationId: user.organizationId,
+async function InspectionRecent({
+  filter,
+  className
+}: {
+  filter: InspectionQueryFilter
+  className?: string
+}) {
+  const data = await getInspections({
+    organizationId: filter.organizationId,
     take: 5
-  }
-  const data = await getInspections(filter)
+  })
   return (
     <Card className={className}>
       <CardHeader className="flex flex-row items-start justify-between space-y-0">
         <CardTitle className="text-base font-medium">
           Inspecciones recientes
         </CardTitle>
-        <Button asChild size="xs" variant="outline" className="text-xs">
-          <Link href="/dashboard/inspect">
+        <Button asChild size="xs" variant="ghost" className="text-xs">
+          <Link href="dashboard/inspect">
             Ver todas <ArrowRight className="ml-1 opacity-70" size={16} />
           </Link>
         </Button>
       </CardHeader>
       <CardContent>
         <Table>
-          <TableHeader>
+          <TableHeader className="[&_tr]:border-b-0">
             <TableRow>
-              <TableHead># Folio</TableHead>
-              <TableHead>Resultado</TableHead>
+              <TableHead className="h-10 rounded-l-md bg-gray-50">
+                # Folio
+              </TableHead>
+              <TableHead className="h-10 bg-gray-50">Ubicación</TableHead>
+              <TableHead className="h-10 bg-gray-50">Transportista</TableHead>
+              <TableHead className="h-10 rounded-r-md bg-gray-50 text-center">
+                Resultado
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -81,6 +87,12 @@ async function InspectionRecent({ className }: { className?: string }) {
                       </span>
                     )}
                   </div>
+                </TableCell>
+                <TableCell className="p-2">
+                  {inspection.location?.name ?? "Sin ubicación"}
+                </TableCell>
+                <TableCell className="p-2">
+                  {inspection.company?.name}
                 </TableCell>
                 <TableCell className="p-2 text-center">
                   {(() => {

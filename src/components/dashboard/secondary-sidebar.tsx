@@ -1,7 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname, useSelectedLayoutSegment } from "next/navigation"
+import {
+  useParams,
+  usePathname,
+  useSelectedLayoutSegment
+} from "next/navigation"
 
 import { cn } from "@/lib/utils"
 
@@ -22,6 +26,7 @@ export default function SecondarySidebar({
 }: SecondarySidebarProps) {
   const pathname = usePathname()
   const segment = useSelectedLayoutSegment()
+  const params = useParams<{ domain: string }>()
 
   return (
     <div className="hidden w-64 border-r border-gray-200 sm:block">
@@ -35,9 +40,10 @@ export default function SecondarySidebar({
                 </div>
                 <ul className="flex flex-col gap-y-1">
                   {item.children.map(child => {
+                    const path = `/${params.domain}${child.href}`
                     let isActive = false
                     if (!segment) {
-                      isActive = pathname === child.href
+                      isActive = pathname.includes(child.href)
                     } else {
                       isActive = child.href.includes(segment)
                     }
@@ -45,7 +51,7 @@ export default function SecondarySidebar({
                     return (
                       <li key={child.href}>
                         <Link
-                          href={child.href}
+                          href={path}
                           className={cn(
                             "block rounded-lg p-2.5 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-900",
                             isActive && "bg-gray-100 text-gray-900"

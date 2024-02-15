@@ -7,8 +7,10 @@ import {
 } from "@prisma/client"
 import { endOfDay, parseISO, subMonths } from "date-fns"
 import { unstable_cache as cache } from "next/cache"
+import { redirect } from "next/navigation"
 
 import { prisma } from "@/server/db"
+import { getCurrentUser } from "@/lib/session"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { env } from "@/env.mjs"
 
@@ -22,7 +24,7 @@ const R2 = new S3Client({
   }
 })
 
-export async function getOrganization(organizationId: string) {
+export async function getOrganizationById(organizationId: string) {
   return await cache(
     async () => {
       const data = await prisma.organization.findUnique({
@@ -53,6 +55,49 @@ export async function getOrganization(organizationId: string) {
   )()
 }
 
+export async function getOrganizationBySubDomain(domain: string) {
+  const user = await getCurrentUser()
+
+  if (!user) {
+    return null
+  }
+
+  const orgData = await prisma.organization.findUnique({
+    where: {
+      subdomain: domain
+    }
+  })
+
+  // Replace fileUrl with a signed URL
+  if (orgData?.image) {
+    orgData.image = await getSignedUrl(
+      R2,
+      new GetObjectCommand({
+        Bucket: env.R2_BUCKET_NAME,
+        Key: orgData.image
+      }),
+      { expiresIn: 3600 * 24 }
+    )
+  }
+
+  // Find the user's membership for the organization
+  const membershipData = await prisma.membership.findFirst({
+    where: {
+      userId: user?.id,
+      organizationId: orgData?.id,
+      isActive: true
+    }
+  })
+
+  if (!membershipData) {
+    return redirect("/access-denied")
+  }
+
+  if (orgData && membershipData) {
+    return orgData
+  }
+}
+
 export async function getMemberById(memberId: string) {
   return await cache(
     async () => {
@@ -72,7 +117,8 @@ export async function getMemberById(memberId: string) {
               name: true,
               email: true,
               username: true,
-              image: true
+              image: true,
+              defaultMembershipId: true
             }
           }
         }
@@ -82,6 +128,51 @@ export async function getMemberById(memberId: string) {
     {
       revalidate: 900,
       tags: [`member-${memberId}`]
+    }
+  )()
+}
+
+export async function getUserMemberships(userId: string) {
+  return await cache(
+    async () => {
+      const data = await prisma.membership.findMany({
+        where: {
+          userId: userId,
+          isActive: true
+        },
+        select: {
+          id: true,
+          role: true,
+          organization: {
+            select: {
+              id: true,
+              name: true,
+              subdomain: true,
+              image: true
+            }
+          }
+        }
+      })
+
+      for (const org of data) {
+        if (org.organization.image) {
+          org.organization.image = await getSignedUrl(
+            R2,
+            new GetObjectCommand({
+              Bucket: env.R2_BUCKET_NAME,
+              Key: org.organization.image
+            }),
+            { expiresIn: 3600 * 24 }
+          )
+        }
+      }
+
+      return data
+    },
+    [`user-organizations-${userId}`],
+    {
+      revalidate: 900,
+      tags: [`user-organizations-${userId}`]
     }
   )()
 }
@@ -447,10 +538,10 @@ export async function getInspectionStatusCount(filter: InspectionQueryFilter) {
 export async function getInspectionResultCount(filter: InspectionQueryFilter) {
   return await prisma.$queryRaw`select result, start, cast(count(*) as char) as total from Inspection where organizationId = ${
     filter.organizationId
-  } and 
+  } and
   start >= ${
     filter.start ? parseISO(filter.start) : subMonths(new Date(), 1)
-  } and 
+  } and
   start <= ${
     filter.end ? endOfDay(parseISO(filter.end)) : endOfDay(new Date())
   } and result is not null
@@ -461,10 +552,10 @@ export async function getInspectionResultCount(filter: InspectionQueryFilter) {
 export async function getInspectionIssuesCount(filter: InspectionQueryFilter) {
   return await prisma.$queryRaw`select question as issue, cast(count(*) as char) as total from InspectionItem where inspectionId in (select id from Inspection where organizationId = ${
     filter.organizationId
-  } and 
+  } and
   start >= ${
     filter.start ? parseISO(filter.start) : subMonths(new Date(), 1)
-  } and 
+  } and
   start <= ${
     filter.end ? endOfDay(parseISO(filter.end)) : endOfDay(new Date())
   }) and result = ${InspectionItemResult.FAIL}

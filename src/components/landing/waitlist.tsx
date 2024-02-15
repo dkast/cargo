@@ -15,8 +15,8 @@ import {
   Form,
   FormControl,
   FormField,
-  FormItem,
-  FormMessage
+  FormItem
+  // FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { joinWaitlist } from "@/server/actions/general"
@@ -55,9 +55,9 @@ export default function Waitlist() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col items-center space-y-4"
       >
-        <span className="text-gray-400">Unirse a la lista de espera</span>
+        <span className="text-gray-500">Unirse a la lista de espera</span>
         {!isSubmitted ? (
-          <div className="flex flex-row items-start justify-center gap-x-2">
+          <div className="flex flex-row items-center justify-center gap-x-2 rounded-full bg-gray-800 p-1 shadow-lg">
             <FormField
               name="email"
               control={form.control}
@@ -67,18 +67,19 @@ export default function Waitlist() {
                     <Input
                       type="email"
                       placeholder="nombre@correo.com"
-                      className="max-w-[300px] border border-gray-700 bg-gray-800 text-white"
+                      className="placeholder:text-gray-340 h-8 max-w-[300px] rounded-full border-0 bg-transparent text-white focus-visible:ring-0 focus-visible:ring-offset-0"
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  {/* <FormMessage /> */}
                 </FormItem>
               )}
             />
             <Button
               disabled={status === "executing"}
               type="submit"
-              className="bg-gradient-to-t from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-400"
+              size="xs"
+              className="rounded-full bg-brand-500 px-4 py-2 text-white transition-colors duration-200 ease-in-out hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
             >
               {status === "executing" ? (
                 <>

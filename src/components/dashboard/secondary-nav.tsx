@@ -1,7 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname, useSelectedLayoutSegment } from "next/navigation"
+import {
+  useParams,
+  usePathname,
+  useSelectedLayoutSegment
+} from "next/navigation"
 
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
@@ -20,15 +24,17 @@ export default function SecondaryNav({
 }: SidebarNavProps) {
   const pathname = usePathname()
   const segment = useSelectedLayoutSegment()
+  const params = useParams<{ domain: string }>()
 
   return (
     <>
       <nav className={cn("flex overflow-x-auto", className)} {...props}>
         <ul className="flex min-w-full flex-none gap-x-6 px-4">
           {items.map(item => {
+            const path = `/${params.domain}${item.href}`
             let isActive = false
             if (!segment) {
-              isActive = pathname === item.href
+              isActive = pathname.includes(item.href)
             } else {
               isActive = item.href.includes(segment)
             }
@@ -36,7 +42,7 @@ export default function SecondaryNav({
             return (
               <li key={item.href}>
                 <Link
-                  href={item.href}
+                  href={path}
                   className={cn(
                     "my-1 block rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-900",
                     isActive && "text-orange-600"

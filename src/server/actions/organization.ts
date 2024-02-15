@@ -1,7 +1,9 @@
 "use server"
 
+import { Prisma } from "@prisma/client"
 import { hash } from "bcrypt"
 import { revalidatePath, revalidateTag } from "next/cache"
+import { z } from "zod"
 
 import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
@@ -23,7 +25,7 @@ export const updateOrg = action(
         }
       })
 
-      revalidatePath("/dashboard/settings")
+      revalidateTag(`organization-${id}`)
 
       return {
         success: true
@@ -49,8 +51,24 @@ export const createOrgMember = action(
   async ({ organizationId, name, email, username, password, role }) => {
     // Create member
     try {
-      await prisma.user.create({
-        data: {
+      await prisma.user.upsert({
+        where: {
+          email: email
+        },
+        update: {
+          name: name,
+          username: username,
+          password: await hash(password, 12),
+          memberships: {
+            create: [
+              {
+                role: role,
+                organizationId: organizationId
+              }
+            ]
+          }
+        },
+        create: {
           name: name,
           email: email,
           username: username,
@@ -66,7 +84,7 @@ export const createOrgMember = action(
         }
       })
 
-      revalidatePath("/dashboard/settings/members")
+      revalidateTag(`members-${organizationId}`)
 
       return {
         success: true
@@ -75,8 +93,12 @@ export const createOrgMember = action(
       let message
       if (typeof error === "string") {
         message = error
-      } else if (error instanceof Error) {
-        message = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          message = "Nombre de usuario o correo electrónico ya existe"
+        } else {
+          message = error.message
+        }
       }
       return {
         failure: {
@@ -89,7 +111,7 @@ export const createOrgMember = action(
 
 export const updateOrgMember = action(
   userMemberSchema,
-  async ({ id, name, email, username, password, role, isActive }) => {
+  async ({ id, name, password, role, isActive, defaultMembershipId }) => {
     // Update member
     try {
       const membership = await prisma.membership.update({
@@ -102,8 +124,7 @@ export const updateOrgMember = action(
           user: {
             update: {
               name: name,
-              email: email,
-              username: username
+              defaultMembershipId: defaultMembershipId
             }
           }
         }
@@ -121,6 +142,8 @@ export const updateOrgMember = action(
       }
 
       revalidateTag(`member-${membership.id}`)
+      revalidateTag(`membership-${membership.userId}`)
+      revalidateTag(`members-${membership.organizationId}`)
 
       return {
         success: true
@@ -175,3 +198,32 @@ export const deactivateOrgMember = action(
     }
   }
 )
+
+export const deleteOrganization = action(z.string().cuid(), async id => {
+  // Delete organization
+  try {
+    await prisma.organization.delete({
+      where: {
+        id: id
+      }
+    })
+
+    revalidatePath("/dashboard/settings")
+
+    return {
+      success: true
+    }
+  } catch (error) {
+    let message
+    if (typeof error === "string") {
+      message = error
+    } else if (error instanceof Error) {
+      message = error.message
+    }
+    return {
+      failure: {
+        reason: message
+      }
+    }
+  }
+})

@@ -1,4 +1,4 @@
-import { BarChart } from "@tremor/react"
+import { BarChart, BarList } from "@tremor/react"
 import { Activity } from "lucide-react"
 
 import {
@@ -19,12 +19,18 @@ type ResultData = {
 
 export default async function InspectionIssueChart({
   filter,
-  className
+  className,
+  type = "CHART"
 }: {
   filter: InspectionQueryFilter
   className?: string
+  type: "CHART" | "LIST"
 }) {
   const data = (await getInspectionIssuesCount(filter)) as ResultData[]
+  const dataList = data.map(item => ({
+    name: item.issue,
+    value: Number(item.total)
+  }))
 
   const totalIssues = data.reduce((acc, item) => acc + Number(item.total), 0)
 
@@ -42,15 +48,19 @@ export default async function InspectionIssueChart({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <BarChart
-          data={data}
-          index="issue"
-          categories={["total"]}
-          colors={["orange"]}
-          showAnimation
-          animationDuration={500}
-          noDataText="No hay datos para mostrar"
-        />
+        {type === "LIST" ? (
+          <BarList data={dataList} color="orange" />
+        ) : (
+          <BarChart
+            data={data}
+            index="issue"
+            categories={["total"]}
+            colors={["orange"]}
+            showAnimation
+            animationDuration={500}
+            noDataText="No hay datos para mostrar"
+          />
+        )}
       </CardContent>
     </Card>
   )

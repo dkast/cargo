@@ -203,7 +203,9 @@ const DateRangePicker = React.forwardRef<
             <RangeCalendar
               {...calendarProps}
               onChange={newDateRange => {
-                props.onChange ? props.onChange(newDateRange) : null
+                if (props.onChange) {
+                  props.onChange(newDateRange)
+                }
                 setOpen(false)
               }}
             />

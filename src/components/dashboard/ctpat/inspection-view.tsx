@@ -26,20 +26,26 @@ import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getInspectionById } from "@/server/fetchers"
+import {
+  getInspectionById,
+  getOrganizationBySubDomain
+} from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { canApprove } from "@/lib/utils"
 
 export default async function InspectionView({
-  inspectionId
+  inspectionId,
+  domain
 }: {
   inspectionId: string
+  domain: string
 }) {
   const inspection = await getInspectionById(inspectionId)
+  const orgData = await getOrganizationBySubDomain(domain)
   const user = await getCurrentUser()
 
-  if (!inspection || !user) {
-    return notFound()
+  if (!inspection || !orgData || !user) {
+    notFound()
   }
 
   return (
@@ -87,7 +93,7 @@ export default async function InspectionView({
               className="group rounded-r-none ring-1 ring-inset ring-gray-200"
             >
               <Link
-                href={`/dashboard/ctpat/${inspection.id}`}
+                href={`/${domain}/dashboard/ctpat/${inspection.id}`}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -105,7 +111,7 @@ export default async function InspectionView({
                 className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200"
               >
                 <Link
-                  href={`/ctpat/${inspection.id}/pdf`}
+                  href={`/${domain}/ctpat/${inspection.id}/pdf`}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -122,7 +128,7 @@ export default async function InspectionView({
                 asChild
                 className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200"
               >
-                <Link href={`/dashboard/ctpat/edit/${inspection.id}`}>
+                <Link href={`/${domain}/dashboard/ctpat/edit/${inspection.id}`}>
                   <ClipboardEdit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Link>
               </Button>

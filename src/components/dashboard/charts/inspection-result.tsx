@@ -1,4 +1,4 @@
-import { BarChart, Callout } from "@tremor/react"
+import { BarChart } from "@tremor/react"
 import { format } from "date-fns"
 import { Activity, AlertTriangleIcon } from "lucide-react"
 
@@ -35,7 +35,7 @@ export default async function InspectionResultChart({
   // take the array and transform it into an array where the result is sum of the total and is grouped by date
   const transformedData = data.reduce(
     (acc: TransformedData[], item: ResultData) => {
-      const date = format(item.start, "dd/MM/yy")
+      const date = format(item.start, "MMM dd")
       const result = item.result === "PASS" ? "OK" : "Falla"
       const total = Number(item.total)
 
@@ -92,26 +92,72 @@ export default async function InspectionResultChart({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col">
+        <ul className="flex flex-wrap items-center gap-x-10 gap-y-4">
+          <li>
+            <div className="flex items-center space-x-2">
+              <span className="size-3 shrink-0 bg-green-500"></span>
+              <p className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                {totalOK}
+              </p>
+            </div>
+            <p className="whitespace-nowrap text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+              Inspecciones
+            </p>
+          </li>
+          <li>
+            <div className="flex items-center space-x-2">
+              <span className="size-3 shrink-0 bg-red-500"></span>
+              <p className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                {totalIssues}
+              </p>
+            </div>
+            <p className="whitespace-nowrap text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+              Con Falla
+            </p>
+          </li>
+          {issuePercentage > 10 && (
+            <li>
+              <div className="rounded-md border-l-4 border-amber-400 bg-amber-50 p-3">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <AlertTriangleIcon
+                      className="h-5 w-5 text-amber-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div className="ml-3 flex-1 md:flex md:justify-between">
+                    <p className="text-sm text-amber-700">
+                      {issuePercentage}% de las inspecciones presentaron fallas
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          )}
+        </ul>
         <BarChart
           data={transformedData}
           index="date"
           categories={["OK", "Falla"]}
           colors={["green", "red"]}
           stack
+          tickGap={20}
           showAnimation
           animationDuration={500}
+          showLegend={false}
           noDataText="No hay datos para mostrar"
+          className="mt-10 h-64"
         />
-        {issuePercentage > 10 && (
+        {/* {issuePercentage > 10 && (
           <Callout
             title="Aviso"
-            color="orange"
+            color="amber"
             icon={AlertTriangleIcon}
             className="mt-4"
           >
             {issuePercentage}% de las inspecciones presentaron fallas
           </Callout>
-        )}
+        )} */}
       </CardContent>
     </Card>
   )

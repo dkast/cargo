@@ -5,6 +5,7 @@ import "../styles/globals.css"
 import "react-photo-view/dist/react-photo-view.css"
 
 import Providers from "@/app/providers"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AxiomWebVitals } from "next-axiom"
 
 export const metadata: Metadata = {
@@ -55,6 +56,7 @@ export default function RootLayout({
         <Providers>
           <main className="flex min-h-screen flex-col">{children}</main>
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   )
