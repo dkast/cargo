@@ -43,7 +43,7 @@ async function InspectionRecent({
         </CardTitle>
         <Button asChild size="xs" variant="ghost" className="text-xs">
           <Link href="dashboard/inspect">
-            Ver todas <ArrowRight className="ml-1 opacity-70" size={16} />
+            Ver más <ArrowRight className="ml-1 opacity-70" size={16} />
           </Link>
         </Button>
       </CardHeader>

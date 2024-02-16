@@ -113,7 +113,6 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     session: async ({ session, token }) => {
-      console.log("token", token)
       const membershipData = await unstable_cache(
         async () => {
           //@ts-expect-error user assigned in jwt callback
