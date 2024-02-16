@@ -40,7 +40,7 @@ export function InspectionList({
               />
             ))
         ) : (
-          <Alert>
+          <Alert variant="success">
             <CheckCircle className="h-4 w-4" />
             <AlertTitle>No hay fallas</AlertTitle>
             <AlertDescription>
