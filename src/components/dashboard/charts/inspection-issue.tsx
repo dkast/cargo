@@ -1,8 +1,9 @@
 import { BarChart } from "@tremor/react"
-import { Activity, ArrowRight } from "lucide-react"
+import { Activity, ArrowRight, Info } from "lucide-react"
 import Link from "next/link"
 
 import ListIssue from "@/components/dashboard/charts/list-issue"
+import InfoHelper from "@/components/dashboard/info-helper"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -46,6 +47,10 @@ export default async function InspectionIssueChart({
           <div className="space-y-1.5">
             <CardTitle className="text-base font-medium">
               Resúmen de Fallas
+              <InfoHelper>
+                Lista el total de incidencias por tipo de falla en el periodo
+                seleccionado
+              </InfoHelper>
             </CardTitle>
             <CardDescription className="flex items-center gap-1">
               <Activity className="h-4 w-4" />
