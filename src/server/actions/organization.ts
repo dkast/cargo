@@ -26,6 +26,7 @@ export const updateOrg = action(
       })
 
       revalidateTag(`organization-${id}`)
+      revalidateTag(`organization-${subdomain}`)
 
       return {
         success: true

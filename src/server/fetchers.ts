@@ -62,11 +62,20 @@ export async function getOrganizationBySubDomain(domain: string) {
     return null
   }
 
-  const orgData = await prisma.organization.findUnique({
-    where: {
-      subdomain: domain
+  const orgData = await cache(
+    async () => {
+      return prisma.organization.findUnique({
+        where: {
+          subdomain: domain
+        }
+      })
+    },
+    [`organization-${domain}`],
+    {
+      revalidate: 300,
+      tags: [`organization-${domain}`]
     }
-  })
+  )()
 
   // Replace fileUrl with a signed URL
   if (orgData?.image) {
@@ -81,13 +90,22 @@ export async function getOrganizationBySubDomain(domain: string) {
   }
 
   // Find the user's membership for the organization
-  const membershipData = await prisma.membership.findFirst({
-    where: {
-      userId: user?.id,
-      organizationId: orgData?.id,
-      isActive: true
+  const membershipData = await cache(
+    async () => {
+      return prisma.membership.findFirst({
+        where: {
+          userId: user.id,
+          organizationId: orgData?.id,
+          isActive: true
+        }
+      })
+    },
+    [`membership-${user.id}`],
+    {
+      revalidate: 300,
+      tags: [`membership-${user.id}`]
     }
-  })
+  )()
 
   if (!membershipData) {
     return redirect("/access-denied")
