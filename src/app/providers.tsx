@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { Toaster } from "react-hot-toast"
 import { PhotoProvider } from "react-photo-view"
 import { Provider } from "jotai"
@@ -8,30 +9,30 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar"
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <ProgressBar
-        color="#FF6500"
-        options={{ showSpinner: false }}
-        shallowRouting
-        delay={200}
-      />
-      <SessionProvider>
-        <Provider>
-          <PhotoProvider>
-            {children}
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                style: {
-                  background: "#333",
-                  color: "#fff"
-                }
-              }}
+    <SessionProvider>
+      <Provider>
+        <PhotoProvider>
+          <Suspense fallback={null}>
+            <ProgressBar
+              color="#FF6500"
+              options={{ showSpinner: false }}
+              shallowRouting
+              delay={200}
             />
-          </PhotoProvider>
-        </Provider>
-      </SessionProvider>
-    </>
+          </Suspense>
+          {children}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                background: "#333",
+                color: "#fff"
+              }
+            }}
+          />
+        </PhotoProvider>
+      </Provider>
+    </SessionProvider>
   )
 }
 
