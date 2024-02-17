@@ -1,5 +1,5 @@
 import { BarChart } from "@tremor/react"
-import { Activity, ArrowRight, Info } from "lucide-react"
+import { Activity, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 import ListIssue from "@/components/dashboard/charts/list-issue"
