@@ -1,9 +1,10 @@
 import { MembershipRole, PrismaClient } from "@prisma/client"
-import { hash } from "bcrypt"
+import { Argon2id } from "oslo/password"
 
 const prisma = new PrismaClient()
 
 async function main() {
+  const argon2id = new Argon2id()
   const org = await prisma.organization.upsert({
     where: { subdomain: "cargo" },
     update: {},
@@ -30,7 +31,7 @@ async function main() {
       email: "devcastillejo@gmail.com",
       name: "Administrador",
       username: "admin",
-      password: await hash("admin", 12),
+      password: await argon2id.hash("cargo2024"),
       memberships: {
         create: [
           {

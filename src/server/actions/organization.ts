@@ -1,8 +1,8 @@
 "use server"
 
 import { Prisma } from "@prisma/client"
-import { hash } from "bcrypt"
 import { revalidatePath, revalidateTag } from "next/cache"
+import { Argon2id } from "oslo/password"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
@@ -52,6 +52,7 @@ export const createOrgMember = action(
   async ({ organizationId, name, email, username, password, role }) => {
     // Create member
     try {
+      const argon2id = new Argon2id()
       await prisma.user.upsert({
         where: {
           email: email
@@ -59,7 +60,7 @@ export const createOrgMember = action(
         update: {
           name: name,
           username: username,
-          password: await hash(password, 12),
+          password: await argon2id.hash(password),
           memberships: {
             create: [
               {
@@ -73,7 +74,7 @@ export const createOrgMember = action(
           name: name,
           email: email,
           username: username,
-          password: await hash(password, 12),
+          password: await argon2id.hash(password),
           memberships: {
             create: [
               {
@@ -115,6 +116,7 @@ export const updateOrgMember = action(
   async ({ id, name, password, role, isActive, defaultMembershipId }) => {
     // Update member
     try {
+      const argon2id = new Argon2id()
       const membership = await prisma.membership.update({
         where: {
           id: id
@@ -137,7 +139,7 @@ export const updateOrgMember = action(
             id: membership.userId
           },
           data: {
-            password: await hash(password, 12)
+            password: await argon2id.hash(password)
           }
         })
       }
