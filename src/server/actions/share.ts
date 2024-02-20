@@ -1,7 +1,8 @@
 "use server"
 
+import * as argon2 from "argon2"
 import { nanoid } from "nanoid"
-import { Argon2id } from "oslo/password"
+// import { Argon2id } from "oslo/password"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
@@ -13,12 +14,12 @@ export const createShareItem = action(
   ShareFormSchema,
   async ({ accessType, sharePath, password, expiresAt, organizationId }) => {
     try {
-      const argon2id = new Argon2id()
+      // const argon2id = new Argon2id()
       const shareItem = await prisma.shareItem.create({
         data: {
           accessType: accessType,
           sharePath: sharePath,
-          password: password ? await argon2id.hash(password) : undefined,
+          password: password ? await argon2.hash(password) : undefined,
           expiresAt: expiresAt ?? undefined,
           organizationId: organizationId,
           nanoid: nanoid(8)
@@ -71,11 +72,8 @@ export const verifyShareItemPassword = action(
           }
         }
       }
-      const argon2id = new Argon2id()
-      const isPasswordValid = await argon2id.verify(
-        shareItem.password,
-        password
-      )
+      // const argon2id = new Argon2id()
+      const isPasswordValid = await argon2.verify(shareItem.password, password)
       if (!isPasswordValid) {
         return {
           failure: {

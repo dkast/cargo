@@ -1,5 +1,7 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { type MembershipRole } from "@prisma/client"
+// import { Argon2id } from "oslo/password"
+import * as argon2 from "argon2"
 import { type GetServerSidePropsContext } from "next"
 import {
   getServerSession,
@@ -8,7 +10,6 @@ import {
 } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { unstable_cache } from "next/cache"
-import { Argon2id } from "oslo/password"
 
 import { prisma } from "@/server/db"
 import { env } from "@/env.mjs"
@@ -84,9 +85,9 @@ export const authOptions: NextAuthOptions = {
           }
         })
 
-        const argon2id = new Argon2id()
+        // const argon2id = new Argon2id()
         if (user?.password) {
-          const passwordMatch = await argon2id.verify(user.password, password)
+          const passwordMatch = await argon2.verify(user.password, password)
 
           if (passwordMatch) {
             return user
