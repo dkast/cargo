@@ -7,15 +7,14 @@ import {
   MembershipRole,
   PrismaClient
 } from "@prisma/client"
+import * as argon2 from "argon2"
 import { subDays } from "date-fns"
-import { Argon2id } from "oslo/password"
 
 import { ctpatInspections } from "../src/lib/types"
 
 const prisma = new PrismaClient()
 
 async function main() {
-  const argon2id = new Argon2id()
   const org = await prisma.organization.upsert({
     where: { subdomain: "demo" },
     update: {},
@@ -42,7 +41,7 @@ async function main() {
       email: "devcastillejo@gmail.com",
       name: "Administrador",
       username: "admin",
-      password: await argon2id.hash("cargo2024"),
+      password: await argon2.hash("cargo2024"),
       memberships: {
         create: [
           {
