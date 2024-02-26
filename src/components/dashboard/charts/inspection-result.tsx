@@ -1,4 +1,3 @@
-import { BarChart } from "@tremor/react"
 import { format } from "date-fns"
 import { Activity, AlertTriangleIcon } from "lucide-react"
 
@@ -11,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { getInspectionResultCount } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
+import { BarChart } from "./tremor-client"
 
 type ResultData = {
   result: string
@@ -148,16 +148,6 @@ export default async function InspectionResultChart({
           noDataText="No hay datos para mostrar"
           className="mt-10 h-64"
         />
-        {/* {issuePercentage > 10 && (
-          <Callout
-            title="Aviso"
-            color="amber"
-            icon={AlertTriangleIcon}
-            className="mt-4"
-          >
-            {issuePercentage}% de las inspecciones presentaron fallas
-          </Callout>
-        )} */}
       </CardContent>
     </Card>
   )

@@ -1,10 +1,10 @@
 import { InspectionStatus } from "@prisma/client"
-import { DonutChart, List, ListItem, type Color } from "@tremor/react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getInspectionStatusCount } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { DonutChart, List, ListItem, type Color } from "./tremor-client"
 
 const color = {
   amber: "bg-amber-100 text-amber-500",

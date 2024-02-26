@@ -1,4 +1,4 @@
-import { BarChart } from "@tremor/react"
+import { BarChart } from "@/components/dashboard/charts/tremor-client"
 
 const data = [
   { date: "01/01/23", OK: 10, Falla: 2 },

@@ -1,4 +1,3 @@
-import { BarChart } from "@tremor/react"
 import { Activity, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
@@ -15,6 +14,7 @@ import {
 import { getInspectionIssuesCount } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { BarChart } from "./tremor-client"
 
 type ResultData = {
   issue: string
