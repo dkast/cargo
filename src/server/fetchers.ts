@@ -225,6 +225,17 @@ export async function getLocations(organizationId: string, onlyActive = false) {
   )()
 }
 
+export async function getLocationsBySubDomain(
+  domain: string,
+  onlyActive = false
+) {
+  const orgData = await getOrganizationBySubDomain(domain)
+
+  if (orgData) {
+    return await getLocations(orgData.id, onlyActive)
+  }
+}
+
 export async function getMembers(organizationId: string) {
   return await cache(
     async () => {
@@ -361,6 +372,9 @@ export async function getInspections(filter: InspectionQueryFilter) {
         : undefined,
       result: filter.result
         ? { in: filter.result.split(",") as InspectionResult[] }
+        : undefined,
+      locationId: filter.location
+        ? { in: filter.location.split(",") }
         : undefined
     },
     select: {

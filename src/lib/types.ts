@@ -244,6 +244,7 @@ export interface InspectionQueryFilter {
   organizationId: string
   status?: string
   result?: string
+  location?: string
   start?: string
   end?: string
   take?: number

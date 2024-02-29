@@ -2,15 +2,18 @@
 
 import { today } from "@internationalized/date"
 import { InspectionItemResult, InspectionStatus } from "@prisma/client"
+import { useSuspenseQuery } from "@tanstack/react-query"
 import {
   parseAsArrayOf,
   parseAsString,
   useQueryState,
   useQueryStates
 } from "next-usequerystate"
+import { useParams } from "next/navigation"
 
 import { DataTableFilter } from "@/components/ui/data-table/data-table-filter"
 import { DateRangePicker } from "@/components/ui/date-time-picker/date-range-picker"
+import { getLocationsBySubDomain } from "@/server/fetchers"
 import { calendarDateParser } from "@/lib/utils"
 
 const status = [
@@ -40,6 +43,21 @@ const result = [
 ]
 
 export default function FilterToolbar() {
+  const params = useParams<{ domain: string }>()
+  const { data } = useSuspenseQuery({
+    queryKey: ["locations"],
+    queryFn: () => getLocationsBySubDomain(params.domain ?? "")
+  })
+
+  const [locationValue, setLocationValue] = useQueryState(
+    "location",
+    parseAsArrayOf(parseAsString)
+      .withOptions({
+        shallow: false
+      })
+      .withDefault([])
+  )
+
   const [dateValue, setDateValue] = useQueryStates(
     {
       start: calendarDateParser.withDefault(
@@ -82,6 +100,12 @@ export default function FilterToolbar() {
           options={result}
           value={resultValue}
           onChange={setResultValue}
+        />
+        <DataTableFilter
+          title="Ubicación"
+          options={data?.map(d => ({ value: d.id, label: d.name })) ?? []}
+          value={locationValue}
+          onChange={setLocationValue}
         />
       </div>
       <DateRangePicker

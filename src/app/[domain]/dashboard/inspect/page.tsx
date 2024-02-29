@@ -27,6 +27,7 @@ export default async function CTPATPage({
   const filter: InspectionQueryFilter = {
     organizationId: orgData.id
   }
+
   if (searchParams.status) {
     if (typeof searchParams.status === "string") {
       filter.status = searchParams.status
@@ -53,6 +54,13 @@ export default async function CTPATPage({
       filter.end = searchParams.end
     } else {
       filter.end = undefined
+    }
+  }
+  if (searchParams.location) {
+    if (typeof searchParams.location === "string") {
+      filter.location = searchParams.location
+    } else {
+      filter.location = undefined
     }
   }
 
