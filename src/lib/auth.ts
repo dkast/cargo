@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { type MembershipRole } from "@prisma/client"
-import { compare } from "bcrypt"
+import * as argon2 from "argon2"
 import { type GetServerSidePropsContext } from "next"
 import {
   getServerSession,
@@ -85,7 +85,7 @@ export const authOptions: NextAuthOptions = {
         })
 
         if (user?.password) {
-          const passwordMatch = await compare(password, user.password)
+          const passwordMatch = await argon2.verify(user.password, password)
 
           if (passwordMatch) {
             return user
@@ -113,7 +113,6 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     session: async ({ session, token }) => {
-      console.log("token", token)
       const membershipData = await unstable_cache(
         async () => {
           //@ts-expect-error user assigned in jwt callback

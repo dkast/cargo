@@ -1,7 +1,7 @@
 "use server"
 
 import { Prisma } from "@prisma/client"
-import { hash } from "bcrypt"
+import * as argon2 from "argon2"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { z } from "zod"
 
@@ -26,6 +26,7 @@ export const updateOrg = action(
       })
 
       revalidateTag(`organization-${id}`)
+      revalidateTag(`organization-${subdomain}`)
 
       return {
         success: true
@@ -58,7 +59,7 @@ export const createOrgMember = action(
         update: {
           name: name,
           username: username,
-          password: await hash(password, 12),
+          password: await argon2.hash(password),
           memberships: {
             create: [
               {
@@ -72,7 +73,7 @@ export const createOrgMember = action(
           name: name,
           email: email,
           username: username,
-          password: await hash(password, 12),
+          password: await argon2.hash(password),
           memberships: {
             create: [
               {
@@ -136,7 +137,7 @@ export const updateOrgMember = action(
             id: membership.userId
           },
           data: {
-            password: await hash(password, 12)
+            password: await argon2.hash(password)
           }
         })
       }

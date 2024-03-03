@@ -30,7 +30,7 @@ const config = withAxiom({
     if (!isServer) {
       _config.resolve.fallback.fs = false
     }
-    _config.externals.push("@node-rs/argon2", "@node-rs/bcrypt")
+    // _config.externals.push("@node-rs/argon2", "@node-rs/bcrypt")
     return _config
   }
 })

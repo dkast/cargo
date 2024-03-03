@@ -305,7 +305,8 @@ export default function CTPATMainForm({
                 </FormItem>
               </RadioGroup>
               <FormDescription>
-                Especifica si la inspección es de entrada o salida
+                Especifíca si el vehículo está ingresando o saliendo de la
+                locación
               </FormDescription>
               <FormMessage />
             </FormItem>

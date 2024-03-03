@@ -1,5 +1,4 @@
-import { format } from "date-fns"
-import { es } from "date-fns/locale"
+import GreetingMessage from "@/app/[domain]/dashboard/(overview)/greeting-message"
 
 import PageHeader from "@/components/dashboard/page-header"
 import SecondaryNav from "@/components/dashboard/secondary-nav"
@@ -21,11 +20,10 @@ export default async function Layout({
 
   if (!user) return null
 
-  const humanDate = format(new Date(), "EEEE, d MMMM yyyy", { locale: es })
   const greeting = user.name ? `Hola, ${user.name.split(" ")[0]}` : "Hola"
   return (
     <>
-      <PageHeader title={greeting} description={humanDate} />
+      <PageHeader title={greeting} description={<GreetingMessage />} />
       <SecondaryNav items={SecondaryNavItems} />
       <div className="flex grow">{children}</div>
     </>

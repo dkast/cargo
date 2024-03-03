@@ -7,7 +7,7 @@ import {
   MembershipRole,
   PrismaClient
 } from "@prisma/client"
-import { hash } from "bcrypt"
+import * as argon2 from "argon2"
 import { subDays } from "date-fns"
 
 import { ctpatInspections } from "../src/lib/types"
@@ -41,7 +41,7 @@ async function main() {
       email: "devcastillejo@gmail.com",
       name: "Administrador",
       username: "admin",
-      password: await hash("admin", 12),
+      password: await argon2.hash("cargo2024"),
       memberships: {
         create: [
           {

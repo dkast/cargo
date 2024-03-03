@@ -1,3 +1,5 @@
+"use server"
+
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import {
@@ -62,11 +64,20 @@ export async function getOrganizationBySubDomain(domain: string) {
     return null
   }
 
-  const orgData = await prisma.organization.findUnique({
-    where: {
-      subdomain: domain
+  const orgData = await cache(
+    async () => {
+      return prisma.organization.findUnique({
+        where: {
+          subdomain: domain
+        }
+      })
+    },
+    [`organization-${domain}`],
+    {
+      revalidate: 300,
+      tags: [`organization-${domain}`]
     }
-  })
+  )()
 
   // Replace fileUrl with a signed URL
   if (orgData?.image) {
@@ -81,13 +92,22 @@ export async function getOrganizationBySubDomain(domain: string) {
   }
 
   // Find the user's membership for the organization
-  const membershipData = await prisma.membership.findFirst({
-    where: {
-      userId: user?.id,
-      organizationId: orgData?.id,
-      isActive: true
+  const membershipData = await cache(
+    async () => {
+      return prisma.membership.findFirst({
+        where: {
+          userId: user.id,
+          organizationId: orgData?.id,
+          isActive: true
+        }
+      })
+    },
+    [`membership-${user.id}`],
+    {
+      revalidate: 300,
+      tags: [`membership-${user.id}`]
     }
-  })
+  )()
 
   if (!membershipData) {
     return redirect("/access-denied")
@@ -203,6 +223,17 @@ export async function getLocations(organizationId: string, onlyActive = false) {
       tags: [`locations-${organizationId}-onlyActive-${onlyActive}`]
     }
   )()
+}
+
+export async function getLocationsBySubDomain(
+  domain: string,
+  onlyActive = false
+) {
+  const orgData = await getOrganizationBySubDomain(domain)
+
+  if (orgData) {
+    return await getLocations(orgData.id, onlyActive)
+  }
 }
 
 export async function getMembers(organizationId: string) {
@@ -341,6 +372,9 @@ export async function getInspections(filter: InspectionQueryFilter) {
         : undefined,
       result: filter.result
         ? { in: filter.result.split(",") as InspectionResult[] }
+        : undefined,
+      locationId: filter.location
+        ? { in: filter.location.split(",") }
         : undefined
     },
     select: {
@@ -443,6 +477,7 @@ export async function getInspectionById(inspectionId: string) {
       tiresVehicle: true,
       tiresContainer: true,
       organizationId: true,
+      notes: true,
       vehicle: {
         select: {
           id: true,

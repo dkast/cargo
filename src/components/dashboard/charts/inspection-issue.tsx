@@ -1,6 +1,9 @@
-import { BarChart, BarList } from "@tremor/react"
-import { Activity } from "lucide-react"
+import { Activity, ArrowRight } from "lucide-react"
+import Link from "next/link"
 
+import ListIssue from "@/components/dashboard/charts/list-issue"
+import InfoHelper from "@/components/dashboard/info-helper"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -11,6 +14,7 @@ import {
 import { getInspectionIssuesCount } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { BarChart } from "./tremor-client"
 
 type ResultData = {
   issue: string
@@ -20,11 +24,13 @@ type ResultData = {
 export default async function InspectionIssueChart({
   filter,
   className,
-  type = "CHART"
+  type = "CHART",
+  showMore
 }: {
   filter: InspectionQueryFilter
   className?: string
   type: "CHART" | "LIST"
+  showMore?: boolean
 }) {
   const data = (await getInspectionIssuesCount(filter)) as ResultData[]
   const dataList = data.map(item => ({
@@ -37,19 +43,32 @@ export default async function InspectionIssueChart({
   return (
     <Card className={cn(className)}>
       <CardHeader>
-        <CardTitle className="text-base font-medium">
-          Resúmen de Fallas
-        </CardTitle>
-        <CardDescription className="flex items-center gap-1">
-          <Activity className="h-4 w-4" />
-          <span className="text-sm">
-            {totalIssues} fallas encontradas en {data.length} inspecciones
-          </span>
-        </CardDescription>
+        <div className="flex flex-row items-center justify-between">
+          <div className="space-y-1.5">
+            <CardTitle className="text-base font-medium">
+              Resúmen de Fallas
+              <InfoHelper>
+                Lista el total de incidencias por tipo de falla en el periodo
+                seleccionado
+              </InfoHelper>
+            </CardTitle>
+            <CardDescription className="flex items-center gap-1">
+              <Activity className="h-4 w-4" />
+              <span className="text-sm">{totalIssues} fallas encontradas</span>
+            </CardDescription>
+          </div>
+          {showMore && (
+            <Button asChild size="xs" variant="ghost" className="text-xs">
+              <Link href="dashboard/reports/ctpat-issues">
+                Ver más <ArrowRight className="ml-1 opacity-70" size={16} />
+              </Link>
+            </Button>
+          )}
+        </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-2 pt-0">
         {type === "LIST" ? (
-          <BarList data={dataList} color="orange" />
+          <ListIssue dataList={dataList} />
         ) : (
           <BarChart
             data={data}

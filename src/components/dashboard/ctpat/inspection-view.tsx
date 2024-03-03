@@ -23,6 +23,7 @@ import { InspectionApprove } from "@/components/dashboard/ctpat/inspection-appro
 import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
 import Share from "@/components/dashboard/ctpat/share"
 import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -31,7 +32,7 @@ import {
   getOrganizationBySubDomain
 } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
-import { canApprove } from "@/lib/utils"
+import { canApprove, getInitials } from "@/lib/utils"
 
 export default async function InspectionView({
   inspectionId,
@@ -250,13 +251,34 @@ export default async function InspectionView({
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">Inspeccionado por</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-            {inspection.inspectedBy.user.name}
+            <div className="flex flex-row gap-x-2">
+              <Avatar className="size-6 text-[0.6rem] font-semibold">
+                <AvatarFallback>
+                  {getInitials(inspection.inspectedBy.user.name)}
+                </AvatarFallback>
+              </Avatar>
+              {inspection.inspectedBy.user.name}
+            </div>
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">Revisado por</dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-            {inspection.approvedBy?.user.name}
+            {inspection.approvedBy?.user.name && (
+              <div className="flex flex-row gap-x-2">
+                <Avatar className="size-6 text-[0.6rem] font-semibold">
+                  <AvatarFallback>
+                    {getInitials(inspection.approvedBy.user.name)}
+                  </AvatarFallback>
+                </Avatar>
+                {inspection.approvedBy.user.name}
+              </div>
+            )}
+            {inspection.notes && (
+              <div className="mt-2 rounded-lg bg-gray-100 px-3 py-1.5 text-sm leading-6 text-gray-700 sm:mt-3">
+                {inspection.notes}
+              </div>
+            )}
           </dd>
         </div>
       </dl>
