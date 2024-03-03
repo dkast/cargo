@@ -8,6 +8,7 @@ import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experime
 import { Provider } from "jotai"
 import { SessionProvider } from "next-auth/react"
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar"
+import { ThemeProvider } from "next-themes"
 
 function makeQueryClient() {
   return new QueryClient({
@@ -42,32 +43,39 @@ function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        <Provider>
-          <PhotoProvider>
-            <Suspense fallback={null}>
-              <ProgressBar
-                color="#FF6500"
-                options={{ showSpinner: false }}
-                shallowRouting
-                delay={200}
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <QueryClientProvider client={queryClient}>
+          <Provider>
+            <PhotoProvider>
+              <Suspense fallback={null}>
+                <ProgressBar
+                  color="#FF6500"
+                  options={{ showSpinner: false }}
+                  shallowRouting
+                  delay={200}
+                />
+              </Suspense>
+              <ReactQueryStreamedHydration>
+                {children}
+              </ReactQueryStreamedHydration>
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  style: {
+                    background: "#333",
+                    color: "#fff"
+                  }
+                }}
               />
-            </Suspense>
-            <ReactQueryStreamedHydration>
-              {children}
-            </ReactQueryStreamedHydration>
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                style: {
-                  background: "#333",
-                  color: "#fff"
-                }
-              }}
-            />
-          </PhotoProvider>
-        </Provider>
-      </QueryClientProvider>
+            </PhotoProvider>
+          </Provider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </SessionProvider>
   )
 }
