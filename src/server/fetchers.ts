@@ -477,6 +477,7 @@ export async function getInspectionById(inspectionId: string) {
       tiresVehicle: true,
       tiresContainer: true,
       organizationId: true,
+      notes: true,
       vehicle: {
         select: {
           id: true,

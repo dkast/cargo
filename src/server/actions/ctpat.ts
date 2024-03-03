@@ -187,9 +187,10 @@ export const approveCTPATInspection = action(
   z.object({
     id: z.string().cuid(),
     organizationId: z.string().cuid(),
-    approvedById: z.string().cuid()
+    approvedById: z.string().cuid(),
+    comments: z.string().optional()
   }),
-  async ({ id, organizationId, approvedById }) => {
+  async ({ id, organizationId, approvedById, comments }) => {
     try {
       await prisma.inspection.update({
         where: {
@@ -197,7 +198,8 @@ export const approveCTPATInspection = action(
         },
         data: {
           status: InspectionStatus.APPROVED,
-          approvedById: approvedById
+          approvedById: approvedById,
+          notes: comments
         }
       })
 
