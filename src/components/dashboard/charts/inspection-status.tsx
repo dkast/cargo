@@ -7,10 +7,10 @@ import { cn } from "@/lib/utils"
 import { DonutChart, List, ListItem, type Color } from "./tremor-client"
 
 const color = {
-  amber: "bg-amber-100 text-amber-500",
-  blue: "bg-blue-100 text-blue-500",
-  violet: "bg-violet-100 text-violet-500",
-  gray: "bg-gray-100 text-gray-500"
+  amber: "bg-amber-100 text-amber-500 dark:bg-amber-950",
+  blue: "bg-blue-100 text-blue-500 dark:bg-blue-950",
+  violet: "bg-violet-100 text-violet-500 dark:bg-violet-950",
+  gray: "bg-gray-100 text-gray-500 dark:bg-gray-950"
 }
 
 export default async function InspectionStatusChart({

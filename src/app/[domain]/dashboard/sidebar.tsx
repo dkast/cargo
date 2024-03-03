@@ -69,7 +69,7 @@ export default function Sidebar() {
         )}
       >
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-gray-50 px-6">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-gray-50 px-6 dark:border-gray-800 dark:bg-gray-950">
           <div
             className={cn(
               isSidebarOpen ? "justify-between" : "justify-center",
@@ -194,16 +194,16 @@ function NavigationLink({
         href={path}
         className={cn(
           isActive
-            ? "bg-gray-200/70  text-gray-700"
-            : "text-gray-500 hover:bg-gray-100 hover:text-gray-600",
+            ? "bg-gray-200/70 text-gray-700 dark:bg-gray-900 dark:text-gray-300"
+            : "text-gray-500 hover:bg-gray-100 hover:text-gray-600 dark:text-gray-600",
           "group flex grow gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
         )}
       >
         <item.icon
           className={cn(
             isActive
-              ? "text-gray-800"
-              : "text-gray-400 group-hover:text-gray-600",
+              ? "text-gray-800 dark:text-gray-300"
+              : "text-gray-400 group-hover:text-gray-600 dark:text-gray-700",
             "h-6 w-6 shrink-0"
           )}
           aria-hidden="true"
