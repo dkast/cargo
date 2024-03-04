@@ -266,9 +266,10 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     cell: ({ row }) => {
       const inspection = row.original
       const color = {
-        OPEN: "bg-amber-100 text-amber-500",
-        CLOSED: "bg-blue-100 text-blue-500",
-        APPROVED: "bg-violet-100 text-violet-500"
+        OPEN: "bg-amber-100 text-amber-500 dark:bg-amber-900 dark:text-amber-300",
+        CLOSED: "bg-blue-100 text-blue-500 dark:bg-blue-900 dark:text-blue-300",
+        APPROVED:
+          "bg-violet-100 text-violet-500 dark:bg-violet-900 dark:text-violet-300"
       }
 
       const legend = {

@@ -81,7 +81,7 @@ export function InspectionListItem({
   return (
     <div
       key={item.id}
-      className="flex w-full flex-col space-y-2 rounded-lg border px-4 py-3 shadow-sm"
+      className="flex w-full flex-col space-y-2 rounded-lg border px-4 py-3 shadow-sm dark:border-gray-800"
     >
       <div className="flex flex-row items-center justify-between py-3">
         <div className="flex flex-row items-center gap-3">
