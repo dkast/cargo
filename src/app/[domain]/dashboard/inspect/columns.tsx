@@ -266,10 +266,11 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
     cell: ({ row }) => {
       const inspection = row.original
       const color = {
-        OPEN: "bg-amber-100 text-amber-500 dark:bg-amber-900 dark:text-amber-300",
-        CLOSED: "bg-blue-100 text-blue-500 dark:bg-blue-900 dark:text-blue-300",
+        OPEN: "bg-amber-50 text-amber-600 dark:bg-amber-400/10 dark:text-amber-400",
+        CLOSED:
+          "bg-blue-50 text-blue-700 dark:bg-blue-400/10 dark:text-blue-400",
         APPROVED:
-          "bg-violet-100 text-violet-500 dark:bg-violet-900 dark:text-violet-300"
+          "bg-violet-50 text-violet-700 dark:bg-violet-400/10 dark:text-violet-400"
       }
 
       const legend = {
@@ -309,7 +310,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
                   )
                 case InspectionResult.FAIL:
                   return (
-                    <Badge variant="red" className="rounded md:hidden">
+                    <Badge variant="destructive" className="rounded md:hidden">
                       Falla
                     </Badge>
                   )
@@ -356,7 +357,7 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
                 )
               case InspectionResult.FAIL:
                 return (
-                  <Badge variant="red" className="rounded">
+                  <Badge variant="destructive" className="rounded">
                     Falla
                   </Badge>
                 )

@@ -29,7 +29,7 @@ export default function SecondarySidebar({
   const params = useParams<{ domain: string }>()
 
   return (
-    <div className="hidden w-64 border-r border-gray-200 sm:block">
+    <div className="hidden w-64 border-r border-gray-200 dark:border-gray-800 sm:block">
       <nav className={cn("flex", className)} {...props}>
         <ul className="flex min-w-full flex-none flex-col gap-y-4 p-4">
           {items.map(item => {

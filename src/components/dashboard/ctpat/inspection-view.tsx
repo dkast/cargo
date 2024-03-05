@@ -186,7 +186,7 @@ export default async function InspectionView({
                   )
                 case InspectionResult.FAIL:
                   return (
-                    <Badge variant="red" className="gap-1 rounded">
+                    <Badge variant="destructive" className="gap-1 rounded">
                       <X className="h-4 w-4" />
                       Falla
                     </Badge>

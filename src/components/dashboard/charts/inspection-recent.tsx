@@ -109,7 +109,7 @@ async function InspectionRecent({
                         )
                       case InspectionResult.FAIL:
                         return (
-                          <Badge variant="red" className="rounded">
+                          <Badge variant="destructive" className="rounded">
                             Falla
                           </Badge>
                         )

@@ -258,7 +258,7 @@ function ItemQuestion({
         <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:items-center">
           <div className="flex grow items-center gap-x-3">
             {index < 17 && (
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-50 text-sm text-violet-700 ring-1 ring-inset ring-violet-700/10 dark:bg-violet-950 dark:text-violet-200">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-sm font-medium text-violet-700  dark:bg-violet-900 dark:text-violet-200">
                 {index + 1}
               </span>
             )}

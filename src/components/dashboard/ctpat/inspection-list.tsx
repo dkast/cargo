@@ -90,9 +90,9 @@ export function InspectionListItem({
             <span
               className={cn(
                 item.result === InspectionResult.PASS
-                  ? "bg-green-50 text-green-700 ring-green-700/10 dark:bg-green-950/50 dark:text-green-300 dark:ring-green-900/50"
-                  : "bg-red-50 text-red-700 ring-red-700/10 dark:bg-red-950/50 dark:text-red-300 dark:ring-red-900/50",
-                "flex h-7 w-7 items-center justify-center rounded-full text-sm ring-1 ring-inset"
+                  ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200"
+                  : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200",
+                "flex h-7 w-7 items-center justify-center rounded-full text-sm font-medium"
               )}
             >
               {item.order + 1}
@@ -111,7 +111,7 @@ export function InspectionListItem({
               )
             case InspectionResult.FAIL:
               return (
-                <Badge variant="red" className="gap-1 rounded">
+                <Badge variant="destructive" className="gap-1 rounded">
                   <X className="h-4 w-4" />
                   Falla
                 </Badge>
