@@ -9,6 +9,7 @@ import { Provider } from "jotai"
 import { SessionProvider } from "next-auth/react"
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar"
 import { ThemeProvider } from "next-themes"
+import { usePathname } from "next/navigation"
 
 function makeQueryClient() {
   return new QueryClient({
@@ -38,8 +39,22 @@ function getQueryClient() {
   }
 }
 
+const getForcedTheme = (pathname: string) => {
+  if (pathname === "/") {
+    return "light"
+  }
+  if (pathname === "/terms") {
+    return "light"
+  }
+  if (pathname === "/privacy") {
+    return "light"
+  }
+  return undefined
+}
+
 function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient()
+  const forcedTheme = getForcedTheme(usePathname())
 
   return (
     <SessionProvider>
@@ -48,6 +63,7 @@ function Providers({ children }: { children: React.ReactNode }) {
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange
+        forcedTheme={forcedTheme}
       >
         <QueryClientProvider client={queryClient}>
           <Provider>
