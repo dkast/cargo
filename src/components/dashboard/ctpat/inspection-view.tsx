@@ -91,7 +91,7 @@ export default async function InspectionView({
               size="icon"
               variant="ghost"
               asChild
-              className="group rounded-r-none ring-1 ring-inset ring-gray-200 dark:ring-gray-800"
+              className="group rounded-r-none ring-1 ring-inset ring-gray-200 dark:ring-gray-700"
             >
               <Link
                 href={`/${domain}/dashboard/ctpat/${inspection.id}`}
@@ -109,7 +109,7 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200 dark:ring-gray-800"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200 dark:ring-gray-700"
               >
                 <Link
                   href={`/${domain}/ctpat/${inspection.id}/pdf`}
@@ -127,7 +127,7 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200 dark:ring-gray-800"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200 dark:ring-gray-700"
               >
                 <Link href={`/${domain}/dashboard/ctpat/edit/${inspection.id}`}>
                   <ClipboardEdit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
@@ -141,7 +141,7 @@ export default async function InspectionView({
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-200 dark:ring-gray-800"
+                  className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-200 dark:ring-gray-700"
                 >
                   <Link2 className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Button>
@@ -275,7 +275,7 @@ export default async function InspectionView({
               </div>
             )}
             {inspection.notes && (
-              <div className="mt-2 rounded-lg bg-gray-100 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:border-gray-800 dark:text-gray-400 sm:mt-3">
+              <div className="mt-2 rounded-lg bg-gray-100 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-300 sm:mt-3">
                 {inspection.notes}
               </div>
             )}
@@ -313,19 +313,19 @@ export default async function InspectionView({
       </h2>
       <dl>
         <dt className="text-sm font-medium leading-6">Sello de Seguridad</dt>
-        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
           {inspection.sealNbr}
         </dd>
         <dt className="text-sm font-medium leading-6">
           Marcado de Llantas Tractor
         </dt>
-        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
           {inspection.tiresVehicle}
         </dd>
         <dt className="text-sm font-medium leading-6">
           Marcado de Llantas de Remolque
         </dt>
-        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
           {inspection.tiresContainer}
         </dd>
       </dl>

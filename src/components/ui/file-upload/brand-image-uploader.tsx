@@ -13,6 +13,8 @@ import "@uppy/core/dist/style.min.css"
 import "@uppy/dashboard/dist/style.min.css"
 import "@uppy/webcam/dist/style.min.css"
 
+import { useTheme } from "next-themes"
+
 export async function getUploadParameters(
   file: UppyFile,
   organizationId: string
@@ -75,6 +77,7 @@ export function BrandImageUploader({
   organizationId: string
   onUploadSuccess?: (result: UploadResult) => void
 }) {
+  const { theme } = useTheme()
   useEffect(() => {
     const awsS3Plugin = uppy.getPlugin("AwsS3")
     if (awsS3Plugin) {
@@ -95,6 +98,7 @@ export function BrandImageUploader({
       uppy={uppy}
       waitForThumbnailsBeforeUpload
       proudlyDisplayPoweredByUppy={false}
+      theme={theme === "dark" ? "dark" : theme === "system" ? "auto" : "light"}
     />
   )
 }

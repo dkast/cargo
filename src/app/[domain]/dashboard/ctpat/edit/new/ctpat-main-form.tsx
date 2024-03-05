@@ -276,28 +276,28 @@ export default function CTPATMainForm({
                 className="grid grid-cols-2 gap-4"
               >
                 <FormItem>
-                  <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
+                  <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-amber-500 [&:has([data-state=checked])>div]:ring-amber-200 dark:[&:has([data-state=checked])>div]:border-amber-700 dark:[&:has([data-state=checked])>div]:ring-amber-950">
                     <FormControl>
                       <RadioGroupItem
                         value={InspectionTripType.IN}
                         className="sr-only"
                       />
                     </FormControl>
-                    <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-4 ring-2 ring-white">
+                    <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-4 ring-2 ring-white dark:border-gray-800 dark:ring-gray-950">
                       <ArrowLeftFromLine className="h-4 w-4 opacity-70" />
                       Entrada
                     </div>
                   </FormLabel>
                 </FormItem>
                 <FormItem>
-                  <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200">
+                  <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-amber-500 [&:has([data-state=checked])>div]:ring-amber-200 dark:[&:has([data-state=checked])>div]:border-amber-700 dark:[&:has([data-state=checked])>div]:ring-amber-950">
                     <FormControl>
                       <RadioGroupItem
                         value={InspectionTripType.OUT}
                         className="sr-only"
                       />
                     </FormControl>
-                    <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-4 ring-2 ring-white">
+                    <div className="flex h-10 flex-row items-center gap-2 rounded-md border px-4 ring-2 ring-white dark:border-gray-800 dark:ring-gray-950">
                       <ArrowRightFromLine className="h-4 w-4 opacity-70" />
                       Salida
                     </div>
@@ -654,7 +654,7 @@ export default function CTPATMainForm({
           control={form.control}
           name="isLoaded"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded border p-4 sm:col-span-3">
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded border p-4 dark:border-gray-800 sm:col-span-3">
               <FormControl>
                 <Checkbox
                   checked={field.value}

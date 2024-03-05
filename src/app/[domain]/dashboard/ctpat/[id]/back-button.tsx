@@ -9,7 +9,7 @@ export default function BackButton() {
     <button
       type="button"
       onClick={() => router.back()}
-      className="mb-2 inline-block rounded-full border border-gray-200 p-1 hover:bg-gray-50 sm:absolute sm:left-4 sm:top-8"
+      className="mb-2 inline-block rounded-full border border-gray-200 p-1 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700 sm:absolute sm:left-4 sm:top-8"
     >
       <span className="sr-only">Volver</span>
       <ArrowLeft className="h-6 w-6" />

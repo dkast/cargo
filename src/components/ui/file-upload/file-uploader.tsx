@@ -14,6 +14,7 @@ import "@uppy/dashboard/dist/style.min.css"
 import "@uppy/webcam/dist/style.min.css"
 
 import Webcam from "@uppy/webcam"
+import { useTheme } from "next-themes"
 
 export async function getUploadParameters(
   file: UppyFile,
@@ -82,6 +83,7 @@ export function FileUploader({
   itemId: string
   onUploadSuccess: (result: UploadResult) => void
 }) {
+  const { theme } = useTheme()
   useEffect(() => {
     const awsS3Plugin = uppy.getPlugin("AwsS3")
     if (awsS3Plugin) {
@@ -100,6 +102,7 @@ export function FileUploader({
       uppy={uppy}
       waitForThumbnailsBeforeUpload
       proudlyDisplayPoweredByUppy={false}
+      theme={theme === "dark" ? "dark" : theme === "system" ? "auto" : "light"}
     />
   )
 }

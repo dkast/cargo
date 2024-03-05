@@ -25,11 +25,13 @@ import { cn } from "@/lib/utils"
 export default function ItemMediaPreview({
   fileList,
   allowDelete = false,
-  onDeleteFile
+  onDeleteFile,
+  className
 }: {
   fileList: Partial<InspectionItemFile>[]
   allowDelete?: boolean
   onDeleteFile?: (id: string | undefined) => void
+  className?: string
 }) {
   const router = useRouter()
   const { execute } = useAction(deleteFile, {
@@ -57,7 +59,7 @@ export default function ItemMediaPreview({
   if (fileList.length === 0) return null
 
   return (
-    <ul className="flex flex-row items-center gap-x-2">
+    <ul className={cn("flex flex-row items-center gap-x-2", className)}>
       {fileList.map(file => (
         <li
           key={file.id}
