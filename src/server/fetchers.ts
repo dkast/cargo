@@ -109,7 +109,6 @@ export async function getOrganizationBySubDomain(domain: string) {
     }
   )()
 
-  console.log(orgData, membershipData)
   if (!membershipData) {
     return redirect("/access-denied")
   }

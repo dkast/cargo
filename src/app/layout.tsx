@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AxiomWebVitals } from "next-axiom"
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cargohq.vercel.app"),
   title: {
     template: "%s | Cargo",
     default: "Cargo"
