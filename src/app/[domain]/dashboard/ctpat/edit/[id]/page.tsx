@@ -2,7 +2,17 @@ import BackButton from "@/app/[domain]/dashboard/ctpat/[id]/back-button"
 import ItemsForm from "@/app/[domain]/dashboard/ctpat/edit/[id]/items-form"
 import { InspectionStatus, InspectionTripType } from "@prisma/client"
 import { format } from "date-fns"
-import { CheckCircle2, CircleDashed, CircleDot } from "lucide-react"
+import {
+  ArrowLeftRight,
+  Box,
+  Building,
+  CalendarClock,
+  CheckCircle2,
+  CircleDashed,
+  CircleDot,
+  Truck,
+  UserRound
+} from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -73,7 +83,11 @@ export default async function CTPATEditPage({
             </div>
             <div className="grid grid-cols-2 gap-y-4 text-sm sm:grid-cols-3">
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm font-medium">Tipo Inspección</dt>
+                <dt className="text-sm font-medium">
+                  {" "}
+                  <ArrowLeftRight className="mr-1 inline size-4 align-text-top" />
+                  Tipo Inspección
+                </dt>
                 <dd className="flex gap-x-2 text-sm leading-6 text-gray-700 dark:text-gray-400">
                   {inspection.tripType === InspectionTripType.IN ? (
                     <Badge variant="blue">Entrada</Badge>
@@ -84,7 +98,10 @@ export default async function CTPATEditPage({
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm font-medium">Fecha</dt>
+                <dt className="text-sm font-medium">
+                  <CalendarClock className="mr-1 inline size-4 align-text-top" />
+                  Fecha
+                </dt>
                 <dd className="text-sm leading-6 text-gray-700 dark:text-gray-400">
                   {inspection.start instanceof Date
                     ? format(inspection.start, "Pp")
@@ -92,25 +109,37 @@ export default async function CTPATEditPage({
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm font-medium">Transportista</dt>
+                <dt className="text-sm font-medium">
+                  <Building className="mr-1 inline size-4 align-text-top" />
+                  Transportista
+                </dt>
                 <dd className="text-sm leading-6 text-gray-700 dark:text-gray-400">
                   {inspection.company.name}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm font-medium">Operador</dt>
+                <dt className="text-sm font-medium">
+                  <UserRound className="mr-1 inline size-4 align-text-top" />
+                  Operador
+                </dt>
                 <dd className="text-sm leading-6 text-gray-700 dark:text-gray-400">
                   {inspection.operator.name}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm font-medium">Tractor</dt>
+                <dt className="text-sm font-medium">
+                  <Truck className="mr-1 inline size-4 align-text-top" />
+                  Tractor
+                </dt>
                 <dd className="text-sm leading-6 text-gray-700 dark:text-gray-400">
                   {inspection.vehicle.vehicleNbr}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
-                <dt className="text-sm font-medium">Remolque</dt>
+                <dt className="text-sm font-medium">
+                  <Box className="mr-1 inline size-4 align-text-top" />
+                  Remolque
+                </dt>
                 <dd className="flex items-center gap-2 text-sm leading-6 text-gray-700 dark:text-gray-400">
                   {inspection.container.containerNbr}
                   {inspection.isLoaded ? (

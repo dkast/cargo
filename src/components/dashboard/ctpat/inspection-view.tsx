@@ -6,14 +6,24 @@ import {
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import {
+  ArrowLeftRight,
+  Box,
+  Building,
+  CalendarClock,
   Check,
   CheckCircle2,
   CircleDashed,
   CircleDot,
   ClipboardEdit,
+  ClipboardPen,
   ExternalLink,
   File,
   Link2,
+  MapPin,
+  Truck,
+  UserRound,
+  UserRoundCheck,
+  UserRoundSearch,
   X
 } from "lucide-react"
 import Link from "next/link"
@@ -23,6 +33,7 @@ import { InspectionApprove } from "@/components/dashboard/ctpat/inspection-appro
 import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
 import Share from "@/components/dashboard/ctpat/share"
 import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -156,14 +167,20 @@ export default async function InspectionView({
       <dl className="grid grid-cols-1 sm:grid-cols-2">
         {inspection.location?.name && (
           <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-2">
-            <dt className="text-sm font-medium leading-6">Ubicación</dt>
+            <dt className="text-sm font-medium leading-6">
+              <MapPin className="mr-1 inline size-4 align-text-top" />
+              Ubicación
+            </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
               {inspection.location.name}
             </dd>
           </div>
         )}
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Tipo de Inspección</dt>
+          <dt className="text-sm font-medium leading-6">
+            <ArrowLeftRight className="mr-1 inline size-4 align-text-top" />
+            Tipo de Inspección
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.tripType === InspectionTripType.IN ? (
               <span>Entrada</span>
@@ -173,7 +190,10 @@ export default async function InspectionView({
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Resultado</dt>
+          <dt className="text-sm font-medium leading-6">
+            <ClipboardPen className="mr-1 inline size-4 align-text-top" />
+            Resultado
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {(() => {
               switch (inspection.result) {
@@ -198,7 +218,10 @@ export default async function InspectionView({
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Fecha Inicio</dt>
+          <dt className="text-sm font-medium leading-6">
+            <CalendarClock className="mr-1 inline size-4 align-text-top" />
+            Fecha Inicio
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.start instanceof Date
               ? format(inspection.start, "Pp", { locale: es })
@@ -206,7 +229,10 @@ export default async function InspectionView({
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Fecha Fin</dt>
+          <dt className="text-sm font-medium leading-6">
+            <CalendarClock className="mr-1 inline size-4 align-text-top" />
+            Fecha Fin
+          </dt>
           {inspection.end && (
             <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
               {inspection.end instanceof Date
@@ -216,25 +242,37 @@ export default async function InspectionView({
           )}
         </div>
         <div className="border-gray- border-t py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Transportista</dt>
+          <dt className="text-sm font-medium leading-6">
+            <Building className="mr-1 inline size-4 align-text-top" />
+            Transportista
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.company.name}
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Operador</dt>
+          <dt className="text-sm font-medium leading-6">
+            <UserRound className="mr-1 inline size-4 align-text-top" />
+            Operador
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.operator.name}
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Tractor</dt>
+          <dt className="text-sm font-medium leading-6">
+            <Truck className="mr-1 inline size-4 align-text-top" />
+            Tractor
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.vehicle.vehicleNbr}
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Remolque</dt>
+          <dt className="text-sm font-medium leading-6">
+            <Box className="mr-1 inline size-4 align-text-top" />
+            Remolque
+          </dt>
           <dd className="mt-1 flex items-center gap-2 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.container.containerNbr}
             {inspection.isLoaded ? (
@@ -249,7 +287,10 @@ export default async function InspectionView({
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Inspeccionado por</dt>
+          <dt className="text-sm font-medium leading-6">
+            <UserRoundSearch className="mr-1 inline size-4 align-text-top" />
+            Inspeccionado por
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             <div className="flex flex-row gap-x-2">
               <Avatar className="size-6 text-[0.6rem] font-semibold">
@@ -262,7 +303,10 @@ export default async function InspectionView({
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Revisado por</dt>
+          <dt className="text-sm font-medium leading-6">
+            <UserRoundCheck className="mr-1 inline size-4 align-text-top" />
+            Revisado por
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.approvedBy?.user.name && (
               <div className="flex flex-row gap-x-2">
@@ -293,11 +337,22 @@ export default async function InspectionView({
               <TabsTrigger value="all">Todos</TabsTrigger>
             </TabsList>
             <TabsContent value="fail" className="rounded focus-visible:ring-2">
-              <InspectionList
-                inspectedBy={inspection.inspectedBy.user}
-                inspectionItems={inspection.inspectionItems}
-                showOnlyFailures
-              />
+              {inspection.status !== InspectionStatus.OPEN ? (
+                <InspectionList
+                  inspectedBy={inspection.inspectedBy.user}
+                  inspectionItems={inspection.inspectionItems}
+                  showOnlyFailures
+                />
+              ) : (
+                <Alert variant="warning">
+                  <CircleDashed className="size-4" />
+                  <AlertTitle>Inspección en proceso</AlertTitle>
+                  <AlertDescription>
+                    La inspección no ha sido finalizada. Una vez cerrada se
+                    podrán consultar el resultado de los puntos de inspección.
+                  </AlertDescription>
+                </Alert>
+              )}
             </TabsContent>
             <TabsContent value="all" className="rounded focus-visible:ring-2">
               <InspectionList
