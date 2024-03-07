@@ -53,7 +53,7 @@ const DateTimePicker = React.forwardRef<
         "flex items-center rounded-md ring-offset-white focus-within:ring-2 focus-within:ring-gray-950 focus-within:ring-offset-2"
       )}
     >
-      <div className="flex h-10 grow flex-row items-center rounded-l-md border border-r-0">
+      <div className="flex h-10 grow flex-row items-center rounded-l-md border border-r-0 dark:border-gray-800">
         <DateField {...fieldProps} />
       </div>
       <Popover open={open} onOpenChange={setOpen}>

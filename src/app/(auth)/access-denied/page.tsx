@@ -15,8 +15,8 @@ export default function AccessDeniedPage() {
     <div className="flex h-svh items-center justify-center">
       <div className="flex max-w-md flex-col px-4">
         <div className="my-8 flex items-center justify-center gap-2">
-          <Logo className="size-10 fill-gray-900" />
-          <h1 className="font-display text-2xl font-medium tracking-tight text-gray-900 sm:text-4xl">
+          <Logo className="size-10 fill-gray-900 dark:fill-white" />
+          <h1 className="font-display text-2xl font-medium tracking-tight text-gray-900 dark:text-white sm:text-4xl">
             cargo
           </h1>
         </div>
@@ -28,7 +28,7 @@ export default function AccessDeniedPage() {
             administrador
           </AlertDescription>
         </Alert>
-        <Button variant="ghost" className="mt-4" asChild>
+        <Button variant="outline" className="mt-4" asChild>
           <Link href="/login">Regresar</Link>
         </Button>
       </div>

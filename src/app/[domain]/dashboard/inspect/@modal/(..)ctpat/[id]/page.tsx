@@ -33,10 +33,10 @@ function LoadingSkeleton() {
         <Skeleton className="h-4 w-1/2" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2">
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
           <Skeleton className="h-4 w-1/2" />
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
           <Skeleton className="h-4 w-1/2" />
         </div>
       </div>

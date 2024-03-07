@@ -117,7 +117,7 @@ export default async function InspectionResultChart({
           </li>
           {issuePercentage > 10 && (
             <li>
-              <div className="rounded-md border-l-4 border-amber-400 bg-amber-50 p-3">
+              <div className="rounded-md border-l-4 border-amber-400 bg-amber-50 p-3 dark:bg-amber-950/50">
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <AlertTriangleIcon
@@ -126,7 +126,7 @@ export default async function InspectionResultChart({
                     />
                   </div>
                   <div className="ml-3 flex-1 md:flex md:justify-between">
-                    <p className="text-sm text-amber-700">
+                    <p className="text-sm text-amber-700 dark:text-amber-500">
                       {issuePercentage}% de las inspecciones presentaron fallas
                     </p>
                   </div>

@@ -6,14 +6,24 @@ import {
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import {
+  ArrowLeftRight,
+  Box,
+  Building,
+  CalendarClock,
   Check,
   CheckCircle2,
   CircleDashed,
   CircleDot,
   ClipboardEdit,
+  ClipboardPen,
   ExternalLink,
   File,
   Link2,
+  MapPin,
+  Truck,
+  UserRound,
+  UserRoundCheck,
+  UserRoundSearch,
   X
 } from "lucide-react"
 import Link from "next/link"
@@ -23,6 +33,7 @@ import { InspectionApprove } from "@/components/dashboard/ctpat/inspection-appro
 import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
 import Share from "@/components/dashboard/ctpat/share"
 import { TooltipHelper } from "@/components/dashboard/tooltip-helper"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -85,13 +96,13 @@ export default async function InspectionView({
             }
           })()}
         </h1>
-        <div className="inline-flex  rounded-md shadow-sm">
+        <div className="inline-flex rounded-md shadow-sm">
           <TooltipHelper content="Ver en pestaña">
             <Button
               size="icon"
               variant="ghost"
               asChild
-              className="group rounded-r-none ring-1 ring-inset ring-gray-200"
+              className="group rounded-r-none ring-1 ring-inset ring-gray-200 dark:ring-gray-700"
             >
               <Link
                 href={`/${domain}/dashboard/ctpat/${inspection.id}`}
@@ -109,7 +120,7 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200 dark:ring-gray-700"
               >
                 <Link
                   href={`/${domain}/ctpat/${inspection.id}/pdf`}
@@ -127,7 +138,7 @@ export default async function InspectionView({
                 size="icon"
                 variant="ghost"
                 asChild
-                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200"
+                className="group -ml-px rounded-none ring-1 ring-inset ring-gray-200 dark:ring-gray-700"
               >
                 <Link href={`/${domain}/dashboard/ctpat/edit/${inspection.id}`}>
                   <ClipboardEdit className="h-4 w-4 opacity-70 group-hover:opacity-100" />
@@ -141,7 +152,7 @@ export default async function InspectionView({
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-200"
+                  className="group -ml-px rounded-l-none ring-1 ring-inset ring-gray-200 dark:ring-gray-700"
                 >
                   <Link2 className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Button>
@@ -155,16 +166,22 @@ export default async function InspectionView({
       </h2>
       <dl className="grid grid-cols-1 sm:grid-cols-2">
         {inspection.location?.name && (
-          <div className="border-t border-gray-100 py-3 sm:col-span-2">
-            <dt className="text-sm font-medium leading-6">Ubicación</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+          <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-2">
+            <dt className="text-sm font-medium leading-6">
+              <MapPin className="mr-1 inline size-4 align-text-top" />
+              Ubicación
+            </dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
               {inspection.location.name}
             </dd>
           </div>
         )}
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Tipo de Inspección</dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <ArrowLeftRight className="mr-1 inline size-4 align-text-top" />
+            Tipo de Inspección
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.tripType === InspectionTripType.IN ? (
               <span>Entrada</span>
             ) : (
@@ -172,9 +189,12 @@ export default async function InspectionView({
             )}
           </dd>
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Resultado</dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <ClipboardPen className="mr-1 inline size-4 align-text-top" />
+            Resultado
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {(() => {
               switch (inspection.result) {
                 case InspectionResult.PASS:
@@ -186,7 +206,7 @@ export default async function InspectionView({
                   )
                 case InspectionResult.FAIL:
                   return (
-                    <Badge variant="red" className="gap-1 rounded">
+                    <Badge variant="destructive" className="gap-1 rounded">
                       <X className="h-4 w-4" />
                       Falla
                     </Badge>
@@ -197,45 +217,63 @@ export default async function InspectionView({
             })()}
           </dd>
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Fecha Inicio</dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <CalendarClock className="mr-1 inline size-4 align-text-top" />
+            Fecha Inicio
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.start instanceof Date
               ? format(inspection.start, "Pp", { locale: es })
               : format(new Date(inspection.start), "Pp", { locale: es })}
           </dd>
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Fecha Fin</dt>
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <CalendarClock className="mr-1 inline size-4 align-text-top" />
+            Fecha Fin
+          </dt>
           {inspection.end && (
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+            <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
               {inspection.end instanceof Date
                 ? format(inspection.end, "Pp", { locale: es })
                 : format(new Date(inspection.end), "Pp", { locale: es })}
             </dd>
           )}
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Transportista</dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-gray- border-t py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <Building className="mr-1 inline size-4 align-text-top" />
+            Transportista
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.company.name}
           </dd>
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Operador</dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <UserRound className="mr-1 inline size-4 align-text-top" />
+            Operador
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.operator.name}
           </dd>
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Tractor</dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <Truck className="mr-1 inline size-4 align-text-top" />
+            Tractor
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.vehicle.vehicleNbr}
           </dd>
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Remolque</dt>
-          <dd className="mt-1 flex items-center gap-2 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <Box className="mr-1 inline size-4 align-text-top" />
+            Remolque
+          </dt>
+          <dd className="mt-1 flex items-center gap-2 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.container.containerNbr}
             {inspection.isLoaded ? (
               <Badge variant="violet" className="rounded">
@@ -248,9 +286,12 @@ export default async function InspectionView({
             )}
           </dd>
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Inspeccionado por</dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <UserRoundSearch className="mr-1 inline size-4 align-text-top" />
+            Inspeccionado por
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             <div className="flex flex-row gap-x-2">
               <Avatar className="size-6 text-[0.6rem] font-semibold">
                 <AvatarFallback>
@@ -261,9 +302,12 @@ export default async function InspectionView({
             </div>
           </dd>
         </div>
-        <div className="border-t border-gray-100 py-3 sm:col-span-1">
-          <dt className="text-sm font-medium leading-6">Revisado por</dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
+          <dt className="text-sm font-medium leading-6">
+            <UserRoundCheck className="mr-1 inline size-4 align-text-top" />
+            Revisado por
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.approvedBy?.user.name && (
               <div className="flex flex-row gap-x-2">
                 <Avatar className="size-6 text-[0.6rem] font-semibold">
@@ -275,7 +319,7 @@ export default async function InspectionView({
               </div>
             )}
             {inspection.notes && (
-              <div className="mt-2 rounded-lg bg-gray-100 px-3 py-1.5 text-sm leading-6 text-gray-700 sm:mt-3">
+              <div className="mt-2 rounded-lg bg-gray-100 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-300 sm:mt-3">
                 {inspection.notes}
               </div>
             )}
@@ -293,11 +337,22 @@ export default async function InspectionView({
               <TabsTrigger value="all">Todos</TabsTrigger>
             </TabsList>
             <TabsContent value="fail" className="rounded focus-visible:ring-2">
-              <InspectionList
-                inspectedBy={inspection.inspectedBy.user}
-                inspectionItems={inspection.inspectionItems}
-                showOnlyFailures
-              />
+              {inspection.status !== InspectionStatus.OPEN ? (
+                <InspectionList
+                  inspectedBy={inspection.inspectedBy.user}
+                  inspectionItems={inspection.inspectionItems}
+                  showOnlyFailures
+                />
+              ) : (
+                <Alert variant="warning">
+                  <CircleDashed className="size-4" />
+                  <AlertTitle>Inspección en proceso</AlertTitle>
+                  <AlertDescription>
+                    La inspección no ha sido finalizada. Una vez cerrada se
+                    podrán consultar el resultado de los puntos de inspección.
+                  </AlertDescription>
+                </Alert>
+              )}
             </TabsContent>
             <TabsContent value="all" className="rounded focus-visible:ring-2">
               <InspectionList
@@ -313,19 +368,19 @@ export default async function InspectionView({
       </h2>
       <dl>
         <dt className="text-sm font-medium leading-6">Sello de Seguridad</dt>
-        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
           {inspection.sealNbr}
         </dd>
         <dt className="text-sm font-medium leading-6">
           Marcado de Llantas Tractor
         </dt>
-        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
           {inspection.tiresVehicle}
         </dd>
         <dt className="text-sm font-medium leading-6">
           Marcado de Llantas de Remolque
         </dt>
-        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700">
+        <dd className="my-2 min-h-[30px] rounded bg-gray-50 px-3 py-1.5 text-sm leading-6 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
           {inspection.tiresContainer}
         </dd>
       </dl>

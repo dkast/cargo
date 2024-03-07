@@ -19,12 +19,12 @@ export default function LoginPage() {
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
             <Link href="/" className="flex items-center gap-x-3">
-              <Logo className="size-10" />
+              <Logo className="size-10 dark:fill-white" />
               <span className="font-display text-4xl font-medium tracking-tight">
                 cargo
               </span>
             </Link>
-            <h2 className="mt-8 text-2xl font-medium leading-9 tracking-tight text-gray-900">
+            <h2 className="mt-8 text-2xl font-medium leading-9 tracking-tight text-gray-900 dark:text-gray-400">
               Bienvenido
             </h2>
           </div>

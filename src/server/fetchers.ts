@@ -102,10 +102,10 @@ export async function getOrganizationBySubDomain(domain: string) {
         }
       })
     },
-    [`membership-${user.id}`],
+    [`membership-${user.id}-${orgData?.id}`],
     {
       revalidate: 300,
-      tags: [`membership-${user.id}`]
+      tags: [`membership-${user.id}-${orgData?.id}`]
     }
   )()
 

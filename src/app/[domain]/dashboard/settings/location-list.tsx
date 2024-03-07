@@ -21,14 +21,14 @@ export default async function LocationList({
       </CardHeader>
       <CardContent>
         {locations && locations.length > 0 ? (
-          <div className="grid grid-cols-1 divide-y divide-gray-200">
+          <div className="grid grid-cols-1 divide-y divide-gray-200 dark:divide-gray-800">
             {locations.map(location => (
               <div
                 key={location.id}
                 className="flex flex-row items-center justify-between py-4"
               >
                 <div className="flex flex-col">
-                  <span className="flex gap-x-1 text-sm font-medium text-gray-900">
+                  <span className="flex gap-x-1 text-sm font-medium text-gray-900 dark:text-white">
                     {location.name}
                     {!location.isActive && (
                       <Badge variant="secondary">Inactiva</Badge>

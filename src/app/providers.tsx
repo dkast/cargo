@@ -8,6 +8,8 @@ import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experime
 import { Provider } from "jotai"
 import { SessionProvider } from "next-auth/react"
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar"
+import { ThemeProvider } from "next-themes"
+import { usePathname } from "next/navigation"
 
 function makeQueryClient() {
   return new QueryClient({
@@ -37,37 +39,59 @@ function getQueryClient() {
   }
 }
 
+const getForcedTheme = (pathname: string) => {
+  if (pathname === "/") {
+    return "light"
+  }
+  if (pathname === "/terms") {
+    return "light"
+  }
+  if (pathname === "/privacy") {
+    return "light"
+  }
+  return undefined
+}
+
 function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient()
+  const forcedTheme = getForcedTheme(usePathname())
 
   return (
     <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        <Provider>
-          <PhotoProvider>
-            <Suspense fallback={null}>
-              <ProgressBar
-                color="#FF6500"
-                options={{ showSpinner: false }}
-                shallowRouting
-                delay={200}
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+        forcedTheme={forcedTheme}
+      >
+        <QueryClientProvider client={queryClient}>
+          <Provider>
+            <PhotoProvider>
+              <Suspense fallback={null}>
+                <ProgressBar
+                  color="#FF6500"
+                  options={{ showSpinner: false }}
+                  shallowRouting
+                  delay={200}
+                />
+              </Suspense>
+              <ReactQueryStreamedHydration>
+                {children}
+              </ReactQueryStreamedHydration>
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  style: {
+                    background: "#333",
+                    color: "#fff"
+                  }
+                }}
               />
-            </Suspense>
-            <ReactQueryStreamedHydration>
-              {children}
-            </ReactQueryStreamedHydration>
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                style: {
-                  background: "#333",
-                  color: "#fff"
-                }
-              }}
-            />
-          </PhotoProvider>
-        </Provider>
-      </QueryClientProvider>
+            </PhotoProvider>
+          </Provider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </SessionProvider>
   )
 }

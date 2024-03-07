@@ -133,7 +133,7 @@ export default function LocationEdit({
               control={form.control}
               name="isActive"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between gap-1 rounded-lg border p-4">
+                <FormItem className="flex flex-row items-center justify-between gap-1 rounded-lg border p-4 dark:border-gray-700">
                   <div className="space-y-0.5">
                     <FormLabel htmlFor="isActive">Activa</FormLabel>
                     <FormDescription>

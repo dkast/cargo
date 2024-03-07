@@ -139,7 +139,7 @@ export default function ItemsForm({ inspection }: { inspection: Inspection }) {
               />
             )
           })}
-          <div className="border-200 space-y-6 rounded-lg border bg-white px-4 py-6 shadow-sm">
+          <div className="border-200 space-y-6 rounded-lg border bg-white px-4 py-6 shadow-sm dark:border-gray-800 dark:bg-gray-900/50">
             <FormField
               control={form.control}
               name="sealNbr"
@@ -254,11 +254,11 @@ function ItemQuestion({
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
-      <div className="border-200 space-y-4 rounded-lg border bg-white px-4 py-3 shadow-sm">
+      <div className="border-200 space-y-4 rounded-lg border bg-white px-4 py-3 shadow-sm dark:border-gray-800 dark:bg-gray-900/50">
         <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:items-center">
           <div className="flex grow items-center gap-x-3">
             {index < 17 && (
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-50  text-sm text-violet-700 ring-1 ring-inset ring-violet-700/10">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-sm font-medium text-violet-700  dark:bg-violet-900 dark:text-violet-200">
                 {index + 1}
               </span>
             )}
@@ -277,27 +277,37 @@ function ItemQuestion({
                     className="grid grid-cols-2 place-items-center gap-3"
                   >
                     <FormItem>
-                      <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-green-500 [&:has([data-state=checked])>div]:text-green-700 [&:has([data-state=checked])>div]:ring-green-200">
+                      <FormLabel
+                        className="cursor-pointer [&:has([data-state=checked])>div]:border-green-500 
+                      [&:has([data-state=checked])>div]:text-green-700 [&:has([data-state=checked])>div]:ring-green-200
+                      dark:[&:has([data-state=checked])>div]:border-green-500 dark:[&:has([data-state=checked])>div]:text-green-500
+                      dark:[&:has([data-state=checked])>div]:ring-green-900"
+                      >
                         <FormControl>
                           <RadioGroupItem
                             value={InspectionResult.PASS}
                             className="sr-only"
                           />
                         </FormControl>
-                        <div className="flex cursor-pointer flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white">
+                        <div className="flex cursor-pointer flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white dark:border-gray-600 dark:ring-gray-900">
                           <Check className="h-4 w-4" />
                         </div>
                       </FormLabel>
                     </FormItem>
                     <FormItem>
-                      <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-red-500 [&:has([data-state=checked])>div]:text-red-700 [&:has([data-state=checked])>div]:ring-red-200">
+                      <FormLabel
+                        className="cursor-pointer [&:has([data-state=checked])>div]:border-red-500 
+                      [&:has([data-state=checked])>div]:text-red-700 [&:has([data-state=checked])>div]:ring-red-200
+                      dark:[&:has([data-state=checked])>div]:border-red-500 dark:[&:has([data-state=checked])>div]:text-red-500
+                      dark:[&:has([data-state=checked])>div]:ring-red-900"
+                      >
                         <FormControl>
                           <RadioGroupItem
                             value={InspectionResult.FAIL}
                             className="sr-only"
                           />
                         </FormControl>
-                        <div className="flex flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white">
+                        <div className="flex cursor-pointer flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white dark:border-gray-600 dark:ring-gray-900">
                           <X className="h-4 w-4" />
                         </div>
                       </FormLabel>

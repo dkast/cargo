@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AxiomWebVitals } from "next-axiom"
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cargohq.vercel.app"),
   title: {
     template: "%s | Cargo",
     default: "Cargo"
@@ -52,7 +53,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <AxiomWebVitals />
-      <body className="bg-white text-gray-950 antialiased">
+      <body className="bg-white text-gray-950 antialiased dark:bg-gray-950 dark:text-white">
         <Providers>
           <main className="flex min-h-screen flex-col">{children}</main>
         </Providers>

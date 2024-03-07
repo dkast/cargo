@@ -19,9 +19,9 @@ import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 const color = {
-  OPEN: "bg-amber-100 text-amber-500",
-  CLOSED: "bg-blue-100 text-blue-500",
-  APPROVED: "bg-violet-100 text-violet-500"
+  OPEN: "bg-amber-100 text-amber-500 dark:bg-amber-950",
+  CLOSED: "bg-blue-100 text-blue-500 dark:bg-blue-950",
+  APPROVED: "bg-violet-100 text-violet-500 dark:bg-violet-950"
 }
 
 async function InspectionRecent({
@@ -51,19 +51,23 @@ async function InspectionRecent({
         <Table>
           <TableHeader className="[&_tr]:border-b-0">
             <TableRow>
-              <TableHead className="h-10 rounded-l-md bg-gray-50">
+              <TableHead className="h-10 rounded-l-md bg-gray-50 dark:bg-gray-900">
                 # Folio
               </TableHead>
-              <TableHead className="h-10 bg-gray-50">Ubicación</TableHead>
-              <TableHead className="h-10 bg-gray-50">Transportista</TableHead>
-              <TableHead className="h-10 rounded-r-md bg-gray-50 text-center">
+              <TableHead className="h-10 bg-gray-50 dark:bg-gray-900">
+                Ubicación
+              </TableHead>
+              <TableHead className="h-10 bg-gray-50 dark:bg-gray-900">
+                Transportista
+              </TableHead>
+              <TableHead className="h-10 rounded-r-md bg-gray-50 text-center dark:bg-gray-900">
                 Resultado
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map(inspection => (
-              <TableRow key={inspection.id}>
+              <TableRow key={inspection.id} className="dark:border-gray-800">
                 <TableCell className="flex flex-col gap-1 p-2">
                   <div className="flex flex-row items-center gap-2">
                     <div
@@ -105,7 +109,7 @@ async function InspectionRecent({
                         )
                       case InspectionResult.FAIL:
                         return (
-                          <Badge variant="red" className="rounded">
+                          <Badge variant="destructive" className="rounded">
                             Falla
                           </Badge>
                         )
