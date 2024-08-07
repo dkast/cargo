@@ -3,13 +3,13 @@ import ItemsForm from "@/app/[domain]/dashboard/ctpat/edit/[id]/items-form"
 import { InspectionStatus, InspectionTripType } from "@prisma/client"
 import { format } from "date-fns"
 import {
-  ArrowLeftRight,
-  Box,
   Building,
   CalendarClock,
   CheckCircle2,
   CircleDashed,
   CircleDot,
+  ClipboardCheck,
+  Container,
   Truck,
   UserRound
 } from "lucide-react"
@@ -85,16 +85,16 @@ export default async function CTPATEditPage({
               <dl className="space-y-1 sm:space-y-2">
                 <dt className="text-sm font-medium">
                   {" "}
-                  <ArrowLeftRight className="mr-1 inline size-4 align-text-top" />
-                  Tipo Inspección
+                  <ClipboardCheck className="mr-1 inline size-4 align-text-top" />
+                  Inspección
                 </dt>
                 <dd className="flex gap-x-2 text-sm leading-6 text-gray-700 dark:text-gray-400">
+                  {inspection.location?.name}
                   {inspection.tripType === InspectionTripType.IN ? (
                     <Badge variant="blue">Entrada</Badge>
                   ) : (
                     <Badge variant="blue">Salida</Badge>
                   )}
-                  {inspection.location?.name}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
@@ -137,7 +137,7 @@ export default async function CTPATEditPage({
               </dl>
               <dl className="space-y-1 sm:space-y-2">
                 <dt className="text-sm font-medium">
-                  <Box className="mr-1 inline size-4 align-text-top" />
+                  <Container className="mr-1 inline size-4 align-text-top" />
                   Remolque
                 </dt>
                 <dd className="flex items-center gap-2 text-sm leading-6 text-gray-700 dark:text-gray-400">
