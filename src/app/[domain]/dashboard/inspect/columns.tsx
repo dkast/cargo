@@ -299,26 +299,28 @@ export const columns: ColumnDef<InspectionMaster[number]>[] = [
             </div>
             <span className="hidden sm:block">{legend[inspection.status]}</span>
           </div>
-          <div className="text-center">
-            {(() => {
-              switch (inspection.result) {
-                case InspectionResult.PASS:
-                  return (
-                    <Badge variant="green" className="rounded md:hidden">
+          {(() => {
+            switch (inspection.result) {
+              case InspectionResult.PASS:
+                return (
+                  <div className="text-center md:hidden">
+                    <Badge variant="green" className="rounded">
                       OK
                     </Badge>
-                  )
-                case InspectionResult.FAIL:
-                  return (
-                    <Badge variant="destructive" className="rounded md:hidden">
+                  </div>
+                )
+              case InspectionResult.FAIL:
+                return (
+                  <div className="text-center md:hidden">
+                    <Badge variant="destructive" className="rounded">
                       Falla
                     </Badge>
-                  )
-                default:
-                  return null
-              }
-            })()}
-          </div>
+                  </div>
+                )
+              default:
+                return null
+            }
+          })()}
         </div>
       )
     }

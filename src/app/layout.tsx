@@ -53,7 +53,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <AxiomWebVitals />
-      <body className="bg-white text-gray-950 antialiased dark:bg-gray-950 dark:text-white">
+      <body className="bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-white">
         <Providers>
           <main className="flex min-h-screen flex-col">{children}</main>
         </Providers>

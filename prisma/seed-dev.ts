@@ -1,16 +1,17 @@
 import {
-  InspectionItemResult,
-  InspectionResult,
-  InspectionStatus,
-  InspectionTripType,
-  InspectionType,
+  // InspectionItemResult,
+  // InspectionResult,
+  // InspectionStatus,
+  // InspectionTripType,
+  // InspectionType,
   MembershipRole,
   PrismaClient
 } from "@prisma/client"
 import * as argon2 from "argon2"
-import { subDays } from "date-fns"
 
-import { ctpatInspections } from "../src/lib/types"
+// import { subDays } from "date-fns"
+
+// import { ctpatInspections } from "../src/lib/types"
 
 const prisma = new PrismaClient()
 
@@ -132,102 +133,102 @@ async function main() {
     throw new Error("No se encontró la membresía del administrador")
   }
 
-  const inspectionData = []
+  // const inspectionData = []
 
-  for (let i = 0; i < 30; i++) {
-    const randomLocation = await prisma.location.findFirst({
-      where: { organizationId: org.id },
-      take: 1,
-      skip: Math.floor(Math.random() * 3)
-    })
+  // for (let i = 0; i < 30; i++) {
+  //   const randomLocation = await prisma.location.findFirst({
+  //     where: { organizationId: org.id },
+  //     take: 1,
+  //     skip: Math.floor(Math.random() * 3)
+  //   })
 
-    const randomCompany = await prisma.company.findFirst({
-      where: { organizationId: org.id },
-      take: 1,
-      skip: Math.floor(Math.random() * 5)
-    })
+  //   const randomCompany = await prisma.company.findFirst({
+  //     where: { organizationId: org.id },
+  //     take: 1,
+  //     skip: Math.floor(Math.random() * 5)
+  //   })
 
-    const randomOperator = await prisma.operator.findFirst({
-      where: { organizationId: org.id },
-      take: 1,
-      skip: Math.floor(Math.random() * 5)
-    })
+  //   const randomOperator = await prisma.operator.findFirst({
+  //     where: { organizationId: org.id },
+  //     take: 1,
+  //     skip: Math.floor(Math.random() * 5)
+  //   })
 
-    const randomVehicle = await prisma.vehicle.findFirst({
-      where: { organizationId: org.id },
-      take: 1,
-      skip: Math.floor(Math.random() * 5)
-    })
+  //   const randomVehicle = await prisma.vehicle.findFirst({
+  //     where: { organizationId: org.id },
+  //     take: 1,
+  //     skip: Math.floor(Math.random() * 5)
+  //   })
 
-    const randomContainer = await prisma.container.findFirst({
-      where: { organizationId: org.id },
-      take: 1,
-      skip: Math.floor(Math.random() * 5)
-    })
+  //   const randomContainer = await prisma.container.findFirst({
+  //     where: { organizationId: org.id },
+  //     take: 1,
+  //     skip: Math.floor(Math.random() * 5)
+  //   })
 
-    const randomDate = subDays(new Date(), Math.floor(Math.random() * 30))
+  //   const randomDate = subDays(new Date(), Math.floor(Math.random() * 30))
 
-    const randomTripType =
-      Math.random() < 0.5 ? InspectionTripType.IN : InspectionTripType.OUT
+  //   const randomTripType =
+  //     Math.random() < 0.5 ? InspectionTripType.IN : InspectionTripType.OUT
 
-    const randomStatus =
-      Math.random() < 0.5 ? InspectionStatus.CLOSED : InspectionStatus.APPROVED
+  //   const randomStatus =
+  //     Math.random() < 0.5 ? InspectionStatus.CLOSED : InspectionStatus.APPROVED
 
-    const randomResult =
-      Math.random() < 0.8 ? InspectionResult.PASS : InspectionResult.FAIL
+  //   const randomResult =
+  //     Math.random() < 0.8 ? InspectionResult.PASS : InspectionResult.FAIL
 
-    const inspection = {
-      locationId: randomLocation?.id ?? "error",
-      companyId: randomCompany?.id ?? "error",
-      operatorId: randomOperator?.id ?? "error",
-      licenseNumber: "123456",
-      vehicleId: randomVehicle?.id ?? "error",
-      licensePlate: "ABC123",
-      containerId: randomContainer?.id ?? "error",
-      start: randomDate,
-      end: randomDate,
-      tripType: randomTripType,
-      status: randomStatus,
-      organizationId: org.id,
-      inspectedById: adminMembership.id,
-      isLoaded: Math.random() < 0.5,
-      result: randomResult,
-      inspectionType: InspectionType.CTPAT
-    }
+  //   const inspection = {
+  //     locationId: randomLocation?.id ?? "error",
+  //     companyId: randomCompany?.id ?? "error",
+  //     operatorId: randomOperator?.id ?? "error",
+  //     licenseNumber: "123456",
+  //     vehicleId: randomVehicle?.id ?? "error",
+  //     licensePlate: "ABC123",
+  //     containerId: randomContainer?.id ?? "error",
+  //     start: randomDate,
+  //     end: randomDate,
+  //     tripType: randomTripType,
+  //     status: randomStatus,
+  //     organizationId: org.id,
+  //     inspectedById: adminMembership.id,
+  //     isLoaded: Math.random() < 0.5,
+  //     result: randomResult,
+  //     inspectionType: InspectionType.CTPAT
+  //   }
 
-    inspectionData.push(inspection)
-  }
+  //   inspectionData.push(inspection)
+  // }
 
-  for (const inspection of inspectionData) {
-    await prisma.inspection.create({
-      data: {
-        ...inspection,
-        inspectionItems: {
-          create: [
-            ...ctpatInspections.map(item => ({
-              question: item,
-              result:
-                inspection.result === InspectionResult.PASS
-                  ? InspectionItemResult.PASS
-                  : Math.random() < 0.9
-                    ? InspectionItemResult.PASS
-                    : InspectionItemResult.FAIL,
-              notes:
-                inspection.result === InspectionResult.PASS
-                  ? ""
-                  : Math.random() < 0.5
-                    ? "Notas de prueba"
-                    : "",
-              order: Math.floor(Math.random() * 10),
-              organization: { connect: { id: org.id } } // Add the missing organization property
-            }))
-          ]
-        }
-      }
-    })
-    // Log the number of the inspection created
-    console.log(`Inspección ${inspectionData.indexOf(inspection) + 1} creada`)
-  }
+  // for (const inspection of inspectionData) {
+  //   await prisma.inspection.create({
+  //     data: {
+  //       ...inspection,
+  //       inspectionItems: {
+  //         create: [
+  //           ...ctpatInspections.map(item => ({
+  //             question: item,
+  //             result:
+  //               inspection.result === InspectionResult.PASS
+  //                 ? InspectionItemResult.PASS
+  //                 : Math.random() < 0.9
+  //                   ? InspectionItemResult.PASS
+  //                   : InspectionItemResult.FAIL,
+  //             notes:
+  //               inspection.result === InspectionResult.PASS
+  //                 ? ""
+  //                 : Math.random() < 0.5
+  //                   ? "Notas de prueba"
+  //                   : "",
+  //             order: Math.floor(Math.random() * 10),
+  //             organization: { connect: { id: org.id } } // Add the missing organization property
+  //           }))
+  //         ]
+  //       }
+  //     }
+  //   })
+  //   // Log the number of the inspection created
+  //   console.log(`Inspección ${inspectionData.indexOf(inspection) + 1} creada`)
+  // }
 }
 
 main()

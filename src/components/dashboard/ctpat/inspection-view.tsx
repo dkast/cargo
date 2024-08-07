@@ -7,7 +7,6 @@ import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import {
   ArrowLeftRight,
-  Box,
   Building,
   CalendarClock,
   Check,
@@ -16,6 +15,7 @@ import {
   CircleDot,
   ClipboardEdit,
   ClipboardPen,
+  Container,
   ExternalLink,
   File,
   Link2,
@@ -61,7 +61,7 @@ export default async function InspectionView({
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 px-1">
       <div className="flex items-center justify-between">
         <h1 className="flex flex-row items-center gap-4 text-2xl">
           <div>
@@ -270,7 +270,7 @@ export default async function InspectionView({
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">
-            <Box className="mr-1 inline size-4 align-text-top" />
+            <Container className="mr-1 inline size-4 align-text-top" />
             Remolque
           </dt>
           <dd className="mt-1 flex items-center gap-2 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">

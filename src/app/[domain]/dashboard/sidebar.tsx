@@ -195,7 +195,7 @@ function NavigationLink({
         className={cn(
           isActive
             ? "bg-gray-200/70 text-gray-700 dark:bg-gray-800/70 dark:text-gray-300"
-            : "text-gray-500 hover:bg-gray-100 hover:text-gray-600 dark:text-gray-600",
+            : "text-gray-500 hover:bg-gray-100 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-800",
           "group flex grow gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
         )}
       >
@@ -203,7 +203,7 @@ function NavigationLink({
           className={cn(
             isActive
               ? "text-gray-800 dark:text-gray-300"
-              : "text-gray-400 group-hover:text-gray-600 dark:text-gray-700",
+              : "text-gray-400 group-hover:text-gray-600 dark:text-gray-500 dark:group-hover:text-gray-800",
             "h-6 w-6 shrink-0"
           )}
           aria-hidden="true"

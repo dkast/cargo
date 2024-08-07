@@ -571,7 +571,7 @@ export async function getInspectionStatusCount(filter: InspectionQueryFilter) {
 
 // Get count of inspections by date and result
 export async function getInspectionResultCount(filter: InspectionQueryFilter) {
-  return await prisma.$queryRaw`select result, start, cast(count(*) as char) as total from Inspection where organizationId = ${
+  return await prisma.$queryRaw`select result, start, cast(count(*) as char) as total from "Inspection" where "organizationId" = ${
     filter.organizationId
   } and
   start >= ${
@@ -585,7 +585,7 @@ export async function getInspectionResultCount(filter: InspectionQueryFilter) {
 
 // Get count of inspections items where the result was set to fail
 export async function getInspectionIssuesCount(filter: InspectionQueryFilter) {
-  return await prisma.$queryRaw`select question as issue, cast(count(*) as char) as total from InspectionItem where inspectionId in (select id from Inspection where organizationId = ${
+  return await prisma.$queryRaw`select question as issue, cast(count(*) as char) as total from "InspectionItem" where "inspectionId" in (select id from "Inspection" where "organizationId" = ${
     filter.organizationId
   } and
   start >= ${
