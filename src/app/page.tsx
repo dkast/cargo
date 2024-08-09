@@ -98,7 +98,7 @@ const features = [
     background: (
       <ListDemo className="absolute right-0 top-0 origin-top transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_80%,#000_100%)] group-hover:scale-105 sm:[mask-image:linear-gradient(to_top,transparent_60%,#000_100%)]" />
     ),
-    className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3"
+    className: "lg:row-start-1 lg:row-end-4 lg:col-start-1 lg:col-end-2"
   },
   {
     Icon: FolderSearch,
@@ -108,13 +108,15 @@ const features = [
     href: undefined,
     cta: "Ver más",
     background: (
-      <img
-        src="query.png"
+      <Image
+        src="/query.png"
         alt="Search"
-        className="absolute right-0 top-[-136px] w-[300px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_60%)] group-hover:translate-x-10 sm:top-[-132px]"
+        className="absolute right-0 top-[-136px] w-[300px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_60%)] group-hover:translate-x-10 sm:top-[-132px] sm:[mask-image:linear-gradient(to_top,transparent_20%,#000_60%)]"
+        width={300}
+        height={300}
       />
     ),
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-4"
+    className: "lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-4"
   },
   {
     Icon: LinkIcon,
@@ -135,7 +137,7 @@ const features = [
         </Button>
       </div>
     ),
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2"
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-3 lg:row-end-4"
   },
   {
     Icon: FileBarChart,
@@ -148,19 +150,19 @@ const features = [
       <ChartDemo className="absolute left-10 top-5 w-[300px] origin-top translate-x-0 transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:-translate-x-10"></ChartDemo>
     ),
     className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-3"
-  },
-  {
-    Icon: CloudCog,
-    name: "Implementación rápida",
-    description:
-      "Sin instalaciones, accesible desde cualquier sitio en tu navegador.",
-    href: undefined,
-    cta: "Ver más",
-    background: (
-      <Globe className="-top-20 h-[600px] w-[600px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-105 sm:left-10" />
-    ),
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-3 lg:row-end-4"
   }
+  // {
+  //   Icon: CloudCog,
+  //   name: "Implementación rápida",
+  //   description:
+  //     "Sin instalaciones, accesible desde cualquier sitio en tu navegador.",
+  //   href: undefined,
+  //   cta: "Ver más",
+  //   background: (
+  //     <Globe className="-top-20 h-[600px] w-[600px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-105 sm:left-10" />
+  //   ),
+  //   className: "lg:col-start-3 lg:col-end-3 lg:row-start-3 lg:row-end-4"
+  // }
 ]
 
 function Features() {
@@ -188,10 +190,7 @@ function Features() {
 
 function CTA() {
   return (
-    <section
-      className="my-20 flex w-full max-w-4xl flex-col items-center gap-y-4 bg-gray-950 bg-[url(/bg-landing.svg)] 
-      bg-cover bg-top bg-no-repeat px-4 py-10 sm:rounded-xl sm:px-0 sm:py-20 sm:shadow-xl"
-    >
+    <section className="my-20 flex w-full max-w-4xl flex-col items-center gap-y-4 bg-gray-950 bg-[url(/bg-landing.svg)] bg-cover bg-top bg-no-repeat px-4 py-10 sm:rounded-xl sm:px-0 sm:py-20 sm:shadow-xl">
       <h2 className="font-display text-3xl font-semibold tracking-tight text-gray-100 sm:text-4xl">
         ¿Listo para probar Cargo?
       </h2>
