@@ -16,7 +16,7 @@ export default function Error({
   useEffect(() => {
     console.error(error)
     log.error("Error in dashboard", error)
-  }, [error])
+  }, [error, log])
 
   return (
     <div className="flex grow items-center justify-center px-2">

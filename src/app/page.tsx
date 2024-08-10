@@ -1,7 +1,7 @@
 import Balancer from "react-wrap-balancer"
 import {
   ClipboardCheck,
-  CloudCog,
+  // CloudCog,
   FileBarChart,
   FolderSearch,
   LinkIcon,
@@ -15,7 +15,7 @@ import { BorderBeam } from "@/components/landing/border-beam"
 import ChartDemo from "@/components/landing/chart-demo"
 import DotPattern from "@/components/landing/dot-pattern"
 import { Footer } from "@/components/landing/footer"
-import Globe from "@/components/landing/globe"
+// import Globe from "@/components/landing/globe"
 import ListDemo from "@/components/landing/list-demo"
 import { NavBar } from "@/components/landing/navbar"
 import Waitlist from "@/components/landing/waitlist"

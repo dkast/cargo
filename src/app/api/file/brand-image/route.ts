@@ -4,7 +4,7 @@ import {
   S3Client
 } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
-import { revalidatePath, revalidateTag } from "next/cache"
+import { revalidateTag } from "next/cache"
 import { NextResponse, type NextRequest } from "next/server"
 
 import { prisma } from "@/server/db"
