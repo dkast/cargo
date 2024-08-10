@@ -51,11 +51,11 @@ export default function LocationEdit({
   const [open, setOpen] = useState(false)
 
   const { execute, status, reset } = useAction(updateLocation, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         toast.success("Ubicación actualizada")
         setOpen(false)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
       reset()

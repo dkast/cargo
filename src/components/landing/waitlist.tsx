@@ -36,10 +36,10 @@ export default function Waitlist() {
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const { execute, status, reset } = useAction(joinWaitlist, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         setIsSubmitted(true)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast(data.failure.reason)
       }
       reset()
@@ -100,7 +100,7 @@ export default function Waitlist() {
               <AlertTitle className="text-white">
                 ¡Gracias por tu interés!
               </AlertTitle>
-              <AlertDescription className="text-gray-400">
+              <AlertDescription className="text-gray-300">
                 Te enviaremos un correo electrónico cuando estemos listos para
                 que puedas probar la aplicación.
               </AlertDescription>

@@ -38,10 +38,10 @@ export default function LocationForm({
   const { isDirty } = form.formState
 
   const { execute, status, reset } = useAction(createLocation, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         toast.success("Datos actualizados")
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 

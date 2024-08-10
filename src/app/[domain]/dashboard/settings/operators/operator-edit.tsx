@@ -61,12 +61,12 @@ export default function OperatorEdit({
     status: statusInsert,
     reset: resetInsert
   } = useAction(createOperator, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         form.reset()
         toast.success("Operador agregado correctamente")
         setOpen(false)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 
@@ -86,12 +86,12 @@ export default function OperatorEdit({
     status: statusUpdate,
     reset: resetUpdate
   } = useAction(updateOperator, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         form.reset()
         toast.success("Operador actualizado correctamente")
         setOpen(false)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 

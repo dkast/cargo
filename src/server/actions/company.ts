@@ -6,9 +6,9 @@ import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
 import { companySchema } from "@/lib/types"
 
-export const createCompany = action(
-  companySchema,
-  async ({ name, organizationId }) => {
+export const createCompany = action
+  .schema(companySchema)
+  .action(async ({ parsedInput: { name, organizationId } }) => {
     // Create company
     try {
       await prisma.company.create({
@@ -36,12 +36,11 @@ export const createCompany = action(
         }
       }
     }
-  }
-)
+  })
 
-export const updateCompany = action(
-  companySchema,
-  async ({ id, name, organizationId }) => {
+export const updateCompany = action
+  .schema(companySchema)
+  .action(async ({ parsedInput: { id, name, organizationId } }) => {
     // Update company
     try {
       await prisma.company.update({
@@ -71,13 +70,12 @@ export const updateCompany = action(
         }
       }
     }
-  }
-)
+  })
 
 // Delete only if there are no inspections using this company
-export const deleteCompany = action(
-  companySchema,
-  async ({ id, organizationId }) => {
+export const deleteCompany = action
+  .schema(companySchema)
+  .action(async ({ parsedInput: { id, organizationId } }) => {
     // Delete company
     try {
       const company = await prisma.company.findUnique({
@@ -121,5 +119,4 @@ export const deleteCompany = action(
         }
       }
     }
-  }
-)
+  })

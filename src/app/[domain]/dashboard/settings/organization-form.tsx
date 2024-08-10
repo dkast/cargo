@@ -57,11 +57,11 @@ export default function OrganizationForm({
   const { isDirty } = form.formState
 
   const { execute, status, reset } = useAction(updateOrg, {
-    onSuccess: res => {
-      if (res.data?.success) {
+    onSuccess: ({ data }) => {
+      if (data?.success) {
         toast.success("Datos actualizados")
-      } else if (res.data?.failure?.reason) {
-        toast.error(res.data.failure?.reason)
+      } else if (data?.failure?.reason) {
+        toast.error(data.failure?.reason)
       }
 
       // Reset response object

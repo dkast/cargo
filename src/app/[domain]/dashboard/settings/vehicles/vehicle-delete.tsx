@@ -29,10 +29,10 @@ export default function VehicleDelete({
     onExecute: () => {
       toast.loading("Eliminando Unidad...")
     },
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.failure?.reason) {
         toast.dismiss()
-        toast.error(data.failure.reason)
+        toast.error(data.failure?.reason)
       } else if (data?.success) {
         toast.dismiss()
       }

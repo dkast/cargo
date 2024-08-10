@@ -116,7 +116,15 @@ export const updateOrgMember = action
   .schema(userMemberSchema)
   .action(
     async ({
-      parsedInput: { id, name, password, role, isActive, defaultMembershipId }
+      parsedInput: {
+        id,
+        name,
+        password,
+        email,
+        role,
+        isActive,
+        defaultMembershipId
+      }
     }) => {
       // Update member
       try {
@@ -130,6 +138,7 @@ export const updateOrgMember = action
             user: {
               update: {
                 name: name,
+                email: email,
                 defaultMembershipId: defaultMembershipId
               }
             }

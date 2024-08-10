@@ -61,12 +61,12 @@ export default function VehicleEdit({
     status: statusInsert,
     reset: resetInsert
   } = useAction(createVehicle, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         form.reset()
         toast.success("Unidad agregada correctamente")
         setOpen(false)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 
@@ -86,12 +86,12 @@ export default function VehicleEdit({
     status: statusUpdate,
     reset: resetUpdate
   } = useAction(updateVehicle, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         form.reset()
         toast.success("Unidad actualizada correctamente")
         setOpen(false)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 

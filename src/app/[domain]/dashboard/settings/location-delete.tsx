@@ -29,7 +29,7 @@ export default function LocationActionMenu({
     onExecute: () => {
       toast.loading("Eliminando ubicación...")
     },
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.failure?.reason) {
         toast.dismiss()
         toast.error(data.failure.reason)

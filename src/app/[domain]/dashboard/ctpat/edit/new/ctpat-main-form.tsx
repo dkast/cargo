@@ -100,7 +100,7 @@ export default function CTPATMainForm({
     status: insertCompanyStatus,
     reset
   } = useAction(createCompany, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
@@ -125,7 +125,7 @@ export default function CTPATMainForm({
     status: insertContainerStatus,
     reset: resetContainer
   } = useAction(createContainer, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
@@ -153,7 +153,7 @@ export default function CTPATMainForm({
     onExecute: () => {
       toast.loading("Guardando...")
     },
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       } else if (data?.success) {
