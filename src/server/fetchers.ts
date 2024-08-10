@@ -525,6 +525,9 @@ export async function getInspectionById(inspectionId: string) {
               fileUrl: true
             }
           }
+        },
+        orderBy: {
+          order: "asc"
         }
       }
     }

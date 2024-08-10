@@ -53,10 +53,10 @@ export default function ProfileForm({
     status: updateStatus,
     reset: resetUpdate
   } = useAction(updateOrgMember, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         toast.success("Datos actualizados")
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 

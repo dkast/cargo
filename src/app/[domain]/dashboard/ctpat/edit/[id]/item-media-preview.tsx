@@ -63,7 +63,7 @@ export default function ItemMediaPreview({
       {fileList.map(file => (
         <li
           key={file.id}
-          className="flex flex-row items-center rounded-lg bg-gray-100"
+          className="flex flex-row items-center rounded-lg bg-gray-100 dark:bg-gray-800"
         >
           {file.fileUrl && (
             <ImageViewer
