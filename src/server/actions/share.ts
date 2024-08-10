@@ -34,7 +34,7 @@ export const createShareItem = action
         })
         return {
           success: {
-            shareURL: getBaseUrl() + `/share/${shareItem.nanoid}`
+            shareURL: `${getBaseUrl()}/share/${shareItem.nanoid}`
           }
         }
       } catch (error) {
