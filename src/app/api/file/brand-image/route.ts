@@ -4,7 +4,7 @@ import {
   S3Client
 } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { NextResponse, type NextRequest } from "next/server"
 
 import { prisma } from "@/server/db"
@@ -45,7 +45,8 @@ export async function POST(req: NextRequest) {
     }
   })
 
-  revalidatePath("/dashboard/settings")
+  // revalidatePath("/dashboard/settings")
+  revalidateTag(`organization-${organizationId}`)
 
   // Return the signed URL to the client for a PUT request
   // @see https://developers.cloudflare.com/r2/examples/aws/aws-sdk-js-v3/#generate-presigned-urls

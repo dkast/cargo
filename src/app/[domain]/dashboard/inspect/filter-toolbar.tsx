@@ -2,7 +2,7 @@
 
 import { today } from "@internationalized/date"
 import { InspectionItemResult, InspectionStatus } from "@prisma/client"
-import { useSuspenseQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import {
   parseAsArrayOf,
   parseAsString,
@@ -44,9 +44,9 @@ const result = [
 
 export default function FilterToolbar() {
   const params = useParams<{ domain: string }>()
-  const { data } = useSuspenseQuery({
-    queryKey: ["locations"],
-    queryFn: () => getLocationsBySubDomain(params.domain ?? "")
+  const { data } = useQuery({
+    queryKey: ["locations", params.domain],
+    queryFn: () => getLocationsBySubDomain(params.domain)
   })
 
   const [locationValue, setLocationValue] = useQueryState(

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { MembershipRole, type Organization } from "@prisma/client"
+import { useQueryClient } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useAction } from "next-safe-action/hooks"
@@ -50,6 +51,7 @@ export default function OrganizationForm({
     }
   })
 
+  const queryClient = useQueryClient()
   const router = useRouter()
   const user = useSession().data?.user
 
@@ -57,9 +59,13 @@ export default function OrganizationForm({
   const { isDirty } = form.formState
 
   const { execute, status, reset } = useAction(updateOrg, {
-    onSuccess: ({ data }) => {
+    onSuccess: ({ data, input }) => {
       if (data?.success) {
         toast.success("Datos actualizados")
+        // Invalidate workgroup query (sidebar)
+        queryClient.invalidateQueries({
+          queryKey: ["organization", input.subdomain]
+        })
       } else if (data?.failure?.reason) {
         toast.error(data.failure?.reason)
       }
@@ -91,7 +97,10 @@ export default function OrganizationForm({
           <div className="flex items-center gap-x-8">
             <Avatar className="h-24 w-24 rounded-xl">
               {data.image && (
-                <AvatarImage src={data.image} className="rounded-xl border" />
+                <AvatarImage
+                  src={data.image}
+                  className="rounded-xl border dark:border-transparent"
+                />
               )}
               <AvatarFallback className="text-3xl">
                 {getInitials(data.name)}
@@ -109,6 +118,9 @@ export default function OrganizationForm({
                   <BrandImageUploader
                     organizationId={data.id}
                     onUploadSuccess={() => {
+                      queryClient.invalidateQueries({
+                        queryKey: ["organization", data.subdomain]
+                      })
                       router.refresh()
                     }}
                   ></BrandImageUploader>
