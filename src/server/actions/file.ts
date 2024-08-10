@@ -17,11 +17,13 @@ const R2 = new S3Client({
   }
 })
 
-export const deleteFile = action(
-  z.object({
-    id: z.string().cuid()
-  }),
-  async ({ id }) => {
+export const deleteFile = action
+  .schema(
+    z.object({
+      id: z.string().cuid()
+    })
+  )
+  .action(async ({ parsedInput: { id } }) => {
     try {
       const file = await prisma.inspectionItemFile.findUnique({
         where: {
@@ -65,5 +67,4 @@ export const deleteFile = action(
         }
       }
     }
-  }
-)
+  })

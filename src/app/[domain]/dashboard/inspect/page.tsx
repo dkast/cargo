@@ -1,11 +1,20 @@
 import InspectionDataTable from "@/app/[domain]/dashboard/inspect/inspection-datatable"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient
+} from "@tanstack/react-query"
 import { type Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Button } from "@/components/ui/button"
-import { getInspections, getOrganizationBySubDomain } from "@/server/fetchers"
+import {
+  getInspections,
+  getLocationsBySubDomain,
+  getOrganizationBySubDomain
+} from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {
@@ -66,16 +75,24 @@ export default async function CTPATPage({
 
   const data = await getInspections(filter)
 
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ["locations"],
+    queryFn: () => getLocationsBySubDomain(domain)
+  })
+
   return (
-    <div className="mx-auto grow overflow-hidden px-4 sm:px-6">
-      <PageSubtitle title="CTPAT" description="Inspecciones CTPAT">
-        <Button asChild>
-          <Link href="ctpat/edit/new">Nueva Inspección</Link>
-        </Button>
-      </PageSubtitle>
-      <div className="mt-6">
-        <InspectionDataTable data={data} />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="mx-auto grow overflow-hidden px-4 sm:px-6">
+        <PageSubtitle title="CTPAT" description="Inspecciones CTPAT">
+          <Button asChild>
+            <Link href="ctpat/edit/new">Nueva Inspección</Link>
+          </Button>
+        </PageSubtitle>
+        <div className="mt-6">
+          <InspectionDataTable data={data} />
+        </div>
       </div>
-    </div>
+    </HydrationBoundary>
   )
 }

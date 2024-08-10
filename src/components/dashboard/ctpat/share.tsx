@@ -111,7 +111,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
     status: shareStatus,
     reset: resetShare
   } = useAction(createShareItem, {
-    onSuccess: async data => {
+    onSuccess: async ({ data }) => {
       if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       } else if (data?.success) {
@@ -214,10 +214,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
                   defaultValue={field.value}
                 >
                   <FormItem>
-                    <FormLabel
-                      className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200
-                    dark:[&:has([data-state=checked])>div]:border-blue-700 dark:[&:has([data-state=checked])>div]:ring-blue-900"
-                    >
+                    <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200 dark:[&:has([data-state=checked])>div]:border-blue-700 dark:[&:has([data-state=checked])>div]:ring-blue-900">
                       <div className="flex flex-row items-center justify-between gap-2 rounded-md border px-4 py-2 ring-2 ring-white dark:border-gray-800 dark:ring-gray-950">
                         <div className="rounded-full bg-green-100 p-1.5 dark:bg-green-400/10">
                           <Globe className="size-5 text-green-500 dark:text-green-400" />
@@ -238,10 +235,7 @@ function ShareForm({ path, className }: { path?: string; className?: string }) {
                     </FormLabel>
                   </FormItem>
                   <FormItem>
-                    <FormLabel
-                      className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200
-                    dark:[&:has([data-state=checked])>div]:border-blue-700 dark:[&:has([data-state=checked])>div]:ring-blue-900"
-                    >
+                    <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-blue-500 [&:has([data-state=checked])>div]:ring-blue-200 dark:[&:has([data-state=checked])>div]:border-blue-700 dark:[&:has([data-state=checked])>div]:ring-blue-900">
                       <div className="flex flex-row items-center justify-between gap-2 rounded-md border px-4 py-2 ring-2 ring-white dark:border-gray-800 dark:ring-gray-950">
                         <div className="rounded-full bg-gray-100 p-1.5 dark:bg-gray-400/10">
                           <LockKeyhole className="size-5 text-gray-500 dark:text-gray-300" />

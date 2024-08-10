@@ -29,7 +29,7 @@ export default function TransportDelete({
     onExecute: () => {
       toast.loading("Eliminando transportista...")
     },
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.failure?.reason) {
         toast.dismiss()
         toast.error(data.failure.reason)
@@ -57,9 +57,9 @@ export default function TransportDelete({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Eliminar ubicación</AlertDialogTitle>
+          <AlertDialogTitle>Eliminar Transportista</AlertDialogTitle>
           <AlertDialogDescription>
-            ¿Estás seguro de eliminar la ubicación? Esta acción no se puede
+            ¿Estás seguro de eliminar el Transportista? Esta acción no se puede
             deshacer
           </AlertDialogDescription>
         </AlertDialogHeader>

@@ -9,47 +9,58 @@ import { action } from "@/lib/safe-actions"
 import { ShareFormSchema } from "@/lib/types"
 import { getBaseUrl } from "@/lib/utils"
 
-export const createShareItem = action(
-  ShareFormSchema,
-  async ({ accessType, sharePath, password, expiresAt, organizationId }) => {
-    try {
-      const shareItem = await prisma.shareItem.create({
-        data: {
-          accessType: accessType,
-          sharePath: sharePath,
-          password: password ? await argon2.hash(password) : undefined,
-          expiresAt: expiresAt ?? undefined,
-          organizationId: organizationId,
-          nanoid: nanoid(8)
-        }
-      })
-      return {
-        success: {
-          shareURL: getBaseUrl() + `/share/${shareItem.nanoid}`
-        }
+export const createShareItem = action
+  .schema(ShareFormSchema)
+  .action(
+    async ({
+      parsedInput: {
+        accessType,
+        sharePath,
+        password,
+        expiresAt,
+        organizationId
       }
-    } catch (error) {
-      let message
-      if (typeof error === "string") {
-        message = error
-      } else if (error instanceof Error) {
-        message = error.message
-      }
-      return {
-        failure: {
-          reason: message
+    }) => {
+      try {
+        const shareItem = await prisma.shareItem.create({
+          data: {
+            accessType: accessType,
+            sharePath: sharePath,
+            password: password ? await argon2.hash(password) : undefined,
+            expiresAt: expiresAt ?? undefined,
+            organizationId: organizationId,
+            nanoid: nanoid(8)
+          }
+        })
+        return {
+          success: {
+            shareURL: `${getBaseUrl()}/share/${shareItem.nanoid}`
+          }
+        }
+      } catch (error) {
+        let message
+        if (typeof error === "string") {
+          message = error
+        } else if (error instanceof Error) {
+          message = error.message
+        }
+        return {
+          failure: {
+            reason: message
+          }
         }
       }
     }
-  }
-)
+  )
 
-export const verifyShareItemPassword = action(
-  z.object({
-    nanoid: z.string(),
-    password: z.string()
-  }),
-  async ({ nanoid, password }) => {
+export const verifyShareItemPassword = action
+  .schema(
+    z.object({
+      nanoid: z.string(),
+      password: z.string()
+    })
+  )
+  .action(async ({ parsedInput: { nanoid, password } }) => {
     try {
       const shareItem = await prisma.shareItem.findUnique({
         where: {
@@ -96,5 +107,4 @@ export const verifyShareItemPassword = action(
         }
       }
     }
-  }
-)
+  })

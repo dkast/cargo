@@ -62,11 +62,13 @@ export function InspectionList({
   )
 }
 
-const inspectionItemWithFiles = Prisma.validator<Prisma.InspectionItemArgs>()({
-  include: {
-    inspectionItemFiles: true
-  }
-})
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const inspectionItemWithFiles =
+  Prisma.validator<Prisma.InspectionItemDefaultArgs>()({
+    include: {
+      inspectionItemFiles: true
+    }
+  })
 
 export function InspectionListItem({
   item,

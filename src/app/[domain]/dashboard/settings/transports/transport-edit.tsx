@@ -60,12 +60,12 @@ export default function TransportEdit({
     status: statusInsert,
     reset: resetInsert
   } = useAction(createCompany, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         form.reset()
         toast.success("Transportista agregado correctamente")
         setOpen(false)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 
@@ -85,12 +85,12 @@ export default function TransportEdit({
     status: statusUpdate,
     reset: resetUpdate
   } = useAction(updateCompany, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         form.reset()
         toast.success("Transportista actualizado correctamente")
         setOpen(false)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 

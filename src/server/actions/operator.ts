@@ -7,9 +7,9 @@ import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
 import { operatorSchema } from "@/lib/types"
 
-export const createOperator = action(
-  operatorSchema,
-  async ({ name, licenseNumber, organizationId }) => {
+export const createOperator = action
+  .schema(operatorSchema)
+  .action(async ({ parsedInput: { name, licenseNumber, organizationId } }) => {
     // Create operator
     try {
       await prisma.operator.create({
@@ -42,54 +42,54 @@ export const createOperator = action(
         }
       }
     }
-  }
-)
+  })
 
-export const updateOperator = action(
-  operatorSchema,
-  async ({ id, name, licenseNumber, organizationId }) => {
-    // Update operator
-    try {
-      await prisma.operator.update({
-        where: {
-          id: id
-        },
-        data: {
-          name: name,
-          licenseNumber: licenseNumber,
-          organizationId: organizationId
+export const updateOperator = action
+  .schema(operatorSchema)
+  .action(
+    async ({ parsedInput: { id, name, licenseNumber, organizationId } }) => {
+      // Update operator
+      try {
+        await prisma.operator.update({
+          where: {
+            id: id
+          },
+          data: {
+            name: name,
+            licenseNumber: licenseNumber,
+            organizationId: organizationId
+          }
+        })
+
+        revalidateTag(`operators-${organizationId}`)
+
+        return {
+          success: true
         }
-      })
-
-      revalidateTag(`operators-${organizationId}`)
-
-      return {
-        success: true
-      }
-    } catch (error) {
-      let message
-      if (typeof error === "string") {
-        message = error
-      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === "P2002") {
-          message = "Ya existe un operador con ese número de licencia"
-        } else {
-          message = error.message
+      } catch (error) {
+        let message
+        if (typeof error === "string") {
+          message = error
+        } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === "P2002") {
+            message = "Ya existe un operador con ese número de licencia"
+          } else {
+            message = error.message
+          }
         }
-      }
-      return {
-        failure: {
-          reason: message
+        return {
+          failure: {
+            reason: message
+          }
         }
       }
     }
-  }
-)
+  )
 
 // Delete only if there are no inspections using this operator
-export const deleteOperator = action(
-  operatorSchema,
-  async ({ id, organizationId }) => {
+export const deleteOperator = action
+  .schema(operatorSchema)
+  .action(async ({ parsedInput: { id, organizationId } }) => {
     // Delete operator
     try {
       const operator = await prisma.operator.findUnique({
@@ -133,5 +133,4 @@ export const deleteOperator = action(
         }
       }
     }
-  }
-)
+  })

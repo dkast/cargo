@@ -55,11 +55,11 @@ export default function MemberForm({
     status: createStatus,
     reset
   } = useAction(createOrgMember, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         toast.success("Usuario creado")
         router.push(".")
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
       // Reset response object
@@ -78,10 +78,10 @@ export default function MemberForm({
     status: updateStatus,
     reset: resetUpdate
   } = useAction(updateOrgMember, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         toast.success("Usuario actualizado")
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 
@@ -134,6 +134,7 @@ export default function MemberForm({
                   placeholder="Nombre de usuario"
                   {...field}
                   className="sm:w-1/2"
+                  disabled={action === actionType.UPDATE}
                 />
               </FormControl>
               <FormMessage />

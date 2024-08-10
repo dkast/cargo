@@ -60,12 +60,12 @@ export default function ContainerEdit({
     status: statusInsert,
     reset: resetInsert
   } = useAction(createContainer, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         form.reset()
         toast.success("Contenedor agregado correctamente")
         setOpen(false)
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 
@@ -85,12 +85,12 @@ export default function ContainerEdit({
     status: statusUpdate,
     reset: resetUpdate
   } = useAction(updateContainer, {
-    onSuccess: data => {
+    onSuccess: ({ data }) => {
       if (data?.success) {
         toast.success("Contenedor actualizado correctamente")
         setOpen(false)
         form.reset()
-      } else if (data?.failure.reason) {
+      } else if (data?.failure?.reason) {
         toast.error(data.failure.reason)
       }
 

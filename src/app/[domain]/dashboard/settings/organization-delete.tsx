@@ -39,7 +39,9 @@ function OrganizationDelete({ organizationId }: { organizationId: string }) {
   })
 
   const handleDelete = () => {
-    execute(organizationId)
+    execute({
+      id: organizationId
+    })
   }
 
   return (

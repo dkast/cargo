@@ -5,12 +5,13 @@ import { z } from "zod"
 import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
 
-export const joinWaitlist = action(
-  z.object({
-    email: z.string().email()
-  }),
-
-  async ({ email }) => {
+export const joinWaitlist = action
+  .schema(
+    z.object({
+      email: z.string().email()
+    })
+  )
+  .action(async ({ parsedInput: { email } }) => {
     try {
       const waitlist = await prisma.waitlist.findUnique({
         where: {
@@ -48,5 +49,4 @@ export const joinWaitlist = action(
         }
       }
     }
-  }
-)
+  })

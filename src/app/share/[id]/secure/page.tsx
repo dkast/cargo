@@ -42,10 +42,10 @@ export default function SecurePage({
   const router = useRouter()
 
   const { execute, status, reset } = useAction(verifyShareItemPassword, {
-    onSuccess: data => {
-      if (data.failure?.reason) {
+    onSuccess: ({ data }) => {
+      if (data?.failure?.reason) {
         toast.error(data.failure.reason)
-      } else if (data.success) {
+      } else if (data?.success) {
         router.push(data.success.shareItem.sharePath)
       }
       reset()

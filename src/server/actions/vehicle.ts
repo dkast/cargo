@@ -7,89 +7,93 @@ import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
 import { vehicleSchema } from "@/lib/types"
 
-export const createVehicle = action(
-  vehicleSchema,
-  async ({ vehicleNbr, licensePlate, organizationId }) => {
-    // Create vehicle
-    try {
-      await prisma.vehicle.create({
-        data: {
-          vehicleNbr: vehicleNbr,
-          licensePlate: licensePlate,
-          organizationId: organizationId
-        }
-      })
+export const createVehicle = action
+  .schema(vehicleSchema)
+  .action(
+    async ({ parsedInput: { vehicleNbr, licensePlate, organizationId } }) => {
+      // Create vehicle
+      try {
+        await prisma.vehicle.create({
+          data: {
+            vehicleNbr: vehicleNbr,
+            licensePlate: licensePlate,
+            organizationId: organizationId
+          }
+        })
 
-      revalidateTag(`vehicles-${organizationId}`)
+        revalidateTag(`vehicles-${organizationId}`)
 
-      return {
-        success: true
-      }
-    } catch (error) {
-      let message
-      if (typeof error === "string") {
-        message = error
-      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === "P2002") {
-          message = "Ya existe un vehículo con ese número de placas"
-        } else {
-          message = error.message
+        return {
+          success: true
         }
-      }
-      return {
-        failure: {
-          reason: message
+      } catch (error) {
+        let message
+        if (typeof error === "string") {
+          message = error
+        } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === "P2002") {
+            message = "Ya existe un vehículo con ese número de placas"
+          } else {
+            message = error.message
+          }
+        }
+        return {
+          failure: {
+            reason: message
+          }
         }
       }
     }
-  }
-)
+  )
 
-export const updateVehicle = action(
-  vehicleSchema,
-  async ({ id, vehicleNbr, licensePlate, organizationId }) => {
-    // Update vehicle
-    try {
-      await prisma.vehicle.update({
-        where: {
-          id: id
-        },
-        data: {
-          vehicleNbr: vehicleNbr,
-          licensePlate: licensePlate,
-          organizationId: organizationId
+export const updateVehicle = action
+  .schema(vehicleSchema)
+  .action(
+    async ({
+      parsedInput: { id, vehicleNbr, licensePlate, organizationId }
+    }) => {
+      // Update vehicle
+      try {
+        await prisma.vehicle.update({
+          where: {
+            id: id
+          },
+          data: {
+            vehicleNbr: vehicleNbr,
+            licensePlate: licensePlate,
+            organizationId: organizationId
+          }
+        })
+
+        revalidateTag(`vehicles-${organizationId}`)
+
+        return {
+          success: true
         }
-      })
-
-      revalidateTag(`vehicles-${organizationId}`)
-
-      return {
-        success: true
-      }
-    } catch (error) {
-      let message
-      if (typeof error === "string") {
-        message = error
-      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === "P2002") {
-          message = "Ya existe un vehículo con ese número de placas"
-        } else {
-          message = error.message
+      } catch (error) {
+        let message
+        if (typeof error === "string") {
+          message = error
+        } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === "P2002") {
+            message = "Ya existe un vehículo con ese número de placas"
+          } else {
+            message = error.message
+          }
         }
-      }
-      return {
-        failure: {
-          reason: message
+        return {
+          failure: {
+            reason: message
+          }
         }
       }
     }
-  }
-)
+  )
 
 // Delete only if there are no inspections using this vehicle
-export const deleteVehicle = action(
-  vehicleSchema,
-  async ({ id, organizationId }) => {
+export const deleteVehicle = action
+  .schema(vehicleSchema)
+  .action(async ({ parsedInput: { id, organizationId } }) => {
     // Delete vehicle
     try {
       const vehicle = await prisma.vehicle.findUnique({
@@ -133,5 +137,4 @@ export const deleteVehicle = action(
         }
       }
     }
-  }
-)
+  })

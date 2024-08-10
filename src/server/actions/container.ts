@@ -6,9 +6,9 @@ import { prisma } from "@/server/db"
 import { action } from "@/lib/safe-actions"
 import { containerSchema } from "@/lib/types"
 
-export const createContainer = action(
-  containerSchema,
-  async ({ containerNbr, organizationId }) => {
+export const createContainer = action
+  .schema(containerSchema)
+  .action(async ({ parsedInput: { containerNbr, organizationId } }) => {
     // Create container
     try {
       await prisma.container.create({
@@ -36,12 +36,11 @@ export const createContainer = action(
         }
       }
     }
-  }
-)
+  })
 
-export const updateContainer = action(
-  containerSchema,
-  async ({ id, containerNbr, organizationId }) => {
+export const updateContainer = action
+  .schema(containerSchema)
+  .action(async ({ parsedInput: { id, containerNbr, organizationId } }) => {
     // Update container
     try {
       await prisma.container.update({
@@ -72,13 +71,12 @@ export const updateContainer = action(
         }
       }
     }
-  }
-)
+  })
 
 // Delete only if there are no inspections using this container
-export const deleteContainer = action(
-  containerSchema,
-  async ({ id, organizationId }) => {
+export const deleteContainer = action
+  .schema(containerSchema)
+  .action(async ({ parsedInput: { id, organizationId } }) => {
     // Delete container
     try {
       const container = await prisma.container.findUnique({
@@ -122,5 +120,4 @@ export const deleteContainer = action(
         }
       }
     }
-  }
-)
+  })
