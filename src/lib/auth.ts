@@ -1,12 +1,7 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import { type MembershipRole } from "@prisma/client"
 import * as argon2 from "argon2"
-import { type GetServerSidePropsContext } from "next"
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions
-} from "next-auth"
+import NextAuth, { type DefaultSession } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { unstable_cache } from "next/cache"
 
@@ -44,7 +39,7 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  */
-export const authOptions: NextAuthOptions = {
+export const { handlers, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     // DiscordProvider({
@@ -163,16 +158,4 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login"
   },
   secret: env.NEXTAUTH_SECRET
-}
-
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
-export const getServerAuthSession = (ctx: {
-  req: GetServerSidePropsContext["req"]
-  res: GetServerSidePropsContext["res"]
-}) => {
-  return getServerSession(ctx.req, ctx.res, authOptions)
-}
+})

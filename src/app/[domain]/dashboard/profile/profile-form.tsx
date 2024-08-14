@@ -185,7 +185,7 @@ export default function ProfileForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {memberships.map(membership => (
+                  {memberships?.map(membership => (
                     <SelectItem key={membership.id} value={membership.id}>
                       <div className="flex w-full flex-row items-center gap-x-2">
                         <OrgAvatar
