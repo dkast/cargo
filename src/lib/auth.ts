@@ -6,6 +6,7 @@ import Credentials from "next-auth/providers/credentials"
 import { unstable_cache } from "next/cache"
 
 import { prisma } from "@/server/db"
+import authConfig from "@/lib/auth.config"
 import { env } from "@/env.mjs"
 
 /**
@@ -41,58 +42,6 @@ declare module "next-auth" {
  */
 export const { handlers, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  providers: [
-    // DiscordProvider({
-    //   clientId: env.DISCORD_CLIENT_ID,
-    //   clientSecret: env.DISCORD_CLIENT_SECRET
-    // }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
-    Credentials({
-      name: "Credentials",
-      credentials: {
-        username: {
-          label: "Usuario",
-          type: "text",
-          placeholder: "Usuario"
-        },
-        password: {
-          label: "Contraseña",
-          type: "password"
-        }
-      },
-      async authorize(credentials) {
-        const { username, password } = credentials as {
-          username: string
-          password: string
-        }
-        const user = await prisma.user.findUnique({
-          where: {
-            username: username
-          }
-        })
-
-        if (user?.password) {
-          const passwordMatch = await argon2.verify(user.password, password)
-
-          if (passwordMatch) {
-            return user
-          } else {
-            return null
-          }
-        } else {
-          return null
-        }
-      }
-    })
-  ],
   session: { strategy: "jwt" },
   callbacks: {
     jwt: ({ token, user }) => {
@@ -157,5 +106,58 @@ export const { handlers, auth } = NextAuth({
   pages: {
     signIn: "/login"
   },
-  secret: env.NEXTAUTH_SECRET
+  secret: env.NEXTAUTH_SECRET,
+  ...authConfig,
+  providers: [
+    // DiscordProvider({
+    //   clientId: env.DISCORD_CLIENT_ID,
+    //   clientSecret: env.DISCORD_CLIENT_SECRET
+    // }),
+    /**
+     * ...add more providers here.
+     *
+     * Most other providers require a bit more work than the Discord provider. For example, the
+     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
+     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
+     *
+     * @see https://next-auth.js.org/providers/github
+     */
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        username: {
+          label: "Usuario",
+          type: "text",
+          placeholder: "Usuario"
+        },
+        password: {
+          label: "Contraseña",
+          type: "password"
+        }
+      },
+      async authorize(credentials) {
+        const { username, password } = credentials as {
+          username: string
+          password: string
+        }
+        const user = await prisma.user.findUnique({
+          where: {
+            username: username
+          }
+        })
+
+        if (user?.password) {
+          const passwordMatch = await argon2.verify(user.password, password)
+
+          if (passwordMatch) {
+            return user
+          } else {
+            return null
+          }
+        } else {
+          return null
+        }
+      }
+    })
+  ]
 })
