@@ -99,7 +99,7 @@ export default async function Image() {
       }
     )
   } catch {
-    return new Response(`Failed to generate image`, {
+    return new Response("Failed to generate image", {
       status: 500
     })
   }
