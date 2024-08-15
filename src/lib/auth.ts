@@ -107,7 +107,7 @@ export const { handlers, auth } = NextAuth({
   pages: {
     signIn: "/login"
   },
-  secret: env.NEXTAUTH_SECRET,
+  secret: env.AUTH_SECRET,
   ...authConfig,
   providers: [
     // DiscordProvider({
