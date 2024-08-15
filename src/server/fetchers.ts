@@ -119,6 +119,12 @@ export async function getOrganizationBySubDomain(domain: string) {
 }
 
 export async function getMemberById(memberId: string) {
+  const user = await getCurrentUser()
+
+  if (!user) {
+    return null
+  }
+
   return await cache(
     async () => {
       return prisma.membership.findUnique({
@@ -153,6 +159,12 @@ export async function getMemberById(memberId: string) {
 }
 
 export async function getUserMemberships(userId: string) {
+  const user = await getCurrentUser()
+
+  if (!user) {
+    return null
+  }
+
   return await cache(
     async () => {
       const data = await prisma.membership.findMany({

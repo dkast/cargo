@@ -1,16 +1,13 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import { type MembershipRole } from "@prisma/client"
 import * as argon2 from "argon2"
-import { type GetServerSidePropsContext } from "next"
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions
-} from "next-auth"
+import NextAuth, { type DefaultSession } from "next-auth"
+import type { Adapter } from "next-auth/adapters"
 import Credentials from "next-auth/providers/credentials"
 import { unstable_cache } from "next/cache"
 
 import { prisma } from "@/server/db"
+import authConfig from "@/lib/auth.config"
 import { env } from "@/env.mjs"
 
 /**
@@ -44,60 +41,8 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  */
-export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
-  providers: [
-    // DiscordProvider({
-    //   clientId: env.DISCORD_CLIENT_ID,
-    //   clientSecret: env.DISCORD_CLIENT_SECRET
-    // }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
-    Credentials({
-      name: "Credentials",
-      credentials: {
-        username: {
-          label: "Usuario",
-          type: "text",
-          placeholder: "Usuario"
-        },
-        password: {
-          label: "Contraseña",
-          type: "password"
-        }
-      },
-      async authorize(credentials) {
-        const { username, password } = credentials as {
-          username: string
-          password: string
-        }
-        const user = await prisma.user.findUnique({
-          where: {
-            username: username
-          }
-        })
-
-        if (user?.password) {
-          const passwordMatch = await argon2.verify(user.password, password)
-
-          if (passwordMatch) {
-            return user
-          } else {
-            return null
-          }
-        } else {
-          return null
-        }
-      }
-    })
-  ],
+export const { handlers, auth } = NextAuth({
+  adapter: PrismaAdapter(prisma) as Adapter,
   session: { strategy: "jwt" },
   callbacks: {
     jwt: ({ token, user }) => {
@@ -162,17 +107,58 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login"
   },
-  secret: env.NEXTAUTH_SECRET
-}
+  secret: env.NEXTAUTH_SECRET,
+  ...authConfig,
+  providers: [
+    // DiscordProvider({
+    //   clientId: env.DISCORD_CLIENT_ID,
+    //   clientSecret: env.DISCORD_CLIENT_SECRET
+    // }),
+    /**
+     * ...add more providers here.
+     *
+     * Most other providers require a bit more work than the Discord provider. For example, the
+     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
+     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
+     *
+     * @see https://next-auth.js.org/providers/github
+     */
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        username: {
+          label: "Usuario",
+          type: "text",
+          placeholder: "Usuario"
+        },
+        password: {
+          label: "Contraseña",
+          type: "password"
+        }
+      },
+      async authorize(credentials) {
+        const { username, password } = credentials as {
+          username: string
+          password: string
+        }
+        const user = await prisma.user.findUnique({
+          where: {
+            username: username
+          }
+        })
 
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
-export const getServerAuthSession = (ctx: {
-  req: GetServerSidePropsContext["req"]
-  res: GetServerSidePropsContext["res"]
-}) => {
-  return getServerSession(ctx.req, ctx.res, authOptions)
-}
+        if (user?.password) {
+          const passwordMatch = await argon2.verify(user.password, password)
+
+          if (passwordMatch) {
+            return user
+          } else {
+            return null
+          }
+        } else {
+          return null
+        }
+      }
+    })
+  ]
+})

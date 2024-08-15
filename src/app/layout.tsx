@@ -51,6 +51,7 @@ export default function RootLayout({
     <html
       className={`${inter.variable} ${outfit.variable}`}
       suppressHydrationWarning
+      lang="es"
     >
       <AxiomWebVitals />
       <body className="bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-white">
