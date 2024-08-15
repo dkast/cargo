@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import { type MembershipRole } from "@prisma/client"
 import * as argon2 from "argon2"
 import NextAuth, { type DefaultSession } from "next-auth"
+import type { Adapter } from "next-auth/adapters"
 import Credentials from "next-auth/providers/credentials"
 import { unstable_cache } from "next/cache"
 
@@ -41,7 +42,7 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const { handlers, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter,
   session: { strategy: "jwt" },
   callbacks: {
     jwt: ({ token, user }) => {
