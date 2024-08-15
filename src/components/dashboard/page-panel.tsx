@@ -8,6 +8,7 @@ import {
   DrawerDescription,
   DrawerTitle
 } from "@/components/ui/drawer"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Sheet,
   SheetContent,
@@ -65,7 +66,7 @@ export default function Panel({
               <SheetTitle>{title}</SheetTitle>
               <SheetDescription>{description}</SheetDescription>
             </SheetHeader>
-            {children}
+            <ScrollArea className="h-full px-1">{children}</ScrollArea>
           </SheetContent>
         </Sheet>
       )}

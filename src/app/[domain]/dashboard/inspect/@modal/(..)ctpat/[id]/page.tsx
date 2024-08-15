@@ -12,11 +12,9 @@ export default function CTPATModalPage({
   return (
     <Panel className="max-h-[100%] sm:w-1/2 sm:max-w-3xl">
       <div className="h-[100%] overflow-x-auto">
-        <div className="px-4 pb-4 pt-4 sm:px-0 sm:pb-0">
-          <Suspense fallback={<LoadingSkeleton />}>
-            <InspectionView domain={domain} inspectionId={id} />
-          </Suspense>
-        </div>
+        <Suspense fallback={<LoadingSkeleton />}>
+          <InspectionView domain={domain} inspectionId={id} />
+        </Suspense>
       </div>
     </Panel>
   )
