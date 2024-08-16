@@ -31,7 +31,6 @@ export default async function InspectionResultChart({
   filter: InspectionQueryFilter
   className?: string
 }) {
-  console.log(filter)
   const data = (await getInspectionResultCount(filter)) as ResultData[]
 
   const emptyDateData = [] as TransformedData[]
@@ -41,6 +40,8 @@ export default async function InspectionResultChart({
   const endDate = new Date(filter.end ?? endOfDay(new Date()))
   const currentDate = new Date(startDate)
 
+  // skipcq: JS-0092
+  // this is not an infinite loop, the loop will end when the currentDate is greater than the endDate
   while (currentDate <= endDate) {
     const date = format(currentDate, "dd/MM/yy", { locale: es })
     const existing = emptyDateData.find(item => item.date === date)
