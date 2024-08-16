@@ -1,4 +1,5 @@
-import { format } from "date-fns"
+import { endOfDay, format, subMonths } from "date-fns"
+import { es } from "date-fns/locale"
 import { Activity, AlertTriangleIcon } from "lucide-react"
 
 import {
@@ -30,12 +31,35 @@ export default async function InspectionResultChart({
   filter: InspectionQueryFilter
   className?: string
 }) {
+  console.log(filter)
   const data = (await getInspectionResultCount(filter)) as ResultData[]
+
+  const emptyDateData = [] as TransformedData[]
+
+  // fill empty dates with zero value
+  const startDate = new Date(filter.start ?? subMonths(new Date(), 1))
+  const endDate = new Date(filter.end ?? endOfDay(new Date()))
+  const currentDate = new Date(startDate)
+
+  while (currentDate <= endDate) {
+    const date = format(currentDate, "dd/MM/yy", { locale: es })
+    const existing = emptyDateData.find(item => item.date === date)
+
+    if (!existing) {
+      emptyDateData.push({
+        date,
+        OK: 0,
+        Falla: 0
+      })
+    }
+
+    currentDate.setDate(currentDate.getDate() + 1)
+  }
 
   // take the array and transform it into an array where the result is sum of the total and is grouped by date
   const transformedData = data.reduce(
     (acc: TransformedData[], item: ResultData) => {
-      const date = format(item.start, "MMM dd")
+      const date = format(item.start, "dd/MM/yy", { locale: es })
       const result = item.result === "PASS" ? "OK" : "Falla"
       const total = Number(item.total)
 
@@ -56,8 +80,10 @@ export default async function InspectionResultChart({
 
       return acc
     },
-    [] as TransformedData[]
+    emptyDateData
   )
+
+  console.log(transformedData)
 
   const totalInspections = data.reduce(
     (acc, item) => acc + Number(item.total),

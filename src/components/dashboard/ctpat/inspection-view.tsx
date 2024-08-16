@@ -17,9 +17,9 @@ import {
   ClipboardPen,
   Container,
   ExternalLink,
-  File,
   Link2,
   MapPin,
+  Printer,
   Truck,
   UserRound,
   UserRoundCheck,
@@ -115,7 +115,7 @@ export default async function InspectionView({
           </TooltipHelper>
           {(inspection.status === InspectionStatus.CLOSED ||
             inspection.status === InspectionStatus.APPROVED) && (
-            <TooltipHelper content="Ver PDF">
+            <TooltipHelper content="Imprimir PDF">
               <Button
                 size="icon"
                 variant="ghost"
@@ -127,7 +127,7 @@ export default async function InspectionView({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <File className="h-4 w-4 opacity-70 group-hover:opacity-100" />
+                  <Printer className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Link>
               </Button>
             </TooltipHelper>
