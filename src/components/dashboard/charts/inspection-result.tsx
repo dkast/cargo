@@ -2,6 +2,7 @@ import { endOfDay, format, subMonths } from "date-fns"
 import { es } from "date-fns/locale"
 import { Activity, AlertTriangleIcon } from "lucide-react"
 
+import InspectionResultChart from "@/components/dashboard/charts/inspection-result-chart"
 import {
   Card,
   CardContent,
@@ -9,9 +10,9 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
+// import { BarChart } from "./tremor-client"
 import { getInspectionResultCount } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
-import { BarChart } from "./tremor-client"
 
 type ResultData = {
   result: string
@@ -19,12 +20,12 @@ type ResultData = {
   total: bigint
 }
 
-interface TransformedData {
+export interface TransformedData {
   date: string
   [key: string]: string | number
 }
 
-export default async function InspectionResultChart({
+export default async function InspectionResultCard({
   filter,
   className
 }: {
@@ -84,8 +85,6 @@ export default async function InspectionResultChart({
     emptyDateData
   )
 
-  console.log(transformedData)
-
   const totalInspections = data.reduce(
     (acc, item) => acc + Number(item.total),
     0
@@ -122,7 +121,7 @@ export default async function InspectionResultChart({
         <ul className="flex flex-wrap items-center gap-x-10 gap-y-4">
           <li>
             <div className="flex items-center space-x-2">
-              <span className="size-3 shrink-0 bg-green-500"></span>
+              <span className="size-3 shrink-0 bg-[#00d692]"></span>
               <p className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
                 {totalOK}
               </p>
@@ -133,7 +132,7 @@ export default async function InspectionResultChart({
           </li>
           <li>
             <div className="flex items-center space-x-2">
-              <span className="size-3 shrink-0 bg-red-500"></span>
+              <span className="size-3 shrink-0 bg-[#ed4720]"></span>
               <p className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
                 {totalIssues}
               </p>
@@ -162,7 +161,7 @@ export default async function InspectionResultChart({
             </li>
           )}
         </ul>
-        <BarChart
+        {/* <BarChart
           data={transformedData}
           index="date"
           categories={["OK", "Falla"]}
@@ -174,7 +173,8 @@ export default async function InspectionResultChart({
           showLegend={false}
           noDataText="No hay datos para mostrar"
           className="mt-10 h-64"
-        />
+        /> */}
+        <InspectionResultChart data={transformedData} />
       </CardContent>
     </Card>
   )
