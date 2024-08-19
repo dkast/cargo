@@ -4,10 +4,10 @@ import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
-import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue"
+import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue-card"
 import InspectionRecent from "@/components/dashboard/charts/inspection-recent"
-import InspectionResultChart from "@/components/dashboard/charts/inspection-result"
-import InspectionStatusChart from "@/components/dashboard/charts/inspection-status"
+import InspectionResultCard from "@/components/dashboard/charts/inspection-result-card"
+import InspectionStatusCard from "@/components/dashboard/charts/inspection-status-card"
 import { getOrganizationBySubDomain } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
 
@@ -58,7 +58,7 @@ export default async function DashboardPage({
             <CardSkeleton className="sm:col-start-1 sm:col-end-2 sm:row-start-1 sm:row-end-3" />
           }
         >
-          <InspectionStatusChart
+          <InspectionStatusCard
             filter={filter}
             className="sm:col-start-1 sm:col-end-2 sm:row-start-1 sm:row-end-3"
           />
@@ -68,7 +68,7 @@ export default async function DashboardPage({
             <CardSkeleton className="sm:col-start-2 sm:col-end-4 sm:row-start-1 sm:row-end-3" />
           }
         >
-          <InspectionResultChart
+          <InspectionResultCard
             filter={filter}
             className="sm:col-start-2 sm:col-end-4 sm:row-start-1 sm:row-end-3"
           />

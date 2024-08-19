@@ -8,7 +8,7 @@ import {
   ChartTooltipContent,
   type ChartConfig
 } from "@/components/ui/chart"
-import { type TransformedData } from "./inspection-result"
+import { type TransformedData } from "./inspection-result-card"
 
 export default function InspectionResultChart({
   data
@@ -46,8 +46,18 @@ export default function InspectionResultChart({
           allowDecimals={true}
         />
         <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar dataKey="OK" fill="var(--color-OK)" stackId="a" />
-        <Bar dataKey="Falla" fill="var(--color-Falla)" stackId="a" />
+        <Bar
+          dataKey="OK"
+          fill="var(--color-OK)"
+          stackId="a"
+          radius={[0, 0, 4, 4]}
+        />
+        <Bar
+          dataKey="Falla"
+          fill="var(--color-Falla)"
+          stackId="a"
+          radius={[4, 4, 0, 0]}
+        />
       </BarChart>
     </ChartContainer>
   )
