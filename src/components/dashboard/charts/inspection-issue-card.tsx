@@ -70,15 +70,6 @@ export default async function InspectionIssueCard({
         {type === "LIST" ? (
           <ListIssue dataList={dataList} />
         ) : (
-          // <BarChart
-          //   data={data}
-          //   index="issue"
-          //   categories={["total"]}
-          //   colors={["orange"]}
-          //   showAnimation
-          //   animationDuration={500}
-          //   noDataText="No hay datos para mostrar"
-          // />
           <InspectionIssueChart dataList={dataList} />
         )}
       </CardContent>
