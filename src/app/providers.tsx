@@ -11,6 +11,8 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar"
 import { ThemeProvider } from "next-themes"
 import { usePathname } from "next/navigation"
 
+import { TailwindIndicator } from "@/components/tailwind-indicator"
+
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
@@ -88,6 +90,7 @@ function Providers({ children }: { children: React.ReactNode }) {
                   }
                 }}
               />
+              <TailwindIndicator />
             </PhotoProvider>
           </Provider>
         </QueryClientProvider>

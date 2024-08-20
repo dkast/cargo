@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 
 import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
 import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue-card"
+import InspectionLocationCard from "@/components/dashboard/charts/inspection-location-card"
 import InspectionRecent from "@/components/dashboard/charts/inspection-recent"
 import InspectionResultCard from "@/components/dashboard/charts/inspection-result-card"
 import InspectionStatusCard from "@/components/dashboard/charts/inspection-status-card"
@@ -55,6 +56,13 @@ export default async function DashboardPage({
       <section className="grid grid-cols-1 gap-4 px-3 py-4 sm:auto-rows-max sm:grid-cols-4">
         <Suspense
           fallback={
+            <CardSkeleton className="sm:col-start-4 sm:col-end-5 sm:row-start-1 sm:row-end-3" />
+          }
+        >
+          <InspectionLocationCard className="sm:col-start-4 sm:col-end-5 sm:row-start-1 sm:row-end-3" />
+        </Suspense>
+        {/* <Suspense
+          fallback={
             <CardSkeleton className="sm:col-start-1 sm:col-end-2 sm:row-start-1 sm:row-end-3" />
           }
         >
@@ -75,18 +83,6 @@ export default async function DashboardPage({
         </Suspense>
         <Suspense
           fallback={
-            <CardSkeleton className="sm:col-start-4 sm:col-end-5 sm:row-start-1 sm:row-end-3" />
-          }
-        >
-          <InspectionIssueChart
-            filter={filter}
-            type="LIST"
-            showMore
-            className="sm:col-start-4 sm:col-end-5 sm:row-start-1 sm:row-end-3"
-          />
-        </Suspense>
-        <Suspense
-          fallback={
             <CardSkeleton className="sm:col-start-1 sm:col-end-3 sm:row-start-3 sm:row-end-5" />
           }
         >
@@ -95,6 +91,18 @@ export default async function DashboardPage({
             className="sm:col-start-1 sm:col-end-3 sm:row-start-3 sm:row-end-5"
           />
         </Suspense>
+        <Suspense
+          fallback={
+            <CardSkeleton className="sm:col-start-3 sm:col-end-4 sm:row-start-3 sm:row-end-5" />
+          }
+        >
+          <InspectionIssueChart
+            filter={filter}
+            type="LIST"
+            showMore
+            className="sm:col-start-3 sm:col-end-4 sm:row-start-3 sm:row-end-5"
+          />
+        </Suspense> */}
       </section>
     </div>
   )
