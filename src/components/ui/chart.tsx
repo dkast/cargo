@@ -78,6 +78,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 
   return (
     <style
+      // skipcq: JS-0440
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(

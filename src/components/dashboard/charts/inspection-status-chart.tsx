@@ -72,6 +72,8 @@ export default function InspectionStatusChart({
                     </tspan>
                   </text>
                 )
+              } else {
+                return null
               }
             }}
           />

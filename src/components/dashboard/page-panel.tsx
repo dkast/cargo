@@ -36,7 +36,7 @@ export default function Panel({
     <>
       {isMobile ? (
         <Drawer
-          open={true}
+          open
           onOpenChange={open => (!open ? router.back() : null)}
           modal
         >

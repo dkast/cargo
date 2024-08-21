@@ -80,7 +80,7 @@ export default function InspectionIssueChart({
             tickLine={false}
             tickMargin={10}
             axisLine={false}
-            allowDecimals={true}
+            allowDecimals
           />
           <ChartTooltip content={<ChartTooltipContent nameKey="name" />} />
           <Bar dataKey="value" fill="var(--chart-1)" radius={4} />
