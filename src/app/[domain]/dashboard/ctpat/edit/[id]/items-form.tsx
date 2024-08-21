@@ -303,7 +303,11 @@ function ItemQuestion({
               )}
             />
             <CollapsibleTrigger asChild>
-              <Button variant="ghost" size={isMobile ? "xs" : "icon"}>
+              <Button
+                variant="ghost"
+                size={isMobile ? "xs" : "icon"}
+                className="self-start sm:self-end"
+              >
                 {open ? (
                   <Minus className="size-4" />
                 ) : (
