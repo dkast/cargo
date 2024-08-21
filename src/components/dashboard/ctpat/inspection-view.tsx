@@ -241,7 +241,7 @@ export default async function InspectionView({
             </dd>
           )}
         </div>
-        <div className="border-gray- border-t py-3 dark:border-gray-800 sm:col-span-1">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">
             <Building className="mr-1 inline size-4 align-text-top" />
             Transportista
