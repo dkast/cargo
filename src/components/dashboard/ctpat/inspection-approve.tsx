@@ -91,7 +91,7 @@ export function InspectionApprove({
             type="submit"
             variant="default"
             disabled={status === "executing"}
-            className="self-end"
+            className="w-full self-end sm:w-auto"
           >
             {status === "executing" ? (
               <>

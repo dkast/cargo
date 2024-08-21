@@ -3,7 +3,7 @@ import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
-import InspectionResultChart from "@/components/dashboard/charts/inspection-result"
+import InspectionResultCard from "@/components/dashboard/charts/inspection-result-card"
 import InspectionIssueList from "@/components/dashboard/ctpat/inspection-issue-list"
 import DateFilter from "@/components/dashboard/date-filter"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
@@ -55,7 +55,7 @@ export default async function MainReportPage({
         <DateFilter />
       </PageSubtitle>
       <Suspense fallback={<CardSkeleton className="sm:col-span-2" />}>
-        <InspectionResultChart filter={filter} className="sm:col-span-2" />
+        <InspectionResultCard filter={filter} className="sm:col-span-2" />
       </Suspense>
       <InspectionIssueList filter={filter} />
     </div>

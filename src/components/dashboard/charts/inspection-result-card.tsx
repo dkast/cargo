@@ -1,6 +1,8 @@
-import { format } from "date-fns"
+import { endOfDay, format, subMonths } from "date-fns"
+import { es } from "date-fns/locale"
 import { Activity, AlertTriangleIcon } from "lucide-react"
 
+import InspectionResultChart from "@/components/dashboard/charts/inspection-result-chart"
 import {
   Card,
   CardContent,
@@ -8,9 +10,9 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
+// import { BarChart } from "./tremor-client"
 import { getInspectionResultCount } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
-import { BarChart } from "./tremor-client"
 
 type ResultData = {
   result: string
@@ -18,12 +20,12 @@ type ResultData = {
   total: bigint
 }
 
-interface TransformedData {
+export interface TransformedData {
   date: string
   [key: string]: string | number
 }
 
-export default async function InspectionResultChart({
+export default async function InspectionResultCard({
   filter,
   className
 }: {
@@ -32,10 +34,34 @@ export default async function InspectionResultChart({
 }) {
   const data = (await getInspectionResultCount(filter)) as ResultData[]
 
+  const emptyDateData = [] as TransformedData[]
+
+  // fill empty dates with zero value
+  const startDate = new Date(filter.start ?? subMonths(new Date(), 1))
+  const endDate = new Date(filter.end ?? endOfDay(new Date()))
+  const currentDate = new Date(startDate)
+
+  // skipcq: JS-0092
+  // this is not an infinite loop, the loop will end when the currentDate is greater than the endDate
+  while (currentDate <= endDate) {
+    const date = format(currentDate, "dd/MM/yy", { locale: es })
+    const existing = emptyDateData.find(item => item.date === date)
+
+    if (!existing) {
+      emptyDateData.push({
+        date,
+        OK: 0,
+        Falla: 0
+      })
+    }
+
+    currentDate.setDate(currentDate.getDate() + 1)
+  }
+
   // take the array and transform it into an array where the result is sum of the total and is grouped by date
   const transformedData = data.reduce(
     (acc: TransformedData[], item: ResultData) => {
-      const date = format(item.start, "MMM dd")
+      const date = format(item.start, "dd/MM/yy", { locale: es })
       const result = item.result === "PASS" ? "OK" : "Falla"
       const total = Number(item.total)
 
@@ -56,7 +82,7 @@ export default async function InspectionResultChart({
 
       return acc
     },
-    [] as TransformedData[]
+    emptyDateData
   )
 
   const totalInspections = data.reduce(
@@ -95,7 +121,7 @@ export default async function InspectionResultChart({
         <ul className="flex flex-wrap items-center gap-x-10 gap-y-4">
           <li>
             <div className="flex items-center space-x-2">
-              <span className="size-3 shrink-0 bg-green-500"></span>
+              <span className="size-3 shrink-0 bg-[#00d692]"></span>
               <p className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
                 {totalOK}
               </p>
@@ -106,7 +132,7 @@ export default async function InspectionResultChart({
           </li>
           <li>
             <div className="flex items-center space-x-2">
-              <span className="size-3 shrink-0 bg-red-500"></span>
+              <span className="size-3 shrink-0 bg-[#ed4720]"></span>
               <p className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
                 {totalIssues}
               </p>
@@ -135,7 +161,7 @@ export default async function InspectionResultChart({
             </li>
           )}
         </ul>
-        <BarChart
+        {/* <BarChart
           data={transformedData}
           index="date"
           categories={["OK", "Falla"]}
@@ -147,7 +173,8 @@ export default async function InspectionResultChart({
           showLegend={false}
           noDataText="No hay datos para mostrar"
           className="mt-10 h-64"
-        />
+        /> */}
+        <InspectionResultChart data={transformedData} />
       </CardContent>
     </Card>
   )

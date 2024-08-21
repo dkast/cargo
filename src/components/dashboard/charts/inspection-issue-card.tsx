@@ -1,6 +1,7 @@
 import { Activity, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
+import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue-chart"
 import ListIssue from "@/components/dashboard/charts/list-issue"
 import InfoHelper from "@/components/dashboard/info-helper"
 import { Button } from "@/components/ui/button"
@@ -14,14 +15,13 @@ import {
 import { getInspectionIssuesCount } from "@/server/fetchers"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { BarChart } from "./tremor-client"
 
 type ResultData = {
   issue: string
   total: bigint
 }
 
-export default async function InspectionIssueChart({
+export default async function InspectionIssueCard({
   filter,
   className,
   type = "CHART",
@@ -70,15 +70,7 @@ export default async function InspectionIssueChart({
         {type === "LIST" ? (
           <ListIssue dataList={dataList} />
         ) : (
-          <BarChart
-            data={data}
-            index="issue"
-            categories={["total"]}
-            colors={["orange"]}
-            showAnimation
-            animationDuration={500}
-            noDataText="No hay datos para mostrar"
-          />
+          <InspectionIssueChart dataList={dataList} />
         )}
       </CardContent>
     </Card>

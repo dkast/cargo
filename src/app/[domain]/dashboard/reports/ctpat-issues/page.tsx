@@ -4,7 +4,7 @@ import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
-import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue"
+import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue-card"
 import DateFilter from "@/components/dashboard/date-filter"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import {

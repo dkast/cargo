@@ -18,14 +18,7 @@ import {
   type Prisma
 } from "@prisma/client"
 import { DialogTitle, DialogTrigger } from "@radix-ui/react-dialog"
-import {
-  Camera,
-  Check,
-  ChevronDown,
-  ChevronRight,
-  Loader2,
-  X
-} from "lucide-react"
+import { Camera, Check, Loader2, Minus, Plus, X } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 import { notFound, useRouter } from "next/navigation"
 import { type z } from "zod"
@@ -52,6 +45,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { closeCTPATInspection } from "@/server/actions/ctpat"
 import { type getInspectionById } from "@/server/fetchers"
 import { inspectionDetailSchema } from "@/lib/types"
+import { useMobile } from "@/lib/use-mobile"
 import { ItemFileUploader } from "./item-file-uploader"
 
 type Inspection = Prisma.PromiseReturnType<typeof getInspectionById>
@@ -240,6 +234,7 @@ function ItemQuestion({
   const [open, setOpen] = useState(false)
   const invalid = control.getFieldState(`items.${index}.notes`).invalid
   const router = useRouter()
+  const isMobile = useMobile()
 
   // If there is an error, open the collapsible
   useEffect(() => {
@@ -264,17 +259,17 @@ function ItemQuestion({
             )}
             <span>{fieldItem.question}</span>
           </div>
-          <div className="flex items-center gap-x-1">
+          <div className="flex flex-col items-center gap-x-1 sm:flex-row">
             <FormField
               key={fieldItem.id}
               name={`items.${index}.result`}
               control={control}
               render={({ field }) => (
-                <FormItem className="grow sm:grow-0">
+                <FormItem className="w-full grow sm:grow-0">
                   <RadioGroup
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="grid grid-cols-2 place-items-center gap-3"
+                    className="grid grid-cols-2 place-items-center gap-3 py-2 sm:py-0"
                   >
                     <FormItem>
                       <FormLabel className="cursor-pointer [&:has([data-state=checked])>div]:border-green-500 [&:has([data-state=checked])>div]:text-green-700 [&:has([data-state=checked])>div]:ring-green-200 dark:[&:has([data-state=checked])>div]:border-green-500 dark:[&:has([data-state=checked])>div]:text-green-500 dark:[&:has([data-state=checked])>div]:ring-green-900">
@@ -284,8 +279,8 @@ function ItemQuestion({
                             className="sr-only"
                           />
                         </FormControl>
-                        <div className="flex cursor-pointer flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white dark:border-gray-600 dark:ring-gray-900">
-                          <Check className="h-4 w-4" />
+                        <div className="flex cursor-pointer flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white dark:border-gray-600 dark:text-gray-300 dark:ring-gray-900">
+                          <Check className="size-6 sm:size-4" />
                         </div>
                       </FormLabel>
                     </FormItem>
@@ -297,8 +292,8 @@ function ItemQuestion({
                             className="sr-only"
                           />
                         </FormControl>
-                        <div className="flex cursor-pointer flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white dark:border-gray-600 dark:ring-gray-900">
-                          <X className="h-4 w-4" />
+                        <div className="flex cursor-pointer flex-row items-center gap-2 rounded-full border p-2 text-gray-500 ring-2 ring-white dark:border-gray-600 dark:text-gray-300 dark:ring-gray-900">
+                          <X className="size-6 sm:size-4" />
                         </div>
                       </FormLabel>
                     </FormItem>
@@ -308,11 +303,15 @@ function ItemQuestion({
               )}
             />
             <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button
+                variant="ghost"
+                size={isMobile ? "xs" : "icon"}
+                className="self-start sm:self-end"
+              >
                 {open ? (
-                  <ChevronDown className="h-4 w-4" />
+                  <Minus className="size-4" />
                 ) : (
-                  <ChevronRight className="h-4 w-4" />
+                  <Plus className="size-4" />
                 )}
               </Button>
             </CollapsibleTrigger>

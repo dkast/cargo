@@ -17,9 +17,9 @@ import {
   ClipboardPen,
   Container,
   ExternalLink,
-  File,
   Link2,
   MapPin,
+  Printer,
   Truck,
   UserRound,
   UserRoundCheck,
@@ -115,7 +115,7 @@ export default async function InspectionView({
           </TooltipHelper>
           {(inspection.status === InspectionStatus.CLOSED ||
             inspection.status === InspectionStatus.APPROVED) && (
-            <TooltipHelper content="Ver PDF">
+            <TooltipHelper content="Imprimir PDF">
               <Button
                 size="icon"
                 variant="ghost"
@@ -127,7 +127,7 @@ export default async function InspectionView({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <File className="h-4 w-4 opacity-70 group-hover:opacity-100" />
+                  <Printer className="h-4 w-4 opacity-70 group-hover:opacity-100" />
                 </Link>
               </Button>
             </TooltipHelper>
@@ -241,7 +241,7 @@ export default async function InspectionView({
             </dd>
           )}
         </div>
-        <div className="border-gray- border-t py-3 dark:border-gray-800 sm:col-span-1">
+        <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">
             <Building className="mr-1 inline size-4 align-text-top" />
             Transportista

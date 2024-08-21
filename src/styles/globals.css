@@ -2,8 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-.PhotoView-Portal {
-  @apply pointer-events-auto;
+@layer base {
+  :root {
+    --chart-1: #ef8228;
+    --chart-2: #ed4720;
+    --chart-3: #00d692;
+    --chart-4: #2e9ceb;
+    --chart-5: #8b5cf6;
+  }
+
+  .dark {
+    --chart-1: #ef8228;
+    --chart-2: #ed4720;
+    --chart-3: #00d692;
+    --chart-4: #2e9ceb;
+    --chart-5: #8b5cf6;
+  }
 }
 
 @layer utilities {
@@ -26,4 +40,8 @@
     );
     background-size: 15px 15px;
   }
+}
+
+.PhotoView-Portal {
+  @apply pointer-events-auto;
 }

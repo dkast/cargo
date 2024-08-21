@@ -8,6 +8,7 @@ import {
   DrawerDescription,
   DrawerTitle
 } from "@/components/ui/drawer"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Sheet,
   SheetContent,
@@ -35,14 +36,14 @@ export default function Panel({
     <>
       {isMobile ? (
         <Drawer
-          open={true}
+          open
           onOpenChange={open => (!open ? router.back() : null)}
           modal
         >
           <DrawerContent
             className={cn(
               className,
-              "h-[96%] gap-y-2 shadow focus:outline-none"
+              "h-[96%] gap-y-2 px-3 pb-4 shadow focus:outline-none"
             )}
             onInteractOutside={event => event.preventDefault()}
           >
@@ -65,7 +66,7 @@ export default function Panel({
               <SheetTitle>{title}</SheetTitle>
               <SheetDescription>{description}</SheetDescription>
             </SheetHeader>
-            {children}
+            <ScrollArea className="h-full px-1">{children}</ScrollArea>
           </SheetContent>
         </Sheet>
       )}
