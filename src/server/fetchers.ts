@@ -4,8 +4,8 @@ import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import {
   InspectionItemResult,
-  type InspectionResult,
-  type InspectionStatus
+  InspectionStatus,
+  type InspectionResult
 } from "@prisma/client"
 import { endOfDay, parseISO, subMonths } from "date-fns"
 import { unstable_cache as cache } from "next/cache"
@@ -655,6 +655,62 @@ export async function getInspectionIssues(filter: InspectionQueryFilter) {
     },
     orderBy: {
       createdAt: "desc"
+    }
+  })
+}
+
+// Get list of locations and include data of inspections with status OPEN
+export async function getOpenInspectionsByLocation(
+  filter: InspectionQueryFilter
+) {
+  return await prisma.location.findMany({
+    where: {
+      organizationId: filter.organizationId
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      inspections: {
+        where: {
+          status: InspectionStatus.OPEN
+          // start: {
+          //   gte: filter.start
+          //     ? parseISO(filter.start)
+          //     : subMonths(new Date(), 1),
+          //   lte: filter.end
+          //     ? endOfDay(parseISO(filter.end))
+          //     : endOfDay(new Date())
+          // }
+        },
+        select: {
+          id: true,
+          inspectionNbr: true,
+          start: true,
+          status: true,
+          tripType: true,
+          isLoaded: true,
+          company: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
+          vehicle: {
+            select: {
+              id: true,
+              vehicleNbr: true,
+              licensePlate: true
+            }
+          },
+          container: {
+            select: {
+              id: true,
+              containerNbr: true
+            }
+          }
+        }
+      }
     }
   })
 }
