@@ -1,5 +1,6 @@
 import { InspectionTripType, type Prisma } from "@prisma/client"
 import { format } from "date-fns"
+import { toZonedTime } from "date-fns-tz"
 import {
   ArrowDownToDot,
   ArrowUpFromDot,
@@ -109,8 +110,12 @@ function LocationStatus({
                     : "Salida"}
                 </dt>
                 <dd className="text-xs font-medium">
+                  {/* TODO: Get the correct timezone for the location */}
                   {format(
-                    location.inspections[0]?.start ?? new Date(),
+                    toZonedTime(
+                      location.inspections[0]?.start ?? new Date(),
+                      "America/Matamoros"
+                    ),
                     "HH:mm"
                   )}
                 </dd>

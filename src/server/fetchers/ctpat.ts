@@ -8,7 +8,6 @@ import {
   type InspectionResult
 } from "@prisma/client"
 import { endOfDay, parseISO, subMonths } from "date-fns"
-import { unstable_cache as cache } from "next/cache"
 
 import { prisma } from "@/server/db"
 import { type InspectionQueryFilter } from "@/lib/types"
