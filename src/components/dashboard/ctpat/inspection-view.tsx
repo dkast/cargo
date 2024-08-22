@@ -38,10 +38,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  getInspectionById,
-  getOrganizationBySubDomain
-} from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers"
+import { getInspectionById } from "@/server/fetchers/ctpat"
 import { getCurrentUser } from "@/lib/session"
 import { canApprove, getInitials } from "@/lib/utils"
 

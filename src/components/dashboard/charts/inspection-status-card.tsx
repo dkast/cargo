@@ -2,7 +2,7 @@ import { InspectionStatus } from "@prisma/client"
 
 import InspectionStatusChart from "@/components/dashboard/charts/inspection-status-chart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { getInspectionStatusCount } from "@/server/fetchers"
+import { getInspectionStatusCount } from "@/server/fetchers/ctpat"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 

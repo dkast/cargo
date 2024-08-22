@@ -10,7 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { getOpenInspectionsByLocation } from "@/server/fetchers"
+import { getOpenInspectionsByLocation } from "@/server/fetchers/ctpat"
 import type { InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 

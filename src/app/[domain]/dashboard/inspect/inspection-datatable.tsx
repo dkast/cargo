@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 
 import { DataTable } from "@/components/ui/data-table/data-table"
 import { Skeleton } from "@/components/ui/skeleton"
-import { type getInspections } from "@/server/fetchers"
+import { type getInspections } from "@/server/fetchers/ctpat"
 
 type InspectionMaster = Prisma.PromiseReturnType<typeof getInspections>
 

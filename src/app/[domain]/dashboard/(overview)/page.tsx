@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 import Filter from "@/app/[domain]/dashboard/(overview)/filter"
+import { InspectionType } from "@prisma/client"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -30,7 +31,8 @@ export default async function DashboardPage({
   }
 
   const filter: InspectionQueryFilter = {
-    organizationId: orgData.id
+    organizationId: orgData.id,
+    inspectionType: InspectionType.CTPAT
   }
 
   if (searchParams.start) {

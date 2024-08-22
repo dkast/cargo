@@ -39,7 +39,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { deleteCTPATInspection } from "@/server/actions/ctpat"
-import { type getInspections } from "@/server/fetchers"
+import { type getInspections } from "@/server/fetchers/ctpat"
 import { cn } from "@/lib/utils"
 
 // We use the type of the data returned by getInspections to define the type of the columns

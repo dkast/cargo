@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import { InspectionType } from "@prisma/client"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -28,7 +29,8 @@ export default async function MainReportPage({
   }
 
   const filter: InspectionQueryFilter = {
-    organizationId: orgData.id
+    organizationId: orgData.id,
+    inspectionType: InspectionType.CTPAT
   }
 
   if (searchParams.start) {

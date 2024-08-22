@@ -17,10 +17,8 @@ import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
-import {
-  getInspectionById,
-  getOrganizationBySubDomain
-} from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers"
+import { getInspectionById } from "@/server/fetchers/ctpat"
 
 export const metadata: Metadata = {
   title: "Inspección CTPAT"

@@ -1,3 +1,4 @@
+import type { InspectionType } from "@prisma/client"
 import { z } from "zod"
 
 export const orgSchema = z.object({
@@ -242,6 +243,7 @@ export const ShareFormSchema = z
 
 export interface InspectionQueryFilter {
   organizationId: string
+  inspectionType: InspectionType
   status?: string
   result?: string
   location?: string

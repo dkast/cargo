@@ -11,7 +11,7 @@ import {
   CardTitle
 } from "@/components/ui/card"
 // import { BarChart } from "./tremor-client"
-import { getInspectionResultCount } from "@/server/fetchers"
+import { getInspectionResultCount } from "@/server/fetchers/ctpat"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 type ResultData = {

@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { getInspections } from "@/server/fetchers"
+import { getInspections } from "@/server/fetchers/ctpat"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -33,6 +33,7 @@ async function InspectionRecent({
 }) {
   const data = await getInspections({
     organizationId: filter.organizationId,
+    inspectionType: filter.inspectionType,
     take: 5
   })
   return (

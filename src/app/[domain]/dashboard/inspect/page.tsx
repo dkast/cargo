@@ -1,4 +1,5 @@
 import InspectionDataTable from "@/app/[domain]/dashboard/inspect/inspection-datatable"
+import { InspectionType } from "@prisma/client"
 import {
   dehydrate,
   HydrationBoundary,
@@ -11,10 +12,10 @@ import { notFound } from "next/navigation"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Button } from "@/components/ui/button"
 import {
-  getInspections,
   getLocationsBySubDomain,
   getOrganizationBySubDomain
 } from "@/server/fetchers"
+import { getInspections } from "@/server/fetchers/ctpat"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {
@@ -34,7 +35,8 @@ export default async function CTPATPage({
   }
 
   const filter: InspectionQueryFilter = {
-    organizationId: orgData.id
+    organizationId: orgData.id,
+    inspectionType: InspectionType.CTPAT
   }
 
   if (searchParams.status) {

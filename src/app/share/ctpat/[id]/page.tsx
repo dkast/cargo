@@ -29,7 +29,7 @@ import { InspectionList } from "@/components/dashboard/ctpat/inspection-list"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getInspectionById } from "@/server/fetchers"
+import { getInspectionById } from "@/server/fetchers/ctpat"
 import { getInitials } from "@/lib/utils"
 
 export const metadata: Metadata = {

@@ -19,7 +19,7 @@ import {
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 
-import { type getInspectionById } from "@/server/fetchers"
+import { type getInspectionById } from "@/server/fetchers/ctpat"
 
 const style = StyleSheet.create({
   header: {

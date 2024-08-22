@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { getInspectionIssuesCount } from "@/server/fetchers"
+import { getInspectionIssuesCount } from "@/server/fetchers/ctpat"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
