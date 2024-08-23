@@ -1,5 +1,6 @@
 import { InspectionResult } from "@prisma/client"
 import { format } from "date-fns"
+import { toZonedTime } from "date-fns-tz"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
@@ -15,6 +16,7 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { getInspections } from "@/server/fetchers/ctpat"
+import { getUserTimeZone } from "@/lib/session"
 import { type InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -36,6 +38,9 @@ async function InspectionRecent({
     inspectionType: filter.inspectionType,
     take: 5
   })
+
+  const timezone = await getUserTimeZone()
+
   return (
     <Card className={className}>
       <CardHeader className="flex flex-row items-start justify-between space-y-0">
@@ -85,10 +90,18 @@ async function InspectionRecent({
                   </div>
                   <div className="ml-5 text-xs text-gray-500">
                     {inspection.start instanceof Date ? (
-                      <span>{format(inspection.start, "dd/LL/yy HH:mm")}</span>
+                      <span>
+                        {format(
+                          toZonedTime(inspection.start, timezone),
+                          "dd/LL/yy HH:mm"
+                        )}
+                      </span>
                     ) : (
                       <span>
-                        {format(new Date(inspection.start), "dd/LL/YY HH:mm")}
+                        {format(
+                          toZonedTime(new Date(inspection.start), timezone),
+                          "dd/LL/YY HH:mm"
+                        )}
                       </span>
                     )}
                   </div>

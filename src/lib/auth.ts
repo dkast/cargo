@@ -24,6 +24,7 @@ declare module "next-auth" {
       username: string
       role: MembershipRole
       membershipId: string
+      timezone: string
       // default organization
       organizationId: string
       organizationDomain: string
@@ -52,7 +53,8 @@ export const { handlers, auth } = NextAuth({
           email: user.email,
           name: user.name,
           image: user.image,
-          membershipId: user.defaultMembershipId
+          membershipId: user.defaultMembershipId,
+          timezone: "CST" // TODO: Replace with user's timezone
         }
       }
       return token
@@ -60,6 +62,7 @@ export const { handlers, auth } = NextAuth({
     session: async ({ session, token }) => {
       const membershipData = await unstable_cache(
         async () => {
+          console.info("Session callback")
           //@ts-expect-error user assigned in jwt callback
           if (token.user.membershipId) {
             return await prisma.membership.findFirst({
@@ -86,7 +89,7 @@ export const { handlers, auth } = NextAuth({
         //@ts-expect-error user assigned in jwt callback
         [`membership-${token.user.id}`],
         {
-          revalidate: 900,
+          revalidate: 3600,
           //@ts-expect-error user assigned in jwt callback
           tags: [`membership-${token.user.id}`]
         }
@@ -101,6 +104,8 @@ export const { handlers, auth } = NextAuth({
       session.user.organizationId = membershipData?.organizationId
       //@ts-expect-error assign organization name
       session.user.organizationDomain = membershipData?.organization?.subdomain
+      //@ts-expect-error assign timezone
+      session.user.timezone = token.user.timezone
       return session
     }
   },

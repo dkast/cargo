@@ -4,6 +4,7 @@ import {
   InspectionTripType
 } from "@prisma/client"
 import { format } from "date-fns"
+import { toZonedTime } from "date-fns-tz"
 import { es } from "date-fns/locale"
 import {
   ArrowLeftRight,
@@ -30,6 +31,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getInspectionById } from "@/server/fetchers/ctpat"
+import { getUserTimeZone } from "@/lib/session"
 import { getInitials } from "@/lib/utils"
 
 export const metadata: Metadata = {
@@ -42,6 +44,7 @@ export default async function ShareCTPATPage({
   params: { id: string }
 }) {
   const inspection = await getInspectionById(id)
+  const timezone = await getUserTimeZone()
 
   if (!inspection) {
     return notFound()
@@ -155,8 +158,14 @@ export default async function ShareCTPATPage({
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
                   {inspection.start instanceof Date
-                    ? format(inspection.start, "Pp", { locale: es })
-                    : format(new Date(inspection.start), "Pp", { locale: es })}
+                    ? format(toZonedTime(inspection.start, timezone), "Pp", {
+                        locale: es
+                      })
+                    : format(
+                        toZonedTime(new Date(inspection.start), timezone),
+                        "Pp",
+                        { locale: es }
+                      )}
                 </dd>
               </div>
               <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
@@ -167,8 +176,14 @@ export default async function ShareCTPATPage({
                 {inspection.end && (
                   <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
                     {inspection.end instanceof Date
-                      ? format(inspection.end, "Pp", { locale: es })
-                      : format(new Date(inspection.end), "Pp", { locale: es })}
+                      ? format(toZonedTime(inspection.end, timezone), "Pp", {
+                          locale: es
+                        })
+                      : format(
+                          toZonedTime(new Date(inspection.end), timezone),
+                          "Pp",
+                          { locale: es }
+                        )}
                   </dd>
                 )}
               </div>

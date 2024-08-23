@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { getOpenInspectionsByLocation } from "@/server/fetchers/ctpat"
+import { getUserTimeZone } from "@/lib/session"
 import type { InspectionQueryFilter } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -23,6 +24,7 @@ export default async function InspectionLocationCard({
   className?: string
 }) {
   const data = await getOpenInspectionsByLocation(filter)
+  const timezone = await getUserTimeZone()
 
   return (
     <Card className={className}>
@@ -33,7 +35,11 @@ export default async function InspectionLocationCard({
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         {data.map(location => (
-          <LocationStatus location={location} key={location.id} />
+          <LocationStatus
+            location={location}
+            key={location.id}
+            timezone={timezone}
+          />
         ))}
       </CardContent>
     </Card>
@@ -41,9 +47,13 @@ export default async function InspectionLocationCard({
 }
 
 function LocationStatus({
-  location
+  location,
+  timezone
 }: {
-  location: Prisma.PromiseReturnType<typeof getOpenInspectionsByLocation>[0]
+  location: Prisma.PromiseReturnType<
+    typeof getOpenInspectionsByLocation
+  >[number]
+  timezone: string
 }) {
   const isActive = location.inspections.length > 0
   return (
@@ -114,7 +124,7 @@ function LocationStatus({
                   {format(
                     toZonedTime(
                       location.inspections[0]?.start ?? new Date(),
-                      "America/Matamoros"
+                      timezone
                     ),
                     "HH:mm"
                   )}

@@ -2,6 +2,7 @@ import BackButton from "@/app/[domain]/dashboard/ctpat/[id]/back-button"
 import ItemsForm from "@/app/[domain]/dashboard/ctpat/edit/[id]/items-form"
 import { InspectionStatus, InspectionTripType } from "@prisma/client"
 import { format } from "date-fns"
+import { toZonedTime } from "date-fns-tz"
 import {
   Building,
   CalendarClock,
@@ -19,6 +20,7 @@ import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { getOrganizationBySubDomain } from "@/server/fetchers"
 import { getInspectionById } from "@/server/fetchers/ctpat"
+import { getUserTimeZone } from "@/lib/session"
 
 export const metadata: Metadata = {
   title: "Inspección CTPAT"
@@ -29,6 +31,7 @@ export default async function CTPATEditPage({
 }: {
   params: { domain: string; id: string }
 }) {
+  const timezone = await getUserTimeZone()
   const inspection = await getInspectionById(id)
   const orgData = await getOrganizationBySubDomain(domain)
 
@@ -102,8 +105,11 @@ export default async function CTPATEditPage({
                 </dt>
                 <dd className="text-sm leading-6 text-gray-700 dark:text-gray-400">
                   {inspection.start instanceof Date
-                    ? format(inspection.start, "Pp")
-                    : format(new Date(inspection.start), "Pp")}
+                    ? format(toZonedTime(inspection.start, timezone), "Pp")
+                    : format(
+                        toZonedTime(new Date(inspection.start), timezone),
+                        "Pp"
+                      )}
                 </dd>
               </dl>
               <dl className="space-y-1 sm:space-y-2">
