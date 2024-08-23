@@ -32,6 +32,7 @@ import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { createOrgMember, updateOrgMember } from "@/server/actions/organization"
 import { actionType, userMemberSchema } from "@/lib/types"
+import { getTimezones } from "@/lib/utils"
 
 type UserMemberFormValues = z.infer<typeof userMemberSchema>
 
@@ -43,10 +44,15 @@ export default function MemberForm({
   member: Partial<UserMemberFormValues>
 }) {
   const router = useRouter()
+  const timezones = getTimezones()
 
   const form = useForm<z.infer<typeof userMemberSchema>>({
     resolver: zodResolver(userMemberSchema),
-    defaultValues: member,
+    defaultValues: {
+      ...member,
+      timezone:
+        member.timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone
+    },
     mode: "onChange"
   })
 
@@ -197,6 +203,36 @@ export default function MemberForm({
                   className="sm:w-1/2"
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Separator />
+        <FormField
+          control={form.control}
+          name="timezone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="timezone">Zona Horaria</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger className="sm:w-1/3">
+                    <SelectValue placeholder="Seleccione la zona horaria" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {timezones.map(timezone => (
+                    <SelectItem key={timezone} value={timezone}>
+                      {timezone}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                La zona horaria determina la hora en la que se mostrarán los
+                datos de los reportes e inspecciones. Por defecto se selecciona
+                la zona horaria del navegador.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

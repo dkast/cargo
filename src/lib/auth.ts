@@ -34,6 +34,7 @@ declare module "next-auth" {
   interface User {
     // ...other properties
     defaultMembershipId: string | null
+    timezone: string
   }
 }
 
@@ -54,7 +55,7 @@ export const { handlers, auth } = NextAuth({
           name: user.name,
           image: user.image,
           membershipId: user.defaultMembershipId,
-          timezone: "CST" // TODO: Replace with user's timezone
+          timezone: user.timezone
         }
       }
       return token

@@ -46,3 +46,11 @@ export const getBaseUrl = () => {
     return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   return "http://localhost:3000"
 }
+
+export const getTimezones = (): string[] => {
+  // const timezones: string[] = []
+  const allTimezones = Intl.supportedValuesOf("timeZone")
+  const americaTimezones = allTimezones.filter(tz => tz.startsWith("America"))
+  // timezones.push(...americaTimezones)
+  return americaTimezones
+}

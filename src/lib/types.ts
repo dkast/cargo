@@ -64,6 +64,9 @@ export const userMemberSchema = z
     confirmPassword: z.string({
       required_error: "Requerido"
     }),
+    timezone: z.string({
+      required_error: "Requerido"
+    }),
     role: z.enum(["ADMIN", "OWNER", "SUPERVISOR", "MEMBER"]),
     isActive: z.boolean(),
     defaultMembershipId: z.string().optional()

@@ -50,7 +50,15 @@ export const createOrgMember = action
   .schema(userMemberSchema)
   .action(
     async ({
-      parsedInput: { organizationId, name, email, username, password, role }
+      parsedInput: {
+        organizationId,
+        name,
+        email,
+        username,
+        password,
+        role,
+        timezone
+      }
     }) => {
       // Create member
       try {
@@ -62,6 +70,7 @@ export const createOrgMember = action
             name: name,
             username: username,
             password: await argon2.hash(password),
+            timezone: timezone,
             memberships: {
               create: [
                 {
@@ -76,6 +85,7 @@ export const createOrgMember = action
             email: email,
             username: username,
             password: await argon2.hash(password),
+            timezone: timezone,
             memberships: {
               create: [
                 {
@@ -123,7 +133,8 @@ export const updateOrgMember = action
         email,
         role,
         isActive,
-        defaultMembershipId
+        defaultMembershipId,
+        timezone
       }
     }) => {
       // Update member
@@ -139,7 +150,8 @@ export const updateOrgMember = action
               update: {
                 name: name,
                 email: email,
-                defaultMembershipId: defaultMembershipId
+                defaultMembershipId: defaultMembershipId,
+                timezone: timezone
               }
             }
           }
