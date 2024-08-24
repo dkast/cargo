@@ -1,7 +1,7 @@
 import { type Prisma } from "@prisma/client"
 import { type ColumnDef } from "@tanstack/react-table"
 
-import { type getInspectionIssues } from "@/server/fetchers"
+import { type getInspectionIssues } from "@/server/fetchers/ctpat"
 
 type InspectionIssue = Prisma.PromiseReturnType<typeof getInspectionIssues>
 

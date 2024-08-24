@@ -7,3 +7,9 @@ export const getCurrentUser = cache(async () => {
 
   return session?.user ?? null
 })
+
+export const getUserTimeZone = cache(async () => {
+  const user = await getCurrentUser()
+
+  return user?.timezone ?? "UTC"
+})

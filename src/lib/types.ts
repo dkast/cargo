@@ -1,3 +1,4 @@
+import type { InspectionType } from "@prisma/client"
 import { z } from "zod"
 
 export const orgSchema = z.object({
@@ -61,6 +62,9 @@ export const userMemberSchema = z
         message: "La contraseña debe tener como máximo 32 caracteres"
       }),
     confirmPassword: z.string({
+      required_error: "Requerido"
+    }),
+    timezone: z.string({
       required_error: "Requerido"
     }),
     role: z.enum(["ADMIN", "OWNER", "SUPERVISOR", "MEMBER"]),
@@ -242,6 +246,7 @@ export const ShareFormSchema = z
 
 export interface InspectionQueryFilter {
   organizationId: string
+  inspectionType: InspectionType
   status?: string
   result?: string
   location?: string

@@ -6,7 +6,7 @@ import { type Row } from "@tanstack/react-table"
 import { useRouter } from "next/navigation"
 
 import { DataTable } from "@/components/ui/data-table/data-table"
-import { type getInspectionIssues } from "@/server/fetchers"
+import { type getInspectionIssues } from "@/server/fetchers/ctpat"
 
 type getInspectionIssues = Prisma.PromiseReturnType<typeof getInspectionIssues>
 

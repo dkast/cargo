@@ -4,6 +4,7 @@ import {
   InspectionTripType
 } from "@prisma/client"
 import { format } from "date-fns"
+import { toZonedTime } from "date-fns-tz"
 import { es } from "date-fns/locale"
 import {
   ArrowLeftRight,
@@ -38,11 +39,9 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  getInspectionById,
-  getOrganizationBySubDomain
-} from "@/server/fetchers"
-import { getCurrentUser } from "@/lib/session"
+import { getOrganizationBySubDomain } from "@/server/fetchers"
+import { getInspectionById } from "@/server/fetchers/ctpat"
+import { getCurrentUser, getUserTimeZone } from "@/lib/session"
 import { canApprove, getInitials } from "@/lib/utils"
 
 export default async function InspectionView({
@@ -55,6 +54,7 @@ export default async function InspectionView({
   const inspection = await getInspectionById(inspectionId)
   const orgData = await getOrganizationBySubDomain(domain)
   const user = await getCurrentUser()
+  const timezone = await getUserTimeZone()
 
   if (!inspection || !orgData || !user) {
     notFound()
@@ -224,8 +224,14 @@ export default async function InspectionView({
           </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
             {inspection.start instanceof Date
-              ? format(inspection.start, "Pp", { locale: es })
-              : format(new Date(inspection.start), "Pp", { locale: es })}
+              ? format(toZonedTime(inspection.start, timezone), "Pp", {
+                  locale: es
+                })
+              : format(
+                  toZonedTime(new Date(inspection.start), timezone),
+                  "Pp",
+                  { locale: es }
+                )}
           </dd>
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
@@ -236,8 +242,14 @@ export default async function InspectionView({
           {inspection.end && (
             <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
               {inspection.end instanceof Date
-                ? format(inspection.end, "Pp", { locale: es })
-                : format(new Date(inspection.end), "Pp", { locale: es })}
+                ? format(toZonedTime(inspection.end, timezone), "Pp", {
+                    locale: es
+                  })
+                : format(
+                    toZonedTime(new Date(inspection.end), timezone),
+                    "Pp",
+                    { locale: es }
+                  )}
             </dd>
           )}
         </div>

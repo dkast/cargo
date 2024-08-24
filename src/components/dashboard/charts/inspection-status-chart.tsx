@@ -14,7 +14,6 @@ export default function InspectionStatusChart({
 }: {
   data: { status: string; total: number; fill: string }[]
 }) {
-  console.dir(data)
   const chartConfig = {
     APPROVED: {
       label: "Aprobadas",

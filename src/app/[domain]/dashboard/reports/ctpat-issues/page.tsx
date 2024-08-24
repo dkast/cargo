@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 import IssueDataTable from "@/app/[domain]/dashboard/reports/ctpat-issues/issue-datatable"
+import { InspectionType } from "@prisma/client"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -7,10 +8,8 @@ import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
 import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue-card"
 import DateFilter from "@/components/dashboard/date-filter"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
-import {
-  getInspectionIssues,
-  getOrganizationBySubDomain
-} from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers"
+import { getInspectionIssues } from "@/server/fetchers/ctpat"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {
@@ -31,7 +30,8 @@ export default async function CTPATIssuesPage({
   }
 
   const filter: InspectionQueryFilter = {
-    organizationId: orgData.id
+    organizationId: orgData.id,
+    inspectionType: InspectionType.CTPAT
   }
 
   if (searchParams.start) {
