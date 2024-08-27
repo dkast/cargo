@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { MembershipRole, type Organization } from "@prisma/client"
+import { DialogTitle } from "@radix-ui/react-dialog"
 import { useQueryClient } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useSession } from "next-auth/react"
@@ -114,7 +115,9 @@ export default function OrganizationForm({
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-xl">
-                  <DialogHeader>Subir imagen</DialogHeader>
+                  <DialogHeader>
+                    <DialogTitle>Subir imagen</DialogTitle>
+                  </DialogHeader>
                   <BrandImageUploader
                     organizationId={data.id}
                     onUploadSuccess={() => {
