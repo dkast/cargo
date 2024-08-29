@@ -157,7 +157,8 @@ function LocationStatus({
               </dt>
               <dd className="space-x-2 text-xs lg:space-x-0 lg:space-y-2 2xl:space-x-2">
                 <span className="font-medium">
-                  {location.inspections[0]?.container.containerNbr}
+                  {location.inspections[0]?.container?.containerNbr ??
+                    "Sin remolque"}
                 </span>
                 {location.inspections[0]?.isLoaded ? (
                   <Badge variant="violet" className="rounded">

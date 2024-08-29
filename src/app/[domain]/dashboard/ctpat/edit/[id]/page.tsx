@@ -145,7 +145,7 @@ export default async function CTPATEditPage({
                   Remolque
                 </dt>
                 <dd className="flex items-center gap-2 text-sm leading-6 text-gray-700 dark:text-gray-400">
-                  {inspection.container.containerNbr}
+                  {inspection.container?.containerNbr ?? "Sin remolque"}
                   {inspection.isLoaded ? (
                     <Badge variant="violet" className="rounded">
                       Cargado

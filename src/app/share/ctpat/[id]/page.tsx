@@ -220,7 +220,7 @@ export default async function ShareCTPATPage({
                   Remolque
                 </dt>
                 <dd className="mt-1 flex items-center gap-2 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
-                  {inspection.container.containerNbr}
+                  {inspection.container?.containerNbr ?? "Sin remolque"}
                   {inspection.isLoaded ? (
                     <Badge variant="violet" className="rounded">
                       Cargado

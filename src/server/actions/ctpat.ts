@@ -36,6 +36,22 @@ export const createCTPATInspection = action
         organizationId
       }
     }) => {
+      // Verify if there is already an open inspection for that location
+      const openInspection = await prisma.inspection.findFirst({
+        where: {
+          locationId: locationId,
+          status: InspectionStatus.OPEN
+        }
+      })
+
+      if (openInspection) {
+        return {
+          failure: {
+            reason: "Ya hay una inspección abierta para esta ubicación"
+          }
+        }
+      }
+
       // Create CTPAT Inspection
       try {
         const inspection = await prisma.inspection.create({
@@ -46,7 +62,7 @@ export const createCTPATInspection = action
             licenseNumber: licenseNumber,
             vehicleId: vehicleId,
             licensePlate: licensePlate,
-            containerId: containerId,
+            containerId: containerId ?? null,
             isLoaded: isLoaded,
             start: start,
             inspectionType: InspectionType.CTPAT,

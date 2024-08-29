@@ -114,41 +114,55 @@ export const containerSchema = z.object({
   organizationId: z.string().cuid()
 })
 
-export const ctpatMainSchema = z.object({
-  locationId: z.string().optional(),
-  companyId: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  operatorId: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  licenseNumber: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  vehicleId: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  licensePlate: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  containerId: z.string({
-    required_error: "Este campo es requerido"
-  }),
-  isLoaded: z.boolean({
-    required_error: "Este campo es requerido"
-  }),
-  start: z.date({
-    required_error: "Este campo es requerido"
-  }),
-  // .max(addMinutes(new Date(), 5), {
-  //   message: "La fecha y hora no puede ser mayor a la actual"
-  // }),
-  tripType: z.enum(["IN", "OUT"], {
-    required_error: "Este campo es requerido"
-  }),
-  organizationId: z.string(),
-  inspectedById: z.string()
-})
+export const ctpatMainSchema = z
+  .object({
+    locationId: z.string({
+      required_error: "Este campo es requerido"
+    }),
+    companyId: z.string({
+      required_error: "Este campo es requerido"
+    }),
+    operatorId: z.string({
+      required_error: "Este campo es requerido"
+    }),
+    licenseNumber: z.string({
+      required_error: "Este campo es requerido"
+    }),
+    vehicleId: z.string({
+      required_error: "Este campo es requerido"
+    }),
+    licensePlate: z.string({
+      required_error: "Este campo es requerido"
+    }),
+    containerId: z.string().optional(),
+    isLoaded: z.boolean({
+      required_error: "Este campo es requerido"
+    }),
+    start: z.date({
+      required_error: "Este campo es requerido"
+    }),
+    // .max(addMinutes(new Date(), 5), {
+    //   message: "La fecha y hora no puede ser mayor a la actual"
+    // }),
+    tripType: z.enum(["IN", "OUT"], {
+      required_error: "Este campo es requerido"
+    }),
+    organizationId: z.string(),
+    inspectedById: z.string()
+  })
+  .refine(
+    data => {
+      if (data.isLoaded && !data.containerId) {
+        return false
+      } else {
+        return true
+      }
+    },
+    {
+      message: "El contenedor es requerido si el vehículo está cargado",
+      path: ["containerId"]
+    }
+  )
 
 export const inspectionItemSchema = z
   .object({
