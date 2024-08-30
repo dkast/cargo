@@ -1,6 +1,6 @@
 "use client"
 
-import { type UploadResult } from "@uppy/core"
+import { type Body, type Meta, type UploadResult } from "@uppy/core"
 
 import { FileUploader } from "@/components/ui/file-upload/file-uploader"
 
@@ -11,7 +11,7 @@ export function ItemFileUploader({
 }: {
   organizationId: string
   itemId: string
-  onUploadSuccess: (result: UploadResult) => void
+  onUploadSuccess: (result: UploadResult<Meta, Body>) => void
 }) {
   return (
     <FileUploader

@@ -74,38 +74,38 @@ async function InspectionRecent({
           <TableBody>
             {data.map(inspection => (
               <TableRow key={inspection.id} className="dark:border-gray-800">
-                <TableCell className="flex flex-col gap-1 p-2">
-                  <div className="flex flex-row items-center gap-2">
-                    <div
-                      className={cn(
-                        color[inspection.status],
-                        "flex-none rounded-full p-1"
-                      )}
-                    >
-                      <div className="h-1.5 w-1.5 rounded-full bg-current" />
-                    </div>
-                    <span>
+                <Link href={`dashboard/ctpat/${inspection.id}`}>
+                  <TableCell className="flex flex-col gap-1 p-2">
+                    <div className="flex flex-row items-center gap-2">
+                      <div
+                        className={cn(
+                          color[inspection.status],
+                          "flex-none rounded-full p-1"
+                        )}
+                      >
+                        <div className="h-1.5 w-1.5 rounded-full bg-current" />
+                      </div>
                       {inspection.inspectionNbr.toString().padStart(5, "0")}
-                    </span>
-                  </div>
-                  <div className="ml-5 text-xs text-gray-500">
-                    {inspection.start instanceof Date ? (
-                      <span>
-                        {format(
-                          toZonedTime(inspection.start, timezone),
-                          "dd/LL/yy HH:mm"
-                        )}
-                      </span>
-                    ) : (
-                      <span>
-                        {format(
-                          toZonedTime(new Date(inspection.start), timezone),
-                          "dd/LL/YY HH:mm"
-                        )}
-                      </span>
-                    )}
-                  </div>
-                </TableCell>
+                    </div>
+                    <div className="ml-5 text-xs text-gray-500">
+                      {inspection.start instanceof Date ? (
+                        <span>
+                          {format(
+                            toZonedTime(inspection.start, timezone),
+                            "dd/LL/yy HH:mm"
+                          )}
+                        </span>
+                      ) : (
+                        <span>
+                          {format(
+                            toZonedTime(new Date(inspection.start), timezone),
+                            "dd/LL/YY HH:mm"
+                          )}
+                        </span>
+                      )}
+                    </div>
+                  </TableCell>
+                </Link>
                 <TableCell className="p-2">
                   {inspection.location?.name ?? "Sin ubicación"}
                 </TableCell>

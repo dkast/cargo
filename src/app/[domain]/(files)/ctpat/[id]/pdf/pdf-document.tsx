@@ -225,7 +225,7 @@ export default function PDFDocument({
                   <View style={style.block}>
                     <Text style={style.label}>No. Remolque:</Text>
                     <Text style={style.underline}>
-                      {inspection.container.containerNbr}
+                      {inspection.container?.containerNbr && "Sin remolque"}
                     </Text>
                   </View>
                 </View>

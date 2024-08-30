@@ -1,10 +1,14 @@
 "use client"
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import AwsS3, { type AwsS3UploadParameters } from "@uppy/aws-s3"
 import Compressor from "@uppy/compressor"
-import Uppy, { type UploadResult, type UppyFile } from "@uppy/core"
-// @ts-expect-error - Uppy doesn't have types for this locale
+import Uppy, {
+  type Body,
+  type Meta,
+  type UploadResult,
+  type UppyFile
+} from "@uppy/core"
 import Spanish from "@uppy/locales/lib/es_MX"
 import { Dashboard } from "@uppy/react"
 
@@ -17,7 +21,7 @@ import Webcam from "@uppy/webcam"
 import { useTheme } from "next-themes"
 
 export async function getUploadParameters(
-  file: UppyFile,
+  file: UppyFile<Meta, Body>,
   organizationId: string,
   itemId: string
 ) {
@@ -53,27 +57,6 @@ export async function getUploadParameters(
   return object
 }
 
-const uppy = new Uppy({
-  autoProceed: false,
-  restrictions: {
-    maxNumberOfFiles: 3
-  },
-  locale: Spanish
-})
-  .use(AwsS3)
-  .use(Webcam, {
-    modes: ["picture"]
-  })
-  .use(Compressor, {
-    locale: {
-      strings: {
-        // Shown in the Status Bar
-        compressingImages: "Optimizando imágenes...",
-        compressedX: "Ahorro de %{size} al optimizar imágenes"
-      }
-    }
-  })
-
 export function FileUploader({
   organizationId,
   itemId,
@@ -81,21 +64,44 @@ export function FileUploader({
 }: {
   organizationId: string
   itemId: string
-  onUploadSuccess: (result: UploadResult) => void
+  onUploadSuccess: (result: UploadResult<Meta, Body>) => void
 }) {
   const { theme } = useTheme()
-  useEffect(() => {
-    const awsS3Plugin = uppy.getPlugin("AwsS3")
-    if (awsS3Plugin) {
-      awsS3Plugin.setOptions({
-        getUploadParameters: (file: UppyFile) =>
+
+  const [uppy] = useState(() =>
+    new Uppy({
+      autoProceed: false,
+      restrictions: {
+        maxNumberOfFiles: 3,
+        allowedFileTypes: ["image/*"]
+      },
+      locale: Spanish
+    })
+      .use(AwsS3, {
+        shouldUseMultipart: false,
+        getUploadParameters: (file: UppyFile<Meta, Body>) =>
           getUploadParameters(file, organizationId, itemId)
       })
-    }
+      .use(Webcam, {
+        modes: ["picture"]
+      })
+      .use(Compressor, {
+        locale: Spanish
+      })
+  )
+
+  useEffect(() => {
+    // const awsS3Plugin = uppy.getPlugin("AwsS3")
+    // if (awsS3Plugin) {
+    //   awsS3Plugin.setOptions({
+    //     getUploadParameters: (file: UppyFile<Meta, Body>) =>
+    //       getUploadParameters(file, organizationId, itemId)
+    //   })
+    // }
     uppy.on("complete", result => {
       onUploadSuccess(result)
     })
-  }, [itemId, onUploadSuccess, organizationId])
+  }, [uppy, onUploadSuccess, organizationId])
   return (
     <Dashboard
       className="mx-auto max-w-[320px] sm:max-w-[520px]"

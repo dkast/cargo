@@ -155,6 +155,8 @@ export default function CTPATMainForm({
     },
     onSuccess: ({ data }) => {
       if (data?.failure?.reason) {
+        console.log(data.failure.reason)
+        toast.dismiss()
         toast.error(data.failure.reason)
       } else if (data?.success) {
         router.push(`${data.success.inspectionId}`)
@@ -163,6 +165,7 @@ export default function CTPATMainForm({
       resetInspection()
     },
     onError: () => {
+      toast.dismiss()
       toast.error("Algo salió mal")
       resetInspection()
     }
