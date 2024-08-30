@@ -7,6 +7,7 @@ import {
   CircleDashed,
   Truck
 } from "lucide-react"
+import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -36,8 +37,8 @@ export default async function InspectionLocationCard({
       <CardContent className="flex flex-col gap-2">
         {data.map(location => (
           <LocationStatus
-            location={location}
             key={location.id}
+            location={location}
             timezone={timezone}
           />
         ))}
@@ -135,10 +136,12 @@ function LocationStatus({
                   Folio
                 </dt>
                 <dd className="text-xs font-medium">
-                  #{" "}
-                  {location.inspections[0]?.inspectionNbr
-                    .toString()
-                    .padStart(5, "0")}
+                  <Link href={`dashboard/ctpat/${location.inspections[0]?.id}`}>
+                    #{" "}
+                    {location.inspections[0]?.inspectionNbr
+                      .toString()
+                      .padStart(5, "0")}
+                  </Link>
                 </dd>
               </div>
             </div>
