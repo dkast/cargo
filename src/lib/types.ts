@@ -8,9 +8,14 @@ export const orgSchema = z.object({
   }),
   image: z.string().optional(),
   description: z.string().optional(),
-  subdomain: z.string().min(3, {
-    message: "El subdominio debe tener al menos 3 caracteres"
-  })
+  subdomain: z
+    .string()
+    .min(3, {
+      message: "El subdominio debe tener al menos 3 caracteres"
+    })
+    .refine(value => value !== "admin", {
+      message: "El subdominio no puede ser 'admin'"
+    })
 })
 
 export const locationSchema = z.object({

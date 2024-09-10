@@ -1,5 +1,6 @@
 "use server"
 
+import { revalidateTag } from "next/cache"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
@@ -28,6 +29,8 @@ export const joinWaitlist = actionClient
           email: email
         }
       })
+
+      revalidateTag("waitlist")
 
       return {
         success: {

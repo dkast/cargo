@@ -362,3 +362,25 @@ export async function getContainers(organizationId: string) {
     }
   )()
 }
+
+export async function getWaitList() {
+  return await cache(
+    async () => {
+      return prisma.waitlist.findMany({
+        select: {
+          id: true,
+          email: true,
+          createdAt: true
+        },
+        orderBy: {
+          createdAt: "desc"
+        }
+      })
+    },
+    ["waitlist"],
+    {
+      revalidate: 900,
+      tags: ["waitlist"]
+    }
+  )()
+}
