@@ -4,10 +4,10 @@ import { Prisma } from "@prisma/client"
 import { revalidateTag } from "next/cache"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { operatorSchema } from "@/lib/types"
 
-export const createOperator = action
+export const createOperator = authActionClient
   .schema(operatorSchema)
   .action(async ({ parsedInput: { name, licenseNumber, organizationId } }) => {
     // Create operator
@@ -44,7 +44,7 @@ export const createOperator = action
     }
   })
 
-export const updateOperator = action
+export const updateOperator = authActionClient
   .schema(operatorSchema)
   .action(
     async ({ parsedInput: { id, name, licenseNumber, organizationId } }) => {
@@ -87,7 +87,7 @@ export const updateOperator = action
   )
 
 // Delete only if there are no inspections using this operator
-export const deleteOperator = action
+export const deleteOperator = authActionClient
   .schema(operatorSchema)
   .action(async ({ parsedInput: { id, organizationId } }) => {
     // Delete operator

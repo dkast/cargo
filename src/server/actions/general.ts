@@ -3,9 +3,9 @@
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { actionClient } from "@/lib/safe-actions"
 
-export const joinWaitlist = action
+export const joinWaitlist = actionClient
   .schema(
     z.object({
       email: z.string().email()

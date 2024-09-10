@@ -3,10 +3,10 @@
 import { revalidateTag } from "next/cache"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { companySchema } from "@/lib/types"
 
-export const createCompany = action
+export const createCompany = authActionClient
   .schema(companySchema)
   .action(async ({ parsedInput: { name, organizationId } }) => {
     // Create company
@@ -38,7 +38,7 @@ export const createCompany = action
     }
   })
 
-export const updateCompany = action
+export const updateCompany = authActionClient
   .schema(companySchema)
   .action(async ({ parsedInput: { id, name, organizationId } }) => {
     // Update company
@@ -73,7 +73,7 @@ export const updateCompany = action
   })
 
 // Delete only if there are no inspections using this company
-export const deleteCompany = action
+export const deleteCompany = authActionClient
   .schema(companySchema)
   .action(async ({ parsedInput: { id, organizationId } }) => {
     // Delete company

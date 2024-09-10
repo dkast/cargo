@@ -6,10 +6,10 @@ import { revalidatePath, revalidateTag } from "next/cache"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { orgSchema, userMemberSchema } from "@/lib/types"
 
-export const updateOrg = action
+export const updateOrg = authActionClient
   .schema(orgSchema)
   .action(async ({ parsedInput: { id, name, description, subdomain } }) => {
     // Update organization
@@ -46,7 +46,7 @@ export const updateOrg = action
     }
   })
 
-export const createOrgMember = action
+export const createOrgMember = authActionClient
   .schema(userMemberSchema)
   .action(
     async ({
@@ -122,7 +122,7 @@ export const createOrgMember = action
     }
   )
 
-export const updateOrgMember = action
+export const updateOrgMember = authActionClient
   .schema(userMemberSchema)
   .action(
     async ({
@@ -191,7 +191,7 @@ export const updateOrgMember = action
     }
   )
 
-export const deactivateOrgMember = action
+export const deactivateOrgMember = authActionClient
   .schema(userMemberSchema)
   .action(async ({ parsedInput: { id, isActive } }) => {
     // Deactivate member
@@ -225,7 +225,7 @@ export const deactivateOrgMember = action
     }
   })
 
-export const deleteOrganization = action
+export const deleteOrganization = authActionClient
   .schema(
     z.object({
       id: z.string().cuid()

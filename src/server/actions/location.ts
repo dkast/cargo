@@ -4,10 +4,10 @@ import { revalidateTag } from "next/cache"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { locationSchema } from "@/lib/types"
 
-export const createLocation = action
+export const createLocation = authActionClient
   .schema(locationSchema)
   .action(async ({ parsedInput: { name, description, organizationId } }) => {
     // Create location
@@ -40,7 +40,7 @@ export const createLocation = action
     }
   })
 
-export const updateLocation = action
+export const updateLocation = authActionClient
   .schema(locationSchema)
   .action(
     async ({
@@ -80,7 +80,7 @@ export const updateLocation = action
     }
   )
 
-export const deleteLocation = action
+export const deleteLocation = authActionClient
   .schema(
     z.object({
       id: z.string().cuid(),
