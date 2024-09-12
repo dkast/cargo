@@ -1,4 +1,4 @@
-import { Building, Inbox } from "lucide-react"
+import { Inbox, MailCheck } from "lucide-react"
 import type { Metadata } from "next/types"
 
 import { EmptyState } from "@/components/dashboard/empty-state"
@@ -23,9 +23,9 @@ export default async function Page() {
   return (
     <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
       <PageSubtitle
-        title="Organizaciones"
-        description="Gestione las organizaciones en la plataforma"
-        Icon={Building}
+        title="Lista de Espera"
+        description="Listado de contactos suscritos a la lista de correo"
+        Icon={MailCheck}
       />
       <Card>
         <CardContent className="p-4">

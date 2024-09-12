@@ -1,10 +1,21 @@
+import ProfileMenu from "@/app/[domain]/dashboard/profile-menu"
+
 import PageHeader from "@/components/dashboard/page-header"
-import SecondaryNav from "@/components/dashboard/secondary-nav"
+import SecondarySidebar from "@/components/dashboard/secondary-sidebar"
 
 const SecondaryNavItems = [
   {
     title: "General",
-    href: "/admin"
+    children: [
+      {
+        title: "Organizaciones",
+        href: "/admin"
+      },
+      {
+        title: "Lista de Espera",
+        href: "/admin/waitlist"
+      }
+    ]
   }
 ]
 
@@ -14,9 +25,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <PageHeader
         title="Administración"
         description="Administra los ajustes de las organizaciones, miembros del equipo y otros datos"
-      />
-      <SecondaryNav items={SecondaryNavItems} />
-      <div className="flex grow pb-4">{children}</div>
+      >
+        <ProfileMenu />
+      </PageHeader>
+      <div className="flex grow flex-row">
+        <SecondarySidebar items={SecondaryNavItems} />
+        <div className="flex grow pb-4">{children}</div>
+      </div>
     </>
   )
 }
