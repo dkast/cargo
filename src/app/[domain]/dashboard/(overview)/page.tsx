@@ -10,7 +10,7 @@ import InspectionLocationCard from "@/components/dashboard/charts/inspection-loc
 import InspectionRecent from "@/components/dashboard/charts/inspection-recent"
 import InspectionResultCard from "@/components/dashboard/charts/inspection-result-card"
 import InspectionStatusCard from "@/components/dashboard/charts/inspection-status-card"
-import { getOrganizationBySubDomain } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {

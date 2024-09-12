@@ -8,8 +8,8 @@ import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
 import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue-card"
 import DateFilter from "@/components/dashboard/date-filter"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
-import { getOrganizationBySubDomain } from "@/server/fetchers"
 import { getInspectionIssues } from "@/server/fetchers/ctpat"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {

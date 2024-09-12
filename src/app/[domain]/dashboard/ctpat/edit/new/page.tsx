@@ -9,9 +9,9 @@ import {
   getContainers,
   getLocations,
   getOperators,
-  getOrganizationBySubDomain,
   getVehicles
 } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { getCurrentUser } from "@/lib/session"
 
 export const metadata: Metadata = {

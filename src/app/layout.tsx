@@ -11,7 +11,7 @@ import { AxiomWebVitals } from "next-axiom"
 export const metadata: Metadata = {
   metadataBase: new URL("https://cargohq.vercel.app"),
   title: {
-    template: "%s | Cargo",
+    template: "%s - Cargo",
     default: "Cargo"
   },
   icons: {

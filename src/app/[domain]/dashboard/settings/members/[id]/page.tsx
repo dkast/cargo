@@ -7,7 +7,8 @@ import { type z } from "zod"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { getMemberById, getOrganizationBySubDomain } from "@/server/fetchers"
+import { getMemberById } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { getCurrentUser } from "@/lib/session"
 import { actionType, type userMemberSchema } from "@/lib/types"
 

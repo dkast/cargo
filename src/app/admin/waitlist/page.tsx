@@ -1,3 +1,4 @@
+import WaitlistDelete from "@/app/admin/waitlist/waitlist-delete"
 import { Inbox, MailCheck } from "lucide-react"
 import type { Metadata } from "next/types"
 
@@ -15,7 +16,7 @@ import {
 import { getWaitList } from "@/server/fetchers"
 
 export const metadata: Metadata = {
-  title: "General"
+  title: "Lista de Espera"
 }
 
 export default async function Page() {
@@ -47,11 +48,9 @@ export default async function Page() {
                     <TableCell>
                       {new Date(item.createdAt).toLocaleString()}
                     </TableCell>
-                    {/* <TableCell>
-                      <Button size="xs" variant="destructive">
-                        Eliminar
-                      </Button>
-                    </TableCell> */}
+                    <TableCell>
+                      <WaitlistDelete id={item.id} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

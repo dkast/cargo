@@ -18,8 +18,8 @@ import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
-import { getOrganizationBySubDomain } from "@/server/fetchers"
 import { getInspectionById } from "@/server/fetchers/ctpat"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { getUserTimeZone } from "@/lib/session"
 
 export const metadata: Metadata = {

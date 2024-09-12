@@ -8,7 +8,7 @@ import InspectionResultCard from "@/components/dashboard/charts/inspection-resul
 import InspectionIssueList from "@/components/dashboard/ctpat/inspection-issue-list"
 import DateFilter from "@/components/dashboard/date-filter"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
-import { getOrganizationBySubDomain } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {

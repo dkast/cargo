@@ -11,11 +11,9 @@ import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Button } from "@/components/ui/button"
-import {
-  getLocationsBySubDomain,
-  getOrganizationBySubDomain
-} from "@/server/fetchers"
+import { getLocationsBySubDomain } from "@/server/fetchers"
 import { getInspections } from "@/server/fetchers/ctpat"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { type InspectionQueryFilter } from "@/lib/types"
 
 export const metadata: Metadata = {

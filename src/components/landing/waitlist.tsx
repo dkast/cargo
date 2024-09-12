@@ -100,7 +100,7 @@ export default function Waitlist() {
               <AlertTitle className="text-white">
                 ¡Gracias por tu interés!
               </AlertTitle>
-              <AlertDescription className="text-gray-300">
+              <AlertDescription className="!text-gray-400">
                 Te enviaremos un correo electrónico cuando estemos listos para
                 que puedas probar la aplicación.
               </AlertDescription>

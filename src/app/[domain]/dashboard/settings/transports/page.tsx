@@ -5,7 +5,8 @@ import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { DataTable } from "@/components/ui/data-table/data-table"
-import { getCompanies, getOrganizationBySubDomain } from "@/server/fetchers"
+import { getCompanies } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { actionType } from "@/lib/types"
 
 export const metadata: Metadata = {

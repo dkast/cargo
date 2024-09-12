@@ -11,7 +11,7 @@ import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
-import { getOrganizationBySubDomain } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { getCurrentUser } from "@/lib/session"
 
 export const metadata: Metadata = {
