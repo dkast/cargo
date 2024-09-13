@@ -1,10 +1,11 @@
 import MemberForm from "@/app/[domain]/dashboard/settings/members/[id]/member-form"
 import { MembershipRole } from "@prisma/client"
-import { AlertCircle, ShieldAlert } from "lucide-react"
+import { ShieldAlert } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 import { type z } from "zod"
 
+import AdminGuard from "@/components/dashboard/admin-guard"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { getMemberById } from "@/server/fetchers"
@@ -33,36 +34,9 @@ export default async function MemberPage({
 
   if (
     user?.role !== MembershipRole.ADMIN &&
-    user?.organizationId !== orgData?.id
-  ) {
-    return (
-      <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Ocurrió un error</AlertTitle>
-          <AlertDescription>
-            El usuario no pertenece a la organización
-          </AlertDescription>
-        </Alert>
-      </div>
-    )
-  }
-
-  if (
-    user?.role !== MembershipRole.ADMIN &&
     user?.role !== MembershipRole.OWNER
   ) {
-    return (
-      <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
-        <Alert variant="destructive">
-          <ShieldAlert className="h-4 w-4" />
-          <AlertTitle>Permiso denegado</AlertTitle>
-          <AlertDescription>
-            No tiene permisos para acceder a esta página
-          </AlertDescription>
-        </Alert>
-      </div>
-    )
+    return <AdminGuard />
   }
 
   type UserMemberFormValues = z.infer<typeof userMemberSchema>

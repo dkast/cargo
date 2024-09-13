@@ -1,5 +1,7 @@
 import WaitlistDelete from "@/app/admin/waitlist/waitlist-delete"
+import { MembershipRole } from "@prisma/client"
 import { Inbox, MailCheck } from "lucide-react"
+import { redirect } from "next/navigation"
 import type { Metadata } from "next/types"
 
 import { EmptyState } from "@/components/dashboard/empty-state"
@@ -14,13 +16,21 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { getWaitList } from "@/server/fetchers"
+import { getCurrentUser } from "@/lib/session"
 
 export const metadata: Metadata = {
   title: "Lista de Espera"
 }
 
 export default async function Page() {
+  const user = await getCurrentUser()
+
+  if (!user || user.role != MembershipRole.ADMIN) {
+    redirect("/access-denied")
+  }
+
   const waitlist = await getWaitList()
+
   return (
     <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
       <PageSubtitle

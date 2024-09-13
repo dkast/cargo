@@ -22,9 +22,9 @@ export default function AccessDeniedPage() {
         </div>
         <Alert variant="destructive">
           <ShieldX className="size-4" />
-          <AlertTitle>No tiene acceso a esta organización</AlertTitle>
+          <AlertTitle>No tiene acceso a este recurso</AlertTitle>
           <AlertDescription>
-            No tiene permisos para acceder a esta organización. Consulte al
+            No tiene permisos para acceder a este recurso. Consulte al
             administrador
           </AlertDescription>
         </Alert>

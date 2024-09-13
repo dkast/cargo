@@ -1,12 +1,17 @@
-import OrganizationAdminForm from "@/app/admin/organization/organization-admin-form"
-import { OrganizationPlan, OrganizationStatus } from "@prisma/client"
+import OrganizationAdminForm from "@/app/admin/organization/[id]/organization-admin-form"
+import {
+  MembershipRole,
+  OrganizationPlan,
+  OrganizationStatus
+} from "@prisma/client"
 import { Building } from "lucide-react"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import type { Metadata } from "next/types"
 import type { z } from "zod"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { getOrganizationById } from "@/server/fetchers/organization"
+import { getCurrentUser } from "@/lib/session"
 import { actionType, type orgSchema } from "@/lib/types"
 
 export const metadata: Metadata = {
@@ -18,6 +23,12 @@ export default async function OrganizationPage({
 }: {
   params: { id: string }
 }) {
+  const user = await getCurrentUser()
+
+  if (!user || user.role != MembershipRole.ADMIN) {
+    redirect("/access-denied")
+  }
+
   const action = id === "new" ? actionType.CREATE : actionType.UPDATE
   const actionMessage = id === "new" ? "Crear" : "Editar"
 
