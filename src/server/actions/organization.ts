@@ -1,6 +1,6 @@
 "use server"
 
-import { Prisma } from "@prisma/client"
+import { MembershipRole, Prisma } from "@prisma/client"
 import * as argon2 from "argon2"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { z } from "zod"
@@ -8,6 +8,63 @@ import { z } from "zod"
 import { prisma } from "@/server/db"
 import { authActionClient } from "@/lib/safe-actions"
 import { orgSchema, userMemberSchema } from "@/lib/types"
+
+export const createOrg = authActionClient
+  .schema(orgSchema)
+  .action(
+    async ({ parsedInput: { name, description, subdomain, status, plan } }) => {
+      // Create organization
+      try {
+        const org = await prisma.organization.create({
+          data: {
+            name: name,
+            description: description,
+            subdomain: subdomain,
+            status: status,
+            plan: plan
+          }
+        })
+
+        await prisma.user.update({
+          where: {
+            email: "devcastillejo@gmail.com"
+          },
+          data: {
+            memberships: {
+              create: [
+                {
+                  role: MembershipRole.ADMIN,
+                  organizationId: org.id
+                }
+              ]
+            }
+          }
+        })
+
+        revalidateTag(`organization-${subdomain}`)
+
+        return {
+          success: true
+        }
+      } catch (error) {
+        let message
+        if (typeof error === "string") {
+          message = error
+        } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === "P2002") {
+            message = "Subdominio ya existe"
+          } else {
+            message = error.message
+          }
+        }
+        return {
+          failure: {
+            reason: message
+          }
+        }
+      }
+    }
+  )
 
 export const updateOrg = authActionClient
   .schema(orgSchema)

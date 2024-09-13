@@ -15,7 +15,9 @@ export const orgSchema = z.object({
     })
     .refine(value => value !== "admin", {
       message: "El subdominio no puede ser 'admin'"
-    })
+    }),
+  status: z.enum(["ACTIVE", "DUE", "INACTIVE"]),
+  plan: z.enum(["TRIAL", "BASIC", "PRO", "ENTERPRISE"])
 })
 
 export const locationSchema = z.object({

@@ -25,7 +25,7 @@ export async function getOrganizations() {
 
   // if the user is not logged in and is not an admin, return null
   if (!user || user.role != MembershipRole.ADMIN) {
-    throw new Error("Unauthorized")
+    return []
   }
 
   return await cache(
