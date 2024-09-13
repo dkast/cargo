@@ -17,7 +17,7 @@ export default function OrganizationDataTable({
   const router = useRouter()
 
   const onRowClick = (row: Row<Organization>) => {
-    router.push(`/${row.original.subdomain}/dashboard`)
+    router.push(`/admin/organization/${row.original.id}`)
   }
 
   return (

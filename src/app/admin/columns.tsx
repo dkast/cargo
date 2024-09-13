@@ -4,8 +4,10 @@ import {
   type Organization
 } from "@prisma/client"
 import type { ColumnDef } from "@tanstack/react-table"
+import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 export const columns: ColumnDef<Organization>[] = [
   {
@@ -74,6 +76,22 @@ export const columns: ColumnDef<Organization>[] = [
     cell: ({ row }) => {
       const organization = row.original
       return new Date(organization.createdAt).toLocaleDateString()
+    }
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const organization = row.original
+      return (
+        <Button
+          variant="outline"
+          size="xs"
+          onClick={e => e.stopPropagation()}
+          asChild
+        >
+          <Link href={`/${organization.subdomain}/dashboard`}>Ir al sitio</Link>
+        </Button>
+      )
     }
   }
 ]

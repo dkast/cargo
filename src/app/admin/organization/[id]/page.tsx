@@ -40,7 +40,7 @@ export default async function OrganizationPage({
   } else {
     data = {
       id: "",
-      name: "",
+      name: "Nueva organización",
       description: "",
       subdomain: "",
       status: OrganizationStatus.ACTIVE,
@@ -52,10 +52,10 @@ export default async function OrganizationPage({
     <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
       <PageSubtitle
         title="Organización"
-        description={`Editar ${actionMessage} organización`}
+        description={`${actionMessage} la organización`}
         Icon={Building}
       />
-      <OrganizationAdminForm data={data} enabled />
+      <OrganizationAdminForm data={data} action={action} enabled />
     </div>
   )
 }

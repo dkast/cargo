@@ -2,7 +2,7 @@ import type { InspectionType } from "@prisma/client"
 import { z } from "zod"
 
 export const orgSchema = z.object({
-  id: z.string().cuid().optional(),
+  id: z.string().optional(),
   name: z.string().min(3, {
     message: "El nombre debe tener al menos 3 caracteres"
   }),

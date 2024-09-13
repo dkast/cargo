@@ -48,7 +48,9 @@ export default function OrganizationForm({
       name: data.name,
       image: data.image ?? undefined,
       description: data.description ?? undefined,
-      subdomain: data.subdomain
+      subdomain: data.subdomain,
+      status: data.status,
+      plan: data.plan
     }
   })
 

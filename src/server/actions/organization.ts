@@ -41,6 +41,8 @@ export const createOrg = authActionClient
           }
         })
 
+        revalidateTag("organizations")
+        revalidateTag(`organization-${org.id}`)
         revalidateTag(`organization-${subdomain}`)
 
         return {
@@ -68,40 +70,47 @@ export const createOrg = authActionClient
 
 export const updateOrg = authActionClient
   .schema(orgSchema)
-  .action(async ({ parsedInput: { id, name, description, subdomain } }) => {
-    // Update organization
-    try {
-      await prisma.organization.update({
-        where: {
-          id: id
-        },
-        data: {
-          name: name,
-          description: description,
-          subdomain: subdomain
+  .action(
+    async ({
+      parsedInput: { id, name, description, subdomain, status, plan }
+    }) => {
+      // Update organization
+      try {
+        await prisma.organization.update({
+          where: {
+            id: id
+          },
+          data: {
+            name: name,
+            description: description,
+            subdomain: subdomain,
+            status: status,
+            plan: plan
+          }
+        })
+
+        revalidateTag("organizations")
+        revalidateTag(`organization-${id}`)
+        revalidateTag(`organization-${subdomain}`)
+
+        return {
+          success: true
         }
-      })
-
-      revalidateTag(`organization-${id}`)
-      revalidateTag(`organization-${subdomain}`)
-
-      return {
-        success: true
-      }
-    } catch (error) {
-      let message
-      if (typeof error === "string") {
-        message = error
-      } else if (error instanceof Error) {
-        message = error.message
-      }
-      return {
-        failure: {
-          reason: message
+      } catch (error) {
+        let message
+        if (typeof error === "string") {
+          message = error
+        } else if (error instanceof Error) {
+          message = error.message
+        }
+        return {
+          failure: {
+            reason: message
+          }
         }
       }
     }
-  })
+  )
 
 export const createOrgMember = authActionClient
   .schema(userMemberSchema)
