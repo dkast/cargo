@@ -1,5 +1,6 @@
 import { columns } from "@/app/[domain]/dashboard/settings/containers/columns"
 import ContainerEdit from "@/app/[domain]/dashboard/settings/containers/container-edit"
+import { Container } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -31,6 +32,7 @@ export default async function ContainersPage({
       <PageSubtitle
         title="Contenedores"
         description="Listado de contenedores para el registro de viajes"
+        Icon={Container}
       >
         <ContainerEdit organizationId={orgData.id} action={actionType.CREATE} />
       </PageSubtitle>

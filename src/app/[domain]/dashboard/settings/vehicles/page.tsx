@@ -1,5 +1,6 @@
 import { columns } from "@/app/[domain]/dashboard/settings/vehicles/columns"
 import VehicleEdit from "@/app/[domain]/dashboard/settings/vehicles/vehicle-edit"
+import { Truck } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -31,6 +32,7 @@ export default async function VehiclesPage({
       <PageSubtitle
         title="Unidades"
         description="Listado de vehículos para el registro de viajes"
+        Icon={Truck}
       >
         <VehicleEdit organizationId={orgData.id} action={actionType.CREATE} />
       </PageSubtitle>

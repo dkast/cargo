@@ -4,6 +4,7 @@ import LocationList from "@/app/[domain]/dashboard/settings/location-list"
 import OrganizationDelete from "@/app/[domain]/dashboard/settings/organization-delete"
 import OrganizationForm from "@/app/[domain]/dashboard/settings/organization-form"
 import { MembershipRole } from "@prisma/client"
+import { Globe, MapPinned } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -40,6 +41,7 @@ export default async function SettingsPage({
       <PageSubtitle
         title="Organización"
         description="Información general de la organización"
+        Icon={Globe}
       />
       <OrganizationForm
         data={data}
@@ -52,6 +54,7 @@ export default async function SettingsPage({
       <PageSubtitle
         title="Ubicaciones"
         description="Sitios clave de la organización"
+        Icon={MapPinned}
       />
       <LocationForm organizationId={data.id} />
       <Suspense fallback={<LocationSkeleton />}>

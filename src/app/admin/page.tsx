@@ -1,6 +1,6 @@
 import OrganizationDataTable from "@/app/admin/organization-datatable"
 import { MembershipRole } from "@prisma/client"
-import { Building } from "lucide-react"
+import { Globe } from "lucide-react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import type { Metadata } from "next/types"
@@ -27,7 +27,7 @@ export default async function Page() {
       <PageSubtitle
         title="Organizaciones"
         description="Gestione las organizaciones en la plataforma"
-        Icon={Building}
+        Icon={Globe}
       >
         <Button asChild>
           <Link href="/admin/organization/new">Crear organización</Link>

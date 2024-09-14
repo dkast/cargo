@@ -4,7 +4,7 @@ import {
   OrganizationPlan,
   OrganizationStatus
 } from "@prisma/client"
-import { Building } from "lucide-react"
+import { Globe } from "lucide-react"
 import { notFound, redirect } from "next/navigation"
 import type { Metadata } from "next/types"
 import type { z } from "zod"
@@ -64,7 +64,7 @@ export default async function OrganizationPage({
       <PageSubtitle
         title="Organización"
         description={`${actionMessage} la organización`}
-        Icon={Building}
+        Icon={Globe}
       />
       <OrganizationAdminForm data={data} action={action} enabled />
     </div>

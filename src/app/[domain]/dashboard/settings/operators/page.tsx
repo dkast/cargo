@@ -1,5 +1,6 @@
 import { columns } from "@/app/[domain]/dashboard/settings/operators/columns"
 import OperatorEdit from "@/app/[domain]/dashboard/settings/operators/operator-edit"
+import { SquareUserRound } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -31,6 +32,7 @@ export default async function OperatorsPage({
       <PageSubtitle
         title="Operadores"
         description="Listado de operadores para el registro de viajes"
+        Icon={SquareUserRound}
       >
         <OperatorEdit organizationId={orgData.id} action={actionType.CREATE} />
       </PageSubtitle>

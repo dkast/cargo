@@ -8,7 +8,7 @@ import { toZonedTime } from "date-fns-tz"
 import { es } from "date-fns/locale"
 import {
   ArrowLeftRight,
-  Building,
+  BusFront,
   CalendarClock,
   Check,
   CheckCircle2,
@@ -255,7 +255,7 @@ export default async function InspectionView({
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">
-            <Building className="mr-1 inline size-4 align-text-top" />
+            <BusFront className="mr-1 inline size-4 align-text-top" />
             Transportista
           </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">

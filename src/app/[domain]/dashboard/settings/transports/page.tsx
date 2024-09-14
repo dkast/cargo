@@ -1,5 +1,6 @@
 import { columns } from "@/app/[domain]/dashboard/settings/transports/columns"
 import TransportEdit from "@/app/[domain]/dashboard/settings/transports/transport-edit"
+import { BusFront } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -31,6 +32,7 @@ export default async function TransportsPage({
       <PageSubtitle
         title="Transportistas"
         description="Listado de transportistas para el registro de viajes"
+        Icon={BusFront}
       >
         <TransportEdit organizationId={orgData.id} action={actionType.CREATE} />
       </PageSubtitle>
