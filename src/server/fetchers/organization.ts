@@ -24,13 +24,13 @@ export async function getOrganizations() {
   const user = await getCurrentUser()
 
   // if the user is not logged in and is not an admin, return null
-  if (!user || user.role != MembershipRole.ADMIN) {
+  if (!user || user.role !== MembershipRole.ADMIN) {
     return []
   }
 
   return await cache(
     async () => {
-      return prisma.organization.findMany()
+      return await prisma.organization.findMany()
     },
     ["organizations"],
     {
@@ -80,7 +80,7 @@ export async function getOrganizationBySubDomain(domain: string) {
 
   const orgData = await cache(
     async () => {
-      return prisma.organization.findUnique({
+      return await prisma.organization.findUnique({
         where: {
           subdomain: domain
         }
@@ -108,7 +108,7 @@ export async function getOrganizationBySubDomain(domain: string) {
   // Find the user's membership for the organization
   const membershipData = await cache(
     async () => {
-      return prisma.membership.findFirst({
+      return await prisma.membership.findFirst({
         where: {
           userId: user.id,
           organizationId: orgData?.id,
@@ -127,7 +127,5 @@ export async function getOrganizationBySubDomain(domain: string) {
     return redirect("/access-denied")
   }
 
-  if (orgData && membershipData) {
-    return orgData
-  }
+  return orgData
 }

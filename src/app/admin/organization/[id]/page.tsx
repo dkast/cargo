@@ -25,7 +25,7 @@ export default async function OrganizationPage({
 }) {
   const user = await getCurrentUser()
 
-  if (!user || user.role != MembershipRole.ADMIN) {
+  if (!user || user.role !== MembershipRole.ADMIN) {
     redirect("/access-denied")
   }
 

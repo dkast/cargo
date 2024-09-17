@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 export default async function Page() {
   const user = await getCurrentUser()
 
-  if (!user || user.role != MembershipRole.ADMIN) {
+  if (!user || user.role !== MembershipRole.ADMIN) {
     redirect("/access-denied")
   }
 
