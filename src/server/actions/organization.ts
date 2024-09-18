@@ -128,25 +128,8 @@ export const createOrgMember = authActionClient
     }) => {
       // Create member
       try {
-        await prisma.user.upsert({
-          where: {
-            email: email
-          },
-          update: {
-            name: name,
-            username: username,
-            password: await argon2.hash(password),
-            timezone: timezone,
-            memberships: {
-              create: [
-                {
-                  role: role,
-                  organizationId: organizationId
-                }
-              ]
-            }
-          },
-          create: {
+        await prisma.user.create({
+          data: {
             name: name,
             email: email,
             username: username,
