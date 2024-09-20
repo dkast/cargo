@@ -15,6 +15,7 @@ export function getInitials(name: string | undefined | null) {
     .split(" ")
     .map(word => word.charAt(0))
     .join("")
+    .toLocaleUpperCase()
 }
 
 // Can only approve if is owner or is admin or is supervisor

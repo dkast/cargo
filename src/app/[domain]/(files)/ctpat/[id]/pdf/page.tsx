@@ -1,8 +1,8 @@
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { getOrganizationById } from "@/server/fetchers"
 import { getInspectionById } from "@/server/fetchers/ctpat"
+import { getOrganizationById } from "@/server/fetchers/organization"
 import PDFDocument from "./pdf-document"
 
 export const metadata: Metadata = {

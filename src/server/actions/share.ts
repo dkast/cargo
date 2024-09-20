@@ -5,11 +5,11 @@ import { nanoid } from "nanoid"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { ShareFormSchema } from "@/lib/types"
 import { getBaseUrl } from "@/lib/utils"
 
-export const createShareItem = action
+export const createShareItem = authActionClient
   .schema(ShareFormSchema)
   .action(
     async ({
@@ -53,7 +53,7 @@ export const createShareItem = action
     }
   )
 
-export const verifyShareItemPassword = action
+export const verifyShareItemPassword = authActionClient
   .schema(
     z.object({
       nanoid: z.string(),

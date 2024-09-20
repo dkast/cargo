@@ -4,7 +4,7 @@ import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { env } from "@/env.mjs"
 
 // Create an Cloudflare R2 service client object
@@ -17,7 +17,7 @@ const R2 = new S3Client({
   }
 })
 
-export const deleteFile = action
+export const deleteFile = authActionClient
   .schema(
     z.object({
       id: z.string().cuid()

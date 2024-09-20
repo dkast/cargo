@@ -3,9 +3,9 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { unstable_cache as cache } from "next/cache"
-import { redirect } from "next/navigation"
 
 import { prisma } from "@/server/db"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { getCurrentUser } from "@/lib/session"
 import { env } from "@/env.mjs"
 
@@ -18,98 +18,6 @@ const R2 = new S3Client({
     secretAccessKey: env.R2_SECRET_KEY_ID
   }
 })
-
-export async function getOrganizationById(organizationId: string) {
-  return await cache(
-    async () => {
-      const data = await prisma.organization.findUnique({
-        where: {
-          id: organizationId
-        }
-      })
-
-      // Replace fileUrl with a signed URL
-      if (data?.image) {
-        data.image = await getSignedUrl(
-          R2,
-          new GetObjectCommand({
-            Bucket: env.R2_BUCKET_NAME,
-            Key: data.image
-          }),
-          { expiresIn: 3600 * 24 }
-        )
-      }
-
-      return data
-    },
-    [`organization-${organizationId}`],
-    {
-      revalidate: 900,
-      tags: [`organization-${organizationId}`]
-    }
-  )()
-}
-
-export async function getOrganizationBySubDomain(domain: string) {
-  const user = await getCurrentUser()
-
-  if (!user) {
-    return null
-  }
-
-  const orgData = await cache(
-    async () => {
-      return prisma.organization.findUnique({
-        where: {
-          subdomain: domain
-        }
-      })
-    },
-    [`organization-${domain}`],
-    {
-      revalidate: 300,
-      tags: [`organization-${domain}`]
-    }
-  )()
-
-  // Replace fileUrl with a signed URL
-  if (orgData?.image) {
-    orgData.image = await getSignedUrl(
-      R2,
-      new GetObjectCommand({
-        Bucket: env.R2_BUCKET_NAME,
-        Key: orgData.image
-      }),
-      { expiresIn: 3600 * 24 }
-    )
-  }
-
-  // Find the user's membership for the organization
-  const membershipData = await cache(
-    async () => {
-      return prisma.membership.findFirst({
-        where: {
-          userId: user.id,
-          organizationId: orgData?.id,
-          isActive: true
-        }
-      })
-    },
-    [`membership-${user.id}-${orgData?.id}`],
-    {
-      revalidate: 300,
-      tags: [`membership-${user.id}-${orgData?.id}`]
-    }
-  )()
-
-  if (!membershipData) {
-    return redirect("/access-denied")
-  }
-
-  if (orgData && membershipData) {
-    return orgData
-  }
-}
 
 export async function getMemberById(memberId: string) {
   const user = await getCurrentUser()
@@ -359,6 +267,28 @@ export async function getContainers(organizationId: string) {
     {
       revalidate: 900,
       tags: [`containers-${organizationId}`]
+    }
+  )()
+}
+
+export async function getWaitList() {
+  return await cache(
+    async () => {
+      return prisma.waitlist.findMany({
+        select: {
+          id: true,
+          email: true,
+          createdAt: true
+        },
+        orderBy: {
+          createdAt: "desc"
+        }
+      })
+    },
+    ["waitlist"],
+    {
+      revalidate: 900,
+      tags: ["waitlist"]
     }
   )()
 }

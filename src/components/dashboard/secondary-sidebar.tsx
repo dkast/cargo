@@ -40,7 +40,9 @@ export default function SecondarySidebar({
                 </div>
                 <ul className="flex flex-col gap-y-1">
                   {item.children.map(child => {
-                    const path = `/${params.domain}${child.href}`
+                    const path = params.domain
+                      ? `/${params.domain}${child.href}`
+                      : child.href
                     let isActive = false
                     if (!segment) {
                       isActive = pathname.includes(child.href)

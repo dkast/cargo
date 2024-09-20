@@ -1,11 +1,13 @@
 import { columns } from "@/app/[domain]/dashboard/settings/transports/columns"
 import TransportEdit from "@/app/[domain]/dashboard/settings/transports/transport-edit"
+import { BusFront } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { DataTable } from "@/components/ui/data-table/data-table"
-import { getCompanies, getOrganizationBySubDomain } from "@/server/fetchers"
+import { getCompanies } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { actionType } from "@/lib/types"
 
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ export default async function TransportsPage({
       <PageSubtitle
         title="Transportistas"
         description="Listado de transportistas para el registro de viajes"
+        Icon={BusFront}
       >
         <TransportEdit organizationId={orgData.id} action={actionType.CREATE} />
       </PageSubtitle>

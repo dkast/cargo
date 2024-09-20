@@ -1,4 +1,4 @@
-import { Building } from "lucide-react"
+import { Globe } from "lucide-react"
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 
@@ -27,7 +27,7 @@ export default async function AccessDeniedPage() {
           </h1>
         </div>
         <Alert variant="information">
-          <Building className="size-4" />
+          <Globe className="size-4" />
           <AlertTitle>Redireccionando a su organización</AlertTitle>
           <AlertDescription>
             Espere un momento mientras lo redireccionamos a su organización

@@ -1,5 +1,6 @@
 import ProfileForm from "@/app/[domain]/dashboard/profile/profile-form"
 import { notFound } from "next/navigation"
+import type { Metadata } from "next/types"
 import { type z } from "zod"
 
 import PageHeader from "@/components/dashboard/page-header"
@@ -9,6 +10,10 @@ import { getMemberById, getUserMemberships } from "@/server/fetchers"
 import { getCurrentUser } from "@/lib/session"
 import { type userMemberSchema } from "@/lib/types"
 import { getInitials } from "@/lib/utils"
+
+export const metadata: Metadata = {
+  title: "Mi Perfil"
+}
 
 type UserMemberFormValues = z.infer<typeof userMemberSchema>
 

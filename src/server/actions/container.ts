@@ -3,10 +3,10 @@
 import { revalidateTag } from "next/cache"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { containerSchema } from "@/lib/types"
 
-export const createContainer = action
+export const createContainer = authActionClient
   .schema(containerSchema)
   .action(async ({ parsedInput: { containerNbr, organizationId } }) => {
     // Create container
@@ -38,7 +38,7 @@ export const createContainer = action
     }
   })
 
-export const updateContainer = action
+export const updateContainer = authActionClient
   .schema(containerSchema)
   .action(async ({ parsedInput: { id, containerNbr, organizationId } }) => {
     // Update container
@@ -74,7 +74,7 @@ export const updateContainer = action
   })
 
 // Delete only if there are no inspections using this container
-export const deleteContainer = action
+export const deleteContainer = authActionClient
   .schema(containerSchema)
   .action(async ({ parsedInput: { id, organizationId } }) => {
     // Delete container

@@ -4,7 +4,7 @@ import { InspectionStatus, InspectionTripType } from "@prisma/client"
 import { format } from "date-fns"
 import { toZonedTime } from "date-fns-tz"
 import {
-  Building,
+  BusFront,
   CalendarClock,
   CheckCircle2,
   CircleDashed,
@@ -18,8 +18,8 @@ import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
-import { getOrganizationBySubDomain } from "@/server/fetchers"
 import { getInspectionById } from "@/server/fetchers/ctpat"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { getUserTimeZone } from "@/lib/session"
 
 export const metadata: Metadata = {
@@ -114,7 +114,7 @@ export default async function CTPATEditPage({
               </dl>
               <dl className="space-y-1 sm:space-y-2">
                 <dt className="text-sm font-medium">
-                  <Building className="mr-1 inline size-4 align-text-top" />
+                  <BusFront className="mr-1 inline size-4 align-text-top" />
                   Transportista
                 </dt>
                 <dd className="text-sm leading-6 text-gray-700 dark:text-gray-400">

@@ -5,7 +5,7 @@ import { useParams } from "next/navigation"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Skeleton } from "@/components/ui/skeleton"
-import { getOrganizationBySubDomain } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { cn, getInitials } from "@/lib/utils"
 
 export default function Workgroup({ className }: { className?: string }) {

@@ -1,11 +1,13 @@
 import { columns } from "@/app/[domain]/dashboard/settings/vehicles/columns"
 import VehicleEdit from "@/app/[domain]/dashboard/settings/vehicles/vehicle-edit"
+import { Truck } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { DataTable } from "@/components/ui/data-table/data-table"
-import { getOrganizationBySubDomain, getVehicles } from "@/server/fetchers"
+import { getVehicles } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { actionType } from "@/lib/types"
 
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ export default async function VehiclesPage({
       <PageSubtitle
         title="Unidades"
         description="Listado de vehículos para el registro de viajes"
+        Icon={Truck}
       >
         <VehicleEdit organizationId={orgData.id} action={actionType.CREATE} />
       </PageSubtitle>

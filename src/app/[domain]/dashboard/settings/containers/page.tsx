@@ -1,11 +1,13 @@
 import { columns } from "@/app/[domain]/dashboard/settings/containers/columns"
 import ContainerEdit from "@/app/[domain]/dashboard/settings/containers/container-edit"
+import { Container } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { DataTable } from "@/components/ui/data-table/data-table"
-import { getContainers, getOrganizationBySubDomain } from "@/server/fetchers"
+import { getContainers } from "@/server/fetchers"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { actionType } from "@/lib/types"
 
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ export default async function ContainersPage({
       <PageSubtitle
         title="Contenedores"
         description="Listado de contenedores para el registro de viajes"
+        Icon={Container}
       >
         <ContainerEdit organizationId={orgData.id} action={actionType.CREATE} />
       </PageSubtitle>

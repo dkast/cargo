@@ -10,14 +10,14 @@ import { revalidateTag } from "next/cache"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import {
   ctpatInspections,
   ctpatMainSchema,
   inspectionDetailSchema
 } from "@/lib/types"
 
-export const createCTPATInspection = action
+export const createCTPATInspection = authActionClient
   .schema(ctpatMainSchema)
   .action(
     async ({
@@ -104,7 +104,7 @@ export const createCTPATInspection = action
     }
   )
 
-export const closeCTPATInspection = action
+export const closeCTPATInspection = authActionClient
   .schema(inspectionDetailSchema)
   .action(
     async ({
@@ -169,7 +169,7 @@ export const closeCTPATInspection = action
     }
   )
 
-export const deleteCTPATInspection = action
+export const deleteCTPATInspection = authActionClient
   .schema(
     z.object({
       id: z.string().cuid(),
@@ -206,7 +206,7 @@ export const deleteCTPATInspection = action
     }
   })
 
-export const approveCTPATInspection = action
+export const approveCTPATInspection = authActionClient
   .schema(
     z.object({
       id: z.string().cuid(),

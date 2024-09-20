@@ -2,15 +2,22 @@ import type { InspectionType } from "@prisma/client"
 import { z } from "zod"
 
 export const orgSchema = z.object({
-  id: z.string().cuid().optional(),
+  id: z.string().optional(),
   name: z.string().min(3, {
     message: "El nombre debe tener al menos 3 caracteres"
   }),
   image: z.string().optional(),
   description: z.string().optional(),
-  subdomain: z.string().min(3, {
-    message: "El subdominio debe tener al menos 3 caracteres"
-  })
+  subdomain: z
+    .string()
+    .min(3, {
+      message: "El subdominio debe tener al menos 3 caracteres"
+    })
+    .refine(value => value !== "admin", {
+      message: "El subdominio no puede ser 'admin'"
+    }),
+  status: z.enum(["ACTIVE", "DUE", "INACTIVE"]),
+  plan: z.enum(["TRIAL", "BASIC", "PRO", "ENTERPRISE"])
 })
 
 export const locationSchema = z.object({
@@ -34,7 +41,7 @@ export const userMemberSchema = z
       .min(3, {
         message: "El nombre debe tener al menos 3 caracteres"
       }),
-    email: z.string().email({ message: "El email debe ser válido" }).optional(),
+    email: z.string().email({ message: "La dirección email no es válida" }),
     username: z
       .string({
         required_error: "Requerido"

@@ -4,10 +4,10 @@ import { Prisma } from "@prisma/client"
 import { revalidateTag } from "next/cache"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { vehicleSchema } from "@/lib/types"
 
-export const createVehicle = action
+export const createVehicle = authActionClient
   .schema(vehicleSchema)
   .action(
     async ({ parsedInput: { vehicleNbr, licensePlate, organizationId } }) => {
@@ -46,7 +46,7 @@ export const createVehicle = action
     }
   )
 
-export const updateVehicle = action
+export const updateVehicle = authActionClient
   .schema(vehicleSchema)
   .action(
     async ({
@@ -91,7 +91,7 @@ export const updateVehicle = action
   )
 
 // Delete only if there are no inspections using this vehicle
-export const deleteVehicle = action
+export const deleteVehicle = authActionClient
   .schema(vehicleSchema)
   .action(async ({ parsedInput: { id, organizationId } }) => {
     // Delete vehicle

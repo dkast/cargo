@@ -1,52 +1,118 @@
 "use server"
 
-import { Prisma } from "@prisma/client"
+import { MembershipRole, Prisma } from "@prisma/client"
 import * as argon2 from "argon2"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { z } from "zod"
 
 import { prisma } from "@/server/db"
-import { action } from "@/lib/safe-actions"
+import { authActionClient } from "@/lib/safe-actions"
 import { orgSchema, userMemberSchema } from "@/lib/types"
 
-export const updateOrg = action
+export const createOrg = authActionClient
   .schema(orgSchema)
-  .action(async ({ parsedInput: { id, name, description, subdomain } }) => {
-    // Update organization
-    try {
-      await prisma.organization.update({
-        where: {
-          id: id
-        },
-        data: {
-          name: name,
-          description: description,
-          subdomain: subdomain
+  .action(
+    async ({ parsedInput: { name, description, subdomain, status, plan } }) => {
+      // Create organization
+      try {
+        const org = await prisma.organization.create({
+          data: {
+            name: name,
+            description: description,
+            subdomain: subdomain,
+            status: status,
+            plan: plan
+          }
+        })
+
+        await prisma.user.update({
+          where: {
+            email: "devcastillejo@gmail.com"
+          },
+          data: {
+            memberships: {
+              create: [
+                {
+                  role: MembershipRole.ADMIN,
+                  organizationId: org.id
+                }
+              ]
+            }
+          }
+        })
+
+        revalidateTag("organizations")
+        revalidateTag(`organization-${org.id}`)
+        revalidateTag(`organization-${subdomain}`)
+
+        return {
+          success: true
         }
-      })
-
-      revalidateTag(`organization-${id}`)
-      revalidateTag(`organization-${subdomain}`)
-
-      return {
-        success: true
-      }
-    } catch (error) {
-      let message
-      if (typeof error === "string") {
-        message = error
-      } else if (error instanceof Error) {
-        message = error.message
-      }
-      return {
-        failure: {
-          reason: message
+      } catch (error) {
+        let message
+        if (typeof error === "string") {
+          message = error
+        } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === "P2002") {
+            message = "Subdominio ya existe"
+          } else {
+            message = error.message
+          }
+        }
+        return {
+          failure: {
+            reason: message
+          }
         }
       }
     }
-  })
+  )
 
-export const createOrgMember = action
+export const updateOrg = authActionClient
+  .schema(orgSchema)
+  .action(
+    async ({
+      parsedInput: { id, name, description, subdomain, status, plan }
+    }) => {
+      // Update organization
+      try {
+        await prisma.organization.update({
+          where: {
+            id: id
+          },
+          data: {
+            name: name,
+            description: description,
+            subdomain: subdomain,
+            status: status,
+            plan: plan
+          }
+        })
+
+        revalidateTag("organizations")
+        revalidateTag(`organization-${id}`)
+        revalidateTag(`organization-${subdomain}`)
+
+        return {
+          success: true
+        }
+      } catch (error) {
+        let message
+        if (typeof error === "string") {
+          message = error
+        } else if (error instanceof Error) {
+          message = error.message
+        }
+        return {
+          failure: {
+            reason: message
+          }
+        }
+      }
+    }
+  )
+
+export const createOrgMember = authActionClient
   .schema(userMemberSchema)
   .action(
     async ({
@@ -62,25 +128,8 @@ export const createOrgMember = action
     }) => {
       // Create member
       try {
-        await prisma.user.upsert({
-          where: {
-            email: email
-          },
-          update: {
-            name: name,
-            username: username,
-            password: await argon2.hash(password),
-            timezone: timezone,
-            memberships: {
-              create: [
-                {
-                  role: role,
-                  organizationId: organizationId
-                }
-              ]
-            }
-          },
-          create: {
+        await prisma.user.create({
+          data: {
             name: name,
             email: email,
             username: username,
@@ -108,7 +157,7 @@ export const createOrgMember = action
           message = error
         } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === "P2002") {
-            message = "Nombre de usuario o correo electrónico ya existe"
+            message = "Correo electrónico ya existe con otra cuenta"
           } else {
             message = error.message
           }
@@ -122,7 +171,7 @@ export const createOrgMember = action
     }
   )
 
-export const updateOrgMember = action
+export const updateOrgMember = authActionClient
   .schema(userMemberSchema)
   .action(
     async ({
@@ -191,7 +240,7 @@ export const updateOrgMember = action
     }
   )
 
-export const deactivateOrgMember = action
+export const deactivateOrgMember = authActionClient
   .schema(userMemberSchema)
   .action(async ({ parsedInput: { id, isActive } }) => {
     // Deactivate member
@@ -225,7 +274,7 @@ export const deactivateOrgMember = action
     }
   })
 
-export const deleteOrganization = action
+export const deleteOrganization = authActionClient
   .schema(
     z.object({
       id: z.string().cuid()

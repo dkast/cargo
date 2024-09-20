@@ -149,7 +149,7 @@ export const { handlers, auth } = NextAuth({
         }
         const user = await prisma.user.findUnique({
           where: {
-            username: username
+            email: username
           }
         })
 

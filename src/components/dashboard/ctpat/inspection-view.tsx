@@ -8,7 +8,8 @@ import { toZonedTime } from "date-fns-tz"
 import { es } from "date-fns/locale"
 import {
   ArrowLeftRight,
-  Building,
+  ArrowRight,
+  BusFront,
   CalendarClock,
   Check,
   CheckCircle2,
@@ -39,8 +40,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getOrganizationBySubDomain } from "@/server/fetchers"
 import { getInspectionById } from "@/server/fetchers/ctpat"
+import { getOrganizationBySubDomain } from "@/server/fetchers/organization"
 import { getCurrentUser, getUserTimeZone } from "@/lib/session"
 import { canApprove, getInitials } from "@/lib/utils"
 
@@ -255,7 +256,7 @@ export default async function InspectionView({
         </div>
         <div className="border-t border-gray-100 py-3 dark:border-gray-800 sm:col-span-1">
           <dt className="text-sm font-medium leading-6">
-            <Building className="mr-1 inline size-4 align-text-top" />
+            <BusFront className="mr-1 inline size-4 align-text-top" />
             Transportista
           </dt>
           <dd className="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-400 sm:mt-2">
@@ -359,9 +360,18 @@ export default async function InspectionView({
                 <Alert variant="warning">
                   <CircleDashed className="size-4" />
                   <AlertTitle>Inspección en proceso</AlertTitle>
-                  <AlertDescription>
-                    La inspección no ha sido finalizada. Una vez cerrada se
-                    podrán consultar el resultado de los puntos de inspección.
+                  <AlertDescription className="flex flex-col">
+                    <p>
+                      La inspección no ha sido finalizada. Una vez cerrada se
+                      podrán consultar el resultado de los puntos de inspección.
+                    </p>
+                    <Link
+                      href={`/${domain}/dashboard/ctpat/edit/${inspection.id}`}
+                      className="flex flex-row items-center gap-1 self-end underline-offset-2 hover:underline"
+                    >
+                      Continuar inspección
+                      <ArrowRight className="size-4" />
+                    </Link>
                   </AlertDescription>
                 </Alert>
               )}

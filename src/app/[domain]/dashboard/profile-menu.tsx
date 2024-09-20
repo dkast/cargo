@@ -1,7 +1,14 @@
 "use client"
 
+import { MembershipRole } from "@prisma/client"
 import { useAtom } from "jotai"
-import { ChevronsUpDown, LogOut, SunMoon, User } from "lucide-react"
+import {
+  ChevronsUpDown,
+  LogOut,
+  Shield,
+  SunMoon,
+  UserRound
+} from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import { useTheme } from "next-themes"
 import Link from "next/link"
@@ -62,7 +69,7 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href={`/${params.domain}/dashboard/profile`}>
-            <User className="mr-2 size-4" />
+            <UserRound className="mr-2 size-4" />
             Perfil
           </Link>
         </DropdownMenuItem>
@@ -87,6 +94,17 @@ export default function ProfileMenu({ isMobile }: { isMobile?: boolean }) {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
+        {user.role === MembershipRole.ADMIN && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/admin">
+                <Shield className="mr-2 size-4" />
+                Administración
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => signOut()}>
           <LogOut className="mr-2 size-4" />
