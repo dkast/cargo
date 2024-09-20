@@ -8,6 +8,7 @@ import { toZonedTime } from "date-fns-tz"
 import { es } from "date-fns/locale"
 import {
   ArrowLeftRight,
+  ArrowRight,
   BusFront,
   CalendarClock,
   Check,
@@ -359,9 +360,18 @@ export default async function InspectionView({
                 <Alert variant="warning">
                   <CircleDashed className="size-4" />
                   <AlertTitle>Inspección en proceso</AlertTitle>
-                  <AlertDescription>
-                    La inspección no ha sido finalizada. Una vez cerrada se
-                    podrán consultar el resultado de los puntos de inspección.
+                  <AlertDescription className="flex flex-col">
+                    <p>
+                      La inspección no ha sido finalizada. Una vez cerrada se
+                      podrán consultar el resultado de los puntos de inspección.
+                    </p>
+                    <Link
+                      href={`/${domain}/dashboard/ctpat/edit/${inspection.id}`}
+                      className="flex flex-row items-center gap-1 self-end underline-offset-2 hover:underline"
+                    >
+                      Continuar inspección
+                      <ArrowRight className="size-4" />
+                    </Link>
                   </AlertDescription>
                 </Alert>
               )}
