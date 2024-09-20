@@ -238,7 +238,7 @@ export default function OrganizationAdminForm({
                         Inactivo
                       </SelectItem>
                       <SelectItem value={OrganizationStatus.DUE}>
-                        Suspendido
+                        Vencido
                       </SelectItem>
                     </SelectContent>
                   </Select>

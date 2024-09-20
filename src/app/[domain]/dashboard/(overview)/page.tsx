@@ -1,9 +1,10 @@
 import { Suspense } from "react"
 import Filter from "@/app/[domain]/dashboard/(overview)/filter"
-import { InspectionType } from "@prisma/client"
+import { InspectionType, OrganizationStatus } from "@prisma/client"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { AlertDue } from "@/components/dashboard/alert-due"
 import CardSkeleton from "@/components/dashboard/charts/card-skeleton"
 import InspectionIssueChart from "@/components/dashboard/charts/inspection-issue-card"
 import InspectionLocationCard from "@/components/dashboard/charts/inspection-location-card"
@@ -52,6 +53,10 @@ export default async function DashboardPage({
 
   return (
     <div className="w-full">
+      <AlertDue
+        isDue={orgData.status === OrganizationStatus.DUE}
+        className="m-3"
+      />
       <section className="flex justify-end px-3">
         <Filter />
       </section>

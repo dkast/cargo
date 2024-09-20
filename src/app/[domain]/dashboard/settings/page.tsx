@@ -3,11 +3,12 @@ import LocationForm from "@/app/[domain]/dashboard/settings/location-form"
 import LocationList from "@/app/[domain]/dashboard/settings/location-list"
 import OrganizationDelete from "@/app/[domain]/dashboard/settings/organization-delete"
 import OrganizationForm from "@/app/[domain]/dashboard/settings/organization-form"
-import { MembershipRole } from "@prisma/client"
+import { MembershipRole, OrganizationStatus } from "@prisma/client"
 import { Globe, MapPinned } from "lucide-react"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { AlertDue } from "@/components/dashboard/alert-due"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
@@ -30,21 +31,22 @@ export default async function SettingsPage({
     return null
   }
 
-  const data = await getOrganizationBySubDomain(domain)
+  const orgData = await getOrganizationBySubDomain(domain)
 
-  if (!data) {
+  if (!orgData) {
     notFound()
   }
 
   return (
     <div className="mx-auto max-w-2xl grow px-4 sm:px-0">
+      <AlertDue isDue={orgData.status === OrganizationStatus.DUE} />
       <PageSubtitle
         title="Organización"
         description="Información general de la organización"
         Icon={Globe}
       />
       <OrganizationForm
-        data={data}
+        data={orgData}
         enabled={
           user?.role === MembershipRole.ADMIN ||
           user?.role === MembershipRole.OWNER
@@ -56,12 +58,12 @@ export default async function SettingsPage({
         description="Sitios clave de la organización"
         Icon={MapPinned}
       />
-      <LocationForm organizationId={data.id} />
+      <LocationForm organizationId={orgData.id} />
       <Suspense fallback={<LocationSkeleton />}>
-        <LocationList organizationId={data.id} />
+        <LocationList organizationId={orgData.id} />
       </Suspense>
       {user?.role === MembershipRole.ADMIN && (
-        <OrganizationDelete organizationId={data.id} />
+        <OrganizationDelete organizationId={orgData.id} />
       )}
     </div>
   )

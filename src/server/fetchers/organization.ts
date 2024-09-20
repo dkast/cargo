@@ -123,7 +123,7 @@ export async function getOrganizationBySubDomain(domain: string) {
     }
   )()
 
-  if (!membershipData) {
+  if (!membershipData || orgData?.status === "INACTIVE") {
     return redirect("/access-denied")
   }
 

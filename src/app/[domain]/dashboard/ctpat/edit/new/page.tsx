@@ -1,8 +1,10 @@
 import BackButton from "@/app/[domain]/dashboard/ctpat/[id]/back-button"
 import CTPATMainForm from "@/app/[domain]/dashboard/ctpat/edit/new/ctpat-main-form"
+import { OrganizationStatus } from "@prisma/client"
 import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { AlertDue } from "@/components/dashboard/alert-due"
 import PageSubtitle from "@/components/dashboard/page-subtitle"
 import {
   getCompanies,
@@ -44,6 +46,7 @@ export default async function NewCTPATPage({
           title="Inspección CTPAT"
           description="Inspección 17 puntos criticos"
         />
+        <AlertDue isDue={orgData.status === OrganizationStatus.DUE} />
         <CTPATMainForm
           companies={companies}
           operators={operators}
@@ -55,6 +58,7 @@ export default async function NewCTPATPage({
           }))}
           organizationId={orgData.id}
           membershipId={user.membershipId}
+          isDisabled={orgData.status === "DUE"}
         />
       </div>
     </div>
