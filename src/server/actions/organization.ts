@@ -157,7 +157,7 @@ export const createOrgMember = authActionClient
           message = error
         } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === "P2002") {
-            message = "Nombre de usuario o correo electrónico ya existe"
+            message = "Correo electrónico ya existe con otra cuenta"
           } else {
             message = error.message
           }

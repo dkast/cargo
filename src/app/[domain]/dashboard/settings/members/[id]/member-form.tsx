@@ -140,7 +140,6 @@ export default function MemberForm({
                   placeholder="Nombre de usuario"
                   {...field}
                   className="sm:w-1/2"
-                  disabled={action === actionType.UPDATE}
                 />
               </FormControl>
               <FormMessage />
@@ -159,6 +158,7 @@ export default function MemberForm({
                   placeholder="Email"
                   {...field}
                   className="sm:w-1/2"
+                  disabled={action === actionType.UPDATE}
                 />
               </FormControl>
               <FormMessage />

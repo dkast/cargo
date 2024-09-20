@@ -54,7 +54,7 @@ model User {
   emailVerified       DateTime?
   image               String?
   //local accounts
-  username            String       @unique
+  username            String
   password            String
   //
   accounts            Account[]
